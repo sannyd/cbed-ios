@@ -14,6 +14,7 @@ end
 def utility_pods
    pod 'SnapKit'
    pod 'SwiftLint'
+   pod 'KeychainSwift'
    pod 'IQKeyboardManagerSwift'
 end
 

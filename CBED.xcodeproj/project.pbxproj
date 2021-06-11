@@ -25,6 +25,26 @@
 		185F87922672764800A63898 /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 185F87872672764800A63898 /* Lato-ThinItalic.ttf */; };
 		185F87942672796000A63898 /* CustomBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87932672796000A63898 /* CustomBorderButton.swift */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
+		FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576EF267367DE00CC9CF1 /* LoginViewModel.swift */; };
+		FFD576F32673680800CC9CF1 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576F22673680800CC9CF1 /* ViewModelType.swift */; };
+		FFD576F52673681200CC9CF1 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576F42673681200CC9CF1 /* Environment.swift */; };
+		FFD576F72673681C00CC9CF1 /* UIAlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576F62673681C00CC9CF1 /* UIAlertHelper.swift */; };
+		FFD576F92673682700CC9CF1 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576F82673682700CC9CF1 /* BaseViewModel.swift */; };
+		FFD576FB2673682B00CC9CF1 /* SwiftLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576FA2673682B00CC9CF1 /* SwiftLogger.swift */; };
+		FFD5770026736F2700CC9CF1 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576FF26736F2700CC9CF1 /* AuthRouter.swift */; };
+		FFD5770226736FDC00CC9CF1 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD5770126736FDC00CC9CF1 /* APIClient.swift */; };
+		FFD5770426736FEA00CC9CF1 /* TokenAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD5770326736FEA00CC9CF1 /* TokenAdapter.swift */; };
+		FFD577062673700300CC9CF1 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD577052673700300CC9CF1 /* Storage.swift */; };
+		FFD577082673700A00CC9CF1 /* Storage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD577072673700A00CC9CF1 /* Storage+.swift */; };
+		FFD5770A2673701A00CC9CF1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD577092673701900CC9CF1 /* Constants.swift */; };
+		FFD5770D2673704B00CC9CF1 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD5770C2673704B00CC9CF1 /* DateFormatter+.swift */; };
+		FFD5770F267370FC00CC9CF1 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD5770E267370FC00CC9CF1 /* ActivityIndicator.swift */; };
+		FFD577112673710400CC9CF1 /* ErrorTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD577102673710400CC9CF1 /* ErrorTracker.swift */; };
+		FFD577132673712C00CC9CF1 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD577122673712C00CC9CF1 /* UIColor+.swift */; };
+		FFD577152673715D00CC9CF1 /* UIWindow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD577142673715D00CC9CF1 /* UIWindow+Extensions.swift */; };
+		FFD577172673717900CC9CF1 /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD577162673717900CC9CF1 /* UIApplication+Extensions.swift */; };
+		FFD57719267371A300CC9CF1 /* ObservableType+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD57718267371A300CC9CF1 /* ObservableType+.swift */; };
+		FFD5771B2673722200CC9CF1 /* Validation+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD5771A2673722200CC9CF1 /* Validation+String.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +70,26 @@
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFD576EF267367DE00CC9CF1 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		FFD576F22673680800CC9CF1 /* ViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		FFD576F42673681200CC9CF1 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		FFD576F62673681C00CC9CF1 /* UIAlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertHelper.swift; sourceTree = "<group>"; };
+		FFD576F82673682700CC9CF1 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		FFD576FA2673682B00CC9CF1 /* SwiftLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLogger.swift; sourceTree = "<group>"; };
+		FFD576FF26736F2700CC9CF1 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
+		FFD5770126736FDC00CC9CF1 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		FFD5770326736FEA00CC9CF1 /* TokenAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenAdapter.swift; sourceTree = "<group>"; };
+		FFD577052673700300CC9CF1 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		FFD577072673700A00CC9CF1 /* Storage+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Storage+.swift"; sourceTree = "<group>"; };
+		FFD577092673701900CC9CF1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FFD5770C2673704B00CC9CF1 /* DateFormatter+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
+		FFD5770E267370FC00CC9CF1 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		FFD577102673710400CC9CF1 /* ErrorTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorTracker.swift; sourceTree = "<group>"; };
+		FFD577122673712C00CC9CF1 /* UIColor+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		FFD577142673715D00CC9CF1 /* UIWindow+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extensions.swift"; sourceTree = "<group>"; };
+		FFD577162673717900CC9CF1 /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
+		FFD57718267371A300CC9CF1 /* ObservableType+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableType+.swift"; sourceTree = "<group>"; };
+		FFD5771A2673722200CC9CF1 /* Validation+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Validation+String.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,41 +125,21 @@
 		185F875E266CC84800A63898 /* CBED */ = {
 			isa = PBXGroup;
 			children = (
+				FFD5770B2673703F00CC9CF1 /* Extensions */,
+				FFD577092673701900CC9CF1 /* Constants.swift */,
+				FFD576FD26736F1900CC9CF1 /* Services */,
+				FFD576F12673680100CC9CF1 /* Utilities */,
+				FFD576ED267367C600CC9CF1 /* MVVM */,
 				185F87932672796000A63898 /* CustomBorderButton.swift */,
 				185F8778266D29D700A63898 /* Storyboard */,
 				185F8776266D29C900A63898 /* Configs */,
-				185F8775266D29C500A63898 /* MVVM */,
-				185F8774266D29BF00A63898 /* Services */,
-				185F8773266D29B700A63898 /* Utilities */,
 				185F8777266D29CE00A63898 /* Supporting Files */,
 				185F875F266CC84800A63898 /* AppDelegate.swift */,
-				185F8763266CC84800A63898 /* LoginViewController.swift */,
 				185F8768266CC84A00A63898 /* Assets.xcassets */,
 				185F876A266CC84A00A63898 /* LaunchScreen.storyboard */,
 				185F876D266CC84A00A63898 /* Info.plist */,
 			);
 			path = CBED;
-			sourceTree = "<group>";
-		};
-		185F8773266D29B700A63898 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
-		185F8774266D29BF00A63898 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		185F8775266D29C500A63898 /* MVVM */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MVVM;
 			sourceTree = "<group>";
 		};
 		185F8776266D29C900A63898 /* Configs */ = {
@@ -186,6 +206,70 @@
 				F6F7B6C86563B475702601A8 /* Pods_CBED.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FFD576ED267367C600CC9CF1 /* MVVM */ = {
+			isa = PBXGroup;
+			children = (
+				FFD576EE267367CF00CC9CF1 /* Login */,
+			);
+			path = MVVM;
+			sourceTree = "<group>";
+		};
+		FFD576EE267367CF00CC9CF1 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				185F8763266CC84800A63898 /* LoginViewController.swift */,
+				FFD576EF267367DE00CC9CF1 /* LoginViewModel.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		FFD576F12673680100CC9CF1 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				FFD577102673710400CC9CF1 /* ErrorTracker.swift */,
+				FFD5770E267370FC00CC9CF1 /* ActivityIndicator.swift */,
+				FFD576FA2673682B00CC9CF1 /* SwiftLogger.swift */,
+				FFD576F82673682700CC9CF1 /* BaseViewModel.swift */,
+				FFD576F62673681C00CC9CF1 /* UIAlertHelper.swift */,
+				FFD576F42673681200CC9CF1 /* Environment.swift */,
+				FFD576F22673680800CC9CF1 /* ViewModelType.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		FFD576FD26736F1900CC9CF1 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FFD577052673700300CC9CF1 /* Storage.swift */,
+				FFD577072673700A00CC9CF1 /* Storage+.swift */,
+				FFD5770126736FDC00CC9CF1 /* APIClient.swift */,
+				FFD5770326736FEA00CC9CF1 /* TokenAdapter.swift */,
+				FFD576FE26736F1E00CC9CF1 /* Router */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		FFD576FE26736F1E00CC9CF1 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				FFD576FF26736F2700CC9CF1 /* AuthRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		FFD5770B2673703F00CC9CF1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FFD5771A2673722200CC9CF1 /* Validation+String.swift */,
+				FFD5770C2673704B00CC9CF1 /* DateFormatter+.swift */,
+				FFD577122673712C00CC9CF1 /* UIColor+.swift */,
+				FFD57718267371A300CC9CF1 /* ObservableType+.swift */,
+				FFD577142673715D00CC9CF1 /* UIWindow+Extensions.swift */,
+				FFD577162673717900CC9CF1 /* UIApplication+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,9 +397,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFD5770D2673704B00CC9CF1 /* DateFormatter+.swift in Sources */,
+				FFD577152673715D00CC9CF1 /* UIWindow+Extensions.swift in Sources */,
+				FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */,
+				FFD5771B2673722200CC9CF1 /* Validation+String.swift in Sources */,
+				FFD576F52673681200CC9CF1 /* Environment.swift in Sources */,
+				FFD5770026736F2700CC9CF1 /* AuthRouter.swift in Sources */,
+				FFD5770426736FEA00CC9CF1 /* TokenAdapter.swift in Sources */,
 				185F8764266CC84800A63898 /* LoginViewController.swift in Sources */,
+				FFD5770A2673701A00CC9CF1 /* Constants.swift in Sources */,
 				185F87942672796000A63898 /* CustomBorderButton.swift in Sources */,
+				FFD5770226736FDC00CC9CF1 /* APIClient.swift in Sources */,
+				FFD57719267371A300CC9CF1 /* ObservableType+.swift in Sources */,
+				FFD576F72673681C00CC9CF1 /* UIAlertHelper.swift in Sources */,
+				FFD576FB2673682B00CC9CF1 /* SwiftLogger.swift in Sources */,
+				FFD576F92673682700CC9CF1 /* BaseViewModel.swift in Sources */,
+				FFD576F32673680800CC9CF1 /* ViewModelType.swift in Sources */,
+				FFD577172673717900CC9CF1 /* UIApplication+Extensions.swift in Sources */,
+				FFD577112673710400CC9CF1 /* ErrorTracker.swift in Sources */,
+				FFD577132673712C00CC9CF1 /* UIColor+.swift in Sources */,
 				185F8760266CC84800A63898 /* AppDelegate.swift in Sources */,
+				FFD577062673700300CC9CF1 /* Storage.swift in Sources */,
+				FFD577082673700A00CC9CF1 /* Storage+.swift in Sources */,
+				FFD5770F267370FC00CC9CF1 /* ActivityIndicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

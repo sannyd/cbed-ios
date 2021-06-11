@@ -17,6 +17,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var buttonSignUp: UIButton!
     @IBOutlet weak var buttonForgot: UIButton!
     
+    var viewModel: LoginViewModel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
