@@ -22,6 +22,9 @@ def sso_pods
   pod 'Firebase/Performance'
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
+  pod 'GoogleSignIn'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
 end
 
 target 'CBED' do

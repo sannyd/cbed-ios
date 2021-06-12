@@ -24,6 +24,16 @@
 		185F87912672764800A63898 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 185F87862672764800A63898 /* Lato-Light.ttf */; };
 		185F87922672764800A63898 /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 185F87872672764800A63898 /* Lato-ThinItalic.ttf */; };
 		185F87942672796000A63898 /* CustomBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87932672796000A63898 /* CustomBorderButton.swift */; };
+		185F87962673C28C00A63898 /* Facebook+Reactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87952673C28C00A63898 /* Facebook+Reactive.swift */; };
+		185F87982673C29C00A63898 /* Google+Reactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87972673C29C00A63898 /* Google+Reactive.swift */; };
+		185F879B2674540300A63898 /* AuthUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F879A2674540300A63898 /* AuthUseCase.swift */; };
+		185F879E2674547800A63898 /* RegisterResponseM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F879D2674547800A63898 /* RegisterResponseM.swift */; };
+		185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F879F267454D900A63898 /* SignInResponseM.swift */; };
+		185F87A22674743C00A63898 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A12674743C00A63898 /* LoginUseCase.swift */; };
+		185F87A426747BB100A63898 /* SingleSignOnResponseM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A326747BB100A63898 /* SingleSignOnResponseM.swift */; };
+		185F87A62674949200A63898 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A52674949200A63898 /* UIView+.swift */; };
+		185F87A8267494C400A63898 /* Button+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A7267494C300A63898 /* Button+.swift */; };
+		185F87AA2674978E00A63898 /* LoginNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A92674978E00A63898 /* LoginNavigator.swift */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
 		FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576EF267367DE00CC9CF1 /* LoginViewModel.swift */; };
 		FFD576F32673680800CC9CF1 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576F22673680800CC9CF1 /* ViewModelType.swift */; };
@@ -67,6 +77,16 @@
 		185F87862672764800A63898 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
 		185F87872672764800A63898 /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
 		185F87932672796000A63898 /* CustomBorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBorderButton.swift; sourceTree = "<group>"; };
+		185F87952673C28C00A63898 /* Facebook+Reactive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Facebook+Reactive.swift"; sourceTree = "<group>"; };
+		185F87972673C29C00A63898 /* Google+Reactive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Google+Reactive.swift"; sourceTree = "<group>"; };
+		185F879A2674540300A63898 /* AuthUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUseCase.swift; sourceTree = "<group>"; };
+		185F879D2674547800A63898 /* RegisterResponseM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResponseM.swift; sourceTree = "<group>"; };
+		185F879F267454D900A63898 /* SignInResponseM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInResponseM.swift; sourceTree = "<group>"; };
+		185F87A12674743C00A63898 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
+		185F87A326747BB100A63898 /* SingleSignOnResponseM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSignOnResponseM.swift; sourceTree = "<group>"; };
+		185F87A52674949200A63898 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		185F87A7267494C300A63898 /* Button+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Button+.swift"; sourceTree = "<group>"; };
+		185F87A92674978E00A63898 /* LoginNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigator.swift; sourceTree = "<group>"; };
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,6 +211,24 @@
 			path = Lato;
 			sourceTree = "<group>";
 		};
+		185F8799267453F300A63898 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				185F879A2674540300A63898 /* AuthUseCase.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		185F879C2674546C00A63898 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				185F879D2674547800A63898 /* RegisterResponseM.swift */,
+				185F879F267454D900A63898 /* SignInResponseM.swift */,
+				185F87A326747BB100A63898 /* SingleSignOnResponseM.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		27F01E22D8F24CAB2D7E3AF8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,8 +257,10 @@
 		FFD576EE267367CF00CC9CF1 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				185F87A92674978E00A63898 /* LoginNavigator.swift */,
 				185F8763266CC84800A63898 /* LoginViewController.swift */,
 				FFD576EF267367DE00CC9CF1 /* LoginViewModel.swift */,
+				185F87A12674743C00A63898 /* LoginUseCase.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -242,11 +282,13 @@
 		FFD576FD26736F1900CC9CF1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				185F879C2674546C00A63898 /* Models */,
+				185F8799267453F300A63898 /* UseCase */,
+				FFD576FE26736F1E00CC9CF1 /* Router */,
 				FFD577052673700300CC9CF1 /* Storage.swift */,
 				FFD577072673700A00CC9CF1 /* Storage+.swift */,
 				FFD5770126736FDC00CC9CF1 /* APIClient.swift */,
 				FFD5770326736FEA00CC9CF1 /* TokenAdapter.swift */,
-				FFD576FE26736F1E00CC9CF1 /* Router */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -262,12 +304,16 @@
 		FFD5770B2673703F00CC9CF1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				185F87972673C29C00A63898 /* Google+Reactive.swift */,
+				185F87952673C28C00A63898 /* Facebook+Reactive.swift */,
 				FFD5771A2673722200CC9CF1 /* Validation+String.swift */,
 				FFD5770C2673704B00CC9CF1 /* DateFormatter+.swift */,
 				FFD577122673712C00CC9CF1 /* UIColor+.swift */,
 				FFD57718267371A300CC9CF1 /* ObservableType+.swift */,
 				FFD577142673715D00CC9CF1 /* UIWindow+Extensions.swift */,
 				FFD577162673717900CC9CF1 /* UIApplication+Extensions.swift */,
+				185F87A52674949200A63898 /* UIView+.swift */,
+				185F87A7267494C300A63898 /* Button+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -284,6 +330,7 @@
 				185F8759266CC84800A63898 /* Frameworks */,
 				185F875A266CC84800A63898 /* Resources */,
 				EF58888BE0234A1B16E61B96 /* [CP] Embed Pods Frameworks */,
+				D8A704986DD1B2F13F92AE7E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -373,6 +420,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D8A704986DD1B2F13F92AE7E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CBED/Pods-CBED-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CBED/Pods-CBED-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CBED/Pods-CBED-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		EF58888BE0234A1B16E61B96 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -399,23 +463,33 @@
 			files = (
 				FFD5770D2673704B00CC9CF1 /* DateFormatter+.swift in Sources */,
 				FFD577152673715D00CC9CF1 /* UIWindow+Extensions.swift in Sources */,
+				185F879E2674547800A63898 /* RegisterResponseM.swift in Sources */,
+				185F87962673C28C00A63898 /* Facebook+Reactive.swift in Sources */,
 				FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */,
 				FFD5771B2673722200CC9CF1 /* Validation+String.swift in Sources */,
+				185F87AA2674978E00A63898 /* LoginNavigator.swift in Sources */,
 				FFD576F52673681200CC9CF1 /* Environment.swift in Sources */,
 				FFD5770026736F2700CC9CF1 /* AuthRouter.swift in Sources */,
 				FFD5770426736FEA00CC9CF1 /* TokenAdapter.swift in Sources */,
 				185F8764266CC84800A63898 /* LoginViewController.swift in Sources */,
 				FFD5770A2673701A00CC9CF1 /* Constants.swift in Sources */,
 				185F87942672796000A63898 /* CustomBorderButton.swift in Sources */,
+				185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */,
 				FFD5770226736FDC00CC9CF1 /* APIClient.swift in Sources */,
 				FFD57719267371A300CC9CF1 /* ObservableType+.swift in Sources */,
+				185F87A8267494C400A63898 /* Button+.swift in Sources */,
+				185F879B2674540300A63898 /* AuthUseCase.swift in Sources */,
+				185F87A62674949200A63898 /* UIView+.swift in Sources */,
 				FFD576F72673681C00CC9CF1 /* UIAlertHelper.swift in Sources */,
 				FFD576FB2673682B00CC9CF1 /* SwiftLogger.swift in Sources */,
 				FFD576F92673682700CC9CF1 /* BaseViewModel.swift in Sources */,
 				FFD576F32673680800CC9CF1 /* ViewModelType.swift in Sources */,
+				185F87A426747BB100A63898 /* SingleSignOnResponseM.swift in Sources */,
 				FFD577172673717900CC9CF1 /* UIApplication+Extensions.swift in Sources */,
 				FFD577112673710400CC9CF1 /* ErrorTracker.swift in Sources */,
+				185F87A22674743C00A63898 /* LoginUseCase.swift in Sources */,
 				FFD577132673712C00CC9CF1 /* UIColor+.swift in Sources */,
+				185F87982673C29C00A63898 /* Google+Reactive.swift in Sources */,
 				185F8760266CC84800A63898 /* AppDelegate.swift in Sources */,
 				FFD577062673700300CC9CF1 /* Storage.swift in Sources */,
 				FFD577082673700A00CC9CF1 /* Storage+.swift in Sources */,

@@ -82,24 +82,4 @@ final class APIClient: SessionDelegate {
             sessionManager = Session()
         }
     }
-    
-//    static func request(_ urlConvertible: URLRequestConvertible) -> Completable {
-//        return Completable.create { observer in
-//            let request = AF.request(urlConvertible)
-//                .validate()
-//                .validate(statusCode: 200..<300)
-//                .responseJSON { (response) in
-//                    switch response.result {
-//                    case .success:
-//                        observer(.completed)
-//                    case .failure(let error):
-//                        observer(.error(error))
-//                    }
-//                }
-//            
-//            return Disposables.create {
-//                request.cancel()
-//            }
-//        }
-//    }
 }

@@ -7,7 +7,8 @@
 
 import RxSwift
 import RxCocoa
-
+import FBSDKLoginKit
+import GoogleSignIn
 
 // MARK: Input + Output
 extension LoginViewModel {
@@ -22,11 +23,17 @@ extension LoginViewModel {
     
     struct Output {
         let buttonLoginValid: Driver<Bool>
-        let loginSuccess: Driver<Bool>
+        let loginSuccess: Driver<Void>
+        let isLoading: Driver<Bool>
+        let error: Driver<Error>
     }
 }
 
 struct LoginViewModel: ViewModel {
+    let useCase: LoginUseCase
+    let errorTracker = ErrorTracker()
+    let activityIndicator = ActivityIndicator()
+    
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let emailValid = input
             .email
@@ -43,8 +50,89 @@ struct LoginViewModel: ViewModel {
         let buttonLoginValid = Observable.merge(emailValid,
                                                 passwordValid)
         
+        let loginData = Observable
+            .combineLatest(input.email,
+                           input.password)
+        
+        // Handle Email login
+        let loginSuccess = input
+            .buttonLoginTrigger
+            .withLatestFrom(loginData)
+            .flatMapLatest(handleNormalLogin(email:password:))
+            .do(onNext: { response in
+                Storage.accessToken = response.token.access
+                Storage.refreshToken = response.token.refresh
+            })
+            .mapToVoid()
+        
+        // Handle Facebook login
+        let facebookLoginSuccess = showFacebookLogin
+            .flatMapLatest(handleSingleSignOn(type:accessToken:))
+            .do(onNext: { response in
+                Storage.accessToken = response.token
+            })
+            .mapToVoid()
+        
+        // Handle Google login
+        let googleLoginSuccess = showGoogleLogin
+            .flatMapLatest(handleSingleSignOn(type:accessToken:))
+            .do(onNext: { response in
+                Storage.accessToken = response.token
+            })
+            .mapToVoid()
+        
+        
         return Output(buttonLoginValid: buttonLoginValid.asDriver(onErrorJustReturn: false),
-                      loginSuccess: .just(true))
+                      loginSuccess: Observable.merge(loginSuccess,
+                                                     facebookLoginSuccess,
+                                                     googleLoginSuccess).asDriverOnErrorJustComplete(),
+                      isLoading: activityIndicator.asDriver(),
+                      error: errorTracker.asDriver())
+    }
+    
+    private func handleNormalLogin(email: String,
+                                   password: String) -> Observable<SignInResponseM> {
+        return useCase
+            .signin(email: email,
+                    password: password)
+            .trackError(errorTracker)
+            .trackActivity(activityIndicator)
+            .catch { _ in
+                return .never()
+            }
+    }
+    
+    private var showFacebookLogin: Observable<(SSOType, String)> {
+        let loginManager = LoginManager()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return loginManager
+            .rx
+            .login(from: appDelegate.getCurrentViewController())
+            .trackActivity(activityIndicator)
+            .trackError(errorTracker)
+            .map { (SSOType.facebook, $0.tokenString) }
+            .delay(.seconds(2), scheduler: MainScheduler.instance)
+    }
+    
+    private var showGoogleLogin: Observable<(SSOType, String)> {
+        return GIDSignIn
+            .sharedInstance()
+            .rx
+            .signIn
+            .trackError(self.errorTracker)
+            .map { user in (SSOType.google,
+                            user.authentication.idToken) }
+    }
+    
+    private func handleSingleSignOn(type: SSOType, accessToken: String) -> Observable<SingleSignOnResponseM> {
+        return self.useCase
+            .singleSignOn(type: type,
+                          accessToken: accessToken)
+            .trackActivity(self.activityIndicator)
+            .trackError(self.errorTracker)
+            .catch({ (error) -> Observable<SingleSignOnResponseM> in
+                return .never()
+            })
     }
 }
 

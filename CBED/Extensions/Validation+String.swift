@@ -31,7 +31,7 @@ extension String {
     }
     
     func minLength(min: Int, message: String) -> Bool {
-        if value.count >= min {
+        if self.count >= min {
             return true
         } else {
             return false
