@@ -19,7 +19,9 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
     
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Swift.Result<URLRequest, Error>) -> Void) {
         var urlRequest = urlRequest
-        urlRequest.setValue("Bearer " + Storage.accessToken!, forHTTPHeaderField: "Authorization")
+        if !(urlRequest.url?.absoluteString.contains("auth") ?? false) {
+            urlRequest.setValue("Bearer " + Storage.accessToken!, forHTTPHeaderField: "Authorization")
+        }
         
         completion(.success(urlRequest))
     }
@@ -31,6 +33,8 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
             /// Return the original error and don't retry the request.
             return completion(.doNotRetryWithError(error))
         }
+        
+        completion(.doNotRetryWithError(error))
         
 //        getNewAccessToken()
 //            .subscribe(onSuccess: { response in

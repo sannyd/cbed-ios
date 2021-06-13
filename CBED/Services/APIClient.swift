@@ -36,7 +36,9 @@ final class APIClient: SessionDelegate {
                     case .success(let result):
                         single(.success(result))
                     case .failure(let error):
+                        print(error)
                         single(.failure(error))
+                        
                     }
                 }
             

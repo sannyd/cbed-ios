@@ -32,6 +32,8 @@ enum LogEvent: String {
 ///
 func print(_ object: Any) {
     // Only allowing in DEBUG mode
+    Swift.print(object)
+    
     #if DEBUG_DEV
     Swift.print(object)
     #elseif DEBUG_INT

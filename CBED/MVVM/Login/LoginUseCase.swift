@@ -13,6 +13,8 @@ protocol LoginUseCaseType {
                   password: String) -> Single<RegisterResponseM>
     func signin(email: String,
                 password: String) -> Single<SignInResponseM>
+    func singleSignOn(type: SSOType,
+                      accessToken: String) -> Single<SingleSignOnResponseM>
 }
 
 struct LoginUseCase: LoginUseCaseType,

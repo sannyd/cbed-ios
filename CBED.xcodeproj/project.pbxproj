@@ -34,6 +34,13 @@
 		185F87A62674949200A63898 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A52674949200A63898 /* UIView+.swift */; };
 		185F87A8267494C400A63898 /* Button+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A7267494C300A63898 /* Button+.swift */; };
 		185F87AA2674978E00A63898 /* LoginNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A92674978E00A63898 /* LoginNavigator.swift */; };
+		185F87AC26749CB200A63898 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 185F87AB26749CB100A63898 /* GoogleService-Info.plist */; };
+		185F87AF2674A0A300A63898 /* StoryboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87AE2674A0A300A63898 /* StoryboardManager.swift */; };
+		185F87B92674B43E00A63898 /* CGRect+Center.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B42674B43E00A63898 /* CGRect+Center.swift */; };
+		185F87BA2674B43E00A63898 /* CAPropertyAnimation+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B52674B43E00A63898 /* CAPropertyAnimation+Key.swift */; };
+		185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B62674B43E00A63898 /* UIBezierPath+Circle.swift */; };
+		185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B72674B43E00A63898 /* CGSize+Min.swift */; };
+		185F87BD2674B43E00A63898 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B82674B43E00A63898 /* LoadingIndicatorView.swift */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
 		FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576EF267367DE00CC9CF1 /* LoginViewModel.swift */; };
 		FFD576F32673680800CC9CF1 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576F22673680800CC9CF1 /* ViewModelType.swift */; };
@@ -87,6 +94,14 @@
 		185F87A52674949200A63898 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		185F87A7267494C300A63898 /* Button+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Button+.swift"; sourceTree = "<group>"; };
 		185F87A92674978E00A63898 /* LoginNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigator.swift; sourceTree = "<group>"; };
+		185F87AB26749CB100A63898 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		185F87AE2674A0A300A63898 /* StoryboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardManager.swift; sourceTree = "<group>"; };
+		185F87B02674A36100A63898 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		185F87B42674B43E00A63898 /* CGRect+Center.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+Center.swift"; sourceTree = "<group>"; };
+		185F87B52674B43E00A63898 /* CAPropertyAnimation+Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CAPropertyAnimation+Key.swift"; sourceTree = "<group>"; };
+		185F87B62674B43E00A63898 /* UIBezierPath+Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Circle.swift"; sourceTree = "<group>"; };
+		185F87B72674B43E00A63898 /* CGSize+Min.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Min.swift"; sourceTree = "<group>"; };
+		185F87B82674B43E00A63898 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,8 +160,8 @@
 		185F875E266CC84800A63898 /* CBED */ = {
 			isa = PBXGroup;
 			children = (
+				185F87B32674B43E00A63898 /* Custom Loading Indicator */,
 				FFD5770B2673703F00CC9CF1 /* Extensions */,
-				FFD577092673701900CC9CF1 /* Constants.swift */,
 				FFD576FD26736F1900CC9CF1 /* Services */,
 				FFD576F12673680100CC9CF1 /* Utilities */,
 				FFD576ED267367C600CC9CF1 /* MVVM */,
@@ -165,6 +180,8 @@
 		185F8776266D29C900A63898 /* Configs */ = {
 			isa = PBXGroup;
 			children = (
+				185F87AB26749CB100A63898 /* GoogleService-Info.plist */,
+				185F87B02674A36100A63898 /* Config.xcconfig */,
 			);
 			path = Configs;
 			sourceTree = "<group>";
@@ -181,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				185F8779266D29E300A63898 /* Login.storyboard */,
+				185F87AE2674A0A300A63898 /* StoryboardManager.swift */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -229,6 +247,18 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		185F87B32674B43E00A63898 /* Custom Loading Indicator */ = {
+			isa = PBXGroup;
+			children = (
+				185F87B42674B43E00A63898 /* CGRect+Center.swift */,
+				185F87B52674B43E00A63898 /* CAPropertyAnimation+Key.swift */,
+				185F87B62674B43E00A63898 /* UIBezierPath+Circle.swift */,
+				185F87B72674B43E00A63898 /* CGSize+Min.swift */,
+				185F87B82674B43E00A63898 /* LoadingIndicatorView.swift */,
+			);
+			path = "Custom Loading Indicator";
+			sourceTree = "<group>";
+		};
 		27F01E22D8F24CAB2D7E3AF8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +298,7 @@
 		FFD576F12673680100CC9CF1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				FFD577092673701900CC9CF1 /* Constants.swift */,
 				FFD577102673710400CC9CF1 /* ErrorTracker.swift */,
 				FFD5770E267370FC00CC9CF1 /* ActivityIndicator.swift */,
 				FFD576FA2673682B00CC9CF1 /* SwiftLogger.swift */,
@@ -385,6 +416,7 @@
 				185F878E2672764800A63898 /* Lato-BlackItalic.ttf in Resources */,
 				185F877A266D29E300A63898 /* Login.storyboard in Resources */,
 				185F878F2672764800A63898 /* OFL.txt in Resources */,
+				185F87AC26749CB200A63898 /* GoogleService-Info.plist in Resources */,
 				185F87922672764800A63898 /* Lato-ThinItalic.ttf in Resources */,
 				185F876C266CC84A00A63898 /* LaunchScreen.storyboard in Resources */,
 				185F8769266CC84A00A63898 /* Assets.xcassets in Resources */,
@@ -464,6 +496,7 @@
 				FFD5770D2673704B00CC9CF1 /* DateFormatter+.swift in Sources */,
 				FFD577152673715D00CC9CF1 /* UIWindow+Extensions.swift in Sources */,
 				185F879E2674547800A63898 /* RegisterResponseM.swift in Sources */,
+				185F87BA2674B43E00A63898 /* CAPropertyAnimation+Key.swift in Sources */,
 				185F87962673C28C00A63898 /* Facebook+Reactive.swift in Sources */,
 				FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */,
 				FFD5771B2673722200CC9CF1 /* Validation+String.swift in Sources */,
@@ -471,12 +504,16 @@
 				FFD576F52673681200CC9CF1 /* Environment.swift in Sources */,
 				FFD5770026736F2700CC9CF1 /* AuthRouter.swift in Sources */,
 				FFD5770426736FEA00CC9CF1 /* TokenAdapter.swift in Sources */,
+				185F87BD2674B43E00A63898 /* LoadingIndicatorView.swift in Sources */,
 				185F8764266CC84800A63898 /* LoginViewController.swift in Sources */,
 				FFD5770A2673701A00CC9CF1 /* Constants.swift in Sources */,
 				185F87942672796000A63898 /* CustomBorderButton.swift in Sources */,
 				185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */,
 				FFD5770226736FDC00CC9CF1 /* APIClient.swift in Sources */,
 				FFD57719267371A300CC9CF1 /* ObservableType+.swift in Sources */,
+				185F87AF2674A0A300A63898 /* StoryboardManager.swift in Sources */,
+				185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */,
+				185F87B92674B43E00A63898 /* CGRect+Center.swift in Sources */,
 				185F87A8267494C400A63898 /* Button+.swift in Sources */,
 				185F879B2674540300A63898 /* AuthUseCase.swift in Sources */,
 				185F87A62674949200A63898 /* UIView+.swift in Sources */,
@@ -488,6 +525,7 @@
 				FFD577172673717900CC9CF1 /* UIApplication+Extensions.swift in Sources */,
 				FFD577112673710400CC9CF1 /* ErrorTracker.swift in Sources */,
 				185F87A22674743C00A63898 /* LoginUseCase.swift in Sources */,
+				185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */,
 				FFD577132673712C00CC9CF1 /* UIColor+.swift in Sources */,
 				185F87982673C29C00A63898 /* Google+Reactive.swift in Sources */,
 				185F8760266CC84800A63898 /* AppDelegate.swift in Sources */,
@@ -513,6 +551,7 @@
 /* Begin XCBuildConfiguration section */
 		185F876E266CC84A00A63898 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 185F87B02674A36100A63898 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -562,7 +601,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -574,6 +613,7 @@
 		};
 		185F876F266CC84A00A63898 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 185F87B02674A36100A63898 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -617,7 +657,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -640,7 +680,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbed.demo.CBED;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -660,7 +700,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbed.demo.CBED;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

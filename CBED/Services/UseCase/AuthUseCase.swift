@@ -26,6 +26,8 @@ protocol AuthUseCase {
 extension AuthUseCase {
     func register(email: String,
                   password: String) -> Single<RegisterResponseM> {
+        print(password)
+        print(email)
         return APIClient
             .shared
             .request(AuthRouter.register(params: ["email": email,
@@ -46,8 +48,8 @@ extension AuthUseCase {
                       accessToken: String) -> Single<SingleSignOnResponseM> {
         return APIClient
             .shared
-            .request(AuthRouter.singleSignOn(params: ["type": type.rawValue,
-                                                "access_token": accessToken]))
+            .request(AuthRouter.singleSignOn(params: ["sso_type": type.rawValue,
+                                                      "access_token": accessToken]))
             .debug()
     }
 }

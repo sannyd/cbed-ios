@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var textfieldEmail: UITextField!
@@ -23,6 +24,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        bindViewModel()
     }
     
     private func bindViewModel() {
@@ -32,9 +35,14 @@ class LoginViewController: UIViewController {
         [output
             .buttonLoginValid
             .drive(buttonLogin.rx.isEnabled),
-         output
-            .loginSuccess
-            .drive()]
+        output
+            .isLoading
+            .drive(LoadingIndicatorView.rx.isAnimating),
+        output
+            .error
+            .drive(onNext: { error in
+                print(error)
+            })]
             .forEach { $0.disposed(by: disposeBag) }
     }
     

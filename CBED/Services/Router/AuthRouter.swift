@@ -50,7 +50,7 @@ extension AuthRouter: URLRequestConvertible {
             let encoding = Alamofire.JSONEncoding.default
             request = try encoding.encode(request, with: params)
         }
-        
+
         return request
     }
 }

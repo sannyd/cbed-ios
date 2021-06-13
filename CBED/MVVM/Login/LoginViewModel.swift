@@ -23,7 +23,6 @@ extension LoginViewModel {
     
     struct Output {
         let buttonLoginValid: Driver<Bool>
-        let loginSuccess: Driver<Void>
         let isLoading: Driver<Bool>
         let error: Driver<Error>
     }
@@ -31,8 +30,11 @@ extension LoginViewModel {
 
 struct LoginViewModel: ViewModel {
     let useCase: LoginUseCase
+    let navigator: LoginNavigatorType
+    
     let errorTracker = ErrorTracker()
     let activityIndicator = ActivityIndicator()
+    let loginManager = LoginManager()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let emailValid = input
@@ -66,26 +68,35 @@ struct LoginViewModel: ViewModel {
             .mapToVoid()
         
         // Handle Facebook login
-        let facebookLoginSuccess = showFacebookLogin
+        let facebookLoginSuccess = input
+            .buttonFacebookTrigger
+            .flatMapLatest { showFacebookLogin }
             .flatMapLatest(handleSingleSignOn(type:accessToken:))
             .do(onNext: { response in
-                Storage.accessToken = response.token
+                Storage.accessToken = response.token.access
+                Storage.refreshToken = response.token.refresh
             })
             .mapToVoid()
         
         // Handle Google login
-        let googleLoginSuccess = showGoogleLogin
+        let googleLoginSuccess = input
+            .buttonGoogleTrigger
+            .flatMapLatest { showGoogleLogin }
             .flatMapLatest(handleSingleSignOn(type:accessToken:))
             .do(onNext: { response in
-                Storage.accessToken = response.token
+                Storage.accessToken = response.token.access
+                Storage.refreshToken = response.token.refresh
             })
             .mapToVoid()
         
+        Observable
+            .merge(loginSuccess,
+                   facebookLoginSuccess,
+                   googleLoginSuccess)
+            .subscribe(onNext: navigator.pushToLevelVC)
+            .disposed(by: disposeBag)
         
         return Output(buttonLoginValid: buttonLoginValid.asDriver(onErrorJustReturn: false),
-                      loginSuccess: Observable.merge(loginSuccess,
-                                                     facebookLoginSuccess,
-                                                     googleLoginSuccess).asDriverOnErrorJustComplete(),
                       isLoading: activityIndicator.asDriver(),
                       error: errorTracker.asDriver())
     }
@@ -103,15 +114,13 @@ struct LoginViewModel: ViewModel {
     }
     
     private var showFacebookLogin: Observable<(SSOType, String)> {
-        let loginManager = LoginManager()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
         return loginManager
             .rx
             .login(from: appDelegate.getCurrentViewController())
-            .trackActivity(activityIndicator)
             .trackError(errorTracker)
             .map { (SSOType.facebook, $0.tokenString) }
-            .delay(.seconds(2), scheduler: MainScheduler.instance)
     }
     
     private var showGoogleLogin: Observable<(SSOType, String)> {

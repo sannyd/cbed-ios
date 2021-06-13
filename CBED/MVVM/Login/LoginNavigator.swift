@@ -12,9 +12,7 @@ protocol LoginNavigatorType {
 }
 
 struct LoginNavigator: LoginNavigatorType {
-    unowned let navigationController: UINavigationController
-    
     func pushToLevelVC() {
-        
+        print("go to level VC")
     }
 }
