@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		185B05EA267615A600A17664 /* HomeNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E6267615A600A17664 /* HomeNavigator.swift */; };
+		185B05EB267615A600A17664 /* HomeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E7267615A600A17664 /* HomeUseCase.swift */; };
+		185B05EC267615A600A17664 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E8267615A600A17664 /* HomeViewController.swift */; };
+		185B05ED267615A600A17664 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E9267615A600A17664 /* HomeViewModel.swift */; };
+		185B05EF267615E400A17664 /* LevelRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05EE267615E400A17664 /* LevelRouter.swift */; };
+		185B05F12676168D00A17664 /* SectionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05F02676168D00A17664 /* SectionRouter.swift */; };
+		185B05F3267616BB00A17664 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05F2267616BB00A17664 /* UserRouter.swift */; };
+		185B05F5267616F000A17664 /* LevelUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05F4267616F000A17664 /* LevelUseCase.swift */; };
+		185B05F72676179900A17664 /* LevelM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05F62676179900A17664 /* LevelM.swift */; };
+		185B05F92676183C00A17664 /* SectionM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05F82676183C00A17664 /* SectionM.swift */; };
 		185F8760266CC84800A63898 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F875F266CC84800A63898 /* AppDelegate.swift */; };
 		185F8764266CC84800A63898 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F8763266CC84800A63898 /* LoginViewController.swift */; };
 		185F8769266CC84A00A63898 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 185F8768266CC84A00A63898 /* Assets.xcassets */; };
@@ -65,6 +75,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		185B05E6267615A600A17664 /* HomeNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigator.swift; sourceTree = "<group>"; };
+		185B05E7267615A600A17664 /* HomeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUseCase.swift; sourceTree = "<group>"; };
+		185B05E8267615A600A17664 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		185B05E9267615A600A17664 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		185B05EE267615E400A17664 /* LevelRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelRouter.swift; sourceTree = "<group>"; };
+		185B05F02676168D00A17664 /* SectionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionRouter.swift; sourceTree = "<group>"; };
+		185B05F2267616BB00A17664 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
+		185B05F4267616F000A17664 /* LevelUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUseCase.swift; sourceTree = "<group>"; };
+		185B05F62676179900A17664 /* LevelM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelM.swift; sourceTree = "<group>"; };
+		185B05F82676183C00A17664 /* SectionM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionM.swift; sourceTree = "<group>"; };
 		185F875C266CC84800A63898 /* CBED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBED.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		185F875F266CC84800A63898 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		185F8763266CC84800A63898 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +159,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		185B05E12676113C00A17664 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				185B05E6267615A600A17664 /* HomeNavigator.swift */,
+				185B05E7267615A600A17664 /* HomeUseCase.swift */,
+				185B05E8267615A600A17664 /* HomeViewController.swift */,
+				185B05E9267615A600A17664 /* HomeViewModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		185F8753266CC84800A63898 = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				185F879A2674540300A63898 /* AuthUseCase.swift */,
+				185B05F4267616F000A17664 /* LevelUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -243,6 +275,8 @@
 				185F879D2674547800A63898 /* RegisterResponseM.swift */,
 				185F879F267454D900A63898 /* SignInResponseM.swift */,
 				185F87A326747BB100A63898 /* SingleSignOnResponseM.swift */,
+				185B05F62676179900A17664 /* LevelM.swift */,
+				185B05F82676183C00A17664 /* SectionM.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -279,6 +313,7 @@
 		FFD576ED267367C600CC9CF1 /* MVVM */ = {
 			isa = PBXGroup;
 			children = (
+				185B05E12676113C00A17664 /* Home */,
 				FFD576EE267367CF00CC9CF1 /* Login */,
 			);
 			path = MVVM;
@@ -328,6 +363,9 @@
 			isa = PBXGroup;
 			children = (
 				FFD576FF26736F2700CC9CF1 /* AuthRouter.swift */,
+				185B05EE267615E400A17664 /* LevelRouter.swift */,
+				185B05F02676168D00A17664 /* SectionRouter.swift */,
+				185B05F2267616BB00A17664 /* UserRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -495,9 +533,12 @@
 			files = (
 				FFD5770D2673704B00CC9CF1 /* DateFormatter+.swift in Sources */,
 				FFD577152673715D00CC9CF1 /* UIWindow+Extensions.swift in Sources */,
+				185B05F92676183C00A17664 /* SectionM.swift in Sources */,
 				185F879E2674547800A63898 /* RegisterResponseM.swift in Sources */,
+				185B05ED267615A600A17664 /* HomeViewModel.swift in Sources */,
 				185F87BA2674B43E00A63898 /* CAPropertyAnimation+Key.swift in Sources */,
 				185F87962673C28C00A63898 /* Facebook+Reactive.swift in Sources */,
+				185B05EC267615A600A17664 /* HomeViewController.swift in Sources */,
 				FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */,
 				FFD5771B2673722200CC9CF1 /* Validation+String.swift in Sources */,
 				185F87AA2674978E00A63898 /* LoginNavigator.swift in Sources */,
@@ -508,21 +549,28 @@
 				185F8764266CC84800A63898 /* LoginViewController.swift in Sources */,
 				FFD5770A2673701A00CC9CF1 /* Constants.swift in Sources */,
 				185F87942672796000A63898 /* CustomBorderButton.swift in Sources */,
+				185B05EF267615E400A17664 /* LevelRouter.swift in Sources */,
+				185B05F5267616F000A17664 /* LevelUseCase.swift in Sources */,
+				185B05F12676168D00A17664 /* SectionRouter.swift in Sources */,
 				185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */,
 				FFD5770226736FDC00CC9CF1 /* APIClient.swift in Sources */,
 				FFD57719267371A300CC9CF1 /* ObservableType+.swift in Sources */,
 				185F87AF2674A0A300A63898 /* StoryboardManager.swift in Sources */,
 				185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */,
 				185F87B92674B43E00A63898 /* CGRect+Center.swift in Sources */,
+				185B05EB267615A600A17664 /* HomeUseCase.swift in Sources */,
 				185F87A8267494C400A63898 /* Button+.swift in Sources */,
 				185F879B2674540300A63898 /* AuthUseCase.swift in Sources */,
 				185F87A62674949200A63898 /* UIView+.swift in Sources */,
 				FFD576F72673681C00CC9CF1 /* UIAlertHelper.swift in Sources */,
 				FFD576FB2673682B00CC9CF1 /* SwiftLogger.swift in Sources */,
+				185B05EA267615A600A17664 /* HomeNavigator.swift in Sources */,
 				FFD576F92673682700CC9CF1 /* BaseViewModel.swift in Sources */,
 				FFD576F32673680800CC9CF1 /* ViewModelType.swift in Sources */,
 				185F87A426747BB100A63898 /* SingleSignOnResponseM.swift in Sources */,
+				185B05F3267616BB00A17664 /* UserRouter.swift in Sources */,
 				FFD577172673717900CC9CF1 /* UIApplication+Extensions.swift in Sources */,
+				185B05F72676179900A17664 /* LevelM.swift in Sources */,
 				FFD577112673710400CC9CF1 /* ErrorTracker.swift in Sources */,
 				185F87A22674743C00A63898 /* LoginUseCase.swift in Sources */,
 				185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */,
