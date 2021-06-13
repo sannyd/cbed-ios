@@ -17,6 +17,8 @@
 		185B05F5267616F000A17664 /* LevelUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05F4267616F000A17664 /* LevelUseCase.swift */; };
 		185B05F72676179900A17664 /* LevelM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05F62676179900A17664 /* LevelM.swift */; };
 		185B05F92676183C00A17664 /* SectionM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05F82676183C00A17664 /* SectionM.swift */; };
+		185B05FB2676190E00A17664 /* QuestionM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05FA2676190E00A17664 /* QuestionM.swift */; };
+		185B05FD2676192500A17664 /* AnswerM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05FC2676192500A17664 /* AnswerM.swift */; };
 		185F8760266CC84800A63898 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F875F266CC84800A63898 /* AppDelegate.swift */; };
 		185F8764266CC84800A63898 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F8763266CC84800A63898 /* LoginViewController.swift */; };
 		185F8769266CC84A00A63898 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 185F8768266CC84A00A63898 /* Assets.xcassets */; };
@@ -85,6 +87,8 @@
 		185B05F4267616F000A17664 /* LevelUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUseCase.swift; sourceTree = "<group>"; };
 		185B05F62676179900A17664 /* LevelM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelM.swift; sourceTree = "<group>"; };
 		185B05F82676183C00A17664 /* SectionM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionM.swift; sourceTree = "<group>"; };
+		185B05FA2676190E00A17664 /* QuestionM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionM.swift; sourceTree = "<group>"; };
+		185B05FC2676192500A17664 /* AnswerM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerM.swift; sourceTree = "<group>"; };
 		185F875C266CC84800A63898 /* CBED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBED.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		185F875F266CC84800A63898 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		185F8763266CC84800A63898 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -277,6 +281,8 @@
 				185F87A326747BB100A63898 /* SingleSignOnResponseM.swift */,
 				185B05F62676179900A17664 /* LevelM.swift */,
 				185B05F82676183C00A17664 /* SectionM.swift */,
+				185B05FA2676190E00A17664 /* QuestionM.swift */,
+				185B05FC2676192500A17664 /* AnswerM.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -536,6 +542,7 @@
 				185B05F92676183C00A17664 /* SectionM.swift in Sources */,
 				185F879E2674547800A63898 /* RegisterResponseM.swift in Sources */,
 				185B05ED267615A600A17664 /* HomeViewModel.swift in Sources */,
+				185B05FB2676190E00A17664 /* QuestionM.swift in Sources */,
 				185F87BA2674B43E00A63898 /* CAPropertyAnimation+Key.swift in Sources */,
 				185F87962673C28C00A63898 /* Facebook+Reactive.swift in Sources */,
 				185B05EC267615A600A17664 /* HomeViewController.swift in Sources */,
@@ -579,6 +586,7 @@
 				185F8760266CC84800A63898 /* AppDelegate.swift in Sources */,
 				FFD577062673700300CC9CF1 /* Storage.swift in Sources */,
 				FFD577082673700A00CC9CF1 /* Storage+.swift in Sources */,
+				185B05FD2676192500A17664 /* AnswerM.swift in Sources */,
 				FFD5770F267370FC00CC9CF1 /* ActivityIndicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

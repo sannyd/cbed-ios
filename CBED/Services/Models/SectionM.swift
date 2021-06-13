@@ -9,6 +9,7 @@ import Foundation
 
 struct SectionM: Decodable {
     let id: Int?
+    let questions: [QuestionM]?
     let created: String?
     let modified: String?
     let name: String?
@@ -16,15 +17,4 @@ struct SectionM: Decodable {
     let pdfURL: String?
     let order: Int?
     let level: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case created = "created"
-        case modified = "modified"
-        case name = "name"
-        case youtubeURL = "youtube_url"
-        case pdfURL = "pdf_url"
-        case order = "order"
-        case level = "level"
-    }
 }
