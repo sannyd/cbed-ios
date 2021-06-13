@@ -26,8 +26,6 @@ protocol AuthUseCase {
 extension AuthUseCase {
     func register(email: String,
                   password: String) -> Single<RegisterResponseM> {
-        print(password)
-        print(email)
         return APIClient
             .shared
             .request(AuthRouter.register(params: ["email": email,

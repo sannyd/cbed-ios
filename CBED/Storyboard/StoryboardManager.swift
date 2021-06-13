@@ -9,9 +9,26 @@ import UIKit
 
 struct StoryboardManager {
     static let LoginSB = UIStoryboard(name: "Login", bundle: nil)
+    static let HomeSB = UIStoryboard(name: "Home", bundle: nil)
     
     static func instanceLoginVC() -> LoginViewController {
         return LoginSB.instantiateViewController(withIdentifier: LoginViewController.getClassName()) as! LoginViewController
+    }
+    
+    static func instanceLevelVC() -> LevelViewController {
+        return HomeSB.instantiateViewController(withIdentifier: LevelViewController.getClassName()) as! LevelViewController
+    }
+    
+    static func instanceScoreboardVC() -> ScoreboardViewController {
+        return HomeSB.instantiateViewController(withIdentifier: ScoreboardViewController.getClassName()) as! ScoreboardViewController
+    }
+    
+    static func instanceSettingVC() -> SettingViewController {
+        return HomeSB.instantiateViewController(withIdentifier: SettingViewController.getClassName()) as! SettingViewController
+    }
+    
+    static func instanceTabBarVC() -> TabBarViewController {
+        return HomeSB.instantiateViewController(withIdentifier: TabBarViewController.getClassName()) as! TabBarViewController
     }
 }
 

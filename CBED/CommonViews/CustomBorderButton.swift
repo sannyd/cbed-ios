@@ -1,5 +1,5 @@
 //
-//  CDBorderButtonV.swift
+//  CustomBorderButton.swift
 //  Cantec Driver
 //
 //  Created by Duy Nguyen on 09/07/2019.
@@ -47,6 +47,7 @@ class CustomBorderButton: UIButton {
             updateView()
         }
     }
+    
     @IBInspectable var disabledBackgroundColor: UIColor = UIColor.clear {
         didSet {
             updateView()
@@ -63,6 +64,12 @@ class CustomBorderButton: UIButton {
                updateView()
            }
        }
+    
+    @IBInspectable var isShowingShadowForDisableMode: Bool = false {
+        didSet {
+            updateView()
+        }
+    }
 
     override open var isEnabled: Bool {
         didSet {
@@ -72,10 +79,18 @@ class CustomBorderButton: UIButton {
     
     func updateView() {
         layer.cornerRadius = borderRadius
-        layer.shadowColor = shadowColor.cgColor
-        layer.shadowOpacity = shadowOpacity
-        layer.shadowRadius = shadowRadius
-        layer.shadowOffset = shadowOffset
+        if !isEnabled && isShowingShadowForDisableMode || isEnabled {
+            layer.shadowColor = shadowColor.cgColor
+            layer.shadowOpacity = shadowOpacity
+            layer.shadowRadius = shadowRadius
+            layer.shadowOffset = shadowOffset
+        } else {
+            layer.shadowColor = nil
+            layer.shadowOpacity = 0
+            layer.shadowRadius = 0
+            layer.shadowOffset = .zero
+        }
+        
         if isEnabled {
             backgroundColor = enabledBackgroundColor
         } else {

@@ -12,7 +12,11 @@ protocol LoginNavigatorType {
 }
 
 struct LoginNavigator: LoginNavigatorType {
+    unowned let window: UIWindow
+    
     func pushToLevelVC() {
-        print("go to level VC")
+        let tabbarVC = StoryboardManager.instanceTabBarVC()
+        window.rootViewController = tabbarVC
+        window.makeKeyAndVisible()
     }
 }

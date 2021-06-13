@@ -49,8 +49,9 @@ struct LoginViewModel: ViewModel {
                 return password.minLength(min: 6, message: "")
             }
         
-        let buttonLoginValid = Observable.merge(emailValid,
-                                                passwordValid)
+        let buttonLoginValid = Observable.combineLatest(emailValid,
+                                                        passwordValid)
+            .map { $0 && $1 }
         
         let loginData = Observable
             .combineLatest(input.email,

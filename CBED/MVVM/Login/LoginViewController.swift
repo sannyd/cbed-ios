@@ -28,6 +28,11 @@ class LoginViewController: UIViewController {
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     private func bindViewModel() {
         let input = createInput()
         let output = viewModel.transform(input, disposeBag: disposeBag)

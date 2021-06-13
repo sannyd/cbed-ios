@@ -8,7 +8,7 @@
 import Foundation
 
 struct SectionM: Decodable {
-    let id: Int?
+    let id: Int
     let questions: [QuestionM]?
     let created: String?
     let modified: String?

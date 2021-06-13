@@ -8,7 +8,7 @@
 import Foundation
 
 struct AnswerM: Decodable {
-    let id: Int?
+    let id: Int
     let created: String?
     let modified: String?
     let content: String?

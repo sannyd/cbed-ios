@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = window
         let loginVC = StoryboardManager.instanceLoginVC()
         let nav = UINavigationController(rootViewController: loginVC)
-        loginVC.viewModel = .init(useCase: LoginUseCase(), navigator: LoginNavigator())
+        loginVC.viewModel = .init(useCase: LoginUseCase(), navigator: LoginNavigator(window: window))
         window.rootViewController = nav
         window.makeKeyAndVisible()
         

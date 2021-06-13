@@ -1,0 +1,22 @@
+//
+//  LevelCell.swift
+//  CBED
+//
+//  Created by Jimmy Hoang on 13/06/2021.
+//
+
+import UIKit
+
+class LevelCell: UICollectionViewCell, CellType {
+    @IBOutlet weak var labelName: UILabel!
+    @IBOutlet weak var labelNumberOfQuestion: UILabel!
+    typealias T = LevelM
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+
+    func populateData(_ data: LevelM) {
+        labelName.text = data.name
+    }
+}

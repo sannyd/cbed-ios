@@ -23,6 +23,8 @@ struct Constants {
     }
     
     static let ColorA2A2A2 = UIColor(hex: "#A2A2A2")!
+    static let Color295BE0 = UIColor(hex: "#295BE0")!
+    static let ColorC4C4C4 = UIColor(hex: "#C4C4C4")!
     
     struct TimeFormat {
         static let iso8601Full = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
