@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import Alamofire
 
 extension UIViewController {
     public func logDeinit() {
@@ -21,5 +22,34 @@ extension UIViewController {
             .sentMessage(#selector(UIViewController.viewWillAppear))
             .take(1)
             .mapToVoid()
+    }
+}
+
+struct ServerError: Error, Decodable {
+    let detail: String?
+}
+
+extension UIViewController {
+    var errorBinding: Binder<Error> {
+        return Binder(self, binding: { (vc, error) in
+            let aferror = error as? AFError
+            let nserror = (error as! NSError)
+            if let serverError = error as? ServerError {
+                vc.showPopup(withTitle: "Error",
+                             message: serverError.detail)
+            } else {
+                vc.showPopup(withTitle: "Error",
+                             message: error.localizedDescription)
+            }
+        })
+    }
+    
+    func showPopup(withTitle title: String,
+                   message: String?,
+                   cancelMessage: String = "Close",
+                   completion: (() -> Void)? = nil) {
+        UIAlertHelper.showAlertController(title: title, message: message, cancel: cancelMessage, others: nil) { (_, _) in
+            completion?()
+        }
     }
 }

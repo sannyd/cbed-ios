@@ -10,7 +10,7 @@ import Alamofire
 
 enum LevelRouter {
     case getAllLevels
-    case getLevelByID(_ id: String)
+    case getLevelByID(_ id: Int)
 }
 
 // MARK: - TargetType: Moya compatible

@@ -30,7 +30,6 @@ extension AuthUseCase {
             .shared
             .request(AuthRouter.register(params: ["email": email,
                                                   "password": password]))
-            .debug()
     }
     
     func signin(email: String,
@@ -39,7 +38,6 @@ extension AuthUseCase {
             .shared
             .request(AuthRouter.signIn(params: ["email": email,
                                                 "password": password]))
-            .debug()
     }
     
     func singleSignOn(type: SSOType,
@@ -48,6 +46,5 @@ extension AuthUseCase {
             .shared
             .request(AuthRouter.singleSignOn(params: ["sso_type": type.rawValue,
                                                       "access_token": accessToken]))
-            .debug()
     }
 }

@@ -31,7 +31,7 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
               response.statusCode == 401 else {
             /// The request did not fail due to a 401 Unauthorized response.
             /// Return the original error and don't retry the request.
-            return completion(.doNotRetryWithError(error))
+            return completion(.doNotRetry)
         }
         
         completion(.doNotRetryWithError(error))

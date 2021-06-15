@@ -8,16 +8,15 @@
 import Foundation
 import RxSwift
 
-protocol SectionsUseCase {
-    func getSectionByID(id: String) -> Single<SectionM>
+protocol SectionAPIUseCase {
+    func getSectionByID(id: String) -> Single<SectionDetailM>
 }
 
-extension SectionsUseCase {
-    func getSectionByID(id: String) -> Single<SectionM> {
+extension SectionAPIUseCase {
+    func getSectionByID(id: String) -> Single<SectionDetailM> {
         return APIClient
             .shared
             .request(SectionRouter.getSectionByID(id))
-            .debug()
     }
 }
 

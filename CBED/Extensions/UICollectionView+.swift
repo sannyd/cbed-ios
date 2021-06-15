@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import Alamofire
 
 extension UICollectionView {
     func rxModelSelected<T>() -> Observable<T> {

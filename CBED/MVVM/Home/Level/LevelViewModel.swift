@@ -35,6 +35,12 @@ struct LevelViewModel: ViewModel {
             .flatMapLatest(fetchAllLevels)
             .map { [CommonCollectionViewSection(items: $0)] }
         
+        input
+            .levelTapped
+            .map(\.id)
+            .subscribe(onNext: navigator.pushToSectionsVC(levelID:))
+            .disposed(by: disposeBag)
+        
         return Output(levels: levels.asDriver(onErrorJustReturn: []),
                       isLoading: activityIndicator.asDriver(),
                       error: errorTracker.asDriver())
@@ -47,7 +53,7 @@ struct LevelViewModel: ViewModel {
             .trackActivity(activityIndicator)
     }
     
-    func fetchLevelByID(_ id: String) -> Observable<LevelM> {
+    func fetchLevelByID(_ id: Int) -> Observable<LevelDetailM> {
         return self.useCase
             .getLevelByID(id)
             .trackError(errorTracker)

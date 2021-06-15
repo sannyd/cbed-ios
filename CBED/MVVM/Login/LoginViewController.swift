@@ -45,18 +45,31 @@ class LoginViewController: UIViewController {
             .drive(LoadingIndicatorView.rx.isAnimating),
         output
             .error
-            .drive(onNext: { error in
-                print(error)
-            })]
+            .drive(errorBinding)]
             .forEach { $0.disposed(by: disposeBag) }
     }
     
     private func createInput() -> LoginViewModel.Input {
         return .init(email: textfieldEmail.rx.text.orEmpty.asObservable(),
                      password: textfieldPassword.rx.text.orEmpty.asObservable(),
-                     buttonLoginTrigger: buttonLogin.rxButtonTapped,
+                     buttonLoginTrigger: buttonLogin.rxButtonTapped.do(onNext: { self.view.endEditing(true) }),
                      buttonFacebookTrigger: buttonFacebook.rxGestureTapped,
                      buttonGoogleTrigger: buttonGoogle.rxGestureTapped,
                      buttonInstagramTrigger: buttonInstagram.rxGestureTapped)
     }
 }
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == textfieldEmail {
+            textfieldPassword.becomeFirstResponder()
+        }
+        
+        if textField == textfieldPassword {
+            view.endEditing(true)
+        }
+        
+        return true
+    }
+}
+

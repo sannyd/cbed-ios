@@ -19,6 +19,10 @@ struct StoryboardManager {
         return HomeSB.instantiateViewController(withIdentifier: LevelViewController.getClassName()) as! LevelViewController
     }
     
+    static func instanceSectionsVC() -> SectionsViewController {
+        return HomeSB.instantiateViewController(withIdentifier: SectionsViewController.getClassName()) as! SectionsViewController
+    }
+    
     static func instanceScoreboardVC() -> ScoreboardViewController {
         return HomeSB.instantiateViewController(withIdentifier: ScoreboardViewController.getClassName()) as! ScoreboardViewController
     }

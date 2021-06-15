@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
         <array key="Lato-Regular.ttf">
             <string>Lato-Regular</string>
         </array>
@@ -119,6 +122,97 @@
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="82.366071428571431"/>
         </scene>
+        <!--Sections View Controller-->
+        <scene sceneID="0yI-5Z-1RT">
+            <objects>
+                <viewController storyboardIdentifier="SectionsViewController" hidesBottomBarWhenPushed="YES" id="JV9-GZ-wK2" customClass="SectionsViewController" customModule="CBED" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ykl-mv-Luo">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cI7-8g-Svu" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="414" height="80"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RFx-yV-n3y">
+                                        <rect key="frame" x="0.0" y="15" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="0Ac-ZO-YWK"/>
+                                            <constraint firstAttribute="height" constant="50" id="bm2-de-awQ"/>
+                                        </constraints>
+                                        <state key="normal" image="img_back_black"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1N-Ml-3aC">
+                                        <rect key="frame" x="185.5" y="29" width="43.5" height="22"/>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="RFx-yV-n3y" firstAttribute="centerY" secondItem="cI7-8g-Svu" secondAttribute="centerY" id="GyC-tb-bwv"/>
+                                    <constraint firstItem="u1N-Ml-3aC" firstAttribute="centerY" secondItem="cI7-8g-Svu" secondAttribute="centerY" id="Lu3-Bw-PnZ"/>
+                                    <constraint firstAttribute="height" constant="80" id="TwC-uF-TIR"/>
+                                    <constraint firstItem="u1N-Ml-3aC" firstAttribute="centerX" secondItem="cI7-8g-Svu" secondAttribute="centerX" id="adt-sM-KSf"/>
+                                    <constraint firstItem="RFx-yV-n3y" firstAttribute="leading" secondItem="cI7-8g-Svu" secondAttribute="leading" id="wMa-Ik-oyy"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.080000000000000002"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNw-Gj-WDV">
+                                <rect key="frame" x="0.0" y="124" width="414" height="738"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hNM-2q-iiv"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="FNw-Gj-WDV" firstAttribute="top" secondItem="cI7-8g-Svu" secondAttribute="bottom" id="1N6-EM-Vcw"/>
+                            <constraint firstItem="cI7-8g-Svu" firstAttribute="top" secondItem="hNM-2q-iiv" secondAttribute="top" id="26Z-yv-9Ys"/>
+                            <constraint firstItem="hNM-2q-iiv" firstAttribute="trailing" secondItem="FNw-Gj-WDV" secondAttribute="trailing" id="Vso-IC-0T0"/>
+                            <constraint firstItem="FNw-Gj-WDV" firstAttribute="leading" secondItem="hNM-2q-iiv" secondAttribute="leading" id="YaN-kc-d9Z"/>
+                            <constraint firstItem="hNM-2q-iiv" firstAttribute="bottom" secondItem="FNw-Gj-WDV" secondAttribute="bottom" id="ba3-QC-ntK"/>
+                            <constraint firstItem="cI7-8g-Svu" firstAttribute="leading" secondItem="hNM-2q-iiv" secondAttribute="leading" id="gNX-tI-V3x"/>
+                            <constraint firstItem="hNM-2q-iiv" firstAttribute="trailing" secondItem="cI7-8g-Svu" secondAttribute="trailing" id="rKQ-Cu-bUZ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="buttonBack" destination="RFx-yV-n3y" id="RBG-cc-mF2"/>
+                        <outlet property="containerView" destination="FNw-Gj-WDV" id="Asq-eu-kVv"/>
+                        <outlet property="labelNavigationTitle" destination="u1N-Ml-3aC" id="thM-qR-VvH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hzS-PP-ERa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="796" y="82"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="BM8-gi-HG9">
+            <objects>
+                <viewController id="3fF-SH-MW7" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zcv-n3-jUX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="sNF-vw-mxx"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RnV-qc-KIV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1480" y="82"/>
+        </scene>
         <!--Scoreboard View Controller-->
         <scene sceneID="Ibs-Gj-wod">
             <objects>
@@ -141,7 +235,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="axu-7l-dDa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="867" y="82"/>
+            <point key="canvasLocation" x="2580" y="82"/>
         </scene>
         <!--Setting View Controller-->
         <scene sceneID="OuC-Ws-h0u">
@@ -165,10 +259,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZLe-Y6-ZPu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1636" y="82"/>
+            <point key="canvasLocation" x="3255" y="82"/>
         </scene>
     </scenes>
     <resources>
+        <image name="img_back_black" width="18.5" height="15.5"/>
         <image name="img_magnifying_glass" width="25" height="25.5"/>
         <namedColor name="Primary Text">
             <color red="0.21199999749660492" green="0.20399999618530273" blue="0.23899999260902405" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

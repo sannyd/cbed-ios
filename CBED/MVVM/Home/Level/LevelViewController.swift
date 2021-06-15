@@ -35,7 +35,7 @@ final class LevelViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-//        gradientViewHeight.constant += self.view.safeAreaInsets.top
+        //        gradientViewHeight.constant += self.view.safeAreaInsets.top
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,27 +50,38 @@ final class LevelViewController: UIViewController {
     // MARK: - Methods
     
     func bindViewModel() {
-        let input = LevelViewModel.Input(firstLoadTrigger: rxViewWillAppear,
-                                        levelTapped: collectionView.rxModelSelected())
+        let pullToRefreshTrigger = collectionView
+            .refreshControl!
+            .rx
+            .controlEvent(.valueChanged)
+            .asObservable()
+        
+        let input = LevelViewModel.Input(firstLoadTrigger: Observable.merge(pullToRefreshTrigger,
+                                                                            rxViewWillAppear),
+                                         levelTapped: collectionView.rxModelSelected())
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
             .levels
-            .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource))]
+            .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
+         output
+            .isLoading
+            .drive(onNext: { [weak self] isLoading in
+                if isLoading {
+                    self?.collectionView.refreshControl?.beginRefreshing()
+                } else {
+                    self?.collectionView.refreshControl?.endRefreshing()
+                }
+            })]
             .forEach { $0.disposed(by: disposeBag) }
     }
     
     private func setupCollectionView() {
-        let layout = UICollectionViewFlowLayout()
-             layout.scrollDirection = .vertical
-        collectionView = CommonCollectionView<CommonCollectionViewSection<LevelM>, LevelCell>(frame: .zero, collectionViewLayout: layout)
-        collectionView.cellHeight = 162
-        collectionView.cellWidth = UIScreen.main.bounds.width - 30 - 30
+        collectionView = CommonCollectionView<CommonCollectionViewSection<LevelM>, LevelCell>(cellHeight: 162,
+                                                                                              cellWidth: UIScreen.main.bounds.width - 30 - 30,
+                                                                                              lineSpacing: 30)
         collectionView.contentInset = .init(top: 20, left: 0, bottom: 30, right: 0)
         collectionView.backgroundColor = .white
-        collectionView.register(LevelCell.nib(),
-                                forCellWithReuseIdentifier: LevelCell.nibName())
-        
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
     }
@@ -91,7 +102,7 @@ class GradientBackgroundView: UIView {
     var gradientLayer: CAGradientLayer {
         return layer as! CAGradientLayer
     }
-
+    
     override open class var layerClass: AnyClass {
         return CAGradientLayer.classForCoder()
     }

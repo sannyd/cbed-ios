@@ -10,7 +10,7 @@ import RxSwift
 
 protocol LevelsUseCase {
     func getAllLevels() -> Single<[LevelM]>
-    func getLevelByID(_ id: String) -> Single<LevelM>
+    func getLevelByID(_ id: Int) -> Single<LevelDetailM>
 }
 
 extension LevelsUseCase {
@@ -18,13 +18,11 @@ extension LevelsUseCase {
         return APIClient
             .shared
             .request(LevelRouter.getAllLevels)
-            .debug()
     }
     
-    func getLevelByID(_ id: String) -> Single<LevelM> {
+    func getLevelByID(_ id: Int) -> Single<LevelDetailM> {
         return APIClient
             .shared
             .request(LevelRouter.getLevelByID(id))
-            .debug()
     }
 }

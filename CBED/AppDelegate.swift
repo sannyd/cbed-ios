@@ -9,6 +9,7 @@ import UIKit
 import GoogleSignIn
 import FBSDKCoreKit
 import FBSDKLoginKit
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         GIDSignIn.sharedInstance().clientID = "660482726170-lbmu7vtnugfrm6tb03oetv44361v7tci.apps.googleusercontent.com"
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.keyboardDistanceFromTextField = 120
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window

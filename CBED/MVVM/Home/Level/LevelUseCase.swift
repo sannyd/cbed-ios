@@ -9,7 +9,7 @@ import RxSwift
 
 protocol LevelUseCaseType {
     func getAllLevels() -> Single<[LevelM]>
-    func getLevelByID(_ id: String) -> Single<LevelM>
+    func getLevelByID(_ id: Int) -> Single<LevelDetailM>
 }
 
 struct LevelUseCase: LevelUseCaseType,

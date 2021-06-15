@@ -20,8 +20,8 @@ class TabBarViewController: UITabBarController {
         tabBar.layer.shadowOpacity = 0.08
         
         let levelVC: LevelViewController = StoryboardManager.instanceLevelVC()
-        levelVC.viewModel = .init(useCase: LevelUseCase(), navigator: LevelNavigator())
         let levelNav = UINavigationController(rootViewController: levelVC)
+        levelVC.viewModel = .init(useCase: LevelUseCase(), navigator: LevelNavigator(navigationController: levelNav))
         
         let scoreboardVC: ScoreboardViewController = StoryboardManager.instanceScoreboardVC()
         scoreboardVC.viewModel = .init(useCase: ScoreboardUseCase(), navigator: ScoreboardNavigator())

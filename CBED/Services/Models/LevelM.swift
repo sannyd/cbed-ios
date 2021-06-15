@@ -9,9 +9,6 @@ import Foundation
 
 struct LevelM: Decodable {
     let id: Int
-    let sections: [SectionM]?
-    let created: String?
-    let modified: String?
     let name: String?
     let order: Int?
 }

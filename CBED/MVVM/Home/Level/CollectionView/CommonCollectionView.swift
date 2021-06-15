@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxDataSources
 
-
 struct CommonCollectionViewSection<T> {
     var items: [Item]
 }
@@ -32,8 +31,9 @@ protocol CellType where Self: UICollectionViewCell {
 class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, UICollectionViewDelegateFlowLayout {
     private let disposeBag = DisposeBag()
     
-    var cellHeight: CGFloat!
-    var cellWidth: CGFloat!
+    private var cellHeight: CGFloat!
+    private var cellWidth: CGFloat!
+    private var lineSpacing: CGFloat!
     
     lazy var rxDatasource: RxCollectionViewSectionedReloadDataSource<T> = {
         return RxCollectionViewSectionedReloadDataSource<T> { datasource, collectionView, indexPath, item in
@@ -43,6 +43,18 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
             return cell
         }
     }()
+    
+    convenience init(cellHeight: CGFloat,
+                     cellWidth: CGFloat,
+                     lineSpacing: CGFloat) {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        self.init(frame: .zero, collectionViewLayout: layout)
+        
+        self.cellHeight = cellHeight
+        self.cellWidth = cellWidth
+        self.lineSpacing = lineSpacing
+    }
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -63,10 +75,19 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     }
     
     private func setupCollectionView() {
+        register(C.nib(), forCellWithReuseIdentifier: C.nibName())
         rx.setDelegate(self).disposed(by: disposeBag)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: cellWidth, height: cellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return lineSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
 }
