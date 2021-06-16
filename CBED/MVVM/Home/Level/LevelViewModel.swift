@@ -51,6 +51,9 @@ struct LevelViewModel: ViewModel {
             .getAllLevels()
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
+            .catch { _ in
+                return .never()
+            }
     }
     
     func fetchLevelByID(_ id: Int) -> Observable<LevelDetailM> {
@@ -58,5 +61,8 @@ struct LevelViewModel: ViewModel {
             .getLevelByID(id)
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
+            .catch { _ in
+                return .never()
+            }
     }
 }

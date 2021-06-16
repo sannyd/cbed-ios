@@ -10,25 +10,25 @@ import RxSwift
 import Foundation
 
 class NetworkLogger: EventMonitor {
-  //1
-  let queue = DispatchQueue(label: "com.cbed.networklogger")
-  //2
-  func requestDidFinish(_ request: Request) {
-    print(request.description)
-  }
-  //3
-  func request<Value>(
-    _ request: DataRequest,
-    didParseResponse response: DataResponse<Value, AFError>
-  ) {
-    guard let data = response.data else {
-      return
+    //1
+    let queue = DispatchQueue(label: "com.cbed.networklogger")
+    //2
+    func requestDidFinish(_ request: Request) {
+        print(request.description)
     }
-    if let json = try? JSONSerialization
-      .jsonObject(with: data, options: .mutableContainers) {
-        print(json)
+    //3
+    func request<Value>(
+        _ request: DataRequest,
+        didParseResponse response: DataResponse<Value, AFError>
+    ) {
+        guard let data = response.data else {
+            return
+        }
+        if let json = try? JSONSerialization
+            .jsonObject(with: data, options: .mutableContainers) {
+            print(json)
+        }
     }
-  }
 }
 
 
@@ -61,9 +61,12 @@ final class APIClient: SessionDelegate {
                         single(.success(result))
                     case .failure(let error):
                         let decoder = JSONDecoder()
-                        let serverError = try? decoder.decode(ServerError.self, from: response.data!)
-            
-                        single(.failure(serverError as! Error))
+                        if let data = response.data,
+                           let serverError = try? decoder.decode(ServerError.self, from: data) {
+                            single(.failure(serverError))
+                        } else {
+                            single(.failure(error))
+                        }
                     }
                 }
             

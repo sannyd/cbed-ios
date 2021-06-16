@@ -26,14 +26,12 @@ extension UIViewController {
 }
 
 struct ServerError: Error, Decodable {
-    let detail: String?
+    let detail: String
 }
 
 extension UIViewController {
     var errorBinding: Binder<Error> {
         return Binder(self, binding: { (vc, error) in
-            let aferror = error as? AFError
-            let nserror = (error as! NSError)
             if let serverError = error as? ServerError {
                 vc.showPopup(withTitle: "Error",
                              message: serverError.detail)

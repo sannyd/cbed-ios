@@ -13,11 +13,14 @@ import RxSwiftExt
 extension SectionsViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
+        let sectionTapped: Observable<SectionM>
     }
     
     struct Output {
         let sections: Driver<[CommonCollectionViewSection<SectionM>]>
         let navigationTitle: Driver<String>
+        let isLoading: Driver<Bool>
+        let error: Driver<Error>
     }
 }
 
@@ -46,8 +49,17 @@ struct SectionsViewModel: ViewModel {
             .unwrap()
             .asDriverOnErrorJustComplete()
         
+        input
+            .sectionTapped
+            .map(\.id)
+            .unwrap()
+            .subscribe(onNext: navigator.pushToSectionDetailVC(sectionID:))
+            .disposed(by: disposeBag)
+        
         return Output(sections: sections,
-                      navigationTitle: navigationTitle)
+                      navigationTitle: navigationTitle,
+                      isLoading: activityIndicator.asDriver(),
+                      error: errorTracker.asDriver())
     }
     
     private func fetchSectionsByLevelID() -> Observable<LevelDetailM> {

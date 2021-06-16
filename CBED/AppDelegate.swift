@@ -25,11 +25,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
-        let loginVC = StoryboardManager.instanceLoginVC()
-        let nav = UINavigationController(rootViewController: loginVC)
-        loginVC.viewModel = .init(useCase: LoginUseCase(), navigator: LoginNavigator(window: window))
-        window.rootViewController = nav
-        window.makeKeyAndVisible()
+        
+        if Storage.accessToken == nil {
+            let loginVC = StoryboardManager.instanceLoginVC()
+            let nav = UINavigationController(rootViewController: loginVC)
+            loginVC.viewModel = .init(useCase: LoginUseCase(), navigator: LoginNavigator(window: window))
+            window.rootViewController = nav
+            window.makeKeyAndVisible()
+        } else {
+            let tabbarVC = StoryboardManager.instanceTabBarVC()
+            window.rootViewController = tabbarVC
+            window.makeKeyAndVisible()
+        }
         
         return true
     }
@@ -41,6 +48,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         return FBSDKCoreKit.ApplicationDelegate.shared.application(app, open: url, options: options) ||
             GIDSignIn.sharedInstance().handle(url)
+    }
+    
+    func logout() {
+        guard let window = window else {
+            return
+        }
+        
+        Storage.removeAll()
+        
+        let loginVC = StoryboardManager.instanceLoginVC()
+        let nav = UINavigationController(rootViewController: loginVC)
+        loginVC.viewModel = .init(useCase: LoginUseCase(), navigator: LoginNavigator(window: window))
+        window.rootViewController = nav
+        window.makeKeyAndVisible()
     }
 }
 

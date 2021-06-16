@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 enum SectionRouter {
-    case getSectionByID(_ id: String)
+    case getSectionByID(_ id: Int)
 }
 
 // MARK: - TargetType: Moya compatible

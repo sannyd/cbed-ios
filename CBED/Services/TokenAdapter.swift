@@ -36,26 +36,27 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
         
         completion(.doNotRetryWithError(error))
         
-//        getNewAccessToken()
-//            .subscribe(onSuccess: { response in
-//                Storage.accessToken = response.access
-////                Storage.refreshToken = response.refresh
-//                completion(.retry)
-//            }, onFailure: { error in
-//                completion(.doNotRetryWithError(error))
-//            })
-//            .disposed(by: disposeBag)
+        getNewAccessToken()
+            .subscribe(onSuccess: { response in
+                Storage.accessToken = response.access
+                completion(.retry)
+            }, onFailure: { error in
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.logout()
+                completion(.doNotRetryWithError(error))
+            })
+            .disposed(by: disposeBag)
     }
     
-//    func getNewAccessToken() -> Single<RefreshTokenResponseM> {
-//        guard let refreshToken = Storage.refreshToken else {
-//            return .never()
-//        }
-//        return APIClient
-//            .shared
-//            .request(TokenRouter.refresh(params: ["refresh": refreshToken]))
-//            .catch { error in
-//                return .error(error)
-//            }
-//    }
+    func getNewAccessToken() -> Single<TokenRefreshResponseM> {
+        guard let refreshToken = Storage.refreshToken else {
+            return .never()
+        }
+        return APIClient
+            .shared
+            .request(AuthRouter.refreshToken(params: ["refresh": refreshToken]))
+            .catch { error in
+                return .error(error)
+            }
+    }
 }

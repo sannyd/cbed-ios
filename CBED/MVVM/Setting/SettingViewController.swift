@@ -13,6 +13,7 @@ final class SettingViewController: UIViewController {
     
     // MARK: - IBOutlets
     
+    @IBOutlet weak var buttonLogout: UIButton!
     // MARK: - Properties
     
     var viewModel: SettingViewModel!
@@ -22,6 +23,7 @@ final class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,5 +40,13 @@ final class SettingViewController: UIViewController {
     func bindViewModel() {
         let input = SettingViewModel.Input()
         let output = viewModel.transform(input, disposeBag: disposeBag)
+        
+        buttonLogout
+            .rxButtonTapped
+            .subscribe(onNext: { _ in
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.logout()
+            })
+            .disposed(by: disposeBag)
     }
 }

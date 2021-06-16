@@ -10,6 +10,7 @@ import UIKit
 struct StoryboardManager {
     static let LoginSB = UIStoryboard(name: "Login", bundle: nil)
     static let HomeSB = UIStoryboard(name: "Home", bundle: nil)
+    static let SettingSB = UIStoryboard(name: "Setting", bundle: nil)
     
     static func instanceLoginVC() -> LoginViewController {
         return LoginSB.instantiateViewController(withIdentifier: LoginViewController.getClassName()) as! LoginViewController
@@ -23,12 +24,16 @@ struct StoryboardManager {
         return HomeSB.instantiateViewController(withIdentifier: SectionsViewController.getClassName()) as! SectionsViewController
     }
     
+    static func instanceSectionDetailVC() -> SectionDetailViewController {
+        return HomeSB.instantiateViewController(withIdentifier: SectionDetailViewController.getClassName()) as! SectionDetailViewController
+    }
+    
     static func instanceScoreboardVC() -> ScoreboardViewController {
         return HomeSB.instantiateViewController(withIdentifier: ScoreboardViewController.getClassName()) as! ScoreboardViewController
     }
     
     static func instanceSettingVC() -> SettingViewController {
-        return HomeSB.instantiateViewController(withIdentifier: SettingViewController.getClassName()) as! SettingViewController
+        return SettingSB.instantiateViewController(withIdentifier: SettingViewController.getClassName()) as! SettingViewController
     }
     
     static func instanceTabBarVC() -> TabBarViewController {

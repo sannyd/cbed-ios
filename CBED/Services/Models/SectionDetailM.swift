@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct SectionDetailM: Codable {
+struct SectionDetailM: Decodable {
     let id: Int?
     let name: String?
     let lastResult: LastResultM?
     let isAvailable: Bool?
     let youtubeUrls: [String]?
     let pdfUrls: [String]?
-    let questions: [String]?
+    let questions: [QuestionM]?
 
     enum CodingKeys: String, CodingKey {
         case id = "id"

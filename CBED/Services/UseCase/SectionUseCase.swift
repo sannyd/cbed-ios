@@ -9,11 +9,11 @@ import Foundation
 import RxSwift
 
 protocol SectionAPIUseCase {
-    func getSectionByID(id: String) -> Single<SectionDetailM>
+    func getSectionByID(id: Int) -> Single<SectionDetailM>
 }
 
 extension SectionAPIUseCase {
-    func getSectionByID(id: String) -> Single<SectionDetailM> {
+    func getSectionByID(id: Int) -> Single<SectionDetailM> {
         return APIClient
             .shared
             .request(SectionRouter.getSectionByID(id))

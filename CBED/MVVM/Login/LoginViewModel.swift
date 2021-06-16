@@ -18,7 +18,6 @@ extension LoginViewModel {
         let buttonLoginTrigger: Observable<Void>
         let buttonFacebookTrigger: Observable<Void>
         let buttonGoogleTrigger: Observable<Void>
-        let buttonInstagramTrigger: Observable<Void>
     }
     
     struct Output {
@@ -65,6 +64,7 @@ struct LoginViewModel: ViewModel {
             .do(onNext: { response in
                 Storage.accessToken = response.token.access
                 Storage.refreshToken = response.token.refresh
+                APIClient.shared.readInterceptor()
             })
             .mapToVoid()
         
@@ -76,6 +76,7 @@ struct LoginViewModel: ViewModel {
             .do(onNext: { response in
                 Storage.accessToken = response.token.access
                 Storage.refreshToken = response.token.refresh
+                APIClient.shared.readInterceptor()
             })
             .mapToVoid()
         
@@ -87,6 +88,7 @@ struct LoginViewModel: ViewModel {
             .do(onNext: { response in
                 Storage.accessToken = response.token.access
                 Storage.refreshToken = response.token.refresh
+                APIClient.shared.readInterceptor()
             })
             .mapToVoid()
         
@@ -121,6 +123,9 @@ struct LoginViewModel: ViewModel {
             .rx
             .login(from: appDelegate.getCurrentViewController())
             .trackError(errorTracker)
+            .catch { _ in
+                return .never()
+            }
             .map { (SSOType.facebook, $0.tokenString) }
     }
     
@@ -130,6 +135,9 @@ struct LoginViewModel: ViewModel {
             .rx
             .signIn
             .trackError(self.errorTracker)
+            .catch { _ in
+                return .never()
+            }
             .map { user in (SSOType.google,
                             user.authentication.idToken) }
     }

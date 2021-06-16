@@ -21,6 +21,7 @@ protocol AuthUseCase {
                 password: String) -> Single<SignInResponseM>
     func singleSignOn(type: SSOType,
                       accessToken: String) -> Single<SingleSignOnResponseM>
+    func refreshToken(refreshToken: String) -> Single<TokenRefreshResponseM>
 }
 
 extension AuthUseCase {
@@ -46,5 +47,11 @@ extension AuthUseCase {
             .shared
             .request(AuthRouter.singleSignOn(params: ["sso_type": type.rawValue,
                                                       "access_token": accessToken]))
+    }
+    
+    func refreshToken(refreshToken: String) -> Single<TokenRefreshResponseM> {
+        return APIClient
+            .shared
+            .request(AuthRouter.refreshToken(params: ["refresh": refreshToken]))
     }
 }
