@@ -26,16 +26,22 @@ extension SectionDetailViewModel {
     }
     
     struct Output {
+        let sectionInfo: Driver<SectionInfo>
         let usefulLinks: Driver<[CommonCollectionViewSection<UsefulLink>]>
         let isLoading: Driver<Bool>
         let error: Driver<Error>
     }
 }
 
+struct SectionInfo {
+    let sectionID: Int
+    let levelTitle: String
+}
+
 struct SectionDetailViewModel: ViewModel {
     let useCase: SectionDetailUseCaseType
     let navigator: SectionDetailNavigatorType
-    let sectionID: Int
+    let sectionInfo: SectionInfo
     
     private let errorTracker = ErrorTracker()
     private let activityIndicator = ActivityIndicator()
@@ -62,14 +68,22 @@ struct SectionDetailViewModel: ViewModel {
             .map { [CommonCollectionViewSection(items: $0)] }
             .asDriver(onErrorJustReturn: [])
         
-        return Output(usefulLinks: usefulLinks,
+        input
+            .usefulLinkTapped
+            .map(\.url)
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: navigator.pushToPreviewWebView(usefulLinkURL:))
+            .disposed(by: disposeBag)
+        
+        return Output(sectionInfo: .just(sectionInfo),
+                      usefulLinks: usefulLinks,
                       isLoading: activityIndicator.asDriver(),
                       error: errorTracker.asDriver())
     }
     
     private func fetchSectionDetail() -> Observable<SectionDetailM> {
         return self.useCase
-            .getSectionByID(id: sectionID)
+            .getSectionByID(id: sectionInfo.sectionID)
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
             .catch { _ in

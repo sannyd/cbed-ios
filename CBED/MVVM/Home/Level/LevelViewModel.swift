@@ -37,8 +37,9 @@ struct LevelViewModel: ViewModel {
         
         input
             .levelTapped
-            .map(\.id)
-            .subscribe(onNext: navigator.pushToSectionsVC(levelID:))
+            .map { ($0.id, $0.name ?? "") }
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: navigator.pushToSectionsVC(levelID:levelTitle:))
             .disposed(by: disposeBag)
         
         return Output(levels: levels.asDriver(onErrorJustReturn: []),

@@ -16,6 +16,7 @@ final class SectionDetailViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var labelSectionName: UILabel!
     @IBOutlet weak var buttonBack: UIButton!
+    @IBOutlet weak var buttonStart: CustomBorderButton!
     
     // MARK: - Properties
     
@@ -46,6 +47,11 @@ final class SectionDetailViewController: UIViewController {
         [output
             .usefulLinks
             .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
+         output
+            .sectionInfo
+            .drive(onNext: { [weak self] sectionInfo in
+                self?.labelSectionName.text = sectionInfo.levelTitle
+            }),
          output
             .isLoading
             .drive(LoadingIndicatorView.rx.isAnimating),

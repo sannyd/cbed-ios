@@ -51,6 +51,16 @@
 		185B0645267A582300A17664 /* UsefulLinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0643267A582300A17664 /* UsefulLinkCell.swift */; };
 		185B0646267A582300A17664 /* UsefulLinkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185B0644267A582300A17664 /* UsefulLinkCell.xib */; };
 		185B0648267A67FE00A17664 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 185B0647267A67FE00A17664 /* Setting.storyboard */; };
+		185B064E267B994400A17664 /* PreviewWebViewNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B064A267B994400A17664 /* PreviewWebViewNavigator.swift */; };
+		185B064F267B994400A17664 /* PreviewWebViewUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B064B267B994400A17664 /* PreviewWebViewUseCase.swift */; };
+		185B0650267B994400A17664 /* PreviewWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B064C267B994400A17664 /* PreviewWebViewViewController.swift */; };
+		185B0651267B994400A17664 /* PreviewWebViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B064D267B994400A17664 /* PreviewWebViewViewModel.swift */; };
+		185B0657267BAB8A00A17664 /* ExamNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0653267BAB8A00A17664 /* ExamNavigator.swift */; };
+		185B0658267BAB8A00A17664 /* ExamUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0654267BAB8A00A17664 /* ExamUseCase.swift */; };
+		185B0659267BAB8A00A17664 /* ExamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0655267BAB8A00A17664 /* ExamViewController.swift */; };
+		185B065A267BAB8A00A17664 /* ExamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0656267BAB8A00A17664 /* ExamViewModel.swift */; };
+		185B065D267BB6AE00A17664 /* CustomAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185B065B267BB6AE00A17664 /* CustomAlertView.xib */; };
+		185B065E267BB6AE00A17664 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B065C267BB6AE00A17664 /* CustomAlertView.swift */; };
 		185F8760266CC84800A63898 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F875F266CC84800A63898 /* AppDelegate.swift */; };
 		185F8764266CC84800A63898 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F8763266CC84800A63898 /* LoginViewController.swift */; };
 		185F8769266CC84A00A63898 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 185F8768266CC84A00A63898 /* Assets.xcassets */; };
@@ -153,6 +163,16 @@
 		185B0643267A582300A17664 /* UsefulLinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsefulLinkCell.swift; sourceTree = "<group>"; };
 		185B0644267A582300A17664 /* UsefulLinkCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UsefulLinkCell.xib; sourceTree = "<group>"; };
 		185B0647267A67FE00A17664 /* Setting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
+		185B064A267B994400A17664 /* PreviewWebViewNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewWebViewNavigator.swift; sourceTree = "<group>"; };
+		185B064B267B994400A17664 /* PreviewWebViewUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewWebViewUseCase.swift; sourceTree = "<group>"; };
+		185B064C267B994400A17664 /* PreviewWebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewWebViewViewController.swift; sourceTree = "<group>"; };
+		185B064D267B994400A17664 /* PreviewWebViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewWebViewViewModel.swift; sourceTree = "<group>"; };
+		185B0653267BAB8A00A17664 /* ExamNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamNavigator.swift; sourceTree = "<group>"; };
+		185B0654267BAB8A00A17664 /* ExamUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamUseCase.swift; sourceTree = "<group>"; };
+		185B0655267BAB8A00A17664 /* ExamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamViewController.swift; sourceTree = "<group>"; };
+		185B0656267BAB8A00A17664 /* ExamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamViewModel.swift; sourceTree = "<group>"; };
+		185B065B267BB6AE00A17664 /* CustomAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlertView.xib; sourceTree = "<group>"; };
+		185B065C267BB6AE00A17664 /* CustomAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		185F875C266CC84800A63898 /* CBED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBED.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		185F875F266CC84800A63898 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		185F8763266CC84800A63898 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -230,10 +250,12 @@
 		185B05E12676113C00A17664 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				185B06242677C28400A17664 /* Section */,
 				185B062D2677C2A000A17664 /* Level */,
-				185B061026762F1A00A17664 /* TabBarViewController.swift */,
+				185B06242677C28400A17664 /* Section */,
 				185B0641267A518100A17664 /* Section Detail */,
+				185B0649267B990B00A17664 /* PreviewWebView */,
+				185B0652267BAB5F00A17664 /* Exam */,
+				185B061026762F1A00A17664 /* TabBarViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -249,6 +271,8 @@
 		185B060B26761F2D00A17664 /* CommonViews */ = {
 			isa = PBXGroup;
 			children = (
+				185B065C267BB6AE00A17664 /* CustomAlertView.swift */,
+				185B065B267BB6AE00A17664 /* CustomAlertView.xib */,
 				185F87B32674B43E00A63898 /* Custom Loading Indicator */,
 				185F87932672796000A63898 /* CustomBorderButton.swift */,
 				185B060C26761F3B00A17664 /* CustomBorderView.swift */,
@@ -340,6 +364,28 @@
 				185B0644267A582300A17664 /* UsefulLinkCell.xib */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		185B0649267B990B00A17664 /* PreviewWebView */ = {
+			isa = PBXGroup;
+			children = (
+				185B064A267B994400A17664 /* PreviewWebViewNavigator.swift */,
+				185B064B267B994400A17664 /* PreviewWebViewUseCase.swift */,
+				185B064C267B994400A17664 /* PreviewWebViewViewController.swift */,
+				185B064D267B994400A17664 /* PreviewWebViewViewModel.swift */,
+			);
+			path = PreviewWebView;
+			sourceTree = "<group>";
+		};
+		185B0652267BAB5F00A17664 /* Exam */ = {
+			isa = PBXGroup;
+			children = (
+				185B0653267BAB8A00A17664 /* ExamNavigator.swift */,
+				185B0654267BAB8A00A17664 /* ExamUseCase.swift */,
+				185B0655267BAB8A00A17664 /* ExamViewController.swift */,
+				185B0656267BAB8A00A17664 /* ExamViewModel.swift */,
+			);
+			path = Exam;
 			sourceTree = "<group>";
 		};
 		185F8753266CC84800A63898 = {
@@ -634,6 +680,7 @@
 				185B0646267A582300A17664 /* UsefulLinkCell.xib in Resources */,
 				185F87892672764800A63898 /* Lato-LightItalic.ttf in Resources */,
 				185F878A2672764800A63898 /* Lato-Thin.ttf in Resources */,
+				185B065D267BB6AE00A17664 /* CustomAlertView.xib in Resources */,
 				185B060A26761ECD00A17664 /* Home.storyboard in Resources */,
 				185F878E2672764800A63898 /* Lato-BlackItalic.ttf in Resources */,
 				185B0648267A67FE00A17664 /* Setting.storyboard in Resources */,
@@ -727,6 +774,7 @@
 				185B05ED267615A600A17664 /* LevelViewModel.swift in Sources */,
 				185B05FB2676190E00A17664 /* QuestionM.swift in Sources */,
 				185F87BA2674B43E00A63898 /* CAPropertyAnimation+Key.swift in Sources */,
+				185B065E267BB6AE00A17664 /* CustomAlertView.swift in Sources */,
 				185F87962673C28C00A63898 /* Facebook+Reactive.swift in Sources */,
 				185B05EC267615A600A17664 /* LevelViewController.swift in Sources */,
 				FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */,
@@ -744,29 +792,36 @@
 				185F8764266CC84800A63898 /* LoginViewController.swift in Sources */,
 				185B06292677C29500A17664 /* SectionNavigator.swift in Sources */,
 				FFD5770A2673701A00CC9CF1 /* Constants.swift in Sources */,
+				185B064F267B994400A17664 /* PreviewWebViewUseCase.swift in Sources */,
 				185F87942672796000A63898 /* CustomBorderButton.swift in Sources */,
 				185B05EF267615E400A17664 /* LevelRouter.swift in Sources */,
 				185B0640267A516F00A17664 /* SectionDetailViewModel.swift in Sources */,
 				185B05F5267616F000A17664 /* LevelsUseCase.swift in Sources */,
+				185B0651267B994400A17664 /* PreviewWebViewViewModel.swift in Sources */,
 				185B05F12676168D00A17664 /* SectionRouter.swift in Sources */,
 				185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */,
 				185B061A26762F5E00A17664 /* ScoreboardViewModel.swift in Sources */,
+				185B065A267BAB8A00A17664 /* ExamViewModel.swift in Sources */,
 				FFD5770226736FDC00CC9CF1 /* APIClient.swift in Sources */,
 				185B063F267A516F00A17664 /* SectionDetailViewController.swift in Sources */,
 				FFD57719267371A300CC9CF1 /* ObservableType+.swift in Sources */,
+				185B0657267BAB8A00A17664 /* ExamNavigator.swift in Sources */,
 				185F87AF2674A0A300A63898 /* StoryboardManager.swift in Sources */,
 				185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */,
 				185F87B92674B43E00A63898 /* CGRect+Center.swift in Sources */,
 				185B061826762F5E00A17664 /* ScoreboardUseCase.swift in Sources */,
 				185B05EB267615A600A17664 /* LevelUseCase.swift in Sources */,
 				185B062A2677C29500A17664 /* SectionsUseCase.swift in Sources */,
+				185B064E267B994400A17664 /* PreviewWebViewNavigator.swift in Sources */,
 				185B062C2677C29500A17664 /* SectionsViewModel.swift in Sources */,
 				185F87A8267494C400A63898 /* Button+.swift in Sources */,
+				185B0658267BAB8A00A17664 /* ExamUseCase.swift in Sources */,
 				185F879B2674540300A63898 /* AuthUseCase.swift in Sources */,
 				185F87A62674949200A63898 /* UIView+.swift in Sources */,
 				FFD576F72673681C00CC9CF1 /* UIAlertHelper.swift in Sources */,
 				185B062B2677C29500A17664 /* SectionViewController.swift in Sources */,
 				185B061726762F5E00A17664 /* ScoreboardNavigator.swift in Sources */,
+				185B0659267BAB8A00A17664 /* ExamViewController.swift in Sources */,
 				FFD576FB2673682B00CC9CF1 /* SwiftLogger.swift in Sources */,
 				185B05EA267615A600A17664 /* LevelNavigator.swift in Sources */,
 				FFD576F92673682700CC9CF1 /* BaseViewModel.swift in Sources */,
@@ -785,6 +840,7 @@
 				FFD577112673710400CC9CF1 /* ErrorTracker.swift in Sources */,
 				185F87A22674743C00A63898 /* LoginUseCase.swift in Sources */,
 				185B062126762F7C00A17664 /* SettingUseCase.swift in Sources */,
+				185B0650267B994400A17664 /* PreviewWebViewViewController.swift in Sources */,
 				185B062226762F7C00A17664 /* SettingViewController.swift in Sources */,
 				185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */,
 				FFD577132673712C00CC9CF1 /* UIColor+.swift in Sources */,

@@ -34,8 +34,6 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
             return completion(.doNotRetry)
         }
         
-        completion(.doNotRetryWithError(error))
-        
         getNewAccessToken()
             .subscribe(onSuccess: { response in
                 Storage.accessToken = response.access

@@ -8,17 +8,20 @@
 import UIKit
 
 protocol LevelNavigatorType {
-    func pushToSectionsVC(levelID: Int)
+    func pushToSectionsVC(levelID: Int,
+                          levelTitle: String)
 }
 
 struct LevelNavigator: LevelNavigatorType {
     unowned let navigationController: UINavigationController
     
-    func pushToSectionsVC(levelID: Int) {
+    func pushToSectionsVC(levelID: Int,
+                          levelTitle: String) {
         let sectionsVC = StoryboardManager.instanceSectionsVC()
         sectionsVC.viewModel = .init(useCase: SectionsUseCase(),
                                      navigator: SectionsNavigator(navigationController: navigationController),
-                                     levelID: levelID)
+                                     levelID: levelID,
+                                     levelTitle: levelTitle)
         navigationController.pushViewController(sectionsVC, animated: true)
     }
 }

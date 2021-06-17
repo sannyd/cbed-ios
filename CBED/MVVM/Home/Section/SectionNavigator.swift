@@ -8,17 +8,17 @@
 import UIKit
 
 protocol SectionsNavigatorType {
-    func pushToSectionDetailVC(sectionID: Int)
+    func pushToSectionDetailVC(sectionInfo: SectionInfo)
 }
 
 struct SectionsNavigator: SectionsNavigatorType {
     unowned let navigationController: UINavigationController
     
-    func pushToSectionDetailVC(sectionID: Int) {
+    func pushToSectionDetailVC(sectionInfo: SectionInfo) {
         let sectionDetailVC = StoryboardManager.instanceSectionDetailVC()
         sectionDetailVC.viewModel = .init(useCase: SectionDetailUseCase(),
                                           navigator: SectionDetailNavigator(navigationController: navigationController),
-                                          sectionID: sectionID)
+                                          sectionInfo: sectionInfo)
         navigationController.pushViewController(sectionDetailVC, animated: true)
     }
 }

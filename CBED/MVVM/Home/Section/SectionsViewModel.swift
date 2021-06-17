@@ -28,6 +28,7 @@ struct SectionsViewModel: ViewModel {
     let useCase: SectionsUseCaseType
     let navigator: SectionsNavigatorType
     let levelID: Int
+    let levelTitle: String
     
     private let errorTracker = ErrorTracker()
     private let activityIndicator = ActivityIndicator()
@@ -44,20 +45,14 @@ struct SectionsViewModel: ViewModel {
             .map { [CommonCollectionViewSection(items: $0)] }
             .asDriver(onErrorJustReturn: [])
         
-        let navigationTitle = fetchLevelDetail
-            .map(\.name)
-            .unwrap()
-            .asDriverOnErrorJustComplete()
-        
         input
             .sectionTapped
-            .map(\.id)
-            .unwrap()
-            .subscribe(onNext: navigator.pushToSectionDetailVC(sectionID:))
+            .map { SectionInfo(sectionID: $0.id, levelTitle: $0.name ?? "") }
+            .subscribe(onNext: navigator.pushToSectionDetailVC(sectionInfo:))
             .disposed(by: disposeBag)
         
         return Output(sections: sections,
-                      navigationTitle: navigationTitle,
+                      navigationTitle: .just(levelTitle),
                       isLoading: activityIndicator.asDriver(),
                       error: errorTracker.asDriver())
     }

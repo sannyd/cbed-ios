@@ -8,14 +8,14 @@
 import Foundation
 
 struct LevelDetailM: Codable {
-    let id: Int?
+    let id: Int
     let name: String?
     let sections: [SectionM]?
 }
 
 // MARK: - Section
 struct SectionM: Codable {
-    let id: Int?
+    let id: Int
     let name: String?
     let lastResult: LastResultM?
     let isAvailable: Bool?

@@ -39,6 +39,10 @@ struct StoryboardManager {
     static func instanceTabBarVC() -> TabBarViewController {
         return HomeSB.instantiateViewController(withIdentifier: TabBarViewController.getClassName()) as! TabBarViewController
     }
+    
+    static func instancePreviewWebViewVC() -> PreviewWebViewViewController {
+        return HomeSB.instantiateViewController(withIdentifier: PreviewWebViewViewController.getClassName()) as! PreviewWebViewViewController
+    }
 }
 
 extension NSObject {

@@ -33,7 +33,6 @@ enum LogEvent: String {
 func print(_ object: Any) {
     // Only allowing in DEBUG mode
     Swift.print(object)
-    
     #if DEBUG_DEV
     Swift.print(object)
     #elseif DEBUG_INT
@@ -100,7 +99,19 @@ class Log {
     ///   - funcName: Name of the function from where the logging is done
     class func d( _ object: Any, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function) {
         if isLoggingEnabled {
-            print("\(Date().toString()) \(LogEvent.d.rawValue)[\(sourceFileName(filePath: filename))]:\(line) \(column) \(funcName) -> \(object)")
+            print("\(Date().toString()) \(LogEvent.d.rawValue)[\(sourceFileName(filePath: filename))] \(funcName)\n--> \(object)\n================================================================================================================")
+        }
+    }
+    
+    class func networkRequest(_ object: Any) {
+        if isLoggingEnabled {
+            print("🌐🌐🌐 Request:\n\(object)\n")
+        }
+    }
+    
+    class func networkRepsonse(_ object: Any) {
+        if isLoggingEnabled {
+            print("📦📦📦 Response:\n\(object)\n================================================================================================================")
         }
     }
     

@@ -14,9 +14,9 @@ class NetworkLogger: EventMonitor {
     let queue = DispatchQueue(label: "com.cbed.networklogger")
     //2
     func requestDidFinish(_ request: Request) {
-        print(request.description)
+        Log.networkRequest(request.description)
     }
-    //3
+    
     func request<Value>(
         _ request: DataRequest,
         didParseResponse response: DataResponse<Value, AFError>
@@ -26,7 +26,7 @@ class NetworkLogger: EventMonitor {
         }
         if let json = try? JSONSerialization
             .jsonObject(with: data, options: .mutableContainers) {
-            print(json)
+            Log.networkRepsonse(json)
         }
     }
 }
