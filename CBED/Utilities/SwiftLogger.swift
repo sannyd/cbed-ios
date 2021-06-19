@@ -52,6 +52,7 @@ class Log {
     }
     
     private static var isLoggingEnabled: Bool {
+        return true
         #if DEBUG_PROD
         return false
         #else

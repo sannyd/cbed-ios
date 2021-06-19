@@ -336,10 +336,10 @@
             </objects>
             <point key="canvasLocation" x="1478.2608695652175" y="81.696428571428569"/>
         </scene>
-        <!--View Controller-->
+        <!--Exam View Controller-->
         <scene sceneID="trb-Ar-gcb">
             <objects>
-                <viewController id="BSv-sy-Fyd" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ExamViewController" id="BSv-sy-Fyd" customClass="ExamViewController" customModule="CBED" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t9F-aA-JmH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -499,6 +499,11 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
                             <constraint firstItem="LYd-xo-cUn" firstAttribute="top" secondItem="MpL-2U-y9r" secondAttribute="bottom" id="wEw-oi-2HK"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="labelQuestion" destination="skX-3s-XK8" id="kv1-Jg-ob9"/>
+                        <outlet property="labelSubtitle" destination="Dyt-eG-zJW" id="MMG-Y3-ZEI"/>
+                        <outlet property="labelTitle" destination="VMD-MT-DXw" id="pD4-FT-hSb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2WI-9c-To5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

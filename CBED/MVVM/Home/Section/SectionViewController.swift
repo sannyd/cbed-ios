@@ -75,9 +75,7 @@ final class SectionsViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        collectionView = CommonCollectionView<CommonCollectionViewSection<SectionM>, SectionCell>(cellHeight: 80,
-                                                                                                  cellWidth: UIScreen.main.bounds.width - 30 - 30,
-                                                                                                  lineSpacing: 14)
+        collectionView = CommonCollectionView<CommonCollectionViewSection<SectionM>, SectionCell>(lineSpacing: 14)
         collectionView.contentInset = .init(top: 20,
                                             left: 0,
                                             bottom: 30,

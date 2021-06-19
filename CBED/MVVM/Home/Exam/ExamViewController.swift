@@ -12,6 +12,9 @@ import RxCocoa
 final class ExamViewController: UIViewController {
     
     // MARK: - IBOutlets
+    @IBOutlet weak var labelTitle: UILabel!
+    @IBOutlet weak var labelSubtitle: UILabel!
+    @IBOutlet weak var labelQuestion: UILabel!
     
     // MARK: - Properties
     
@@ -31,7 +34,10 @@ final class ExamViewController: UIViewController {
     // MARK: - Methods
     
     func bindViewModel() {
-        let input = ExamViewModel.Input()
+        let input = ExamViewModel.Input(firstLoadTrigger: rxViewWillAppear,
+                                        answerTapped: .empty(),
+                                        correctAlertTapped: .empty(),
+                                        wrongAlertTapped: .empty())
         let output = viewModel.transform(input, disposeBag: disposeBag)
     }
 }

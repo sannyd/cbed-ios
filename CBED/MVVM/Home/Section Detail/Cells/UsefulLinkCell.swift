@@ -8,11 +8,20 @@
 import UIKit
 
 class UsefulLinkCell: UICollectionViewCell, CellType {
-    typealias T = UsefulLink
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelLink: UILabel!
+    
+    typealias T = UsefulLink
 
+    var cellHeight: CGFloat {
+        return 70
+    }
+    
+    var cellWidth: CGFloat {
+        return UIScreen.main.bounds.width - 30 - 30
+    }
+    
     func populateData(_ data: UsefulLink) {
         switch data.type {
         case .video:

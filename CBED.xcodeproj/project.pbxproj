@@ -61,6 +61,9 @@
 		185B065A267BAB8A00A17664 /* ExamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0656267BAB8A00A17664 /* ExamViewModel.swift */; };
 		185B065D267BB6AE00A17664 /* CustomAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185B065B267BB6AE00A17664 /* CustomAlertView.xib */; };
 		185B065E267BB6AE00A17664 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B065C267BB6AE00A17664 /* CustomAlertView.swift */; };
+		185B0660267DE58600A17664 /* BaseNibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B065F267DE58600A17664 /* BaseNibView.swift */; };
+		185B0664267DF15100A17664 /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0662267DF15100A17664 /* AnswerCell.swift */; };
+		185B0665267DF15100A17664 /* AnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185B0663267DF15100A17664 /* AnswerCell.xib */; };
 		185F8760266CC84800A63898 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F875F266CC84800A63898 /* AppDelegate.swift */; };
 		185F8764266CC84800A63898 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F8763266CC84800A63898 /* LoginViewController.swift */; };
 		185F8769266CC84A00A63898 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 185F8768266CC84A00A63898 /* Assets.xcassets */; };
@@ -173,6 +176,9 @@
 		185B0656267BAB8A00A17664 /* ExamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamViewModel.swift; sourceTree = "<group>"; };
 		185B065B267BB6AE00A17664 /* CustomAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlertView.xib; sourceTree = "<group>"; };
 		185B065C267BB6AE00A17664 /* CustomAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
+		185B065F267DE58600A17664 /* BaseNibView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNibView.swift; sourceTree = "<group>"; };
+		185B0662267DF15100A17664 /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
+		185B0663267DF15100A17664 /* AnswerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerCell.xib; sourceTree = "<group>"; };
 		185F875C266CC84800A63898 /* CBED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBED.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		185F875F266CC84800A63898 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		185F8763266CC84800A63898 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -271,6 +277,7 @@
 		185B060B26761F2D00A17664 /* CommonViews */ = {
 			isa = PBXGroup;
 			children = (
+				185B065F267DE58600A17664 /* BaseNibView.swift */,
 				185B065C267BB6AE00A17664 /* CustomAlertView.swift */,
 				185B065B267BB6AE00A17664 /* CustomAlertView.xib */,
 				185F87B32674B43E00A63898 /* Custom Loading Indicator */,
@@ -380,12 +387,22 @@
 		185B0652267BAB5F00A17664 /* Exam */ = {
 			isa = PBXGroup;
 			children = (
+				185B0661267DF13400A17664 /* Cells */,
 				185B0653267BAB8A00A17664 /* ExamNavigator.swift */,
 				185B0654267BAB8A00A17664 /* ExamUseCase.swift */,
 				185B0655267BAB8A00A17664 /* ExamViewController.swift */,
 				185B0656267BAB8A00A17664 /* ExamViewModel.swift */,
 			);
 			path = Exam;
+			sourceTree = "<group>";
+		};
+		185B0661267DF13400A17664 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				185B0662267DF15100A17664 /* AnswerCell.swift */,
+				185B0663267DF15100A17664 /* AnswerCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		185F8753266CC84800A63898 = {
@@ -694,6 +711,7 @@
 				185F878D2672764800A63898 /* Lato-Regular.ttf in Resources */,
 				185F878B2672764800A63898 /* Lato-Bold.ttf in Resources */,
 				185F87902672764800A63898 /* Lato-BoldItalic.ttf in Resources */,
+				185B0665267DF15100A17664 /* AnswerCell.xib in Resources */,
 				185F87912672764800A63898 /* Lato-Light.ttf in Resources */,
 				185B06342677C2FE00A17664 /* SectionCell.xib in Resources */,
 			);
@@ -801,6 +819,7 @@
 				185B05F12676168D00A17664 /* SectionRouter.swift in Sources */,
 				185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */,
 				185B061A26762F5E00A17664 /* ScoreboardViewModel.swift in Sources */,
+				185B0660267DE58600A17664 /* BaseNibView.swift in Sources */,
 				185B065A267BAB8A00A17664 /* ExamViewModel.swift in Sources */,
 				FFD5770226736FDC00CC9CF1 /* APIClient.swift in Sources */,
 				185B063F267A516F00A17664 /* SectionDetailViewController.swift in Sources */,
@@ -814,6 +833,7 @@
 				185B062A2677C29500A17664 /* SectionsUseCase.swift in Sources */,
 				185B064E267B994400A17664 /* PreviewWebViewNavigator.swift in Sources */,
 				185B062C2677C29500A17664 /* SectionsViewModel.swift in Sources */,
+				185B0664267DF15100A17664 /* AnswerCell.swift in Sources */,
 				185F87A8267494C400A63898 /* Button+.swift in Sources */,
 				185B0658267BAB8A00A17664 /* ExamUseCase.swift in Sources */,
 				185F879B2674540300A63898 /* AuthUseCase.swift in Sources */,

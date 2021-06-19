@@ -10,8 +10,17 @@ import UIKit
 class LevelCell: UICollectionViewCell, CellType {
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelNumberOfQuestion: UILabel!
+    
     typealias T = LevelM
 
+    var cellHeight: CGFloat {
+        return 162
+    }
+    
+    var cellWidth: CGFloat {
+        return UIScreen.main.bounds.width - 30 - 30
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

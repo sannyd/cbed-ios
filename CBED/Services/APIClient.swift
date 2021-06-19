@@ -42,7 +42,7 @@ final class APIClient: SessionDelegate {
             let interceptor = JWTAccessTokenAdapter(accessToken: accessToken)
             sessionManager = Session(interceptor: interceptor, eventMonitors: [monitor])
         } else {
-            sessionManager = Session()
+            sessionManager = Session(eventMonitors: [monitor])
         }
     }
     
@@ -105,11 +105,12 @@ final class APIClient: SessionDelegate {
     func readInterceptor() {
         sessionManager = nil
         sessionManager?.cancelAllRequests()
+        let monitor = NetworkLogger()
         if let accessToken = Storage.accessToken {
             let interceptor = JWTAccessTokenAdapter(accessToken: accessToken)
-            sessionManager = Session(interceptor: interceptor)
+            sessionManager = Session(interceptor: interceptor, eventMonitors: [monitor])
         } else {
-            sessionManager = Session()
+            sessionManager = Session(eventMonitors: [monitor])
         }
     }
 }

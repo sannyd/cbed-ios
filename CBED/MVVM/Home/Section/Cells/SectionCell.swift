@@ -8,10 +8,19 @@
 import UIKit
 
 class SectionCell: UICollectionViewCell, CellType {
-    typealias T = SectionM
     @IBOutlet weak var sectionImageView: UIImageView!
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var labelSubtitle: UILabel!
+    
+    typealias T = SectionM
+    
+    var cellHeight: CGFloat {
+        return 80
+    }
+    
+    var cellWidth: CGFloat {
+        return UIScreen.main.bounds.width - 30 - 30
+    }
     
     func populateData(_ data: SectionM) {
         labelTitle.text = data.name

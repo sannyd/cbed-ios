@@ -24,6 +24,10 @@ extension CommonCollectionViewSection: SectionModelType {
 
 protocol CellType where Self: UICollectionViewCell {
     associatedtype T
+    
+    var cellHeight: CGFloat { get }
+    var cellWidth: CGFloat { get }
+    
     func populateData(_ data: T)
 }
 
@@ -44,15 +48,11 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
         }
     }()
     
-    convenience init(cellHeight: CGFloat,
-                     cellWidth: CGFloat,
-                     lineSpacing: CGFloat) {
+    convenience init(lineSpacing: CGFloat) {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         self.init(frame: .zero, collectionViewLayout: layout)
         
-        self.cellHeight = cellHeight
-        self.cellWidth = cellWidth
         self.lineSpacing = lineSpacing
     }
     
@@ -80,7 +80,9 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: cellWidth, height: cellHeight)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as! C
+        return .init(width: cell.cellWidth,
+                     height: cell.cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

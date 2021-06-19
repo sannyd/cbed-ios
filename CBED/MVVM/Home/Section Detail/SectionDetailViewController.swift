@@ -68,9 +68,7 @@ final class SectionDetailViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        collectionView = CommonCollectionView<CommonCollectionViewSection<UsefulLink>, UsefulLinkCell>(cellHeight: 70,
-                                                                                                       cellWidth: UIScreen.main.bounds.width - 30 - 30,
-                                                                                                       lineSpacing: 14)
+        collectionView = CommonCollectionView<CommonCollectionViewSection<UsefulLink>, UsefulLinkCell>(lineSpacing: 14)
         collectionView.contentInset = .init(top: 20,
                                             left: 0,
                                             bottom: 30,

@@ -33,7 +33,7 @@ extension AuthRouter: URLRequestConvertible {
         case  .singleSignOn:
             return "/single_sign_on"
         case .refreshToken:
-            return "/token-refresh/"
+            return "/token-refresh"
         }
     }
     

@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol CDCustomAlertViewDelegate: class {
+protocol CDCustomAlertViewDelegate: AnyObject {
     func didTapYes()
     func didTapNo()
 }
@@ -31,12 +31,12 @@ class CustomAlertView: BaseNibView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        loadContentViewWithNib(nibName: CDCustomAlertView.nibName())
+        loadContentViewWithNib(nibName: CustomAlertView.nibName())
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        loadContentViewWithNib(nibName: CDCustomAlertView.nibName())
+        loadContentViewWithNib(nibName: CustomAlertView.nibName())
     }
 
     func setupAlertView(title: String?,
