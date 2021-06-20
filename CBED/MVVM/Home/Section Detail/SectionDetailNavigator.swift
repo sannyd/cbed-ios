@@ -9,6 +9,7 @@ import UIKit
 
 protocol SectionDetailNavigatorType {
     func pushToPreviewWebView(usefulLinkURL: String)
+    func pushToExamVC(sectionDetail: SectionDetailM)
 }
 
 struct SectionDetailNavigator: SectionDetailNavigatorType {
@@ -20,5 +21,13 @@ struct SectionDetailNavigator: SectionDetailNavigatorType {
                                     navigator: PreviewWebViewNavigator(),
                                     usefulLinkURL: usefulLinkURL)
         navigationController.pushViewController(previewVC, animated: true)
+    }
+    
+    func pushToExamVC(sectionDetail: SectionDetailM) {
+        let examVC: ExamViewController = StoryboardManager.getVCFromHomeSB()
+        examVC.viewModel = .init(useCase: ExamUseCase(),
+                                 navigator: ExamNavigator(navigationController: navigationController),
+                                 sectionDetail: sectionDetail)
+        navigationController.pushViewController(examVC, animated: true)
     }
 }

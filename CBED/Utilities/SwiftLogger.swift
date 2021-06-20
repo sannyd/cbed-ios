@@ -116,6 +116,12 @@ class Log {
         }
     }
     
+    class func networkError(_ object: Any) {
+        if isLoggingEnabled {
+            print("‼️‼️‼️ Error:\n\(object)\n================================================================================================================")
+        }
+    }
+    
     /// Logs messages verbosely on console with prefix [🔬]
     ///
     /// - Parameters:

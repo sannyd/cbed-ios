@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct AnswerM: Decodable {
-    let id: Int?
+struct AnswerM: Decodable, Equatable {
+    let id: Int
     let created: String?
     let modified: String?
     let content: String?
     let discussion: String?
-    let isCorrect: Bool?
-    let order: Int?
-    let question: Int?
+    let isCorrect: Bool
+    let order: Int
+    let question: Int
     
     enum CodingKeys: String, CodingKey {
         case id = "id"

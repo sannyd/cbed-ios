@@ -9,23 +9,22 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol CDCustomAlertViewDelegate: AnyObject {
-    func didTapYes()
-    func didTapNo()
+enum CustomAlertViewPublisher {
+    case OKTapped
+    case cancelTapped
 }
-
 class CustomAlertView: BaseNibView {
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var buttonYes: UIButton!
     @IBOutlet weak var buttonNo: UIButton!
     @IBOutlet weak var buttonStackView: UIStackView!
-    @IBOutlet weak var separatorLine: UIView!
+    @IBOutlet weak var usefulLinkStackView: UIStackView!
+    @IBOutlet weak var labelUsefulLink: UILabel!
     
-    weak var delegate: CDCustomAlertViewDelegate?
+    var type: QuestionAlertType = .correct
     
-    var didTapOK = PublishRelay<Void>()
-    var didTapNo = PublishRelay<Void>()
+    var publisher: PublishSubject<CustomAlertViewPublisher>?
     
     var disposeBag = DisposeBag()
     
@@ -41,26 +40,29 @@ class CustomAlertView: BaseNibView {
 
     func setupAlertView(title: String?,
                         description: String?,
-                        leftButtonTitle: String = "YES",
+                        type: QuestionAlertType,
+                        leftButtonTitle: String = "OK",
                         rightButtonTitle: String?) {
+        self.type = type
         labelTitle.text = title
         labelDescription.text = description
         buttonYes.setTitle(leftButtonTitle, for: .normal)
+        labelTitle.textColor = type.color
+        buttonYes.backgroundColor = type.color
+        
         if let rightButtonTitle = rightButtonTitle {
             buttonNo.setTitle(rightButtonTitle, for: .normal)
         } else {
             buttonNo.isHidden = true
-            separatorLine.isHidden = true
+//            separatorLine.isHidden = true
         }
     }
     
     @IBAction private func buttonYesInvoked(_ sender: UIButton) {
-        didTapOK.accept(())
-        delegate?.didTapYes()
+        publisher?.onNext(.OKTapped)
     }
     
     @IBAction private func buttonNoInvoked(_ sender: UIButton) {
-        didTapNo.accept(())
-        delegate?.didTapNo()
+        publisher?.onNext(.cancelTapped)
     }
 }

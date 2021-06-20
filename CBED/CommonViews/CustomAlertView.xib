@@ -18,10 +18,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomAlertView" customModule="CBED" customModuleProvider="target">
             <connections>
-                <outlet property="buttonStackView" destination="gAj-zH-4Fc" id="O3d-qp-K4b"/>
-                <outlet property="buttonYes" destination="lXO-cv-Y8d" id="iUF-jB-bSe"/>
-                <outlet property="labelDescription" destination="oE3-yb-0Bb" id="0pR-ey-bTW"/>
-                <outlet property="labelTitle" destination="OdB-sQ-ovw" id="lfo-CS-WVn"/>
+                <outlet property="buttonNo" destination="lXO-cv-Y8d" id="1Th-eK-uOE"/>
+                <outlet property="buttonStackView" destination="gAj-zH-4Fc" id="A7n-a3-bso"/>
+                <outlet property="buttonYes" destination="sWA-c3-3OZ" id="mps-yt-xyH"/>
+                <outlet property="labelDescription" destination="oE3-yb-0Bb" id="DWV-ZK-BAK"/>
+                <outlet property="labelTitle" destination="OdB-sQ-ovw" id="pDD-Ku-GAz"/>
+                <outlet property="labelUsefulLink" destination="3oD-mL-7c8" id="UQR-w5-fvx"/>
+                <outlet property="usefulLinkStackView" destination="IOF-Fb-ewc" id="Zs9-HV-3nL"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -32,6 +35,15 @@
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Poc-LS-Q9G" customClass="CDBorderViewV" customModule="CBED" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="406" height="264"/>
                     <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Correct" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OdB-sQ-ovw">
+                            <rect key="frame" x="143" y="30" width="120" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="oet-f9-7hy"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="36"/>
+                            <color key="textColor" name="Primary Blue"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="4Jb-Qb-f4l">
                             <rect key="frame" x="16" y="90" width="374" height="90"/>
                             <subviews>
@@ -68,7 +80,18 @@ your information will be deleted.</string>
                         <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="gAj-zH-4Fc">
                             <rect key="frame" x="0.0" y="209" width="406" height="55"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lXO-cv-Y8d">
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lXO-cv-Y8d">
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="55"/>
+                                    <color key="backgroundColor" name="Primary Blue"/>
+                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="24"/>
+                                    <state key="normal" title="No">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="buttonNoInvoked:" destination="-1" eventType="touchUpInside" id="ygc-wt-H1I"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sWA-c3-3OZ">
                                     <rect key="frame" x="0.0" y="0.0" width="406" height="55"/>
                                     <color key="backgroundColor" name="Primary Blue"/>
                                     <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="24"/>
@@ -76,7 +99,7 @@ your information will be deleted.</string>
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
                                     <connections>
-                                        <action selector="buttonYesInvoked:" destination="-1" eventType="touchUpInside" id="HgW-O5-Jmq"/>
+                                        <action selector="buttonYesInvoked:" destination="-1" eventType="touchUpInside" id="Zux-MO-ZkY"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -84,15 +107,6 @@ your information will be deleted.</string>
                                 <constraint firstAttribute="height" constant="55" id="DIf-d3-d8z"/>
                             </constraints>
                         </stackView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Correct" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OdB-sQ-ovw">
-                            <rect key="frame" x="141.5" y="30" width="123" height="40"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="oet-f9-7hy"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="36"/>
-                            <color key="textColor" name="Primary Blue"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>

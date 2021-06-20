@@ -23,6 +23,7 @@ extension SectionDetailViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
         let usefulLinkTapped: Observable<UsefulLink>
+        let buttonStartTrigger: Observable<Void>
     }
     
     struct Output {
@@ -73,6 +74,13 @@ struct SectionDetailViewModel: ViewModel {
             .map(\.url)
             .asDriverOnErrorJustComplete()
             .drive(onNext: navigator.pushToPreviewWebView(usefulLinkURL:))
+            .disposed(by: disposeBag)
+        
+        input
+            .buttonStartTrigger
+            .withLatestFrom(sectionDetail)
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: navigator.pushToExamVC(sectionDetail:))
             .disposed(by: disposeBag)
         
         return Output(sectionInfo: .just(sectionInfo),

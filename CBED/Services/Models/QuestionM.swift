@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct QuestionM: Decodable {
+struct QuestionM: Decodable, Equatable {
     let id: Int
     var answers: [AnswerM]?
     let created: String?

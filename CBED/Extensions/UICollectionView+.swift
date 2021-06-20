@@ -15,4 +15,10 @@ extension UICollectionView {
             .modelSelected(T.self)
             .asObservable()
     }
+    
+    func rxItemSelected() -> Observable<IndexPath> {
+        return rx
+            .itemSelected
+            .asObservable()
+    }
 }

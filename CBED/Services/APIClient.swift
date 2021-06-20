@@ -21,6 +21,11 @@ class NetworkLogger: EventMonitor {
         _ request: DataRequest,
         didParseResponse response: DataResponse<Value, AFError>
     ) {
+        
+        if let error = response.error {
+            Log.networkError(error)
+        }
+        
         guard let data = response.data else {
             return
         }

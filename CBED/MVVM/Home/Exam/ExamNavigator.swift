@@ -6,10 +6,45 @@
 //
 
 import UIKit
+import RxSwift
+import SwiftEntryKit
+
+enum QuestionAlertType {
+    case correct
+    case wrong
+    
+    var color: UIColor {
+        switch self {
+        case .correct:
+            return #colorLiteral(red: 0.1607843137, green: 0.3568627451, blue: 0.8784313725, alpha: 1)
+        case .wrong:
+            return #colorLiteral(red: 0.8784313725, green: 0.1607843137, blue: 0.2470588235, alpha: 1)
+        }
+    }
+}
 
 protocol ExamNavigatorType {
+    var publisher: PublishSubject<CustomAlertViewPublisher> { get }
     
+    func presentAnswerResult(answer: AnswerM)
 }
 
 struct ExamNavigator: ExamNavigatorType {
+    unowned let navigationController: UINavigationController
+    
+    let publisher = PublishSubject<CustomAlertViewPublisher>()
+    
+    func presentAnswerResult(answer: AnswerM) {
+        let alertVC = CustomAlertView()
+        alertVC.publisher = publisher
+        let isCorrect = answer.isCorrect
+        let title = isCorrect ? "Correct" : "Wrong"
+        let type: QuestionAlertType = isCorrect ? .correct : .wrong
+        alertVC.setupAlertView(title: title,
+                               description: answer.discussion,
+                               type: type,
+                               rightButtonTitle: "OK")
+        let attribute = EKAttributes.createCustomAlertAttributes()
+        SwiftEntryKit.display(entry: alertVC, using: attribute)
+    }
 }

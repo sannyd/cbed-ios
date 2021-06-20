@@ -43,6 +43,14 @@ struct StoryboardManager {
     static func instancePreviewWebViewVC() -> PreviewWebViewViewController {
         return HomeSB.instantiateViewController(withIdentifier: PreviewWebViewViewController.getClassName()) as! PreviewWebViewViewController
     }
+    
+    static func instanceExamVC() -> ExamViewController {
+        return HomeSB.instantiateViewController(withIdentifier: ExamViewController.getClassName()) as! ExamViewController
+    }
+    
+    static func getVCFromHomeSB<T: UIViewController>() -> T {
+        return HomeSB.instantiateViewController(withIdentifier: T.getClassName()) as! T
+    }
 }
 
 extension NSObject {

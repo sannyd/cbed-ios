@@ -75,6 +75,7 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     }
     
     private func setupCollectionView() {
+        clipsToBounds = false
         register(C.nib(), forCellWithReuseIdentifier: C.nibName())
         rx.setDelegate(self).disposed(by: disposeBag)
     }
@@ -91,5 +92,18 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+}
+
+class AnswerCollectionView: CommonCollectionView<CommonCollectionViewSection<SelectableAnswer>, AnswerCell> {
+    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let labelWidth: CGFloat = UIScreen.main.bounds.width - 20 - 20 - 16 - 16 - 8 - 8 - 8 - 18
+        let item = rxDatasource.sectionModels[indexPath.section].items[indexPath.item]
+        
+        let cellHeight = item.answer.content?.height(withConstrainedWidth: labelWidth,
+                                              font: UIFont(name: Constants.Font.LatoRegular, size: 14)!) ?? 0
+        let cellHeightWithOffset = cellHeight + 8 + 8
+        return .init(width: UIScreen.main.bounds.width - 20 - 20 - 16 - 16,
+                     height: cellHeightWithOffset < 48 ? 48 : cellHeightWithOffset)
     }
 }

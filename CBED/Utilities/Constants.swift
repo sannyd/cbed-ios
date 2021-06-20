@@ -22,9 +22,11 @@ struct Constants {
         static let LatoBold = "Lato-Bold"
     }
     
-    static let ColorA2A2A2 = UIColor(hex: "#A2A2A2")!
-    static let Color295BE0 = UIColor(hex: "#295BE0")!
-    static let ColorC4C4C4 = UIColor(hex: "#C4C4C4")!
+    static let ColorA2A2A2 = #colorLiteral(red: 0.6352941176, green: 0.6352941176, blue: 0.6352941176, alpha: 1)
+    static let Color295BE0 = #colorLiteral(red: 0.1607843137, green: 0.3568627451, blue: 0.8784313725, alpha: 1)
+    static let ColorC4C4C4 = #colorLiteral(red: 0.768627451, green: 0.768627451, blue: 0.768627451, alpha: 1)
+    static let ColorE0293F = #colorLiteral(red: 0.8784313725, green: 0.1607843137, blue: 0.2470588235, alpha: 1)
+    static let Color36343D = #colorLiteral(red: 0.2117647059, green: 0.2039215686, blue: 0.2392156863, alpha: 1)
     
     struct TimeFormat {
         static let iso8601Full = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"

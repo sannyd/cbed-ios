@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC10267F28A0004048A5 /* EKAttributes+.swift */; };
 		185B05EA267615A600A17664 /* LevelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E6267615A600A17664 /* LevelNavigator.swift */; };
 		185B05EB267615A600A17664 /* LevelUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E7267615A600A17664 /* LevelUseCase.swift */; };
 		185B05EC267615A600A17664 /* LevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E8267615A600A17664 /* LevelViewController.swift */; };
@@ -64,6 +65,7 @@
 		185B0660267DE58600A17664 /* BaseNibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B065F267DE58600A17664 /* BaseNibView.swift */; };
 		185B0664267DF15100A17664 /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0662267DF15100A17664 /* AnswerCell.swift */; };
 		185B0665267DF15100A17664 /* AnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185B0663267DF15100A17664 /* AnswerCell.xib */; };
+		185B0667267E0DCD00A17664 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0666267E0DCD00A17664 /* String+.swift */; };
 		185F8760266CC84800A63898 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F875F266CC84800A63898 /* AppDelegate.swift */; };
 		185F8764266CC84800A63898 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F8763266CC84800A63898 /* LoginViewController.swift */; };
 		185F8769266CC84A00A63898 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 185F8768266CC84A00A63898 /* Assets.xcassets */; };
@@ -122,6 +124,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		184ABC10267F28A0004048A5 /* EKAttributes+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EKAttributes+.swift"; sourceTree = "<group>"; };
 		185B05E6267615A600A17664 /* LevelNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelNavigator.swift; sourceTree = "<group>"; };
 		185B05E7267615A600A17664 /* LevelUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUseCase.swift; sourceTree = "<group>"; };
 		185B05E8267615A600A17664 /* LevelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +182,7 @@
 		185B065F267DE58600A17664 /* BaseNibView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNibView.swift; sourceTree = "<group>"; };
 		185B0662267DF15100A17664 /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
 		185B0663267DF15100A17664 /* AnswerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerCell.xib; sourceTree = "<group>"; };
+		185B0666267E0DCD00A17664 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		185F875C266CC84800A63898 /* CBED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBED.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		185F875F266CC84800A63898 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		185F8763266CC84800A63898 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -616,6 +620,7 @@
 		FFD5770B2673703F00CC9CF1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				184ABC10267F28A0004048A5 /* EKAttributes+.swift */,
 				185F87972673C29C00A63898 /* Google+Reactive.swift */,
 				185F87952673C28C00A63898 /* Facebook+Reactive.swift */,
 				FFD5771A2673722200CC9CF1 /* Validation+String.swift */,
@@ -628,6 +633,7 @@
 				185F87A7267494C300A63898 /* Button+.swift */,
 				185B060026761AAE00A17664 /* UIViewController+.swift */,
 				185B060E267629A300A17664 /* UICollectionView+.swift */,
+				185B0666267E0DCD00A17664 /* String+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -808,6 +814,7 @@
 				185B062326762F7C00A17664 /* SettingViewModel.swift in Sources */,
 				185B061126762F1A00A17664 /* TabBarViewController.swift in Sources */,
 				185F8764266CC84800A63898 /* LoginViewController.swift in Sources */,
+				184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */,
 				185B06292677C29500A17664 /* SectionNavigator.swift in Sources */,
 				FFD5770A2673701A00CC9CF1 /* Constants.swift in Sources */,
 				185B064F267B994400A17664 /* PreviewWebViewUseCase.swift in Sources */,
@@ -865,6 +872,7 @@
 				185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */,
 				FFD577132673712C00CC9CF1 /* UIColor+.swift in Sources */,
 				185B05FF267619DE00A17664 /* SectionUseCase.swift in Sources */,
+				185B0667267E0DCD00A17664 /* String+.swift in Sources */,
 				185F87982673C29C00A63898 /* Google+Reactive.swift in Sources */,
 				185F8760266CC84800A63898 /* AppDelegate.swift in Sources */,
 				185B0645267A582300A17664 /* UsefulLinkCell.swift in Sources */,

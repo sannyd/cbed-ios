@@ -41,7 +41,8 @@ final class SectionDetailViewController: UIViewController {
     
     func bindViewModel() {
         let input = SectionDetailViewModel.Input(firstLoadTrigger: rxViewWillAppear,
-                                                 usefulLinkTapped: collectionView.rxModelSelected())
+                                                 usefulLinkTapped: collectionView.rxModelSelected(),
+                                                 buttonStartTrigger: buttonStart.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
