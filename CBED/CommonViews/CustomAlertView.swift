@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 enum CustomAlertViewPublisher {
-    case OKTapped
+    case OKTapped(QuestionAlertType)
     case cancelTapped
 }
 class CustomAlertView: BaseNibView {
@@ -21,6 +21,7 @@ class CustomAlertView: BaseNibView {
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var usefulLinkStackView: UIStackView!
     @IBOutlet weak var labelUsefulLink: UILabel!
+    
     
     var type: QuestionAlertType = .correct
     
@@ -59,7 +60,7 @@ class CustomAlertView: BaseNibView {
     }
     
     @IBAction private func buttonYesInvoked(_ sender: UIButton) {
-        publisher?.onNext(.OKTapped)
+        publisher?.onNext(.OKTapped(type))
     }
     
     @IBAction private func buttonNoInvoked(_ sender: UIButton) {

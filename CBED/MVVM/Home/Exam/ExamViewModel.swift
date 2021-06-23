@@ -56,21 +56,29 @@ struct ExamViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         let nextQuestion = sharedAlertPublisher
-            .map { delegate -> Void? in
-                if case .OKTapped = delegate {
-                    return ()
+            .map { delegate -> QuestionAlertType? in
+                if case .OKTapped(let questionAlertType) = delegate {
+                    return questionAlertType
                 }
                 return nil
             }
             .unwrap()
-            .do(onNext: { _ in
+            .do(onNext: { questionAlertType in
+                switch questionAlertType {
+                case .correct:
+                    currentQuestionIndex.accept(currentQuestionIndex.value + 1)
+                    let answers = (questions[currentQuestionIndex.value].answers ?? [])
+                        .map { SelectableAnswer(isSelected: false, answer: $0) }
+                    currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                case .wrong:
+//                    let answers = (questions[currentQuestionIndex.value].answers ?? [])
+//                        .map { SelectableAnswer(isSelected: false, answer: $0) }
+//                    currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                break
+                }
                 SwiftEntryKit.dismiss()
-                currentQuestionIndex.accept(currentQuestionIndex.value + 1)
-                let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                    .map { SelectableAnswer(isSelected: false, answer: $0) }
-                currentAnswers.accept([CommonCollectionViewSection(items: answers)])
             })
-            .map { questions[currentQuestionIndex.value] }
+            .map { _ in questions[currentQuestionIndex.value] }
         
         let initialQuestion = input
             .firstLoadTrigger
@@ -110,6 +118,7 @@ struct ExamViewModel: ViewModel {
             })
             .map { $0.0 }
             .asDriverOnErrorJustComplete()
+            .delay(.milliseconds(150))
             .drive(onNext: navigator.presentAnswerResult(answer:))
             .disposed(by: disposeBag)
         

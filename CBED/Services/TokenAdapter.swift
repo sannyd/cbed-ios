@@ -8,9 +8,12 @@
 import Alamofire
 import RxSwift
 
+var isRefreshing: Bool = false
+
 final class JWTAccessTokenAdapter: RequestInterceptor {
     typealias JWT = String
     private let accessToken: JWT
+    private let retryLimit = 3
     let disposeBag = DisposeBag()
 
     init(accessToken: JWT) {
@@ -33,28 +36,56 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
             /// Return the original error and don't retry the request.
             return completion(.doNotRetry)
         }
+//        Log.networkErrors(error)
         
-        getNewAccessToken()
-            .subscribe(onSuccess: { response in
-                Storage.accessToken = response.access
+        refreshToken { isSuccess in
+            if isSuccess {
                 completion(.retry)
-            }, onFailure: { error in
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.logout()
+            } else {
                 completion(.doNotRetryWithError(error))
-            })
-            .disposed(by: disposeBag)
+            }
+        }
+        
+//        getNewAccessToken()
+//            .subscribe(onSuccess: { response in
+//                Storage.accessToken = response.access
+//                completion(.retry)
+//            }, onFailure: { error in
+//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//                appDelegate.logout()
+//                completion(.doNotRetryWithError(error))
+//            })
+//            .disposed(by: disposeBag)
     }
     
     func getNewAccessToken() -> Single<TokenRefreshResponseM> {
-        guard let refreshToken = Storage.refreshToken else {
+        guard let refreshToken = Storage.refreshToken, !isRefreshing else {
             return .never()
         }
+        isRefreshing = true
         return APIClient
             .shared
-            .request(AuthRouter.refreshToken(params: ["refresh": refreshToken]))
+            .requestWithoutValidation(AuthRouter.refreshToken(params: ["refresh": refreshToken]))
             .catch { error in
                 return .error(error)
             }
+    }
+    
+    func refreshToken(completion: @escaping (_ isSuccess: Bool) -> Void) {
+        guard let refreshToken = Storage.refreshToken, !isRefreshing else {
+            return
+        }
+        isRefreshing = true
+        let parameters = ["refresh": refreshToken]
+        AF.request("https://cbed.airdemo.xyz/api/auth/token-refresh/", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+            if let data = response.data, let token = (try? JSONSerialization.jsonObject(with: data, options: [])
+                as? [String: Any])?["access"] as? String {
+                Storage.accessToken = token
+                print("\nRefresh token completed successfully. New token is: \(token)\n")
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
     }
 }

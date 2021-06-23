@@ -52,7 +52,6 @@ final class ExamViewController: UIViewController {
             .answers
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] answerSection in
-//                self?.labelQuestion.text = question.content
                 let cellWidth = UIScreen.main.bounds.width - 20 - 20 - 16 - 16 - 8 - 8 - 8 - 18
                 let answerCount = answerSection.first?.items.count ?? 0
                 let collectionViewHeight = answerSection.first?.items

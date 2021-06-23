@@ -26,6 +26,7 @@ extension UIViewController {
 }
 
 struct ServerError: Error, Decodable {
+    let code: String?
     let detail: String
 }
 

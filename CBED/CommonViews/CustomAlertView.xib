@@ -32,11 +32,11 @@
             <rect key="frame" x="0.0" y="0.0" width="406" height="264"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Poc-LS-Q9G" customClass="CDBorderViewV" customModule="CBED" customModuleProvider="target">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Poc-LS-Q9G" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="406" height="264"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Correct" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OdB-sQ-ovw">
-                            <rect key="frame" x="143" y="30" width="120" height="40"/>
+                            <rect key="frame" x="141.5" y="20" width="123" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="oet-f9-7hy"/>
                             </constraints>
@@ -45,10 +45,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="4Jb-Qb-f4l">
-                            <rect key="frame" x="16" y="90" width="374" height="90"/>
+                            <rect key="frame" x="16" y="80" width="374" height="100"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oE3-yb-0Bb">
-                                    <rect key="frame" x="0.0" y="0.0" width="374" height="90"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
                                     <string key="text">Once you exit this form, 
 your information will be deleted.</string>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
@@ -117,13 +117,17 @@ your information will be deleted.</string>
                         <constraint firstAttribute="bottom" secondItem="gAj-zH-4Fc" secondAttribute="bottom" id="Y3D-FL-HGm"/>
                         <constraint firstAttribute="trailing" secondItem="4Jb-Qb-f4l" secondAttribute="trailing" constant="16" id="oOI-ps-kEw"/>
                         <constraint firstItem="gAj-zH-4Fc" firstAttribute="top" secondItem="4Jb-Qb-f4l" secondAttribute="bottom" constant="29" id="qVo-ab-Cnj"/>
-                        <constraint firstItem="OdB-sQ-ovw" firstAttribute="top" secondItem="Poc-LS-Q9G" secondAttribute="top" constant="30" id="uQA-ug-F4x"/>
+                        <constraint firstItem="OdB-sQ-ovw" firstAttribute="top" secondItem="Poc-LS-Q9G" secondAttribute="top" constant="20" id="uQA-ug-F4x"/>
                         <constraint firstItem="4Jb-Qb-f4l" firstAttribute="top" secondItem="OdB-sQ-ovw" secondAttribute="bottom" constant="20" id="w5C-Vn-xa3"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
                             <real key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
                     </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
