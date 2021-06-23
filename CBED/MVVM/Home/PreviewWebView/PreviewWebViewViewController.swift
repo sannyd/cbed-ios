@@ -15,6 +15,7 @@ final class PreviewWebViewViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var labelTitle: UILabel!
+    @IBOutlet weak var buttonBack: UIButton!
     
     // MARK: - Properties
     
@@ -64,6 +65,12 @@ final class PreviewWebViewViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] title in
                 self?.labelTitle.text = title
+            }),
+        buttonBack
+            .rxButtonTapped
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
             })]
             .forEach { $0.disposed(by: disposeBag) }
     }

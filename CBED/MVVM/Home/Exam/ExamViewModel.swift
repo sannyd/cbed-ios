@@ -82,6 +82,7 @@ struct ExamViewModel: ViewModel {
         
         let initialQuestion = input
             .firstLoadTrigger
+            .filter { currentQuestionIndex.value < questions.count - 1 }
             .map { questions[currentQuestionIndex.value] }
         
         let currentQuestion = Observable

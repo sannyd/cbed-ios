@@ -47,7 +47,7 @@
                                         <rect key="frame" x="20" y="94" width="374" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jn8-s9-iHT">
-                                                <rect key="frame" x="20" y="15.5" width="48" height="19"/>
+                                                <rect key="frame" x="20" y="15.5" width="50.5" height="19"/>
                                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                                 <color key="textColor" name="Primary Text"/>
                                                 <nil key="highlightedColor"/>
@@ -79,7 +79,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi there!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wsl-F7-KR6">
-                                        <rect key="frame" x="20" y="38" width="118" height="36"/>
+                                        <rect key="frame" x="20" y="39" width="112.5" height="35"/>
                                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -146,7 +146,7 @@
                                         <state key="normal" image="img_back_black"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1N-Ml-3aC">
-                                        <rect key="frame" x="185.5" y="29" width="43.5" height="22"/>
+                                        <rect key="frame" x="185" y="29.5" width="44.5" height="21"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                                         <color key="textColor" name="Primary Text"/>
                                         <nil key="highlightedColor"/>
@@ -225,7 +225,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oRj-rD-0OV">
-                                        <rect key="frame" x="50" y="70" width="314" height="22"/>
+                                        <rect key="frame" x="50" y="70" width="314" height="21"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -259,7 +259,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Useful links" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Zf-YP-nIW">
-                                <rect key="frame" x="30" y="164" width="93.5" height="22"/>
+                                <rect key="frame" x="30" y="164" width="92.5" height="21"/>
                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -303,7 +303,7 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bQz-Y7-jFr">
-                                <rect key="frame" x="0.0" y="194" width="414" height="558"/>
+                                <rect key="frame" x="0.0" y="193" width="414" height="559"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
@@ -356,16 +356,16 @@
                                         <state key="normal" image="img_back_black"/>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Dtc-7L-aE6">
-                                        <rect key="frame" x="185.5" y="20.5" width="43.5" height="39"/>
+                                        <rect key="frame" x="185" y="21.5" width="44.5" height="37.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VMD-MT-DXw">
-                                                <rect key="frame" x="0.0" y="0.0" width="43.5" height="22"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="44.5" height="21"/>
                                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                                                 <color key="textColor" name="Primary Text"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dyt-eG-zJW">
-                                                <rect key="frame" x="0.0" y="22" width="43.5" height="17"/>
+                                                <rect key="frame" x="0.0" y="21" width="44.5" height="16.5"/>
                                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                                 <color key="textColor" name="Primary Text"/>
                                                 <nil key="highlightedColor"/>
@@ -400,19 +400,16 @@
                                 <rect key="frame" x="0.0" y="124" width="414" height="738"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mLW-B7-x0U">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="799.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="292"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="skX-3s-XK8">
-                                                <rect key="frame" x="20" y="0.0" width="374" height="507.5"/>
-                                                <string key="text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</string>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="skX-3s-XK8">
+                                                <rect key="frame" x="20" y="0.0" width="374" height="0.0"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wTL-Go-CUr" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                                <rect key="frame" x="20" y="547.5" width="374" height="252"/>
+                                                <rect key="frame" x="20" y="40" width="374" height="252"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iAg-5f-3C0">
                                                         <rect key="frame" x="0.0" y="30" width="374" height="200"/>
@@ -446,10 +443,10 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mo1-oG-eyy" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                                <rect key="frame" x="156" y="532.5" width="102" height="30"/>
+                                                <rect key="frame" x="156" y="25" width="102" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Answer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bbk-z1-CYF">
-                                                        <rect key="frame" x="11.5" y="6.5" width="79" height="17"/>
+                                                        <rect key="frame" x="11.5" y="7" width="79" height="16.5"/>
                                                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -512,6 +509,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
                     </view>
                     <connections>
                         <outlet property="answerCollectionViewHeight" destination="uLC-Ri-uYi" id="8TO-JS-B5r"/>
+                        <outlet property="buttonBack" destination="shK-x3-2Pf" id="eJB-wE-YLM"/>
                         <outlet property="containerView" destination="iAg-5f-3C0" id="Q7q-vg-H4s"/>
                         <outlet property="labelQuestion" destination="skX-3s-XK8" id="kv1-Jg-ob9"/>
                         <outlet property="labelSubtitle" destination="Dyt-eG-zJW" id="MMG-Y3-ZEI"/>
@@ -566,7 +564,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
                                         <state key="normal" image="img_back_black"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BJl-Tk-70b">
-                                        <rect key="frame" x="50" y="29" width="314" height="22"/>
+                                        <rect key="frame" x="50" y="29.5" width="314" height="21"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                                         <color key="textColor" name="Primary Text"/>
                                         <nil key="highlightedColor"/>
@@ -615,6 +613,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="buttonBack" destination="mNy-Am-Ax4" id="yrS-hC-w0c"/>
                         <outlet property="containerView" destination="4Qg-Dq-AGh" id="cWH-09-Aa4"/>
                         <outlet property="labelTitle" destination="BJl-Tk-70b" id="x7q-v0-gnQ"/>
                     </connections>

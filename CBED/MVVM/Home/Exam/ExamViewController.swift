@@ -17,6 +17,7 @@ final class ExamViewController: UIViewController {
     @IBOutlet weak var labelQuestion: UILabel!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var answerCollectionViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var buttonBack: UIButton!
     
     // MARK: - Properties
     
@@ -77,6 +78,12 @@ final class ExamViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] title in
                 self?.labelTitle.text = title
+            }),
+        buttonBack
+            .rxButtonTapped
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
             })]
             .forEach { $0.disposed(by: disposeBag) }
     }

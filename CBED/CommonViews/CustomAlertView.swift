@@ -38,6 +38,12 @@ class CustomAlertView: BaseNibView {
         super.init(coder: coder)
         loadContentViewWithNib(nibName: CustomAlertView.nibName())
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        buttonYes.roundCorners([.layerMinXMaxYCorner,
+                                .layerMaxXMaxYCorner], radius: 10)
+    }
 
     func setupAlertView(title: String?,
                         description: String?,

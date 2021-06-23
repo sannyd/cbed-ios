@@ -36,26 +36,36 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
             /// Return the original error and don't retry the request.
             return completion(.doNotRetry)
         }
+        
+        guard !(request.task?.response?.url?.absoluteString.contains("/auth/token-refresh") ?? true) else {
+            print("nani")
+            DispatchQueue.main.async {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.logout()
+            }
+          
+            return completion(.doNotRetry)
+        }
 //        Log.networkErrors(error)
         
-        refreshToken { isSuccess in
-            if isSuccess {
-                completion(.retry)
-            } else {
-                completion(.doNotRetryWithError(error))
-            }
-        }
-        
-//        getNewAccessToken()
-//            .subscribe(onSuccess: { response in
-//                Storage.accessToken = response.access
+//        refreshToken { isSuccess in
+//            if isSuccess {
 //                completion(.retry)
-//            }, onFailure: { error in
-//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//                appDelegate.logout()
+//            } else {
 //                completion(.doNotRetryWithError(error))
-//            })
-//            .disposed(by: disposeBag)
+//            }
+//        }
+        
+        getNewAccessToken()
+            .subscribe(onSuccess: { response in
+                Storage.accessToken = response.access
+                completion(.retry)
+            }, onFailure: { error in
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.logout()
+                completion(.doNotRetryWithError(error))
+            })
+            .disposed(by: disposeBag)
     }
     
     func getNewAccessToken() -> Single<TokenRefreshResponseM> {

@@ -32,7 +32,7 @@
             <rect key="frame" x="0.0" y="0.0" width="406" height="264"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Poc-LS-Q9G" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Poc-LS-Q9G" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="406" height="264"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Correct" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OdB-sQ-ovw">
@@ -77,7 +77,7 @@ your information will be deleted.</string>
                                 </stackView>
                             </subviews>
                         </stackView>
-                        <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="gAj-zH-4Fc">
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="gAj-zH-4Fc">
                             <rect key="frame" x="0.0" y="209" width="406" height="55"/>
                             <subviews>
                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lXO-cv-Y8d">
