@@ -43,13 +43,9 @@ final class APIClient: SessionDelegate {
     
     init() {
         let monitor = NetworkLogger()
-        if let accessToken = Storage.accessToken {
-            let interceptor = JWTAccessTokenAdapter(accessToken: accessToken)
-            sessionManager = Session(interceptor: interceptor,
-                                     eventMonitors: [monitor])
-        } else {
-            sessionManager = Session(eventMonitors: [monitor])
-        }
+        let interceptor = JWTAccessTokenAdapter()
+        sessionManager = Session(interceptor: interceptor,
+                                 eventMonitors: [monitor])
     }
     
     func request<T: Decodable>(_ urlConvertible: URLRequestConvertible,
@@ -140,11 +136,8 @@ final class APIClient: SessionDelegate {
         sessionManager = nil
         sessionManager?.cancelAllRequests()
         let monitor = NetworkLogger()
-        if let accessToken = Storage.accessToken {
-            let interceptor = JWTAccessTokenAdapter(accessToken: accessToken)
-            sessionManager = Session(interceptor: interceptor, eventMonitors: [monitor])
-        } else {
-            sessionManager = Session(eventMonitors: [monitor])
-        }
+        let interceptor = JWTAccessTokenAdapter()
+        sessionManager = Session(interceptor: interceptor,
+                                 eventMonitors: [monitor])
     }
 }

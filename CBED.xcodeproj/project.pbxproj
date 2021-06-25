@@ -8,6 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC10267F28A0004048A5 /* EKAttributes+.swift */; };
+		184ABC132683927E004048A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 184ABC122683927E004048A5 /* GoogleService-Info.plist */; };
+		184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC15268395CD004048A5 /* AppNavigator.swift */; };
+		184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC16268395CD004048A5 /* AppUseCase.swift */; };
+		184ABC1B268395CD004048A5 /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC17268395CD004048A5 /* AppViewController.swift */; };
+		184ABC1C268395CD004048A5 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC18268395CD004048A5 /* AppViewModel.swift */; };
+		184ABC1E2684E4FC004048A5 /* SectionSearchResponseM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC1D2684E4FC004048A5 /* SectionSearchResponseM.swift */; };
+		184ABC202684E576004048A5 /* SaveResultResponseM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC1F2684E576004048A5 /* SaveResultResponseM.swift */; };
+		184ABC262684EAC9004048A5 /* ResultNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC222684EAC9004048A5 /* ResultNavigator.swift */; };
+		184ABC272684EAC9004048A5 /* ResultUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC232684EAC9004048A5 /* ResultUseCase.swift */; };
+		184ABC282684EAC9004048A5 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC242684EAC9004048A5 /* ResultViewController.swift */; };
+		184ABC292684EAC9004048A5 /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC252684EAC9004048A5 /* ResultViewModel.swift */; };
 		185B05EA267615A600A17664 /* LevelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E6267615A600A17664 /* LevelNavigator.swift */; };
 		185B05EB267615A600A17664 /* LevelUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E7267615A600A17664 /* LevelUseCase.swift */; };
 		185B05EC267615A600A17664 /* LevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E8267615A600A17664 /* LevelViewController.swift */; };
@@ -20,7 +31,7 @@
 		185B05F92676183C00A17664 /* LevelDetailM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05F82676183C00A17664 /* LevelDetailM.swift */; };
 		185B05FB2676190E00A17664 /* QuestionM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05FA2676190E00A17664 /* QuestionM.swift */; };
 		185B05FD2676192500A17664 /* AnswerM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05FC2676192500A17664 /* AnswerM.swift */; };
-		185B05FF267619DE00A17664 /* SectionUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05FE267619DE00A17664 /* SectionUseCase.swift */; };
+		185B05FF267619DE00A17664 /* SectionAPIUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05FE267619DE00A17664 /* SectionAPIUseCase.swift */; };
 		185B060126761AAE00A17664 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B060026761AAE00A17664 /* UIViewController+.swift */; };
 		185B060426761B1B00A17664 /* CommonCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B060326761B1B00A17664 /* CommonCollectionView.swift */; };
 		185B060726761D4C00A17664 /* LevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B060526761D4C00A17664 /* LevelCell.swift */; };
@@ -93,7 +104,6 @@
 		185F87A62674949200A63898 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A52674949200A63898 /* UIView+.swift */; };
 		185F87A8267494C400A63898 /* Button+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A7267494C300A63898 /* Button+.swift */; };
 		185F87AA2674978E00A63898 /* LoginNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87A92674978E00A63898 /* LoginNavigator.swift */; };
-		185F87AC26749CB200A63898 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 185F87AB26749CB100A63898 /* GoogleService-Info.plist */; };
 		185F87AF2674A0A300A63898 /* StoryboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87AE2674A0A300A63898 /* StoryboardManager.swift */; };
 		185F87B92674B43E00A63898 /* CGRect+Center.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B42674B43E00A63898 /* CGRect+Center.swift */; };
 		185F87BA2674B43E00A63898 /* CAPropertyAnimation+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B52674B43E00A63898 /* CAPropertyAnimation+Key.swift */; };
@@ -125,6 +135,17 @@
 
 /* Begin PBXFileReference section */
 		184ABC10267F28A0004048A5 /* EKAttributes+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EKAttributes+.swift"; sourceTree = "<group>"; };
+		184ABC122683927E004048A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		184ABC15268395CD004048A5 /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
+		184ABC16268395CD004048A5 /* AppUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUseCase.swift; sourceTree = "<group>"; };
+		184ABC17268395CD004048A5 /* AppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
+		184ABC18268395CD004048A5 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		184ABC1D2684E4FC004048A5 /* SectionSearchResponseM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSearchResponseM.swift; sourceTree = "<group>"; };
+		184ABC1F2684E576004048A5 /* SaveResultResponseM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveResultResponseM.swift; sourceTree = "<group>"; };
+		184ABC222684EAC9004048A5 /* ResultNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultNavigator.swift; sourceTree = "<group>"; };
+		184ABC232684EAC9004048A5 /* ResultUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultUseCase.swift; sourceTree = "<group>"; };
+		184ABC242684EAC9004048A5 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		184ABC252684EAC9004048A5 /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
 		185B05E6267615A600A17664 /* LevelNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelNavigator.swift; sourceTree = "<group>"; };
 		185B05E7267615A600A17664 /* LevelUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUseCase.swift; sourceTree = "<group>"; };
 		185B05E8267615A600A17664 /* LevelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelViewController.swift; sourceTree = "<group>"; };
@@ -137,7 +158,7 @@
 		185B05F82676183C00A17664 /* LevelDetailM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelDetailM.swift; sourceTree = "<group>"; };
 		185B05FA2676190E00A17664 /* QuestionM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionM.swift; sourceTree = "<group>"; };
 		185B05FC2676192500A17664 /* AnswerM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerM.swift; sourceTree = "<group>"; };
-		185B05FE267619DE00A17664 /* SectionUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionUseCase.swift; sourceTree = "<group>"; };
+		185B05FE267619DE00A17664 /* SectionAPIUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionAPIUseCase.swift; sourceTree = "<group>"; };
 		185B060026761AAE00A17664 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		185B060326761B1B00A17664 /* CommonCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonCollectionView.swift; sourceTree = "<group>"; };
 		185B060526761D4C00A17664 /* LevelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelCell.swift; sourceTree = "<group>"; };
@@ -212,7 +233,6 @@
 		185F87A52674949200A63898 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		185F87A7267494C300A63898 /* Button+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Button+.swift"; sourceTree = "<group>"; };
 		185F87A92674978E00A63898 /* LoginNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigator.swift; sourceTree = "<group>"; };
-		185F87AB26749CB100A63898 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		185F87AE2674A0A300A63898 /* StoryboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardManager.swift; sourceTree = "<group>"; };
 		185F87B02674A36100A63898 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		185F87B42674B43E00A63898 /* CGRect+Center.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+Center.swift"; sourceTree = "<group>"; };
@@ -257,14 +277,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		184ABC14268395C0004048A5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				184ABC15268395CD004048A5 /* AppNavigator.swift */,
+				184ABC16268395CD004048A5 /* AppUseCase.swift */,
+				184ABC17268395CD004048A5 /* AppViewController.swift */,
+				184ABC18268395CD004048A5 /* AppViewModel.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		184ABC212684EAB7004048A5 /* Result */ = {
+			isa = PBXGroup;
+			children = (
+				184ABC222684EAC9004048A5 /* ResultNavigator.swift */,
+				184ABC232684EAC9004048A5 /* ResultUseCase.swift */,
+				184ABC242684EAC9004048A5 /* ResultViewController.swift */,
+				184ABC252684EAC9004048A5 /* ResultViewModel.swift */,
+			);
+			path = Result;
+			sourceTree = "<group>";
+		};
 		185B05E12676113C00A17664 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				184ABC14268395C0004048A5 /* App */,
 				185B062D2677C2A000A17664 /* Level */,
 				185B06242677C28400A17664 /* Section */,
 				185B0641267A518100A17664 /* Section Detail */,
 				185B0649267B990B00A17664 /* PreviewWebView */,
 				185B0652267BAB5F00A17664 /* Exam */,
+				184ABC212684EAB7004048A5 /* Result */,
 				185B061026762F1A00A17664 /* TabBarViewController.swift */,
 			);
 			path = Home;
@@ -449,7 +493,7 @@
 		185F8776266D29C900A63898 /* Configs */ = {
 			isa = PBXGroup;
 			children = (
-				185F87AB26749CB100A63898 /* GoogleService-Info.plist */,
+				184ABC122683927E004048A5 /* GoogleService-Info.plist */,
 				185F87B02674A36100A63898 /* Config.xcconfig */,
 			);
 			path = Configs;
@@ -505,7 +549,7 @@
 			children = (
 				185F879A2674540300A63898 /* AuthUseCase.swift */,
 				185B05F4267616F000A17664 /* LevelsUseCase.swift */,
-				185B05FE267619DE00A17664 /* SectionUseCase.swift */,
+				185B05FE267619DE00A17664 /* SectionAPIUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -522,6 +566,8 @@
 				185B05FA2676190E00A17664 /* QuestionM.swift */,
 				185B05FC2676192500A17664 /* AnswerM.swift */,
 				185B0637267A34CC00A17664 /* TokenRefreshResponseM.swift */,
+				184ABC1D2684E4FC004048A5 /* SectionSearchResponseM.swift */,
+				184ABC1F2684E576004048A5 /* SaveResultResponseM.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -699,6 +745,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				185F87882672764800A63898 /* Lato-Italic.ttf in Resources */,
+				184ABC132683927E004048A5 /* GoogleService-Info.plist in Resources */,
 				185F878C2672764800A63898 /* Lato-Black.ttf in Resources */,
 				185B0646267A582300A17664 /* UsefulLinkCell.xib in Resources */,
 				185F87892672764800A63898 /* Lato-LightItalic.ttf in Resources */,
@@ -710,7 +757,6 @@
 				185F877A266D29E300A63898 /* Login.storyboard in Resources */,
 				185B060826761D4C00A17664 /* LevelCell.xib in Resources */,
 				185F878F2672764800A63898 /* OFL.txt in Resources */,
-				185F87AC26749CB200A63898 /* GoogleService-Info.plist in Resources */,
 				185F87922672764800A63898 /* Lato-ThinItalic.ttf in Resources */,
 				185F876C266CC84A00A63898 /* LaunchScreen.storyboard in Resources */,
 				185F8769266CC84A00A63898 /* Assets.xcassets in Resources */,
@@ -807,6 +853,7 @@
 				185F87AA2674978E00A63898 /* LoginNavigator.swift in Sources */,
 				185B060D26761F3B00A17664 /* CustomBorderView.swift in Sources */,
 				FFD576F52673681200CC9CF1 /* Environment.swift in Sources */,
+				184ABC262684EAC9004048A5 /* ResultNavigator.swift in Sources */,
 				FFD5770026736F2700CC9CF1 /* AuthRouter.swift in Sources */,
 				185B063E267A516F00A17664 /* SectionDetailUseCase.swift in Sources */,
 				FFD5770426736FEA00CC9CF1 /* TokenAdapter.swift in Sources */,
@@ -814,6 +861,7 @@
 				185B062326762F7C00A17664 /* SettingViewModel.swift in Sources */,
 				185B061126762F1A00A17664 /* TabBarViewController.swift in Sources */,
 				185F8764266CC84800A63898 /* LoginViewController.swift in Sources */,
+				184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */,
 				184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */,
 				185B06292677C29500A17664 /* SectionNavigator.swift in Sources */,
 				FFD5770A2673701A00CC9CF1 /* Constants.swift in Sources */,
@@ -822,17 +870,20 @@
 				185B05EF267615E400A17664 /* LevelRouter.swift in Sources */,
 				185B0640267A516F00A17664 /* SectionDetailViewModel.swift in Sources */,
 				185B05F5267616F000A17664 /* LevelsUseCase.swift in Sources */,
+				184ABC282684EAC9004048A5 /* ResultViewController.swift in Sources */,
 				185B0651267B994400A17664 /* PreviewWebViewViewModel.swift in Sources */,
 				185B05F12676168D00A17664 /* SectionRouter.swift in Sources */,
 				185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */,
 				185B061A26762F5E00A17664 /* ScoreboardViewModel.swift in Sources */,
 				185B0660267DE58600A17664 /* BaseNibView.swift in Sources */,
 				185B065A267BAB8A00A17664 /* ExamViewModel.swift in Sources */,
+				184ABC1C268395CD004048A5 /* AppViewModel.swift in Sources */,
 				FFD5770226736FDC00CC9CF1 /* APIClient.swift in Sources */,
 				185B063F267A516F00A17664 /* SectionDetailViewController.swift in Sources */,
 				FFD57719267371A300CC9CF1 /* ObservableType+.swift in Sources */,
 				185B0657267BAB8A00A17664 /* ExamNavigator.swift in Sources */,
 				185F87AF2674A0A300A63898 /* StoryboardManager.swift in Sources */,
+				184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */,
 				185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */,
 				185F87B92674B43E00A63898 /* CGRect+Center.swift in Sources */,
 				185B061826762F5E00A17664 /* ScoreboardUseCase.swift in Sources */,
@@ -848,6 +899,7 @@
 				FFD576F72673681C00CC9CF1 /* UIAlertHelper.swift in Sources */,
 				185B062B2677C29500A17664 /* SectionViewController.swift in Sources */,
 				185B061726762F5E00A17664 /* ScoreboardNavigator.swift in Sources */,
+				184ABC1E2684E4FC004048A5 /* SectionSearchResponseM.swift in Sources */,
 				185B0659267BAB8A00A17664 /* ExamViewController.swift in Sources */,
 				FFD576FB2673682B00CC9CF1 /* SwiftLogger.swift in Sources */,
 				185B05EA267615A600A17664 /* LevelNavigator.swift in Sources */,
@@ -858,6 +910,7 @@
 				185B06332677C2FE00A17664 /* SectionCell.swift in Sources */,
 				185B060126761AAE00A17664 /* UIViewController+.swift in Sources */,
 				185B063D267A516F00A17664 /* SectionDetailNavigator.swift in Sources */,
+				184ABC292684EAC9004048A5 /* ResultViewModel.swift in Sources */,
 				185B061926762F5E00A17664 /* ScoreboardViewController.swift in Sources */,
 				185B0638267A34CD00A17664 /* TokenRefreshResponseM.swift in Sources */,
 				FFD577172673717900CC9CF1 /* UIApplication+Extensions.swift in Sources */,
@@ -866,15 +919,18 @@
 				185B05F72676179900A17664 /* LevelM.swift in Sources */,
 				FFD577112673710400CC9CF1 /* ErrorTracker.swift in Sources */,
 				185F87A22674743C00A63898 /* LoginUseCase.swift in Sources */,
+				184ABC272684EAC9004048A5 /* ResultUseCase.swift in Sources */,
 				185B062126762F7C00A17664 /* SettingUseCase.swift in Sources */,
 				185B0650267B994400A17664 /* PreviewWebViewViewController.swift in Sources */,
 				185B062226762F7C00A17664 /* SettingViewController.swift in Sources */,
 				185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */,
 				FFD577132673712C00CC9CF1 /* UIColor+.swift in Sources */,
-				185B05FF267619DE00A17664 /* SectionUseCase.swift in Sources */,
+				185B05FF267619DE00A17664 /* SectionAPIUseCase.swift in Sources */,
+				184ABC202684E576004048A5 /* SaveResultResponseM.swift in Sources */,
 				185B0667267E0DCD00A17664 /* String+.swift in Sources */,
 				185F87982673C29C00A63898 /* Google+Reactive.swift in Sources */,
 				185F8760266CC84800A63898 /* AppDelegate.swift in Sources */,
+				184ABC1B268395CD004048A5 /* AppViewController.swift in Sources */,
 				185B0645267A582300A17664 /* UsefulLinkCell.swift in Sources */,
 				FFD577062673700300CC9CF1 /* Storage.swift in Sources */,
 				FFD577082673700A00CC9CF1 /* Storage+.swift in Sources */,

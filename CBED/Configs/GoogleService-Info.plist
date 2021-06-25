@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-      <key>CLIENT_ID</key>
-      <string>660482726170-lbmu7vtnugfrm6tb03oetv44361v7tci.apps.googleusercontent.com</string>
-      <key>REVERSED_CLIENT_ID</key>
-      <string>com.googleusercontent.apps.660482726170-lbmu7vtnugfrm6tb03oetv44361v7tci</string>
-      <key>PLIST_VERSION</key>
-      <string>1</string>
-      <key>BUNDLE_ID</key>
-      <string>com.barexamdrills.app</string>
-    </dict>
-    </plist>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>660482726170-g5i83qlf9hsmtv4jda8c3qeu763j600p.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.660482726170-g5i83qlf9hsmtv4jda8c3qeu763j600p</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBahC8nymOq57KYFr5ULQ7W1upoF_yw2V8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>660482726170</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.cbed2.store</string>
+	<key>PROJECT_ID</key>
+	<string>california-bar-exam-drills</string>
+	<key>STORAGE_BUCKET</key>
+	<string>california-bar-exam-drills.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:660482726170:ios:e9e2a5bcabe90e28</string>
+	<key>DATABASE_URL</key>
+	<string>https://california-bar-exam-drills.firebaseio.com</string>
+</dict>
+</plist>

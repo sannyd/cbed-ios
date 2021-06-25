@@ -18,6 +18,21 @@
         </array>
     </customFonts>
     <scenes>
+        <!--App View Controller-->
+        <scene sceneID="GO8-G1-adi">
+            <objects>
+                <viewController storyboardIdentifier="AppViewController" id="OC2-D8-kc1" customClass="AppViewController" customModule="CBED" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8Ge-un-7zv">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="pai-fh-cYs"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hiL-vD-X2U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1503" y="88"/>
+        </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="2WQ-bV-eAg">
             <objects>
@@ -622,13 +637,187 @@
             </objects>
             <point key="canvasLocation" x="3378" y="82"/>
         </scene>
+        <!--Result View Controller-->
+        <scene sceneID="MSf-8v-Ebp">
+            <objects>
+                <viewController storyboardIdentifier="ResultViewController" id="zQY-sS-7F1" customClass="ResultViewController" customModule="CBED" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="k0V-zU-reb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_result_background" translatesAutoresizingMaskIntoConstraints="NO" id="z5q-Ev-UKT">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leH-xa-SVz">
+                                <rect key="frame" x="129" y="399" width="156.5" height="75"/>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="64"/>
+                                <color key="textColor" name="Primary Text"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9LE-1k-pIA">
+                                <rect key="frame" x="117" y="54" width="180" height="180"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="180" id="XcP-pA-Ug9"/>
+                                    <constraint firstAttribute="height" constant="180" id="fgl-WJ-LYb"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VRX-rQ-dec">
+                                <rect key="frame" x="163" y="250" width="88.5" height="42"/>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="36"/>
+                                <color key="textColor" name="Primary Text"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You need to scored 90% to pass" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rdk-xH-D3N">
+                                <rect key="frame" x="75.5" y="522" width="263.5" height="21"/>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
+                                <color key="textColor" name="Primary Text"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOU SCORED" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZU2-nz-3JS">
+                                <rect key="frame" x="148" y="338" width="118" height="21"/>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
+                                <color key="textColor" red="0.57647058823529407" green="0.57647058823529407" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="crf-3k-x9n">
+                                <rect key="frame" x="138.5" y="520" width="137" height="37"/>
+                                <state key="normal" image="img_button_share_result"/>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="MSO-JL-3SX">
+                                <rect key="frame" x="30" y="686" width="354" height="56"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbw-Kg-gdf" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="106" height="56"/>
+                                        <color key="backgroundColor" red="0.39215686274509803" green="0.47843137254901957" blue="0.70588235294117641" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                                        <state key="normal" title="Back to Home">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" red="0.39215686274509803" green="0.47843137254901957" blue="0.70588235294117641" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                <real key="value" value="0.25"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                <size key="value" width="0.0" height="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fBW-XE-Pfw" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                        <rect key="frame" x="124" y="0.0" width="106" height="56"/>
+                                        <color key="backgroundColor" name="Primary Blue"/>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                                        <state key="normal" title="Take New Test">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" name="Primary Blue"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                <real key="value" value="0.25"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                <size key="value" width="0.0" height="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pBd-lK-Nt9" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                        <rect key="frame" x="248" y="0.0" width="106" height="56"/>
+                                        <color key="backgroundColor" name="Primary Red"/>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                                        <state key="normal" title="Try again">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" name="Primary Red"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                <real key="value" value="0.25"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                <size key="value" width="0.0" height="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="eTg-Z9-ncy"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vtd-uH-mvm"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="z5q-Ev-UKT" firstAttribute="top" secondItem="k0V-zU-reb" secondAttribute="top" id="2Ur-Yg-5Ap"/>
+                            <constraint firstItem="leH-xa-SVz" firstAttribute="top" secondItem="ZU2-nz-3JS" secondAttribute="bottom" constant="40" id="4GN-dK-dzE"/>
+                            <constraint firstItem="VRX-rQ-dec" firstAttribute="centerX" secondItem="k0V-zU-reb" secondAttribute="centerX" id="6X0-cf-uxL"/>
+                            <constraint firstItem="crf-3k-x9n" firstAttribute="centerX" secondItem="k0V-zU-reb" secondAttribute="centerX" id="8sJ-92-TCm"/>
+                            <constraint firstItem="vtd-uH-mvm" firstAttribute="bottom" secondItem="MSO-JL-3SX" secondAttribute="bottom" constant="120" id="Bsp-My-tpT"/>
+                            <constraint firstAttribute="bottom" secondItem="z5q-Ev-UKT" secondAttribute="bottom" id="Esw-ME-jEe"/>
+                            <constraint firstItem="vtd-uH-mvm" firstAttribute="trailing" secondItem="z5q-Ev-UKT" secondAttribute="trailing" id="Hyx-Ue-gX1"/>
+                            <constraint firstItem="MSO-JL-3SX" firstAttribute="leading" secondItem="vtd-uH-mvm" secondAttribute="leading" constant="30" id="ImC-Ms-fl8"/>
+                            <constraint firstItem="crf-3k-x9n" firstAttribute="top" secondItem="leH-xa-SVz" secondAttribute="bottom" constant="46" id="JnZ-49-PIp"/>
+                            <constraint firstItem="vtd-uH-mvm" firstAttribute="trailing" secondItem="MSO-JL-3SX" secondAttribute="trailing" constant="30" id="LbP-cm-JuS"/>
+                            <constraint firstItem="leH-xa-SVz" firstAttribute="centerX" secondItem="k0V-zU-reb" secondAttribute="centerX" id="Si8-Zd-UTF"/>
+                            <constraint firstItem="VRX-rQ-dec" firstAttribute="top" secondItem="9LE-1k-pIA" secondAttribute="bottom" constant="16" id="Ums-u9-ZRh"/>
+                            <constraint firstItem="rdk-xH-D3N" firstAttribute="top" secondItem="leH-xa-SVz" secondAttribute="bottom" constant="48" id="ftE-az-G8Z"/>
+                            <constraint firstItem="z5q-Ev-UKT" firstAttribute="leading" secondItem="vtd-uH-mvm" secondAttribute="leading" id="hP7-ta-x8K"/>
+                            <constraint firstItem="rdk-xH-D3N" firstAttribute="centerX" secondItem="k0V-zU-reb" secondAttribute="centerX" id="lpJ-mB-zMi"/>
+                            <constraint firstItem="ZU2-nz-3JS" firstAttribute="top" secondItem="VRX-rQ-dec" secondAttribute="bottom" constant="46" id="rs2-8u-Qg5"/>
+                            <constraint firstItem="9LE-1k-pIA" firstAttribute="centerX" secondItem="k0V-zU-reb" secondAttribute="centerX" id="w3i-wV-eA1"/>
+                            <constraint firstItem="ZU2-nz-3JS" firstAttribute="centerX" secondItem="k0V-zU-reb" secondAttribute="centerX" id="xOf-0U-NUx"/>
+                            <constraint firstItem="9LE-1k-pIA" firstAttribute="top" secondItem="vtd-uH-mvm" secondAttribute="top" constant="10" id="xgb-kB-Czc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="buttonBack" destination="cbw-Kg-gdf" id="00u-Zh-LDO"/>
+                        <outlet property="buttonShare" destination="crf-3k-x9n" id="7h1-H0-2If"/>
+                        <outlet property="buttonTakeNewTest" destination="fBW-XE-Pfw" id="6z6-u7-FgC"/>
+                        <outlet property="buttonTryAgain" destination="pBd-lK-Nt9" id="8VM-iH-DP4"/>
+                        <outlet property="labelReason" destination="rdk-xH-D3N" id="QMV-Mj-hD8"/>
+                        <outlet property="labelResult" destination="leH-xa-SVz" id="1ol-wd-8za"/>
+                        <outlet property="labelTitle" destination="VRX-rQ-dec" id="7Bx-ay-Nz7"/>
+                        <outlet property="resultImageView" destination="9LE-1k-pIA" id="Z1C-eM-ghE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pV8-pT-PH6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4204" y="82"/>
+        </scene>
     </scenes>
     <resources>
         <image name="img_back_black" width="18.5" height="15.5"/>
+        <image name="img_button_share_result" width="137" height="37"/>
         <image name="img_magnifying_glass" width="25" height="25.5"/>
+        <image name="img_result_background" width="375" height="777.5"/>
         <image name="img_tort" width="60" height="60"/>
         <namedColor name="Primary Blue">
             <color red="0.16099999845027924" green="0.35699999332427979" blue="0.87800002098083496" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Primary Red">
+            <color red="0.8784313725490196" green="0.16078431372549018" blue="0.24705882352941178" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Primary Text">
             <color red="0.21199999749660492" green="0.20399999618530273" blue="0.23899999260902405" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -8,9 +8,12 @@
 import RxSwift
 
 protocol ExamUseCaseType {
-    
+    func saveSectionResult(id: Int,
+                           correct: Int,
+                           total: Int) -> Single<SaveResultResponseM>
 }
 
-struct ExamUseCase: ExamUseCaseType {
+struct ExamUseCase: ExamUseCaseType,
+                    SectionAPIUseCase {
     
 }

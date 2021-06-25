@@ -79,6 +79,12 @@ final class ExamViewController: UIViewController {
             .drive(onNext: { [weak self] title in
                 self?.labelTitle.text = title
             }),
+        output
+            .numberOfQuestions
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] title in
+                self?.labelSubtitle.text = title
+            }),
         buttonBack
             .rxButtonTapped
             .asDriverOnErrorJustComplete()

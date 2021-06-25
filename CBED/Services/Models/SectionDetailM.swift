@@ -8,7 +8,7 @@
 import Foundation
 
 struct SectionDetailM: Decodable {
-    let id: Int?
+    let id: Int
     let name: String?
     let lastResult: LastResultM?
     let isAvailable: Bool?

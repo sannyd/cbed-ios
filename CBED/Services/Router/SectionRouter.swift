@@ -10,6 +10,12 @@ import Alamofire
 
 enum SectionRouter {
     case getSectionByID(_ id: Int)
+    case searchSection(keySearch: String,
+                       limit: Int,
+                       offset: Int)
+    case saveSectionResult(id: Int,
+                           correct: Int,
+                           total: Int)
 }
 
 // MARK: - TargetType: Moya compatible
@@ -25,6 +31,10 @@ extension SectionRouter: URLRequestConvertible {
         switch self {
         case .getSectionByID(let id):
             return "/\(id)/"
+        case .searchSection:
+            return "/sections/"
+        case .saveSectionResult(let id, _, _):
+            return "sections/\(id)/save_result/"
         }
     }
     
@@ -36,7 +46,25 @@ extension SectionRouter: URLRequestConvertible {
         let url = baseURL.appendingPathComponent(path)
         var request = URLRequest(url: url)
         request.method = method
-
+        
+        switch self {
+        case .searchSection(let keySearch,
+                            let limit,
+                            let offset):
+            let encoder = Alamofire.URLEncoding.queryString
+            request = try encoder.encode(request, with: ["search": keySearch,
+                                                         "limit": limit,
+                                                         "offset": offset])
+        case .saveSectionResult(_,
+                                let correct,
+                                let total):
+            let encoder = Alamofire.URLEncoding.httpBody
+            request = try encoder.encode(request, with: ["correct": correct,
+                                                         "total": total])
+        default:
+            break
+        }
+        
         return request
     }
 }

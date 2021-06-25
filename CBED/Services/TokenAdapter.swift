@@ -12,18 +12,17 @@ var isRefreshing: Bool = false
 
 final class JWTAccessTokenAdapter: RequestInterceptor {
     typealias JWT = String
-    private let accessToken: JWT
     private let retryLimit = 3
     let disposeBag = DisposeBag()
-
-    init(accessToken: JWT) {
-        self.accessToken = accessToken
-    }
     
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Swift.Result<URLRequest, Error>) -> Void) {
         var urlRequest = urlRequest
         if !(urlRequest.url?.absoluteString.contains("auth") ?? false) {
-            urlRequest.setValue("Bearer " + Storage.accessToken!, forHTTPHeaderField: "Authorization")
+            if let accessToken = Storage.accessToken {
+                urlRequest.setValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
+            } else {
+                completion(.failure(NSError(domain: "401", code: 401, userInfo: [:])))
+            }
         }
         
         completion(.success(urlRequest))
@@ -38,7 +37,6 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
         }
         
         guard !(request.task?.response?.url?.absoluteString.contains("/auth/token-refresh") ?? true) else {
-            print("nani")
             DispatchQueue.main.async {
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.logout()
@@ -70,6 +68,10 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
     
     func getNewAccessToken() -> Single<TokenRefreshResponseM> {
         guard let refreshToken = Storage.refreshToken, !isRefreshing else {
+            DispatchQueue.main.async {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.logout()
+            }
             return .never()
         }
         isRefreshing = true

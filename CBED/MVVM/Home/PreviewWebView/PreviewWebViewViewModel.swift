@@ -26,7 +26,7 @@ struct PreviewWebViewViewModel: ViewModel {
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let usefulLink = Driver
-            .just("https://stackoverflow.com/questions/47754252/how-to-open-a-link-to-a-pdf-with-wkwebview")
+            .just(usefulLinkURL)
             .map { URL(string: $0) }
             .unwrap()
         

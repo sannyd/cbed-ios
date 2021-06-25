@@ -27,6 +27,7 @@ protocol ExamNavigatorType {
     var publisher: PublishSubject<CustomAlertViewPublisher> { get }
     
     func presentAnswerResult(answer: AnswerM)
+    func pushToResultVC(result: SaveResultResponseM)
 }
 
 struct ExamNavigator: ExamNavigatorType {
@@ -46,5 +47,13 @@ struct ExamNavigator: ExamNavigatorType {
                                rightButtonTitle: "OK")
         let attribute = EKAttributes.createCustomAlertAttributes()
         SwiftEntryKit.display(entry: alertVC, using: attribute)
+    }
+    
+    func pushToResultVC(result: SaveResultResponseM) {
+        let resultVC: ResultViewController = StoryboardManager.getVCFromHomeSB()
+        resultVC.viewModel = .init(useCase: ResultUseCase(),
+                                   navigator: ResultNavigator(navigationController: navigationController),
+                                   result: result)
+        navigationController.pushViewController(resultVC, animated: true)
     }
 }
