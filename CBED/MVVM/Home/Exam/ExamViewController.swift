@@ -24,7 +24,7 @@ final class ExamViewController: UIViewController {
     var viewModel: ExamViewModel!
     var disposeBag = DisposeBag()
     
-    private var collectionView: AnswerCollectionView!
+    private var collectionView: AnswerCollectionView<CommonCollectionViewSection<SelectableAnswer>, AnswerCell>!
     
     // MARK: - Life Cycle
     
@@ -53,19 +53,20 @@ final class ExamViewController: UIViewController {
             .answers
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] answerSection in
-                let cellWidth = UIScreen.main.bounds.width - 20 - 20 - 16 - 16 - 8 - 8 - 8 - 18
-                let answerCount = answerSection.first?.items.count ?? 0
-                let collectionViewHeight = answerSection.first?.items
-                    
-                    .compactMap { $0.answer.content?.height(withConstrainedWidth: cellWidth,
-                                                                                      font: UIFont(name: Constants.Font.LatoRegular, size: 14)!) }
-                    .map { $0 + 16 }
-                    .map { $0 < 48 ? 48 : $0 }
-                    .reduce(0, +)
-                
-                if let collectionViewHeight = collectionViewHeight {
-                    self?.answerCollectionViewHeight.constant = collectionViewHeight + CGFloat((10 * answerCount)) + 20
-                }
+//                let cellWidth = UIScreen.main.bounds.width - 20 - 20 - 16 - 16 - 8 - 8 - 8 - 18
+//                let answerCount = answerSection.first?.items.count ?? 0
+//                let collectionViewHeight = answerSection.first?.items
+//
+//                    .compactMap { $0.answer.content?.height(withConstrainedWidth: cellWidth,
+//                                                                                      font: UIFont(name: Constants.Font.LatoRegular, size: 14)!) }
+//                    .map { $0 + 16 }
+//                    .map { $0 < 48 ? 48 : $0 }
+//                    .reduce(0, +)
+//
+//                if let collectionViewHeight = collectionViewHeight {
+//                    self?.answerCollectionViewHeight.constant = collectionViewHeight + CGFloat((10 * answerCount)) + 20
+//                }
+                self?.view.layoutIfNeeded()
             }),
         output
             .currentQuestion
@@ -97,11 +98,10 @@ final class ExamViewController: UIViewController {
     private func setupCollectionView() {
         collectionView = AnswerCollectionView(lineSpacing: 14)
         collectionView.isScrollEnabled = false
-        collectionView.contentInset = .init(top: 20,
+        collectionView.contentInset = .init(top: 0,
                                             left: 0,
-                                            bottom: 30,
+                                            bottom: 0,
                                             right: 0)
-        collectionView.backgroundColor = .white
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
     }

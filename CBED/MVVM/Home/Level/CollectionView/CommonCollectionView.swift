@@ -25,8 +25,8 @@ extension CommonCollectionViewSection: SectionModelType {
 protocol CellType where Self: UICollectionViewCell {
     associatedtype T
     
-    var cellHeight: CGFloat { get }
-    var cellWidth: CGFloat { get }
+    static var cellHeight: CGFloat { get }
+    static var cellWidth: CGFloat { get }
     
     func populateData(_ data: T)
 }
@@ -75,15 +75,16 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     }
     
     private func setupCollectionView() {
+        backgroundView?.backgroundColor = Constants.BackgroundColor
+        backgroundColor = Constants.BackgroundColor
         clipsToBounds = false
         register(C.nib(), forCellWithReuseIdentifier: C.nibName())
         rx.setDelegate(self).disposed(by: disposeBag)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as! C
-        return .init(width: cell.cellWidth,
-                     height: cell.cellHeight)
+        return .init(width: C.cellWidth,
+                     height: C.cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -95,15 +96,83 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     }
 }
 
-class AnswerCollectionView: CommonCollectionView<CommonCollectionViewSection<SelectableAnswer>, AnswerCell> {
-    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let labelWidth: CGFloat = UIScreen.main.bounds.width - 20 - 20 - 16 - 16 - 8 - 8 - 8 - 18
-        let item = rxDatasource.sectionModels[indexPath.section].items[indexPath.item]
-        
-        let cellHeight = item.answer.content?.height(withConstrainedWidth: labelWidth,
-                                              font: UIFont(name: Constants.Font.LatoRegular, size: 14)!) ?? 0
-        let cellHeightWithOffset = cellHeight + 8 + 8
-        return .init(width: UIScreen.main.bounds.width - 20 - 20 - 16 - 16,
-                     height: cellHeightWithOffset < 48 ? 48 : cellHeightWithOffset)
+class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
+    private let disposeBag = DisposeBag()
+    private var lineSpacing: CGFloat!
+    
+    lazy var rxDatasource: RxCollectionViewSectionedReloadDataSource<T> = {
+        return RxCollectionViewSectionedReloadDataSource<T> { datasource, collectionView, indexPath, item in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as! C
+            cell.populateData(item as! C.T)
+            
+            return cell
+        }
+    }()
+    
+    override var intrinsicContentSize: CGSize {
+        return self.contentSize
     }
+    
+    override var contentSize: CGSize {
+        didSet {
+            invalidateIntrinsicContentSize()
+        }
+    }
+    
+    override func reloadData() {
+        super.reloadData()
+        self.invalidateIntrinsicContentSize()
+    }
+
+    
+    convenience init(lineSpacing: CGFloat) {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.scrollDirection = .vertical
+        self.init(frame: .zero, collectionViewLayout: layout)
+        self.lineSpacing = lineSpacing
+    }
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+        setupCollectionView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupCollectionView()
+    }
+    
+    private func setupCollectionView() {
+        backgroundView?.backgroundColor = Constants.BackgroundColor
+        backgroundColor = Constants.BackgroundColor
+        isScrollEnabled = false
+        clipsToBounds = false
+        register(C.nib(), forCellWithReuseIdentifier: C.nibName())
+//        rx.setDelegate(self).disposed(by: disposeBag)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: C.cellWidth,
+                     height: C.cellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return lineSpacing
+    }
+//    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+//        <#code#>
+//    }
+//    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return UICollectionViewauto
+////        let labelWidth: CGFloat = UIScreen.main.bounds.width - 20 - 20 - 16 - 16 - 8 - 8 - 8 - 18
+////        let item = rxDatasource.sectionModels[indexPath.section].items[indexPath.item]
+////
+////        let cellHeight = item.answer.content?.height(withConstrainedWidth: labelWidth,
+////                                              font: UIFont(name: Constants.Font.LatoRegular, size: 14)!) ?? 0
+////        let cellHeightWithOffset = cellHeight + 8 + 8
+////        return .init(width: UIScreen.main.bounds.width - 20 - 20 - 16 - 16,
+////                     height: cellHeightWithOffset < 48 ? 48 : cellHeightWithOffset)
+//    }
 }

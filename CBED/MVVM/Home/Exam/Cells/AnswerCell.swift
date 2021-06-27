@@ -20,35 +20,40 @@ class AnswerCell: UICollectionViewCell,
     
     typealias T = SelectableAnswer
     
-    var cellHeight: CGFloat {
+    static var cellHeight: CGFloat {
         return 0
     }
 
-    var cellWidth: CGFloat {
+    static var cellWidth: CGFloat {
         return UIScreen.main.bounds.width - 30 - 30
     }
     
     func populateData(_ data: SelectableAnswer) {
         if data.isSelected {
             if data.answer.isCorrect {
-                backgroundContainerView.backgroundColor = Constants.Color295BE0
-                backgroundContainerView.shadowColor = Constants.Color295BE0
+                backgroundContainerView.backgroundColor = Constants.PrimaryBlue
+                backgroundContainerView.shadowColor = Constants.PrimaryBlue
                 labelText.textColor = .white
                 radioImageView.image = #imageLiteral(resourceName: "img_answer_selected")
             } else {
                 backgroundContainerView.backgroundColor = Constants.ColorE0293F
                 backgroundContainerView.shadowColor = Constants.ColorE0293F
-                labelText.textColor = Constants.Color36343D
+                labelText.textColor = Constants.PrimaryTextColor
                 radioImageView.image = #imageLiteral(resourceName: "img_answer_unselected")
             }
         } else {
-            backgroundContainerView.backgroundColor = .white
+            backgroundContainerView.backgroundColor = Constants.CellColor
             backgroundContainerView.shadowColor = .black
-            labelText.textColor = Constants.Color36343D
+            labelText.textColor = Constants.PrimaryTextColor
             radioImageView.image = #imageLiteral(resourceName: "img_answer_unselected")
         }
         
         labelText.text = data.answer.content
     }
 
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+            let targetSize = CGSize(width: UIScreen.main.bounds.width - 20 - 20 - 16 - 16, height: 0)
+            layoutAttributes.frame.size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+            return layoutAttributes
+        }
 }

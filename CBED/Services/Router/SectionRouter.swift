@@ -39,7 +39,12 @@ extension SectionRouter: URLRequestConvertible {
     }
     
     var method: HTTPMethod {
-        return .get
+        switch self {
+        case .saveSectionResult:
+            return .post
+        default:
+            return .get
+        }
     }
     
     func asURLRequest() throws -> URLRequest {

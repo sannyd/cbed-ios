@@ -72,7 +72,7 @@ struct ExamViewModel: ViewModel {
                 switch questionAlertType {
                 case .correct:
                     correctAnswers += 1
-                    if currentQuestionIndex.value == (questions[currentQuestionIndex.value].answers ?? []).count {
+                    if currentQuestionIndex.value == questions.count - 1 {
                         saveResultTrigger.accept(())
                     } else {
                         currentQuestionIndex.accept(currentQuestionIndex.value + 1)
@@ -105,8 +105,7 @@ struct ExamViewModel: ViewModel {
             .share(replay: 1)
         
         saveResultTrigger
-            .withLatestFrom(currentQuestion)
-            .map { ($0.answers?.count ?? 0, correctAnswers) }
+            .map { (correctAnswers, questions.count) }
             .flatMapLatest(saveResult(correct:totalQuestion:))
             .asDriverOnErrorJustComplete()
             .drive(onNext: navigator.pushToResultVC(result:))

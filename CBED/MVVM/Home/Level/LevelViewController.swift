@@ -79,7 +79,6 @@ final class LevelViewController: UIViewController {
     private func setupCollectionView() {
         collectionView = CommonCollectionView<CommonCollectionViewSection<LevelM>, LevelCell>(lineSpacing: 30)
         collectionView.contentInset = .init(top: 20, left: 0, bottom: 30, right: 0)
-        collectionView.backgroundColor = .white
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
     }

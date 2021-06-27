@@ -45,7 +45,7 @@ struct ExamNavigator: ExamNavigatorType {
                                description: answer.discussion,
                                type: type,
                                rightButtonTitle: "OK")
-        let attribute = EKAttributes.createCustomAlertAttributes()
+        let attribute = EKAttributes.createCustomAlertAttributes(isDismissable: false)
         SwiftEntryKit.display(entry: alertVC, using: attribute)
     }
     

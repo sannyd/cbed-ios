@@ -45,9 +45,9 @@ class TabBarViewController: UITabBarController {
         scoreboardNav.tabBarItem = tabBarScoreboardItem
         settingNav.tabBarItem = tabBarSettingItem
         
-        UITabBar.appearance().tintColor = Constants.Color295BE0
+        UITabBar.appearance().tintColor = Constants.PrimaryBlue
         UITabBar.appearance().unselectedItemTintColor = Constants.ColorC4C4C4
-        UITabBar.appearance().barTintColor = .white
+        UITabBar.appearance().barTintColor = Constants.BackgroundColor
         
         guard let window = UIApplication.shared.keyWindow else {
             return

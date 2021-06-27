@@ -19,6 +19,12 @@
 		184ABC272684EAC9004048A5 /* ResultUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC232684EAC9004048A5 /* ResultUseCase.swift */; };
 		184ABC282684EAC9004048A5 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC242684EAC9004048A5 /* ResultViewController.swift */; };
 		184ABC292684EAC9004048A5 /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC252684EAC9004048A5 /* ResultViewModel.swift */; };
+		184ABC2C26878D06004048A5 /* ColorContext+UITraitCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC2B26878D06004048A5 /* ColorContext+UITraitCollection.swift */; };
+		184ABC2E26878D22004048A5 /* ColorContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC2D26878D22004048A5 /* ColorContext.swift */; };
+		184ABC3026878D34004048A5 /* TraitCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC2F26878D34004048A5 /* TraitCollectionProvider.swift */; };
+		184ABC3226878D45004048A5 /* UIColor+BackwardsCompatibleResolvedColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC3126878D45004048A5 /* UIColor+BackwardsCompatibleResolvedColor.swift */; };
+		184ABC3426878D56004048A5 /* UIColor+CoreColorsWithTraitCollectionProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC3326878D56004048A5 /* UIColor+CoreColorsWithTraitCollectionProviders.swift */; };
+		184ABC3626878D69004048A5 /* UIColor+DynamicColorContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC3526878D69004048A5 /* UIColor+DynamicColorContext.swift */; };
 		185B05EA267615A600A17664 /* LevelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E6267615A600A17664 /* LevelNavigator.swift */; };
 		185B05EB267615A600A17664 /* LevelUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E7267615A600A17664 /* LevelUseCase.swift */; };
 		185B05EC267615A600A17664 /* LevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B05E8267615A600A17664 /* LevelViewController.swift */; };
@@ -146,6 +152,12 @@
 		184ABC232684EAC9004048A5 /* ResultUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultUseCase.swift; sourceTree = "<group>"; };
 		184ABC242684EAC9004048A5 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		184ABC252684EAC9004048A5 /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
+		184ABC2B26878D06004048A5 /* ColorContext+UITraitCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ColorContext+UITraitCollection.swift"; sourceTree = "<group>"; };
+		184ABC2D26878D22004048A5 /* ColorContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorContext.swift; sourceTree = "<group>"; };
+		184ABC2F26878D34004048A5 /* TraitCollectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitCollectionProvider.swift; sourceTree = "<group>"; };
+		184ABC3126878D45004048A5 /* UIColor+BackwardsCompatibleResolvedColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+BackwardsCompatibleResolvedColor.swift"; sourceTree = "<group>"; };
+		184ABC3326878D56004048A5 /* UIColor+CoreColorsWithTraitCollectionProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+CoreColorsWithTraitCollectionProviders.swift"; sourceTree = "<group>"; };
+		184ABC3526878D69004048A5 /* UIColor+DynamicColorContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DynamicColorContext.swift"; sourceTree = "<group>"; };
 		185B05E6267615A600A17664 /* LevelNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelNavigator.swift; sourceTree = "<group>"; };
 		185B05E7267615A600A17664 /* LevelUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUseCase.swift; sourceTree = "<group>"; };
 		185B05E8267615A600A17664 /* LevelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelViewController.swift; sourceTree = "<group>"; };
@@ -299,6 +311,19 @@
 			path = Result;
 			sourceTree = "<group>";
 		};
+		184ABC2A26878CA4004048A5 /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				184ABC2B26878D06004048A5 /* ColorContext+UITraitCollection.swift */,
+				184ABC2D26878D22004048A5 /* ColorContext.swift */,
+				184ABC2F26878D34004048A5 /* TraitCollectionProvider.swift */,
+				184ABC3126878D45004048A5 /* UIColor+BackwardsCompatibleResolvedColor.swift */,
+				184ABC3326878D56004048A5 /* UIColor+CoreColorsWithTraitCollectionProviders.swift */,
+				184ABC3526878D69004048A5 /* UIColor+DynamicColorContext.swift */,
+			);
+			path = Colors;
+			sourceTree = "<group>";
+		};
 		185B05E12676113C00A17664 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -325,6 +350,7 @@
 		185B060B26761F2D00A17664 /* CommonViews */ = {
 			isa = PBXGroup;
 			children = (
+				184ABC2A26878CA4004048A5 /* Colors */,
 				185B065F267DE58600A17664 /* BaseNibView.swift */,
 				185B065C267BB6AE00A17664 /* CustomAlertView.swift */,
 				185B065B267BB6AE00A17664 /* CustomAlertView.xib */,
@@ -845,6 +871,7 @@
 				185B05FB2676190E00A17664 /* QuestionM.swift in Sources */,
 				185F87BA2674B43E00A63898 /* CAPropertyAnimation+Key.swift in Sources */,
 				185B065E267BB6AE00A17664 /* CustomAlertView.swift in Sources */,
+				184ABC3426878D56004048A5 /* UIColor+CoreColorsWithTraitCollectionProviders.swift in Sources */,
 				185F87962673C28C00A63898 /* Facebook+Reactive.swift in Sources */,
 				185B05EC267615A600A17664 /* LevelViewController.swift in Sources */,
 				FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */,
@@ -854,6 +881,7 @@
 				185B060D26761F3B00A17664 /* CustomBorderView.swift in Sources */,
 				FFD576F52673681200CC9CF1 /* Environment.swift in Sources */,
 				184ABC262684EAC9004048A5 /* ResultNavigator.swift in Sources */,
+				184ABC3026878D34004048A5 /* TraitCollectionProvider.swift in Sources */,
 				FFD5770026736F2700CC9CF1 /* AuthRouter.swift in Sources */,
 				185B063E267A516F00A17664 /* SectionDetailUseCase.swift in Sources */,
 				FFD5770426736FEA00CC9CF1 /* TokenAdapter.swift in Sources */,
@@ -871,6 +899,7 @@
 				185B0640267A516F00A17664 /* SectionDetailViewModel.swift in Sources */,
 				185B05F5267616F000A17664 /* LevelsUseCase.swift in Sources */,
 				184ABC282684EAC9004048A5 /* ResultViewController.swift in Sources */,
+				184ABC2C26878D06004048A5 /* ColorContext+UITraitCollection.swift in Sources */,
 				185B0651267B994400A17664 /* PreviewWebViewViewModel.swift in Sources */,
 				185B05F12676168D00A17664 /* SectionRouter.swift in Sources */,
 				185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */,
@@ -886,6 +915,7 @@
 				184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */,
 				185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */,
 				185F87B92674B43E00A63898 /* CGRect+Center.swift in Sources */,
+				184ABC2E26878D22004048A5 /* ColorContext.swift in Sources */,
 				185B061826762F5E00A17664 /* ScoreboardUseCase.swift in Sources */,
 				185B05EB267615A600A17664 /* LevelUseCase.swift in Sources */,
 				185B062A2677C29500A17664 /* SectionsUseCase.swift in Sources */,
@@ -912,6 +942,7 @@
 				185B063D267A516F00A17664 /* SectionDetailNavigator.swift in Sources */,
 				184ABC292684EAC9004048A5 /* ResultViewModel.swift in Sources */,
 				185B061926762F5E00A17664 /* ScoreboardViewController.swift in Sources */,
+				184ABC3626878D69004048A5 /* UIColor+DynamicColorContext.swift in Sources */,
 				185B0638267A34CD00A17664 /* TokenRefreshResponseM.swift in Sources */,
 				FFD577172673717900CC9CF1 /* UIApplication+Extensions.swift in Sources */,
 				185B060F267629A300A17664 /* UICollectionView+.swift in Sources */,
@@ -922,6 +953,7 @@
 				184ABC272684EAC9004048A5 /* ResultUseCase.swift in Sources */,
 				185B062126762F7C00A17664 /* SettingUseCase.swift in Sources */,
 				185B0650267B994400A17664 /* PreviewWebViewViewController.swift in Sources */,
+				184ABC3226878D45004048A5 /* UIColor+BackwardsCompatibleResolvedColor.swift in Sources */,
 				185B062226762F7C00A17664 /* SettingViewController.swift in Sources */,
 				185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */,
 				FFD577132673712C00CC9CF1 /* UIColor+.swift in Sources */,
@@ -1005,7 +1037,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1061,7 +1093,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1080,7 +1112,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JCU6V6K96S;
 				INFOPLIST_FILE = CBED/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1101,7 +1133,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JCU6V6K96S;
 				INFOPLIST_FILE = CBED/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

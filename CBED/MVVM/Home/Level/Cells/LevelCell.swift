@@ -13,11 +13,11 @@ class LevelCell: UICollectionViewCell, CellType {
     
     typealias T = LevelM
 
-    var cellHeight: CGFloat {
+    static var cellHeight: CGFloat {
         return 162
     }
     
-    var cellWidth: CGFloat {
+    static var cellWidth: CGFloat {
         return UIScreen.main.bounds.width - 30 - 30
     }
     

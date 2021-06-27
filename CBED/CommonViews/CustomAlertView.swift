@@ -9,19 +9,31 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+class CustomTextView: UITextView {
+    let maxHeight: CGFloat = 400
+    override var contentSize: CGSize {
+        didSet {
+              let height = text.height(withConstrainedWidth: UIScreen.main.bounds.width - 20 - 20 - 22 - 22,
+                        font: UIFont(name: Constants.Font.LatoRegular, size: 14 )!)
+            if contentSize.height < height && contentSize.height > 92 {
+                isScrollEnabled = true
+            }
+        }
+    }
+}
+
 enum CustomAlertViewPublisher {
     case OKTapped(QuestionAlertType)
     case cancelTapped
 }
 class CustomAlertView: BaseNibView {
     @IBOutlet weak var labelTitle: UILabel!
-    @IBOutlet weak var labelDescription: UILabel!
+    @IBOutlet weak var textViewDescription: CustomTextView!
     @IBOutlet weak var buttonYes: UIButton!
     @IBOutlet weak var buttonNo: UIButton!
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var usefulLinkStackView: UIStackView!
     @IBOutlet weak var labelUsefulLink: UILabel!
-    
     
     var type: QuestionAlertType = .correct
     
@@ -52,7 +64,7 @@ class CustomAlertView: BaseNibView {
                         rightButtonTitle: String?) {
         self.type = type
         labelTitle.text = title
-        labelDescription.text = description
+        textViewDescription.text = description
         buttonYes.setTitle(leftButtonTitle, for: .normal)
         labelTitle.textColor = type.color
         buttonYes.backgroundColor = type.color
@@ -61,7 +73,6 @@ class CustomAlertView: BaseNibView {
             buttonNo.setTitle(rightButtonTitle, for: .normal)
         } else {
             buttonNo.isHidden = true
-//            separatorLine.isHidden = true
         }
     }
     

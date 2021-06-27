@@ -14,11 +14,11 @@ class SectionCell: UICollectionViewCell, CellType {
     
     typealias T = SectionM
     
-    var cellHeight: CGFloat {
+    static var cellHeight: CGFloat {
         return 80
     }
     
-    var cellWidth: CGFloat {
+    static var cellWidth: CGFloat {
         return UIScreen.main.bounds.width - 30 - 30
     }
     

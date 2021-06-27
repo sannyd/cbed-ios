@@ -22,6 +22,8 @@ extension EKAttributes {
         let widthConstraint = EKAttributes.PositionConstraints.Edge.offset(value: 20)
         let heightConstraint = EKAttributes.PositionConstraints.Edge.intrinsic
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)
+        attributes.positionConstraints.maxSize = .init(width: .constant(value: UIScreen.main.bounds.width),
+                                                       height: .offset(value: 200))
         attributes.roundCorners = .all(radius: 10)
         attributes.shadow = .active(with: .init(color: .black,
                                                 opacity: 0.1,

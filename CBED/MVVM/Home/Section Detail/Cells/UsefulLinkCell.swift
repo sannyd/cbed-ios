@@ -14,11 +14,11 @@ class UsefulLinkCell: UICollectionViewCell, CellType {
     
     typealias T = UsefulLink
 
-    var cellHeight: CGFloat {
+    static var cellHeight: CGFloat {
         return 70
     }
     
-    var cellWidth: CGFloat {
+    static var cellWidth: CGFloat {
         return UIScreen.main.bounds.width - 30 - 30
     }
     

@@ -10,7 +10,7 @@ import Foundation
 extension Storage {
     static var accessToken: String? {
         get {
-            guard let data = Storage.get(key: .accessToken, storageType: .userDefault),
+            guard let data = Storage.get(key: StorageKey.accessToken.rawValue, storageType: .userDefault),
                   let valueString = String(data: data, encoding: .utf8) else {
                 return nil
             }
@@ -20,13 +20,13 @@ extension Storage {
             guard let data = newValue?.data(using: .utf8, allowLossyConversion: false) else {
                 return
             }
-            Storage.set(value: data, forKey: .accessToken, storageType: .userDefault)
+            Storage.set(value: data, forKey: StorageKey.accessToken.rawValue, storageType: .userDefault)
         }
     }
     
     static var refreshToken: String? {
         get {
-            guard let data = Storage.get(key: .refreshToken, storageType: .userDefault),
+            guard let data = Storage.get(key: StorageKey.refreshToken.rawValue, storageType: .userDefault),
                   let valueString = String(data: data, encoding: .utf8) else {
                 return nil
             }
@@ -36,7 +36,7 @@ extension Storage {
             guard let data = newValue?.data(using: .utf8, allowLossyConversion: false) else {
                 return
             }
-            Storage.set(value: data, forKey: .refreshToken, storageType: .userDefault)
+            Storage.set(value: data, forKey: StorageKey.refreshToken.rawValue, storageType: .userDefault)
         }
     }
 }

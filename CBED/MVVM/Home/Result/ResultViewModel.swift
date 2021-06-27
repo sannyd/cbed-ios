@@ -34,9 +34,9 @@ enum ResultType {
         switch self {
         case .pass(let result):
             let string1Attributes: [NSAttributedString.Key: Any] = [.font: UIFont(name: Constants.Font.LatoBold, size: 64)!,
-                                                                    .foregroundColor: Constants.Color295BE0]
+                                                                    .foregroundColor: Constants.PrimaryBlue]
             let string2Attributes: [NSAttributedString.Key: Any] = [.font: UIFont(name: Constants.Font.LatoBold, size: 64)!,
-                                                                    .foregroundColor: Constants.Color36343D]
+                                                                    .foregroundColor: Constants.PrimaryTextColor]
             let string1 = NSMutableAttributedString.init(string: "\(result.correct ?? 0) ", attributes: string1Attributes)
             let string2 = NSMutableAttributedString.init(string: "/ \(result.total ?? 0)", attributes: string2Attributes)
             let combination = NSMutableAttributedString()
@@ -48,7 +48,7 @@ enum ResultType {
             let string1Attributes: [NSAttributedString.Key: Any] = [.font: UIFont(name: Constants.Font.LatoBold, size: 64)!,
                                                                     .foregroundColor: Constants.ColorE0293F]
             let string2Attributes: [NSAttributedString.Key: Any] = [.font: UIFont(name: Constants.Font.LatoBold, size: 64)!,
-                                                                    .foregroundColor: Constants.Color36343D]
+                                                                    .foregroundColor: Constants.PrimaryTextColor]
             let string1 = NSMutableAttributedString.init(string: "\(result.correct ?? 0) ", attributes: string1Attributes)
             let string2 = NSMutableAttributedString.init(string: "/ \(result.total ?? 0)", attributes: string2Attributes)
             let combination = NSMutableAttributedString()
