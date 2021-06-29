@@ -21,6 +21,7 @@ extension ExamViewModel {
         let answers: Observable<[CommonCollectionViewSection<SelectableAnswer>]>
         let navigationTitle: Observable<String?>
         let numberOfQuestions: Observable<String>
+        let scrollToTopInvoked: Observable<Void>
     }
 }
 
@@ -33,12 +34,16 @@ struct ExamViewModel: ViewModel {
     let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
+        let sectionKey = "section_\(sectionDetail.id)"
+        
         let questions = sectionDetail.questions ?? []
-        let currentQuestionIndex = BehaviorRelay<Int>(value: 0)
+        let previousQuestionIndex = UserDefaults.standard.value(forKey: sectionKey) as? Int ?? 0
+        let currentQuestionIndex = BehaviorRelay<Int>(value: previousQuestionIndex)
         let sharedCurrentQuestionIndex = currentQuestionIndex.share(replay: 1)
         let currentAnswers = BehaviorRelay<[CommonCollectionViewSection<SelectableAnswer>]>(value: [])
         let saveResultTrigger = PublishRelay<Void>()
-        var correctAnswers = UserDefaults.standard.value(forKey: "\(sectionDetail.id)") as? Int ?? 0
+        var correctAnswers = previousQuestionIndex + 1
+        let scrollToTopInvoked = PublishSubject<Void>()
         
         let sharedAlertPublisher = navigator
             .publisher
@@ -70,19 +75,24 @@ struct ExamViewModel: ViewModel {
             .unwrap()
             .do(onNext: { questionAlertType in
                 switch questionAlertType {
-                case .correct:
-                    correctAnswers += 1
-                    if currentQuestionIndex.value == questions.count - 1 {
+                case .correct:              
+                    if currentQuestionIndex.value >= questions.count - 1 {
                         saveResultTrigger.accept(())
                     } else {
+                        correctAnswers += 1
+                        let nextQuestionIndex = currentQuestionIndex.value + 1
                         currentQuestionIndex.accept(currentQuestionIndex.value + 1)
                         let answers = (questions[currentQuestionIndex.value].answers ?? [])
                             .map { SelectableAnswer(isSelected: false, answer: $0) }
                         currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                        
+                        UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
                     }
+                    scrollToTopInvoked.onNext(())
                 case .wrong:
                     break
                 }
+                
                 SwiftEntryKit.dismiss()
             })
             .map { _ in questions[currentQuestionIndex.value] }
@@ -108,11 +118,14 @@ struct ExamViewModel: ViewModel {
             .map { (correctAnswers, questions.count) }
             .flatMapLatest(saveResult(correct:totalQuestion:))
             .asDriverOnErrorJustComplete()
+            .do(onNext: { _ in
+                UserDefaults.standard.removeObject(forKey: sectionKey)
+            })
             .drive(onNext: navigator.pushToResultVC(result:))
             .disposed(by: disposeBag)
         
         let numberOfQuestions = sharedCurrentQuestionIndex
-            .map { "Questions \($0)/\(questions.count)" }
+            .map { "Questions \($0 + 1)/\(questions.count)" }
         
         input
             .answerTapped
@@ -141,7 +154,8 @@ struct ExamViewModel: ViewModel {
         return Output(currentQuestion: currentQuestion,
                       answers: currentAnswers.asObservable(),
                       navigationTitle: .just(sectionDetail.name),
-                      numberOfQuestions: numberOfQuestions)
+                      numberOfQuestions: numberOfQuestions,
+                      scrollToTopInvoked: scrollToTopInvoked.asObservable())
     }
     
     private func saveResult(correct: Int,

@@ -30,6 +30,7 @@ final class ResultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindViewModel()
     }
     
     deinit {
@@ -48,14 +49,22 @@ final class ResultViewController: UIViewController {
             .drive(onNext: { [weak self] type in
                 self?.resultImageView.image = type.image
                 self?.labelResult.attributedText = type.score
+                self?.labelTitle.text = type.title
                 switch type {
                 case .pass:
-                    self?.buttonTakeNewTest.isHidden = true
+                    self?.buttonTakeNewTest.isHidden = false
+                    self?.buttonTryAgain.isHidden = true
                 case .fail:
                     self?.buttonTakeNewTest.isHidden = true
                     self?.buttonShare.isHidden = true
                     self?.labelReason.isHidden = false
                 }
+            }),
+        buttonBack
+            .rxButtonTapped
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
             })]
             .forEach { $0.disposed(by: disposeBag) }
     }

@@ -100,10 +100,15 @@ class CustomBorderView: UIView {
             corners.insert(.layerMaxXMaxYCorner)
         }
 
-        self.layer.shadowColor = self.shadowColor.cgColor
+       
         self.layer.shadowOpacity = self.shadowOpacity
         self.layer.shadowRadius = self.shadowRadius
         self.layer.shadowOffset = self.shadowOffset
+        self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        self.layer.shouldRasterize = true
+        self.layer.rasterizationScale = UIScreen.main.scale
+        
+        self.layer.shadowColor = self.shadowColor.cgColor
         self.roundCorners(corners, radius: self.borderRadius)
         self.layer.borderColor = self.borderColor.cgColor
         self.layer.borderWidth = self.borderWidth

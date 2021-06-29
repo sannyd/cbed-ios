@@ -32,9 +32,9 @@ extension SectionRouter: URLRequestConvertible {
         case .getSectionByID(let id):
             return "/\(id)/"
         case .searchSection:
-            return "/sections/"
+            return "/"
         case .saveSectionResult(let id, _, _):
-            return "sections/\(id)/save_result/"
+            return "/\(id)/save_result/"
         }
     }
     

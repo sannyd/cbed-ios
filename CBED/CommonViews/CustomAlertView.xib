@@ -132,7 +132,7 @@
                     </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Poc-LS-Q9G" secondAttribute="trailing" id="TKp-9B-MRo"/>
                 <constraint firstAttribute="bottom" secondItem="Poc-LS-Q9G" secondAttribute="bottom" id="b2g-un-9aZ"/>

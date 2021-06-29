@@ -16,8 +16,8 @@ final class ExamViewController: UIViewController {
     @IBOutlet weak var labelSubtitle: UILabel!
     @IBOutlet weak var labelQuestion: UILabel!
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var answerCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonBack: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     // MARK: - Properties
     
@@ -50,25 +50,6 @@ final class ExamViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
         output
-            .answers
-            .asDriverOnErrorJustComplete()
-            .drive(onNext: { [weak self] answerSection in
-//                let cellWidth = UIScreen.main.bounds.width - 20 - 20 - 16 - 16 - 8 - 8 - 8 - 18
-//                let answerCount = answerSection.first?.items.count ?? 0
-//                let collectionViewHeight = answerSection.first?.items
-//
-//                    .compactMap { $0.answer.content?.height(withConstrainedWidth: cellWidth,
-//                                                                                      font: UIFont(name: Constants.Font.LatoRegular, size: 14)!) }
-//                    .map { $0 + 16 }
-//                    .map { $0 < 48 ? 48 : $0 }
-//                    .reduce(0, +)
-//
-//                if let collectionViewHeight = collectionViewHeight {
-//                    self?.answerCollectionViewHeight.constant = collectionViewHeight + CGFloat((10 * answerCount)) + 20
-//                }
-                self?.view.layoutIfNeeded()
-            }),
-        output
             .currentQuestion
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] question in
@@ -91,6 +72,12 @@ final class ExamViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] _ in
                 self?.navigationController?.popViewController(animated: true)
+            }),
+        output
+            .scrollToTopInvoked
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] _ in
+                self?.scrollView.setContentOffset(.zero, animated: true)
             })]
             .forEach { $0.disposed(by: disposeBag) }
     }
