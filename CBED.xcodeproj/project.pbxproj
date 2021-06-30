@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		182DD55C268B6E4D00172927 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182DD55B268B6E4D00172927 /* StoreKit.framework */; };
 		184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC10267F28A0004048A5 /* EKAttributes+.swift */; };
 		184ABC132683927E004048A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 184ABC122683927E004048A5 /* GoogleService-Info.plist */; };
 		184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC15268395CD004048A5 /* AppNavigator.swift */; };
@@ -140,6 +141,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		182DD55B268B6E4D00172927 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		184ABC10267F28A0004048A5 /* EKAttributes+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EKAttributes+.swift"; sourceTree = "<group>"; };
 		184ABC122683927E004048A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		184ABC15268395CD004048A5 /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */,
+				182DD55C268B6E4D00172927 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -622,6 +625,7 @@
 		4C4DCC80E331F8F6FC7E3F75 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				182DD55B268B6E4D00172927 /* StoreKit.framework */,
 				F6F7B6C86563B475702601A8 /* Pods_CBED.framework */,
 			);
 			name = Frameworks;

@@ -64,10 +64,12 @@ enum ResultType {
 extension ResultViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
+        let buttonShareTrigger: Observable<Void>
     }
     
     struct Output {
         let result: Observable<ResultType>
+        let buttonShareInvoked: Observable<SaveResultResponseM>
     }
 }
 
@@ -88,6 +90,11 @@ struct ResultViewModel: ViewModel {
                 
             }
         
-        return Output(result: result)
+        let buttonShareInvoked = input
+            .buttonShareTrigger
+            .map { _ in self.result }
+        
+        return Output(result: result,
+                      buttonShareInvoked: buttonShareInvoked)
     }
 }

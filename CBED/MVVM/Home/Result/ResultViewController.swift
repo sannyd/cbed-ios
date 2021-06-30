@@ -40,7 +40,8 @@ final class ResultViewController: UIViewController {
     // MARK: - Methods
     
     func bindViewModel() {
-        let input = ResultViewModel.Input(firstLoadTrigger: rxViewWillAppear)
+        let input = ResultViewModel.Input(firstLoadTrigger: rxViewWillAppear,
+                                          buttonShareTrigger: buttonShare.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
@@ -60,6 +61,12 @@ final class ResultViewController: UIViewController {
                     self?.labelReason.isHidden = false
                 }
             }),
+         output
+            .buttonShareInvoked
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] result in
+                self?.showSharingVC()
+            }),
         buttonBack
             .rxButtonTapped
             .asDriverOnErrorJustComplete()
@@ -67,5 +74,23 @@ final class ResultViewController: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             })]
             .forEach { $0.disposed(by: disposeBag) }
+    }
+    
+    func showSharingVC() {
+        let screenshot = takeScreenshot()
+        let title = "I love this app"
+        let url = URL(string: "https://www.facebook.com/barexamdrills/")
+        let ac = UIActivityViewController(activityItems: [title, screenshot, url], applicationActivities: nil)
+        present(ac, animated: true)
+    }
+    
+    private func takeScreenshot() -> UIImage {
+        let bounds = UIScreen.main.bounds
+        UIGraphicsBeginImageContextWithOptions(bounds.size, true, 0.0)
+        self.view.drawHierarchy(in: bounds, afterScreenUpdates: true)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return img!
     }
 }
