@@ -8,10 +8,12 @@
 import RxSwift
 
 protocol SectionsUseCaseType {
-    func getLevelByID(_ id: Int) -> Single<LevelDetailM>
+    func searchSection(keySearch: String,
+                       limit: Int,
+                       offset: Int) -> Single<SectionSearchResponseM>
 }
 
 struct SectionsUseCase: SectionsUseCaseType,
-                        LevelsUseCase {
+                        SectionAPIUseCase {
     
 }

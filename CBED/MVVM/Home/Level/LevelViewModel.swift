@@ -57,13 +57,13 @@ struct LevelViewModel: ViewModel {
             }
     }
     
-    func fetchLevelByID(_ id: Int) -> Observable<LevelDetailM> {
-        return self.useCase
-            .getLevelByID(id)
-            .trackError(errorTracker)
-            .trackActivity(activityIndicator)
-            .catch { _ in
-                return .never()
-            }
-    }
+//    func fetchLevelByID(_ id: Int) -> Observable<LevelDetailM> {
+//        return self.useCase
+//            .getLevelByID(id)
+//            .trackError(errorTracker)
+//            .trackActivity(activityIndicator)
+//            .catch { _ in
+//                return .never()
+//            }
+//    }
 }

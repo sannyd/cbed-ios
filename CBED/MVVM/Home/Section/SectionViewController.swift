@@ -20,7 +20,7 @@ final class SectionsViewController: UIViewController {
     var viewModel: SectionsViewModel!
     var disposeBag = DisposeBag()
     
-    private var collectionView: CommonCollectionView<CommonCollectionViewSection<SectionM>, SectionCell>!
+    private var collectionView: CommonCollectionView<CommonCollectionViewSection<SearchResultM>, SectionCell>!
     
     // MARK: - Life Cycle
     
@@ -45,6 +45,7 @@ final class SectionsViewController: UIViewController {
         
         let input = SectionsViewModel.Input(firstLoadTrigger: Observable.merge(pullToRefreshTrigger,
                                                                                rxViewWillAppear),
+                                            loadMoreTrigger: collectionView.rx_reachedBottom,
                                             sectionTapped: collectionView.rxModelSelected())
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
@@ -82,5 +83,6 @@ final class SectionsViewController: UIViewController {
                                             right: 0)
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
+        collectionView.addLoadMore {}
     }
 }

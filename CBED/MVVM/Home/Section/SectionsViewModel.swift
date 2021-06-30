@@ -13,14 +13,16 @@ import RxSwiftExt
 extension SectionsViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
+        let loadMoreTrigger: Observable<Void>
         let sectionTapped: Observable<SectionM>
     }
     
     struct Output {
-        let sections: Driver<[CommonCollectionViewSection<SectionM>]>
-        let navigationTitle: Driver<String>
-        let isLoading: Driver<Bool>
-        let error: Driver<Error>
+        let sections: Observable<[CommonCollectionViewSection<SearchResultM>]>
+        let navigationTitle: Observable<String>
+        let lastPageInvoked: Observable<Void>
+        let isLoading: Observable<Bool>
+        let error: Observable<Error>
     }
 }
 
@@ -29,21 +31,41 @@ struct SectionsViewModel: ViewModel {
     let navigator: SectionsNavigatorType
     let levelID: Int
     let levelTitle: String
+    private let offset = 40
     
     private let errorTracker = ErrorTracker()
     private let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
+        var nextPage: String = ""
+        let lastPageTrigger = PublishSubject<Void>()
+        
+        var section = CommonCollectionViewSection<SearchResultM>(items: [])
+        
         let fetchLevelDetail = input
             .firstLoadTrigger
+            .map { _ in offset }
             .flatMapLatest(fetchSectionsByLevelID)
-            .share(replay: 1)
+            .do(onNext: { response in
+                nextPage = response.next ?? ""
+                section.items = response.results
+            })
+            .map { _ in [section] }
+//            .share(replay: 1)
         
-        let sections = fetchLevelDetail
-            .map (\.sections)
+        let loadMoreItems = input
+            .loadMoreTrigger
+            .map { _ in getOffsetFromURL(nextPage) }
             .unwrap()
-            .map { [CommonCollectionViewSection(items: $0)] }
-            .asDriver(onErrorJustReturn: [])
+            .flatMapLatest(fetchSectionsByLevelID)
+            .do(onNext: { response in
+                nextPage = response.next ?? ""
+                section.items = response.results
+            })
+            .map { _ in [section] }
+        
+        let sections = Observable.merge(fetchLevelDetail,
+                                    loadMoreItems)
         
         input
             .sectionTapped
@@ -53,13 +75,24 @@ struct SectionsViewModel: ViewModel {
         
         return Output(sections: sections,
                       navigationTitle: .just(levelTitle),
-                      isLoading: activityIndicator.asDriver(),
-                      error: errorTracker.asDriver())
+                      lastPageInvoked: lastPageTrigger.asObservable(),
+                      isLoading: activityIndicator.asObservable(),
+                      error: errorTracker.asObservable())
     }
     
-    private func fetchSectionsByLevelID() -> Observable<LevelDetailM> {
+    private func getOffsetFromURL(_ urlString: String) -> Int? {
+        guard let components = URLComponents(string: urlString),
+              let offset = components.queryItems?.first(where: { $0.name == "offset" })?.value,
+              let offsetNumber = Int(offset) else {
+            return nil
+        }
+        
+        return offsetNumber
+    }
+    
+    private func fetchSectionsByLevelID(offset: Int) -> Observable<SectionSearchResponseM> {
         return self.useCase
-            .getLevelByID(levelID)
+            .searchSection(keySearch: "", limit: offset, offset: offset)
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
             .catch { _ in

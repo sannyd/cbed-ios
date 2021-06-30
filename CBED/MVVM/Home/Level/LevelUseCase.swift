@@ -9,10 +9,14 @@ import RxSwift
 
 protocol LevelUseCaseType {
     func getAllLevels() -> Single<[LevelM]>
-    func getLevelByID(_ id: Int) -> Single<LevelDetailM>
+//    func getLevelByID(_ id: Int) -> Single<LevelDetailM>
+    func searchSection(keySearch: String,
+                       limit: Int,
+                       offset: Int) -> Single<SectionSearchResponseM>
 }
 
 struct LevelUseCase: LevelUseCaseType,
-                     LevelsUseCase {
+                     LevelsUseCase,
+                     SectionAPIUseCase {
     
 }
