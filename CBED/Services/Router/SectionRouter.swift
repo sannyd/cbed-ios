@@ -10,9 +10,7 @@ import Alamofire
 
 enum SectionRouter {
     case getSectionByID(_ id: Int)
-    case searchSection(keySearch: String,
-                       limit: Int,
-                       offset: Int)
+    case searchSection(params: Parameters)
     case saveSectionResult(id: Int,
                            correct: Int,
                            total: Int)
@@ -53,13 +51,9 @@ extension SectionRouter: URLRequestConvertible {
         request.method = method
         
         switch self {
-        case .searchSection(let keySearch,
-                            let limit,
-                            let offset):
+        case .searchSection(let params):
             let encoder = Alamofire.URLEncoding.queryString
-            request = try encoder.encode(request, with: ["search": keySearch,
-                                                         "limit": limit,
-                                                         "offset": offset])
+            request = try encoder.encode(request, with: params)
         case .saveSectionResult(_,
                                 let correct,
                                 let total):

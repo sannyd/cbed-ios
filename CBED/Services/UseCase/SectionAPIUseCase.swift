@@ -10,9 +10,7 @@ import RxSwift
 
 protocol SectionAPIUseCase {
     func getSectionByID(id: Int) -> Single<SectionDetailM>
-    func searchSection(keySearch: String,
-                       limit: Int,
-                       offset: Int) -> Single<SectionSearchResponseM>
+    func searchSection(request: SearchSectionRequestM) -> Single<SectionSearchResponseM>
     func saveSectionResult(id: Int,
                            correct: Int,
                            total: Int) -> Single<SaveResultResponseM>
@@ -25,14 +23,13 @@ extension SectionAPIUseCase {
             .request(SectionRouter.getSectionByID(id))
     }
     
-    func searchSection(keySearch: String,
-                       limit: Int,
-                       offset: Int) -> Single<SectionSearchResponseM> {
+    func searchSection(request: SearchSectionRequestM) -> Single<SectionSearchResponseM> {
+        guard let params = request.toParams() else {
+            return .error(CustomError.CannotGetParams)
+        }
         return APIClient
             .shared
-            .request(SectionRouter.searchSection(keySearch: keySearch,
-                                                 limit: limit,
-                                                 offset: offset))
+            .request(SectionRouter.searchSection(params: params))
     }
     
     func saveSectionResult(id: Int,

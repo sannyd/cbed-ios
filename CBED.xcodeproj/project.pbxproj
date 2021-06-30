@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		182DD55C268B6E4D00172927 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182DD55B268B6E4D00172927 /* StoreKit.framework */; };
+		182DD55F268CBCED00172927 /* SearchSectionRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD55E268CBCED00172927 /* SearchSectionRequestM.swift */; };
+		182DD561268CBD1200172927 /* BaseRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD560268CBD1200172927 /* BaseRequestM.swift */; };
+		182DD563268CBE3600172927 /* Encodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD562268CBE3600172927 /* Encodable+.swift */; };
+		182DD565268CC2D700172927 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD564268CC2D700172927 /* CustomError.swift */; };
 		184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC10267F28A0004048A5 /* EKAttributes+.swift */; };
 		184ABC132683927E004048A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 184ABC122683927E004048A5 /* GoogleService-Info.plist */; };
 		184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC15268395CD004048A5 /* AppNavigator.swift */; };
@@ -148,6 +152,10 @@
 
 /* Begin PBXFileReference section */
 		182DD55B268B6E4D00172927 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		182DD55E268CBCED00172927 /* SearchSectionRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionRequestM.swift; sourceTree = "<group>"; };
+		182DD560268CBD1200172927 /* BaseRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRequestM.swift; sourceTree = "<group>"; };
+		182DD562268CBE3600172927 /* Encodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+.swift"; sourceTree = "<group>"; };
+		182DD564268CC2D700172927 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		184ABC10267F28A0004048A5 /* EKAttributes+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EKAttributes+.swift"; sourceTree = "<group>"; };
 		184ABC122683927E004048A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		184ABC15268395CD004048A5 /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
@@ -304,6 +312,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		182DD55D268CBCC900172927 /* Request Models */ = {
+			isa = PBXGroup;
+			children = (
+				182DD55E268CBCED00172927 /* SearchSectionRequestM.swift */,
+				182DD560268CBD1200172927 /* BaseRequestM.swift */,
+			);
+			path = "Request Models";
+			sourceTree = "<group>";
+		};
 		184ABC14268395C0004048A5 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -596,7 +613,7 @@
 			path = UseCase;
 			sourceTree = "<group>";
 		};
-		185F879C2674546C00A63898 /* Models */ = {
+		185F879C2674546C00A63898 /* Response Models */ = {
 			isa = PBXGroup;
 			children = (
 				185F879D2674547800A63898 /* RegisterResponseM.swift */,
@@ -611,7 +628,7 @@
 				184ABC1D2684E4FC004048A5 /* SectionSearchResponseM.swift */,
 				184ABC1F2684E576004048A5 /* SaveResultResponseM.swift */,
 			);
-			path = Models;
+			path = "Response Models";
 			sourceTree = "<group>";
 		};
 		185F87B32674B43E00A63898 /* Custom Loading Indicator */ = {
@@ -704,13 +721,15 @@
 		FFD576FD26736F1900CC9CF1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				185F879C2674546C00A63898 /* Models */,
+				182DD55D268CBCC900172927 /* Request Models */,
+				185F879C2674546C00A63898 /* Response Models */,
 				185F8799267453F300A63898 /* UseCase */,
 				FFD576FE26736F1E00CC9CF1 /* Router */,
 				FFD577052673700300CC9CF1 /* Storage.swift */,
 				FFD577072673700A00CC9CF1 /* Storage+.swift */,
 				FFD5770126736FDC00CC9CF1 /* APIClient.swift */,
 				FFD5770326736FEA00CC9CF1 /* TokenAdapter.swift */,
+				182DD564268CC2D700172927 /* CustomError.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -744,6 +763,7 @@
 				185B060E267629A300A17664 /* UICollectionView+.swift */,
 				185B0666267E0DCD00A17664 /* String+.swift */,
 				FF1E61ED268C637800CF96B5 /* UIScrollView+.swift */,
+				182DD562268CBE3600172927 /* Encodable+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -906,6 +926,7 @@
 				FF1E61EE268C637800CF96B5 /* UIScrollView+.swift in Sources */,
 				185B060726761D4C00A17664 /* LevelCell.swift in Sources */,
 				185F879E2674547800A63898 /* RegisterResponseM.swift in Sources */,
+				182DD561268CBD1200172927 /* BaseRequestM.swift in Sources */,
 				185B062026762F7C00A17664 /* SettingNavigator.swift in Sources */,
 				185B05ED267615A600A17664 /* LevelViewModel.swift in Sources */,
 				185B05FB2676190E00A17664 /* QuestionM.swift in Sources */,
@@ -917,6 +938,7 @@
 				FF1E61E8268C626000CF96B5 /* PullToRefresh.swift in Sources */,
 				FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */,
 				185B06362678ED4700A17664 /* SectionDetailM.swift in Sources */,
+				182DD563268CBE3600172927 /* Encodable+.swift in Sources */,
 				FFD5771B2673722200CC9CF1 /* Validation+String.swift in Sources */,
 				185F87AA2674978E00A63898 /* LoginNavigator.swift in Sources */,
 				185B060D26761F3B00A17664 /* CustomBorderView.swift in Sources */,
@@ -938,6 +960,8 @@
 				FFD5770A2673701A00CC9CF1 /* Constants.swift in Sources */,
 				185B064F267B994400A17664 /* PreviewWebViewUseCase.swift in Sources */,
 				185F87942672796000A63898 /* CustomBorderButton.swift in Sources */,
+				182DD565268CC2D700172927 /* CustomError.swift in Sources */,
+				182DD55F268CBCED00172927 /* SearchSectionRequestM.swift in Sources */,
 				185B05EF267615E400A17664 /* LevelRouter.swift in Sources */,
 				185B0640267A516F00A17664 /* SectionDetailViewModel.swift in Sources */,
 				185B05F5267616F000A17664 /* LevelsUseCase.swift in Sources */,

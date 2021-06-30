@@ -8,9 +8,7 @@
 import RxSwift
 
 protocol SectionsUseCaseType {
-    func searchSection(keySearch: String,
-                       limit: Int,
-                       offset: Int) -> Single<SectionSearchResponseM>
+    func searchSection(request: SearchSectionRequestM) -> Single<SectionSearchResponseM>
 }
 
 struct SectionsUseCase: SectionsUseCaseType,

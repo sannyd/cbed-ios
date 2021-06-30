@@ -31,6 +31,70 @@ protocol CellType where Self: UICollectionViewCell {
     func populateData(_ data: T)
 }
 
+class CommonAnimatableCollectionView<T: AnimatableSectionModelType, C: CellType>: UICollectionView, UICollectionViewDelegateFlowLayout {
+    private let disposeBag = DisposeBag()
+    
+    private var cellHeight: CGFloat!
+    private var cellWidth: CGFloat!
+    private var lineSpacing: CGFloat!
+    
+    lazy var rxDatasource: RxCollectionViewSectionedAnimatedDataSource<T> = {
+        return RxCollectionViewSectionedAnimatedDataSource<T> { datasource, collectionView, indexPath, item in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as! C
+            cell.populateData(item as! C.T)
+            
+            return cell
+        }
+    }()
+    
+    convenience init(lineSpacing: CGFloat) {
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = .zero
+        layout.scrollDirection = .vertical
+        self.init(frame: .zero, collectionViewLayout: layout)
+        
+        self.lineSpacing = lineSpacing
+    }
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+        setupCollectionView()
+        setupRefreshControl()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupCollectionView()
+        setupRefreshControl()
+    }
+    
+    private func setupRefreshControl() {
+        let indicator = UIRefreshControl()
+        indicator.tintColor = .lightGray
+        refreshControl = indicator
+    }
+    
+    private func setupCollectionView() {
+        backgroundView?.backgroundColor = Constants.BackgroundColor
+        backgroundColor = Constants.BackgroundColor
+        clipsToBounds = false
+        register(C.nib(), forCellWithReuseIdentifier: C.nibName())
+        rx.setDelegate(self).disposed(by: disposeBag)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: C.cellWidth,
+                     height: C.cellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return lineSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+}
 
 class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, UICollectionViewDelegateFlowLayout {
     private let disposeBag = DisposeBag()
@@ -50,6 +114,7 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     
     convenience init(lineSpacing: CGFloat) {
         let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = .zero
         layout.scrollDirection = .vertical
         self.init(frame: .zero, collectionViewLayout: layout)
         
@@ -123,10 +188,8 @@ class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
         super.reloadData()
         self.invalidateIntrinsicContentSize()
     }
-
     
     convenience init(lineSpacing: CGFloat) {
-        
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.scrollDirection = .vertical
@@ -150,7 +213,6 @@ class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
         isScrollEnabled = false
         clipsToBounds = false
         register(C.nib(), forCellWithReuseIdentifier: C.nibName())
-//        rx.setDelegate(self).disposed(by: disposeBag)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -161,18 +223,4 @@ class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return lineSpacing
     }
-//    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-//        <#code#>
-//    }
-//    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return UICollectionViewauto
-////        let labelWidth: CGFloat = UIScreen.main.bounds.width - 20 - 20 - 16 - 16 - 8 - 8 - 8 - 18
-////        let item = rxDatasource.sectionModels[indexPath.section].items[indexPath.item]
-////
-////        let cellHeight = item.answer.content?.height(withConstrainedWidth: labelWidth,
-////                                              font: UIFont(name: Constants.Font.LatoRegular, size: 14)!) ?? 0
-////        let cellHeightWithOffset = cellHeight + 8 + 8
-////        return .init(width: UIScreen.main.bounds.width - 20 - 20 - 16 - 16,
-////                     height: cellHeightWithOffset < 48 ? 48 : cellHeightWithOffset)
-//    }
 }

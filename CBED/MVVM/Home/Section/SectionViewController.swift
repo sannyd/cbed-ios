@@ -51,14 +51,17 @@ final class SectionsViewController: UIViewController {
         
         [output
             .navigationTitle
+            .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] title in
                 self?.labelNavigationTitle.text = title
             }),
         output
             .sections
+            .asDriverOnErrorJustComplete()
             .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
         output
            .isLoading
+            .asDriverOnErrorJustComplete()
            .drive(onNext: { [weak self] isLoading in
                if isLoading {
                    self?.collectionView.refreshControl?.beginRefreshing()
@@ -66,6 +69,10 @@ final class SectionsViewController: UIViewController {
                    self?.collectionView.refreshControl?.endRefreshing()
                }
            }),
+        output
+            .isLoadMore
+            .asDriver(onErrorJustReturn: false)
+            .drive(collectionView.rx.loadingMore),
         buttonBack
            .rxButtonTapped
            .asDriverOnErrorJustComplete()
@@ -76,11 +83,12 @@ final class SectionsViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        collectionView = CommonCollectionView<CommonCollectionViewSection<SectionM>, SectionCell>(lineSpacing: 14)
-        collectionView.contentInset = .init(top: 20,
-                                            left: 0,
-                                            bottom: 30,
-                                            right: 0)
+        collectionView = CommonCollectionView<CommonCollectionViewSection<SearchResultM>, SectionCell>(lineSpacing: 14)
+        collectionView.contentInsetAdjustmentBehavior = .always
+//        collectionView.contentInset = .init(top: 20,
+//                                            left: 0,
+//                                            bottom: 100,
+//                                            right: 0)
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
         collectionView.addLoadMore {}

@@ -12,7 +12,7 @@ class SectionCell: UICollectionViewCell, CellType {
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var labelSubtitle: UILabel!
     
-    typealias T = SectionM
+    typealias T = SearchResultM
     
     static var cellHeight: CGFloat {
         return 80
@@ -22,10 +22,14 @@ class SectionCell: UICollectionViewCell, CellType {
         return UIScreen.main.bounds.width - 30 - 30
     }
     
-    func populateData(_ data: SectionM) {
+    func populateData(_ data: SearchResultM) {
         labelTitle.text = data.name
-        sectionImageView.image = #imageLiteral(resourceName: "img_tort")
-//        labelSubtitle.text = data.
+        labelSubtitle.text = data.subtitle
+        if let imageURL = data.image {
+            
+        } else {
+            sectionImageView.image = #imageLiteral(resourceName: "img_tort")
+        }
     }
     
     override func layoutSubviews() {
