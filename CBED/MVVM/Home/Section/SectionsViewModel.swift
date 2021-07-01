@@ -42,7 +42,7 @@ struct SectionsViewModel: ViewModel {
         let lastPageTrigger = PublishSubject<Void>()
         let isLoadMore = BehaviorRelay<Bool>(value: false)
         let isReload = BehaviorRelay<Bool>(value: false)
-        let isLastPagination = BehaviorRelay<Bool>(value: false)
+        let isLastPagination = BehaviorRelay<Bool>(value: true)
         let sections = BehaviorRelay<[CommonCollectionViewSection<SearchResultM>]>(value: [])
         
         input
@@ -67,7 +67,6 @@ struct SectionsViewModel: ViewModel {
         let nextPageRequest = activityIndicator
             .asObservable()
             .sample(input.loadMoreTrigger)
-        
       
         nextPageRequest
             .map { isLoading in (isLoading: isLoading, offset: getOffsetFromURL(nextPage)) }
@@ -89,9 +88,9 @@ struct SectionsViewModel: ViewModel {
                     return .never()
                 }
                 
-                defer {
+//                defer {
                     isLoadMore.accept(true)
-                }
+//                }
                 
                 return self.fetchSectionsByLevelID(offset: offset)
                     .catch { _ in
@@ -108,20 +107,11 @@ struct SectionsViewModel: ViewModel {
                 var items = temp?.items ?? []
                 items += response.results
                 temp?.items = items
-//
-                return [.init(items: items)]
+                
+                return [temp].compactMap { $0 }
             }
             .observe(on: MainScheduler.instance)
             .bind(to: sections)
-            .disposed(by: disposeBag)
-        
-//        let sections = Observable.merge(fetchLevelDetail,
-//                                    loadMoreItems)
-        sections
-            .subscribe(onNext: { sections in
-                print("sections: \(sections.count)")
-                print("items: \(sections.first?.items.count)")
-            })
             .disposed(by: disposeBag)
         
         input

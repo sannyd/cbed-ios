@@ -77,7 +77,7 @@ public extension UIScrollView {
         let size = CGSize(width: self.frame.size.width, height: loadMoreDefaultHeight)
         let frame = CGRect(origin: .zero, size: size)
         loadMoreView = LoadMoreView(action: action, frame: frame)
-        loadMoreView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        loadMoreView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         addSubview(loadMoreView!)
     }
