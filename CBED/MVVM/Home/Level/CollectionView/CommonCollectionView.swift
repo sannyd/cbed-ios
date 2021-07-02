@@ -215,10 +215,10 @@ class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
         register(C.nib(), forCellWithReuseIdentifier: C.nibName())
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: C.cellWidth,
-                     height: C.cellHeight)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return .init(width: C.cellWidth,
+//                     height: C.cellHeight)
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return lineSpacing

@@ -103,7 +103,8 @@ extension LoadMoreView {
 
         UIView.animate(withDuration: 0.3, animations: {
             self.scrollView.contentOffset.y = frameHeight + contentSizeHeight - scrollViewHeight + contentInsetBottom
-            self.scrollView.contentInset.bottom += frameHeight
+//            print("frameHeight: \(frameHeight)")
+            self.scrollView.contentInset.bottom += (frameHeight / 2)
         }, completion: { _ in
             self.action()
         })

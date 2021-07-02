@@ -73,6 +73,16 @@ final class SectionsViewController: UIViewController {
             .isLoadMore
             .asDriver(onErrorJustReturn: false)
             .drive(collectionView.rx.loadingMore),
+        output
+            .isLastPagination
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] isLastPagination in
+                if isLastPagination {
+                    self?.collectionView.setLoadMoreEnable(false)
+                } else {
+                    self?.collectionView.setLoadMoreEnable(true)
+                }
+            }),
         buttonBack
            .rxButtonTapped
            .asDriverOnErrorJustComplete()
@@ -85,10 +95,10 @@ final class SectionsViewController: UIViewController {
     private func setupCollectionView() {
         collectionView = CommonCollectionView<CommonCollectionViewSection<SearchResultM>, SectionCell>(lineSpacing: 14)
         collectionView.contentInsetAdjustmentBehavior = .always
-//        collectionView.contentInset = .init(top: 20,
-//                                            left: 0,
-//                                            bottom: 100,
-//                                            right: 0)
+        collectionView.contentInset = .init(top: 20,
+                                            left: 0,
+                                            bottom: 100,
+                                            right: 0)
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
         collectionView.addLoadMore {}

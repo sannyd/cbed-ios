@@ -14,7 +14,7 @@ extension SectionsViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
         let loadMoreTrigger: Observable<Void>
-        let sectionTapped: Observable<SectionM>
+        let sectionTapped: Observable<SearchResultM>
     }
     
     struct Output {
@@ -23,6 +23,7 @@ extension SectionsViewModel {
         let lastPageInvoked: Observable<Void>
         let isLoading: Observable<Bool>
         let isLoadMore: Observable<Bool>
+        let isLastPagination: Observable<Bool>
         let error: Observable<Error>
     }
 }
@@ -42,7 +43,7 @@ struct SectionsViewModel: ViewModel {
         let lastPageTrigger = PublishSubject<Void>()
         let isLoadMore = BehaviorRelay<Bool>(value: false)
         let isReload = BehaviorRelay<Bool>(value: false)
-        let isLastPagination = BehaviorRelay<Bool>(value: true)
+        let isLastPagination = BehaviorRelay<Bool>(value: false)
         let sections = BehaviorRelay<[CommonCollectionViewSection<SearchResultM>]>(value: [])
         
         input
@@ -64,15 +65,15 @@ struct SectionsViewModel: ViewModel {
             .bind(to: sections)
             .disposed(by: disposeBag)
         
-        let nextPageRequest = activityIndicator
-            .asObservable()
+        let sharedActivityIndicator = activityIndicator.asObservable().share(replay: 1)
+        
+        let nextPageRequest = sharedActivityIndicator
             .sample(input.loadMoreTrigger)
       
         nextPageRequest
-            .map { isLoading in (isLoading: isLoading, offset: getOffsetFromURL(nextPage)) }
             .subscribe(on: MainScheduler.instance)
             .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-            .flatMap { (isLoading, offset) -> Observable<SectionSearchResponseM> in
+            .flatMap { isLoading -> Observable<SectionSearchResponseM> in
                 guard !isLoading else {
                     return .never()
                 }
@@ -80,7 +81,7 @@ struct SectionsViewModel: ViewModel {
                     return .never()
                 }
                 
-                guard let offset = offset else {
+                guard let offset = getOffsetFromURL(nextPage) else {
                     defer {
                         isLoadMore.accept(false)
                         isLastPagination.accept(true)
@@ -88,10 +89,10 @@ struct SectionsViewModel: ViewModel {
                     return .never()
                 }
                 
-//                defer {
+                defer {
                     isLoadMore.accept(true)
-//                }
-                
+                }
+                print("loadMore \(isLoading) - \(offset)")
                 return self.fetchSectionsByLevelID(offset: offset)
                     .catch { _ in
                         isLoadMore.accept(false)
@@ -123,8 +124,9 @@ struct SectionsViewModel: ViewModel {
         return Output(sections: sections.asObservable(),
                       navigationTitle: .just(levelTitle),
                       lastPageInvoked: lastPageTrigger.asObservable(),
-                      isLoading: activityIndicator.asObservable(),
+                      isLoading: sharedActivityIndicator,
                       isLoadMore: isLoadMore.asObservable(),
+                      isLastPagination: isLastPagination.asObservable(),
                       error: errorTracker.asObservable())
     }
     
@@ -140,7 +142,10 @@ struct SectionsViewModel: ViewModel {
     
     private func fetchSectionsByLevelID(offset: Int) -> Observable<SectionSearchResponseM> {
         return self.useCase
-            .searchSection(request: .init(search: "", level: "\(levelID)", limit: self.offset, offset: offset))
+            .searchSection(request: .init(search: "",
+                                          level: "\(levelID)",
+                                          limit: self.offset,
+                                          offset: offset))
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
     }
