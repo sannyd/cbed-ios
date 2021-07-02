@@ -128,6 +128,10 @@
 		FF1E61EB268C626000CF96B5 /* PullToRefreshAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E6268C625F00CF96B5 /* PullToRefreshAnimator.swift */; };
 		FF1E61EC268C626000CF96B5 /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E7268C625F00CF96B5 /* UIScrollView+Extensions.swift */; };
 		FF1E61EE268C637800CF96B5 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61ED268C637800CF96B5 /* UIScrollView+.swift */; };
+		FFB1923E268F22300000B256 /* SearchNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB1923A268F22300000B256 /* SearchNavigator.swift */; };
+		FFB1923F268F22300000B256 /* SearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB1923B268F22300000B256 /* SearchUseCase.swift */; };
+		FFB19240268F22300000B256 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB1923C268F22300000B256 /* SearchViewController.swift */; };
+		FFB19241268F22300000B256 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB1923D268F22300000B256 /* SearchViewModel.swift */; };
 		FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576EF267367DE00CC9CF1 /* LoginViewModel.swift */; };
 		FFD576F32673680800CC9CF1 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576F22673680800CC9CF1 /* ViewModelType.swift */; };
 		FFD576F52673681200CC9CF1 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD576F42673681200CC9CF1 /* Environment.swift */; };
@@ -277,6 +281,10 @@
 		FF1E61E6268C625F00CF96B5 /* PullToRefreshAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshAnimator.swift; sourceTree = "<group>"; };
 		FF1E61E7268C625F00CF96B5 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		FF1E61ED268C637800CF96B5 /* UIScrollView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
+		FFB1923A268F22300000B256 /* SearchNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNavigator.swift; sourceTree = "<group>"; };
+		FFB1923B268F22300000B256 /* SearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUseCase.swift; sourceTree = "<group>"; };
+		FFB1923C268F22300000B256 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		FFB1923D268F22300000B256 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		FFD576EF267367DE00CC9CF1 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		FFD576F22673680800CC9CF1 /* ViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		FFD576F42673681200CC9CF1 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
@@ -359,6 +367,7 @@
 		185B05E12676113C00A17664 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				FFB19239268F22230000B256 /* Search */,
 				184ABC14268395C0004048A5 /* App */,
 				185B062D2677C2A000A17664 /* Level */,
 				185B06242677C28400A17664 /* Section */,
@@ -681,6 +690,17 @@
 			path = Refreshable;
 			sourceTree = "<group>";
 		};
+		FFB19239268F22230000B256 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				FFB1923A268F22300000B256 /* SearchNavigator.swift */,
+				FFB1923B268F22300000B256 /* SearchUseCase.swift */,
+				FFB1923C268F22300000B256 /* SearchViewController.swift */,
+				FFB1923D268F22300000B256 /* SearchViewModel.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		FFD576ED267367C600CC9CF1 /* MVVM */ = {
 			isa = PBXGroup;
 			children = (
@@ -982,8 +1002,10 @@
 				185F87AF2674A0A300A63898 /* StoryboardManager.swift in Sources */,
 				184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */,
 				185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */,
+				FFB1923F268F22300000B256 /* SearchUseCase.swift in Sources */,
 				185F87B92674B43E00A63898 /* CGRect+Center.swift in Sources */,
 				184ABC2E26878D22004048A5 /* ColorContext.swift in Sources */,
+				FFB19241268F22300000B256 /* SearchViewModel.swift in Sources */,
 				185B061826762F5E00A17664 /* ScoreboardUseCase.swift in Sources */,
 				185B05EB267615A600A17664 /* LevelUseCase.swift in Sources */,
 				185B062A2677C29500A17664 /* SectionsUseCase.swift in Sources */,
@@ -1008,6 +1030,7 @@
 				185B06332677C2FE00A17664 /* SectionCell.swift in Sources */,
 				185B060126761AAE00A17664 /* UIViewController+.swift in Sources */,
 				185B063D267A516F00A17664 /* SectionDetailNavigator.swift in Sources */,
+				FFB19240268F22300000B256 /* SearchViewController.swift in Sources */,
 				184ABC292684EAC9004048A5 /* ResultViewModel.swift in Sources */,
 				185B061926762F5E00A17664 /* ScoreboardViewController.swift in Sources */,
 				184ABC3626878D69004048A5 /* UIColor+DynamicColorContext.swift in Sources */,
@@ -1016,6 +1039,7 @@
 				185B060F267629A300A17664 /* UICollectionView+.swift in Sources */,
 				185B060426761B1B00A17664 /* CommonCollectionView.swift in Sources */,
 				185B05F72676179900A17664 /* LevelM.swift in Sources */,
+				FFB1923E268F22300000B256 /* SearchNavigator.swift in Sources */,
 				FFD577112673710400CC9CF1 /* ErrorTracker.swift in Sources */,
 				185F87A22674743C00A63898 /* LoginUseCase.swift in Sources */,
 				184ABC272684EAC9004048A5 /* ResultUseCase.swift in Sources */,

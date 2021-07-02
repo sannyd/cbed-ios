@@ -54,7 +54,12 @@ struct SectionsViewModel: ViewModel {
             .map { _ in offset }
             .subscribe(on: MainScheduler.instance)
             .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-            .flatMapLatest(fetchSectionsByLevelID)
+            .flatMapLatest { offset in
+                self.fetchSectionsByLevelID(offset: offset)
+                    .catch { _ in
+                        return .never()
+                    }
+            }
             .do(onNext: { response in
                 nextPage = response.next ?? ""
                 isReload.accept(false)
@@ -146,7 +151,7 @@ struct SectionsViewModel: ViewModel {
                                           level: "\(levelID)",
                                           limit: self.offset,
                                           offset: offset))
-            .trackError(errorTracker)
             .trackActivity(activityIndicator)
+            .trackError(errorTracker)
     }
 }

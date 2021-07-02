@@ -94,7 +94,6 @@ final class SectionsViewController: UIViewController {
     
     private func setupCollectionView() {
         collectionView = CommonCollectionView<CommonCollectionViewSection<SearchResultM>, SectionCell>(lineSpacing: 14)
-        collectionView.contentInsetAdjustmentBehavior = .always
         collectionView.contentInset = .init(top: 20,
                                             left: 0,
                                             bottom: 100,

@@ -102,9 +102,9 @@ extension LoadMoreView {
         let contentInsetBottom = scrollView.contentInset.bottom
 
         UIView.animate(withDuration: 0.3, animations: {
-            self.scrollView.contentOffset.y = frameHeight + contentSizeHeight - scrollViewHeight + contentInsetBottom
+//            self.scrollView.contentOffset.y = frameHeight + contentSizeHeight - scrollViewHeight + contentInsetBottom
 //            print("frameHeight: \(frameHeight)")
-            self.scrollView.contentInset.bottom += (frameHeight / 2)
+//            self.scrollView.contentInset.bottom += (frameHeight / 2)
         }, completion: { _ in
             self.action()
         })
@@ -114,7 +114,7 @@ extension LoadMoreView {
         animator.loadMoreAnimationDidEnd(view: self)
 
         UIView.animate(withDuration: 0.3, animations: {
-            self.scrollView.contentInset.bottom -= self.frame.height
+//            self.scrollView.contentInset.bottom -= self.frame.height
             self.scrollView.setContentOffset(self.scrollView.contentOffset, animated: false)
         })
     }
