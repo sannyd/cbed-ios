@@ -40,31 +40,20 @@ extension LoadMoreViewModel {
             .asObservable()
             .sample(nextPageRequest)
         
-        let isLoadMoreValid = Observable.combineLatest(isLoadMore,
+        let isLoadMoreValid = Observable.combineLatest(nextPageRequest,
+                                                       isLoadMore,
                                                        isReload)
-            .do(onNext: {  isLoadMore, isReload in
-                print("nani  \(isLoadMore), \(isReload)")
-            })
-            .map { isLoadMore, isReload in
-                return !isLoadMore && !isReload
-            }
-            .do(onNext: { isValid in
-                print("nani isValid \(isValid)")
-            })
+            { !$0 && !$1 && !$2 }
         
         let result = nextPageRequest
-            .withLatestFrom(nextPageRequest)
-            .filter { !$0 }
-//            .withLatestFrom(isLoadMoreValid)
-//            .filter { $0 }
+            .withLatestFrom(isLoadMoreValid)
+            .filter { $0 }
             .withLatestFrom(Observable.combineLatest(searchText,
                                                      nextPage))
             .subscribe(on: MainScheduler.instance)
             .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
             .flatMap { searchText, nextPage -> Observable<T> in
-                print("nani  \(isLoadMore.value), \(isReload.value)")
                 guard !isLoadMore.value && !isReload.value else {
-                    print("nani disme")
                     return .never()
                 }
                 
@@ -83,7 +72,6 @@ extension LoadMoreViewModel {
                     }
             }
             .do(onNext: { response in
-                print("nani load more complete: \(response.next)")
                 isLoadMore.accept(false)
                 nextPage.accept(response.next ?? "")
             })
