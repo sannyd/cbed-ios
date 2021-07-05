@@ -7,7 +7,18 @@
 
 import Foundation
 
-struct SectionSearchResponseM: Codable {
+protocol PagingResponse {
+    associatedtype T
+    
+    var count: Int { get }
+    var next: String? { get }
+    var previous: String? { get }
+    var results: [T] { get }
+}
+
+struct SectionSearchResponseM: Codable, PagingResponse {
+    typealias T = SearchResultM
+    
     let count: Int
     let next, previous: String?
     let results: [SearchResultM]

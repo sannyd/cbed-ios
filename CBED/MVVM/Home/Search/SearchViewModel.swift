@@ -12,6 +12,9 @@ import RxCocoa
 extension SearchViewModel {
     struct Input {
         let searchText: Observable<String>
+        let firstLoadTrigger: Observable<Void>
+        let loadMoreTrigger: Observable<Void>
+        let sectionTapped: Observable<SearchResultM>
     }
     
     struct Output {
@@ -24,16 +27,68 @@ extension SearchViewModel {
     }
 }
 
-struct SearchViewModel: ViewModel {
+struct SearchViewModel: LoadMoreViewModel {
+    
+    
+    typealias T = SectionSearchResponseM
+    
+    let lastPageTrigger = PublishSubject<Void>()
+    let isLoadMore = BehaviorRelay<Bool>(value: false)
+    let isReload = BehaviorRelay<Bool>(value: false)
+    let isLastPagination = BehaviorRelay<Bool>(value: false)
+    var nextPage = BehaviorRelay<String>(value: "")
+    
     let useCase: SearchUseCaseType
     let navigator: SearchNavigatorType
     
     private let offset = 10
     
-    private let errorTracker = ErrorTracker()
-    private let activityIndicator = ActivityIndicator()
+    let errorTracker = ErrorTracker()
+    let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
+        let sections = BehaviorRelay<[CommonCollectionViewSection<SearchResultM>]>(value: [])
         
+        reload(reloadTrigger: input.firstLoadTrigger,
+               searchText: input.searchText,
+               offset: offset)
+            .map { [CommonCollectionViewSection(items: $0.results)] }
+            .observe(on: MainScheduler.instance)
+            .bind(to: sections)
+            .disposed(by: disposeBag)
+        
+        getPage(nextPageRequest: .empty(),
+                offset: offset,
+                searchText: input.searchText)
+            .map { response in
+                var temp = sections.value.first
+                var items = temp?.items ?? []
+                items += response.results
+                temp?.items = items
+                
+                return [temp].compactMap { $0 }
+            }
+            .observe(on: MainScheduler.instance)
+            .bind(to: sections)
+            .disposed(by: disposeBag)
+        
+        return Output(sections: sections.asObservable(),
+                      lastPageInvoked: lastPageTrigger.asObservable(),
+                      isLoading: activityIndicator.asObservable(),
+                      isLoadMore: isLoadMore.asObservable(),
+                      isLastPagination: isLastPagination.asObservable(),
+                      error: errorTracker.asObservable())
+    }
+    
+    // Override
+    func getNextPage(offset: Int,
+                     searchText: String) -> Observable<SectionSearchResponseM> {
+        return self.useCase
+            .searchSection(request: .init(search: searchText,
+                                          level: "9",
+                                          limit: self.offset,
+                                          offset: offset))
+            .trackActivity(activityIndicator)
+            .trackError(errorTracker)
     }
 }

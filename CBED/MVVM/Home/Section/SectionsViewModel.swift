@@ -9,6 +9,115 @@ import RxSwift
 import RxCocoa
 import RxSwiftExt
 
+protocol LoadMoreViewModel: ViewModel {
+    associatedtype T: PagingResponse
+    
+    var lastPageTrigger: PublishSubject<Void> { get }
+    var isLoadMore: BehaviorRelay<Bool> { get }
+    var isReload: BehaviorRelay<Bool> { get }
+    var isLastPagination: BehaviorRelay<Bool> { get }
+    var nextPage: BehaviorRelay<String> { get }
+    var errorTracker: ErrorTracker { get }
+    var activityIndicator: ActivityIndicator { get }
+    
+    func getNextPage(offset: Int,
+                     searchText: String) -> Observable<T>
+    
+    func getPage(nextPageRequest: Observable<Void>,
+                 offset: Int,
+                 searchText: Observable<String>) -> Observable<T>
+    
+    func reload(reloadTrigger: Observable<Void>,
+                searchText: Observable<String>,
+                offset: Int) -> Observable<T>
+}
+
+extension LoadMoreViewModel {
+    func getPage(nextPageRequest: Observable<Void>,
+                 offset: Int,
+                 searchText: Observable<String>) -> Observable<T> {
+        let nextPageRequest = activityIndicator
+            .asObservable()
+            .sample(nextPageRequest)
+        
+        let isLoadMoreValid = Observable.combineLatest(isLoadMore,
+                                                       isReload)
+            .do(onNext: {  isLoadMore, isReload in
+                print("nani  \(isLoadMore), \(isReload)")
+            })
+            .map { isLoadMore, isReload in
+                return !isLoadMore && !isReload
+            }
+            .do(onNext: { isValid in
+                print("nani isValid \(isValid)")
+            })
+        
+        let result = nextPageRequest
+            .withLatestFrom(nextPageRequest)
+            .filter { !$0 }
+//            .withLatestFrom(isLoadMoreValid)
+//            .filter { $0 }
+            .withLatestFrom(Observable.combineLatest(searchText,
+                                                     nextPage))
+            .subscribe(on: MainScheduler.instance)
+            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .flatMap { searchText, nextPage -> Observable<T> in
+                print("nani: \(searchText) - \(nextPage)")
+                guard let offset = getOffsetFromURL(nextPage) else {
+                    isLoadMore.accept(false)
+                    isLastPagination.accept(true)
+                    return .never()
+                }
+                
+                isLoadMore.accept(true)
+                return self.getNextPage(offset: offset,
+                                        searchText: searchText)
+                    .catch { _ in
+                        isLoadMore.accept(false)
+                        return .never()
+                    }
+            }
+            .do(onNext: { response in
+                print("nani load more complete: \(response.next)")
+                isLoadMore.accept(false)
+                nextPage.accept(response.next ?? "")
+            })
+        
+        return result
+    }
+    
+    func reload(reloadTrigger: Observable<Void>,
+                searchText: Observable<String>,
+                offset: Int) -> Observable<T> {
+        return reloadTrigger
+            .do(onNext: { _ in
+                isReload.accept(true)
+            })
+            .withLatestFrom(searchText)
+            .subscribe(on: MainScheduler.instance)
+            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .flatMapLatest { searchText in
+                getNextPage(offset: offset,
+                            searchText: searchText)
+            }
+            .do(onNext: { response in
+                nextPage.accept(response.next ?? "")
+                isReload.accept(false)
+                isLastPagination.accept(false)
+            })
+    }
+    
+    private func getOffsetFromURL(_ urlString: String) -> Int? {
+        guard let components = URLComponents(string: urlString),
+              let offset = components.queryItems?.first(where: { $0.name == "offset" })?.value,
+              let offsetNumber = Int(offset) else {
+            return nil
+        }
+        
+        return offsetNumber
+    }
+}
+
 // MARK: Input + Output
 extension SectionsViewModel {
     struct Input {
@@ -28,43 +137,30 @@ extension SectionsViewModel {
     }
 }
 
-struct SectionsViewModel: ViewModel {
+struct SectionsViewModel: LoadMoreViewModel {
+    typealias T = SectionSearchResponseM
+    
+    let lastPageTrigger = PublishSubject<Void>()
+    let isLoadMore = BehaviorRelay<Bool>(value: false)
+    let isReload = BehaviorRelay<Bool>(value: false)
+    let isLastPagination = BehaviorRelay<Bool>(value: false)
+    let nextPage = BehaviorRelay<String>(value: "")
+    
     let useCase: SectionsUseCaseType
     let navigator: SectionsNavigatorType
     let levelID: Int
     let levelTitle: String
     private let offset = 10
     
-    private let errorTracker = ErrorTracker()
-    private let activityIndicator = ActivityIndicator()
+    let errorTracker = ErrorTracker()
+    let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
-        var nextPage: String = ""
-        let lastPageTrigger = PublishSubject<Void>()
-        let isLoadMore = BehaviorRelay<Bool>(value: false)
-        let isReload = BehaviorRelay<Bool>(value: false)
-        let isLastPagination = BehaviorRelay<Bool>(value: false)
         let sections = BehaviorRelay<[CommonCollectionViewSection<SearchResultM>]>(value: [])
         
-        input
-            .firstLoadTrigger
-            .do(onNext: { _ in
-                isReload.accept(true)
-            })
-            .map { _ in offset }
-            .subscribe(on: MainScheduler.instance)
-            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-            .flatMapLatest { offset in
-                self.fetchSectionsByLevelID(offset: offset)
-                    .catch { _ in
-                        return .never()
-                    }
-            }
-            .do(onNext: { response in
-                nextPage = response.next ?? ""
-                isReload.accept(false)
-                isLastPagination.accept(false)
-            })
+        reload(reloadTrigger: input.firstLoadTrigger,
+               searchText: .just(""),
+               offset: offset)
             .map { [CommonCollectionViewSection(items: $0.results)] }
             .observe(on: MainScheduler.instance)
             .bind(to: sections)
@@ -72,42 +168,9 @@ struct SectionsViewModel: ViewModel {
         
         let sharedActivityIndicator = activityIndicator.asObservable().share(replay: 1)
         
-        let nextPageRequest = sharedActivityIndicator
-            .sample(input.loadMoreTrigger)
-      
-        nextPageRequest
-            .subscribe(on: MainScheduler.instance)
-            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-            .flatMap { isLoading -> Observable<SectionSearchResponseM> in
-                guard !isLoading else {
-                    return .never()
-                }
-                guard !isLoadMore.value && !isReload.value else {
-                    return .never()
-                }
-                
-                guard let offset = getOffsetFromURL(nextPage) else {
-                    defer {
-                        isLoadMore.accept(false)
-                        isLastPagination.accept(true)
-                    }
-                    return .never()
-                }
-                
-                defer {
-                    isLoadMore.accept(true)
-                }
-                print("loadMore \(isLoading) - \(offset)")
-                return self.fetchSectionsByLevelID(offset: offset)
-                    .catch { _ in
-                        isLoadMore.accept(false)
-                        return .never()
-                    }
-            }
-            .do(onNext: { response in
-                nextPage = response.next ?? ""
-                isLoadMore.accept(false)
-            })
+        getPage(nextPageRequest: input.loadMoreTrigger,
+                offset: offset,
+                searchText: .just(""))
             .map { response in
                 var temp = sections.value.first
                 var items = temp?.items ?? []
@@ -135,23 +198,16 @@ struct SectionsViewModel: ViewModel {
                       error: errorTracker.asObservable())
     }
     
-    private func getOffsetFromURL(_ urlString: String) -> Int? {
-        guard let components = URLComponents(string: urlString),
-              let offset = components.queryItems?.first(where: { $0.name == "offset" })?.value,
-              let offsetNumber = Int(offset) else {
-            return nil
-        }
-        
-        return offsetNumber
-    }
-    
-    private func fetchSectionsByLevelID(offset: Int) -> Observable<SectionSearchResponseM> {
+    func getNextPage(offset: Int,
+                     searchText: String) -> Observable<SectionSearchResponseM> {
+        //        return .deferred {
         return self.useCase
-            .searchSection(request: .init(search: "",
+            .searchSection(request: .init(search: searchText,
                                           level: "\(levelID)",
                                           limit: self.offset,
                                           offset: offset))
             .trackActivity(activityIndicator)
             .trackError(errorTracker)
+        //        }
     }
 }

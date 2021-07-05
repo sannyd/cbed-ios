@@ -37,7 +37,16 @@ final class SearchViewController: UIViewController {
     // MARK: - Methods
     
     func bindViewModel() {
-        let input = SearchViewModel.Input()
+        let searchText = searchTextfield
+            .rx
+            .text
+            .orEmpty
+            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+        let input = SearchViewModel.Input(searchText: searchText,
+                                          firstLoadTrigger: rxViewWillAppear,
+                                          loadMoreTrigger: collectionView.rx_reachedBottom,
+                                          sectionTapped: collectionView.rxModelSelected())
         let output = viewModel.transform(input, disposeBag: disposeBag)
     }
     
