@@ -28,6 +28,7 @@ protocol ExamNavigatorType {
     
     func presentAnswerResult(answer: AnswerM)
     func pushToResultVC(result: SaveResultResponseM)
+    func popViewController()
 }
 
 struct ExamNavigator: ExamNavigatorType {
@@ -55,5 +56,9 @@ struct ExamNavigator: ExamNavigatorType {
                                    navigator: ResultNavigator(navigationController: navigationController),
                                    result: result)
         navigationController.pushViewController(resultVC, animated: true)
+    }
+    
+    func popViewController() {
+        navigationController.popViewController(animated: true)
     }
 }

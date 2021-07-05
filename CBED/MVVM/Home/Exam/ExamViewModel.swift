@@ -22,6 +22,7 @@ extension ExamViewModel {
         let navigationTitle: Observable<String?>
         let numberOfQuestions: Observable<String>
         let scrollToTopInvoked: Observable<Void>
+        let timerText: Observable<String>
     }
 }
 
@@ -35,6 +36,8 @@ struct ExamViewModel: ViewModel {
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let sectionKey = "section_\(sectionDetail.id)"
+        let sectionStartTime = "section_start_time_\(sectionDetail.id)"
+        let sectionEndTime = "section_end_time_\(sectionDetail.id)"
         
         let questions = sectionDetail.questions ?? []
         let previousQuestionIndex = UserDefaults.standard.value(forKey: sectionKey) as? Int ?? 0
@@ -44,6 +47,43 @@ struct ExamViewModel: ViewModel {
         let saveResultTrigger = PublishRelay<Void>()
         var correctAnswers = previousQuestionIndex + 1
         let scrollToTopInvoked = PublishSubject<Void>()
+        let timerTrigger = PublishSubject<String>()
+        
+        UserDefaults.standard.setValue(Date(), forKey: sectionStartTime)
+        
+        Observable<Int>.timer(.seconds(0),
+                               period: .seconds(1),
+                               scheduler: MainScheduler.instance)
+            .subscribe(onNext: { _ in
+                if let startTime = UserDefaults.standard.value(forKey: sectionStartTime) as? Date,
+                   let endTime = UserDefaults.standard.value(forKey: sectionEndTime) as? Date {
+                    guard endTime > startTime else {
+                        UserDefaults.standard.removeObject(forKey: sectionKey)
+                        UserDefaults.standard.removeObject(forKey: sectionStartTime)
+                        UserDefaults.standard.removeObject(forKey: sectionEndTime)
+                        navigator.popViewController()
+                        return
+                    }
+                    let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: startTime, to: endTime)
+                    let dayString = components.day == nil || components.day == 0 ? "" : "\(components.day!)D"
+                    let hourString = components.hour == nil || components.hour == 0  ? "" : "\(components.hour!)hr"
+                    let minuteString = components.minute == nil || components.minute == 0 ? "" : "\(components.minute!)m"
+                    let secondString = components.second == nil ? "" : "\(components.second!)s"
+                    UserDefaults.standard.setValue(Date(), forKey: sectionStartTime)
+                    timerTrigger.onNext("\(dayString) \(hourString) \(minuteString) \(secondString)")
+                } else {
+                    let startTime = Date()
+                    let questionCount = questions.count == 0 ? 100 : questions.count
+                    let potentialMultiplier = ceil(Double(questionCount / 100))
+                    let multiplier = potentialMultiplier == 0 ? 1 : potentialMultiplier
+                    let calendar = Calendar.current
+                    let endTime = calendar.date(byAdding: .hour, value: Int(multiplier) * 24, to: startTime)
+                    UserDefaults.standard.setValue(startTime, forKey: sectionStartTime)
+                    UserDefaults.standard.setValue(endTime, forKey: sectionEndTime)
+                }
+            })
+            .disposed(by: disposeBag)
+        
         
         let sharedAlertPublisher = navigator
             .publisher
@@ -155,7 +195,8 @@ struct ExamViewModel: ViewModel {
                       answers: currentAnswers.asObservable(),
                       navigationTitle: .just(sectionDetail.name),
                       numberOfQuestions: numberOfQuestions,
-                      scrollToTopInvoked: scrollToTopInvoked.asObservable())
+                      scrollToTopInvoked: scrollToTopInvoked.asObservable(),
+                      timerText: timerTrigger.asObservable())
     }
     
     private func saveResult(correct: Int,

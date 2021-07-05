@@ -463,7 +463,7 @@
                                         <state key="normal" image="img_back_black"/>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Dtc-7L-aE6">
-                                        <rect key="frame" x="185.5" y="20.5" width="43.5" height="39"/>
+                                        <rect key="frame" x="185.5" y="13.5" width="43.5" height="53.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VMD-MT-DXw">
                                                 <rect key="frame" x="0.0" y="0.0" width="43.5" height="22"/>
@@ -475,6 +475,12 @@
                                                 <rect key="frame" x="0.0" y="22" width="43.5" height="17"/>
                                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                                 <color key="textColor" name="Primary Text"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPa-Ad-tRU">
+                                                <rect key="frame" x="0.0" y="39" width="43.5" height="14.5"/>
+                                                <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="12"/>
+                                                <color key="textColor" name="Textfield Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -522,6 +528,7 @@
                         <outlet property="containerView" destination="iAg-5f-3C0" id="Q7q-vg-H4s"/>
                         <outlet property="labelQuestion" destination="skX-3s-XK8" id="kv1-Jg-ob9"/>
                         <outlet property="labelSubtitle" destination="Dyt-eG-zJW" id="MMG-Y3-ZEI"/>
+                        <outlet property="labelTime" destination="CPa-Ad-tRU" id="JPU-6s-Qcw"/>
                         <outlet property="labelTitle" destination="VMD-MT-DXw" id="pD4-FT-hSb"/>
                         <outlet property="scrollView" destination="LYd-xo-cUn" id="CKY-E2-Im8"/>
                     </connections>
@@ -923,6 +930,9 @@
         </namedColor>
         <namedColor name="Primary Text">
             <color red="0.21199999749660492" green="0.20399999618530273" blue="0.23899999260902405" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Textfield Color">
+            <color red="0.66299998760223389" green="0.72500002384185791" blue="0.80400002002716064" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

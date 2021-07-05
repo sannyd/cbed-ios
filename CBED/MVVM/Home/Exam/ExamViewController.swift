@@ -18,6 +18,7 @@ final class ExamViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var labelTime: UILabel!
     
     // MARK: - Properties
     
@@ -66,6 +67,12 @@ final class ExamViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] title in
                 self?.labelSubtitle.text = title
+            }),
+        output
+            .timerText
+            .asDriver(onErrorJustReturn: "N/A")
+            .drive(onNext: { [weak self] text in
+                self?.labelTime.text = text
             }),
         buttonBack
             .rxButtonTapped
