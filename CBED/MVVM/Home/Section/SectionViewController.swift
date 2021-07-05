@@ -70,6 +70,10 @@ final class SectionsViewController: UIViewController {
                }
            }),
         output
+            .error
+            .asDriverOnErrorJustComplete()
+            .drive(errorBinding),
+        output
             .isLoadMore
             .asDriver(onErrorJustReturn: false)
             .drive(collectionView.rx.loadingMore),

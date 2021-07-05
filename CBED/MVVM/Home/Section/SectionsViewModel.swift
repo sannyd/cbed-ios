@@ -62,7 +62,12 @@ extension LoadMoreViewModel {
             .subscribe(on: MainScheduler.instance)
             .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
             .flatMap { searchText, nextPage -> Observable<T> in
-                print("nani: \(searchText) - \(nextPage)")
+                print("nani  \(isLoadMore.value), \(isReload.value)")
+                guard !isLoadMore.value && !isReload.value else {
+                    print("nani disme")
+                    return .never()
+                }
+                
                 guard let offset = getOffsetFromURL(nextPage) else {
                     isLoadMore.accept(false)
                     isLastPagination.accept(true)
@@ -166,8 +171,6 @@ struct SectionsViewModel: LoadMoreViewModel {
             .bind(to: sections)
             .disposed(by: disposeBag)
         
-        let sharedActivityIndicator = activityIndicator.asObservable().share(replay: 1)
-        
         getPage(nextPageRequest: input.loadMoreTrigger,
                 offset: offset,
                 searchText: .just(""))
@@ -192,7 +195,7 @@ struct SectionsViewModel: LoadMoreViewModel {
         return Output(sections: sections.asObservable(),
                       navigationTitle: .just(levelTitle),
                       lastPageInvoked: lastPageTrigger.asObservable(),
-                      isLoading: sharedActivityIndicator,
+                      isLoading: isReload.asObservable(),
                       isLoadMore: isLoadMore.asObservable(),
                       isLastPagination: isLastPagination.asObservable(),
                       error: errorTracker.asObservable())
