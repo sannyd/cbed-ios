@@ -18,7 +18,7 @@ class UsefulLinkCell: UICollectionViewCell, CellType {
         return 70
     }
     
-    static var cellWidth: CGFloat {
+    static  var cellWidth: CGFloat {
         return UIScreen.main.bounds.width - 30 - 30
     }
     
