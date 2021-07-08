@@ -12,4 +12,5 @@ protocol SearchNavigatorType {
 }
 
 struct SearchNavigator: SearchNavigatorType {
+    unowned let navigationController: UINavigationController
 }

@@ -10,6 +10,7 @@ import UIKit
 protocol LevelNavigatorType {
     func pushToSectionsVC(levelID: Int,
                           levelTitle: String)
+    func pushToSearchVC()
 }
 
 struct LevelNavigator: LevelNavigatorType {
@@ -23,5 +24,12 @@ struct LevelNavigator: LevelNavigatorType {
                                      levelID: levelID,
                                      levelTitle: levelTitle)
         navigationController.pushViewController(sectionsVC, animated: true)
+    }
+    
+    func pushToSearchVC() {
+        let searchVC: SearchViewController = StoryboardManager.getVCFromHomeSB()
+        searchVC.viewModel = .init(useCase: SearchUseCase(),
+                                   navigator: SearchNavigator(navigationController: navigationController))
+        navigationController.pushViewController(searchVC, animated: true)
     }
 }

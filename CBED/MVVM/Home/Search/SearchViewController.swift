@@ -15,6 +15,8 @@ final class SearchViewController: UIViewController {
     @IBOutlet weak var searchTextfield: UITextField!
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var gradientView: GradientBackgroundView!
+    
     // MARK: - Properties
     
     var viewModel: SearchViewModel!
@@ -26,7 +28,10 @@ final class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchTextfield
+            .becomeFirstResponder()
         setupCollectionView()
+        setupGradientView()
         bindViewModel()
     }
     
@@ -41,6 +46,7 @@ final class SearchViewController: UIViewController {
             .rx
             .text
             .orEmpty
+            .filter { !$0.isEmpty }
             .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
         let input = SearchViewModel.Input(searchText: searchText,
@@ -48,6 +54,46 @@ final class SearchViewController: UIViewController {
                                           loadMoreTrigger: collectionView.rx_reachedBottom,
                                           sectionTapped: collectionView.rxModelSelected())
         let output = viewModel.transform(input, disposeBag: disposeBag)
+        
+        [output
+            .sections
+            .asDriver(onErrorJustReturn: [])
+            .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
+         output
+            .isLoading
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] isLoading in
+                if isLoading {
+                    self?.collectionView.refreshControl?.beginRefreshing()
+                } else {
+                    self?.collectionView.refreshControl?.endRefreshing()
+                }
+            }),
+         output
+            .error
+            .asDriverOnErrorJustComplete()
+            .drive(errorBinding),
+         output
+            .isLoadMore
+            .asDriver(onErrorJustReturn: false)
+            .drive(collectionView.rx.loadingMore),
+         output
+            .isLastPagination
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] isLastPagination in
+                if isLastPagination {
+                    self?.collectionView.setLoadMoreEnable(false)
+                } else {
+                    self?.collectionView.setLoadMoreEnable(true)
+                }
+            }),
+        buttonBack
+            .rxButtonTapped
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            })]
+            .forEach { $0.disposed(by: disposeBag) }
     }
     
     private func setupCollectionView() {
@@ -59,5 +105,15 @@ final class SearchViewController: UIViewController {
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
         collectionView.addLoadMore {}
+    }
+    
+    private func setupGradientView() {
+        let layer = gradientView.layer as! CAGradientLayer
+        layer.startPoint = .init(x: 0.5, y: 0)
+        layer.endPoint = .init(x: 0.5, y: 1)
+        layer.colors = [#colorLiteral(red: 0.1607843137, green: 0.3568627451, blue: 0.8784313725, alpha: 1).cgColor, #colorLiteral(red: 0.5058823529, green: 0.2078431373, blue: 0.8862745098, alpha: 1).cgColor]
+        
+        gradientView.roundCorners([.layerMinXMaxYCorner,
+                                   .layerMaxXMaxYCorner], radius: 50)
     }
 }

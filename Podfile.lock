@@ -175,6 +175,7 @@ PODS:
   - SwiftEntryKit (1.2.7):
     - QuickLayout (= 3.0.0)
   - SwiftLint (0.43.1)
+  - SwiftyStoreKit (0.16.1)
 
 DEPENDENCIES:
   - FBSDKCoreKit
@@ -195,6 +196,7 @@ DEPENDENCIES:
   - SnapKit
   - SwiftEntryKit
   - SwiftLint
+  - SwiftyStoreKit
 
 SPEC REPOS:
   trunk:
@@ -237,6 +239,7 @@ SPEC REPOS:
     - SnapKit
     - SwiftEntryKit
     - SwiftLint
+    - SwiftyStoreKit
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
@@ -278,7 +281,8 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftEntryKit: 537c92699d6034efb1ef9c32b11e0b37c97aa589
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
+  SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
 
-PODFILE CHECKSUM: e5cce5b660fbd2ab4cedb756caf40b8a6163088a
+PODFILE CHECKSUM: ff708a4ff9d9647221e0d291a78e583480ba0814
 
 COCOAPODS: 1.10.1

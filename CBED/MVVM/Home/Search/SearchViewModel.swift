@@ -28,8 +28,6 @@ extension SearchViewModel {
 }
 
 struct SearchViewModel: LoadMoreViewModel {
-    
-    
     typealias T = SectionSearchResponseM
     
     let lastPageTrigger = PublishSubject<Void>()
@@ -49,15 +47,19 @@ struct SearchViewModel: LoadMoreViewModel {
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let sections = BehaviorRelay<[CommonCollectionViewSection<SearchResultM>]>(value: [])
         
-        reload(reloadTrigger: input.firstLoadTrigger,
-               searchText: input.searchText,
+        let sharedInputSearchText = input
+            .searchText
+            .share(replay: 1)
+        
+        reload(reloadTrigger: sharedInputSearchText.mapToVoid(),
+               searchText: sharedInputSearchText,
                offset: offset)
             .map { [CommonCollectionViewSection(items: $0.results)] }
             .observe(on: MainScheduler.instance)
             .bind(to: sections)
             .disposed(by: disposeBag)
         
-        getPage(nextPageRequest: .empty(),
+        getPage(nextPageRequest: input.loadMoreTrigger,
                 offset: offset,
                 searchText: input.searchText)
             .map { response in
@@ -74,7 +76,7 @@ struct SearchViewModel: LoadMoreViewModel {
         
         return Output(sections: sections.asObservable(),
                       lastPageInvoked: lastPageTrigger.asObservable(),
-                      isLoading: activityIndicator.asObservable(),
+                      isLoading: isReload.asObservable(),
                       isLoadMore: isLoadMore.asObservable(),
                       isLastPagination: isLastPagination.asObservable(),
                       error: errorTracker.asObservable())

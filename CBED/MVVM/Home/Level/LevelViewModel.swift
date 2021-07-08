@@ -13,6 +13,7 @@ extension LevelViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
         let levelTapped: Observable<LevelM>
+        let searchViewTapped: Observable<Void>
     }
     
     struct Output {
@@ -42,6 +43,12 @@ struct LevelViewModel: ViewModel {
             .drive(onNext: navigator.pushToSectionsVC(levelID:levelTitle:))
             .disposed(by: disposeBag)
         
+        input
+            .searchViewTapped
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: navigator.pushToSearchVC)
+            .disposed(by: disposeBag)
+        
         return Output(levels: levels.asDriver(onErrorJustReturn: []),
                       isLoading: activityIndicator.asDriver(),
                       error: errorTracker.asDriver())
@@ -56,14 +63,4 @@ struct LevelViewModel: ViewModel {
                 return .never()
             }
     }
-    
-//    func fetchLevelByID(_ id: Int) -> Observable<LevelDetailM> {
-//        return self.useCase
-//            .getLevelByID(id)
-//            .trackError(errorTracker)
-//            .trackActivity(activityIndicator)
-//            .catch { _ in
-//                return .never()
-//            }
-//    }
 }

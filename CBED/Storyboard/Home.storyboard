@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -131,6 +130,7 @@
                         <outlet property="containerView" destination="GrS-Fu-RWU" id="ySQ-mq-MzK"/>
                         <outlet property="gradientView" destination="FXe-7R-7Jd" id="0ES-wa-hbj"/>
                         <outlet property="gradientViewHeight" destination="rIe-Cf-F8A" id="55e-6E-dS0"/>
+                        <outlet property="searchView" destination="PZK-vt-x6n" id="9hV-41-Dzh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -554,7 +554,7 @@
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Zt6-be-EeI"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="Background"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="axu-7l-dDa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -820,7 +820,7 @@
         <!--Search View Controller-->
         <scene sceneID="1c6-Jb-Cm4">
             <objects>
-                <viewController storyboardIdentifier="SearchViewController" id="cVQ-L4-yKD" customClass="SearchViewController" customModule="CBED" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchViewController" hidesBottomBarWhenPushed="YES" id="cVQ-L4-yKD" customClass="SearchViewController" customModule="CBED" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hVA-Jw-CoL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -902,12 +902,89 @@
                     <connections>
                         <outlet property="buttonBack" destination="ACe-Bx-MCg" id="nlX-sv-eVG"/>
                         <outlet property="containerView" destination="iri-NB-h6Y" id="yGU-Z1-zwz"/>
+                        <outlet property="gradientView" destination="3Ne-W5-ekH" id="8Zf-Vh-nGo"/>
                         <outlet property="searchTextfield" destination="Ewh-VD-weR" id="TmF-V7-IZN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r74-Ga-ZGw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="132" y="-601"/>
+        </scene>
+        <!--In App Purchase View Controller-->
+        <scene sceneID="Ywv-oX-q5l">
+            <objects>
+                <viewController storyboardIdentifier="InAppPurchaseViewController" id="v9O-HY-1RR" customClass="InAppPurchaseViewController" customModule="CBED" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nZO-Fx-T8J">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GHA-TP-9lT" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="414" height="80"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yxj-f5-Dt5">
+                                        <rect key="frame" x="0.0" y="15" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="DOC-Rd-tKP"/>
+                                            <constraint firstAttribute="width" constant="50" id="Uu9-Yh-9tn"/>
+                                        </constraints>
+                                        <state key="normal" image="img_back_black"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAt-79-cj7">
+                                        <rect key="frame" x="185.5" y="29" width="43.5" height="22"/>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
+                                        <color key="textColor" name="Primary Text"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" name="Background"/>
+                                <constraints>
+                                    <constraint firstItem="SAt-79-cj7" firstAttribute="centerY" secondItem="GHA-TP-9lT" secondAttribute="centerY" id="0t9-Nq-17h"/>
+                                    <constraint firstAttribute="height" constant="80" id="9Uk-0I-8mV"/>
+                                    <constraint firstItem="Yxj-f5-Dt5" firstAttribute="centerY" secondItem="GHA-TP-9lT" secondAttribute="centerY" id="Kkg-8B-SKa"/>
+                                    <constraint firstItem="Yxj-f5-Dt5" firstAttribute="leading" secondItem="GHA-TP-9lT" secondAttribute="leading" id="iU3-iw-I7q"/>
+                                    <constraint firstItem="SAt-79-cj7" firstAttribute="centerX" secondItem="GHA-TP-9lT" secondAttribute="centerX" id="n4w-fP-uIx"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.080000000000000002"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xAJ-5Y-ggJ">
+                                <rect key="frame" x="20" y="492" width="374" height="220"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="220" id="trX-ql-xdF"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="few-Rb-n6J"/>
+                        <color key="backgroundColor" name="Background"/>
+                        <constraints>
+                            <constraint firstItem="GHA-TP-9lT" firstAttribute="top" secondItem="few-Rb-n6J" secondAttribute="top" id="3Ms-uq-7J5"/>
+                            <constraint firstItem="GHA-TP-9lT" firstAttribute="leading" secondItem="nZO-Fx-T8J" secondAttribute="leading" id="8Ot-4S-b0v"/>
+                            <constraint firstItem="few-Rb-n6J" firstAttribute="trailing" secondItem="GHA-TP-9lT" secondAttribute="trailing" id="G9D-X7-Om9"/>
+                            <constraint firstItem="xAJ-5Y-ggJ" firstAttribute="leading" secondItem="few-Rb-n6J" secondAttribute="leading" constant="20" id="bmk-2C-GPi"/>
+                            <constraint firstItem="few-Rb-n6J" firstAttribute="bottom" secondItem="xAJ-5Y-ggJ" secondAttribute="bottom" constant="150" id="kSG-LS-7Ll"/>
+                            <constraint firstItem="few-Rb-n6J" firstAttribute="trailing" secondItem="xAJ-5Y-ggJ" secondAttribute="trailing" constant="20" id="rjv-S7-IOA"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="containerView" destination="xAJ-5Y-ggJ" id="H8c-4O-5VD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4pu-Hd-kio" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1478" y="-626"/>
         </scene>
     </scenes>
     <resources>
@@ -934,8 +1011,5 @@
         <namedColor name="Textfield Color">
             <color red="0.66299998760223389" green="0.72500002384185791" blue="0.80400002002716064" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

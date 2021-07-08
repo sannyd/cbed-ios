@@ -34,16 +34,16 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="R2a-Rf-151">
-                                <rect key="frame" x="58" y="20.5" width="38" height="45"/>
+                                <rect key="frame" x="58" y="20.5" width="232" height="45"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leV-Jj-SkZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="38" height="19.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="232" height="19.5"/>
                                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                         <color key="textColor" name="Primary Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xlV-VA-mId">
-                                        <rect key="frame" x="0.0" y="25.5" width="38" height="19.5"/>
+                                        <rect key="frame" x="0.0" y="25.5" width="232" height="19.5"/>
                                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                         <color key="textColor" name="Primary Blue"/>
                                         <nil key="highlightedColor"/>
@@ -56,6 +56,7 @@
                             <constraint firstItem="Gly-dG-19F" firstAttribute="centerY" secondItem="bsb-xi-s98" secondAttribute="centerY" id="3LE-ei-wcx"/>
                             <constraint firstItem="R2a-Rf-151" firstAttribute="leading" secondItem="Gly-dG-19F" secondAttribute="trailing" constant="8" id="DdS-1B-t2e"/>
                             <constraint firstItem="Gly-dG-19F" firstAttribute="leading" secondItem="bsb-xi-s98" secondAttribute="leading" constant="10" id="EQT-QP-R6Y"/>
+                            <constraint firstAttribute="trailing" secondItem="R2a-Rf-151" secondAttribute="trailing" constant="8" id="Vz9-Zv-vaf"/>
                             <constraint firstItem="R2a-Rf-151" firstAttribute="centerY" secondItem="bsb-xi-s98" secondAttribute="centerY" id="fhi-m3-LLS"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>

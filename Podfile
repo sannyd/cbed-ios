@@ -16,6 +16,7 @@ def utility_pods
    pod 'SwiftLint'
    pod 'KeychainSwift'
    pod 'SwiftEntryKit'
+   pod 'SwiftyStoreKit'
    pod 'IQKeyboardManagerSwift'
 end
 
