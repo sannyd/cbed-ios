@@ -14,6 +14,7 @@ extension LevelViewModel {
         let firstLoadTrigger: Observable<Void>
         let levelTapped: Observable<LevelM>
         let searchViewTapped: Observable<Void>
+        let unlockViewTapped: Observable<Void>
     }
     
     struct Output {
@@ -47,6 +48,12 @@ struct LevelViewModel: ViewModel {
             .searchViewTapped
             .asDriverOnErrorJustComplete()
             .drive(onNext: navigator.pushToSearchVC)
+            .disposed(by: disposeBag)
+        
+        input
+            .unlockViewTapped
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: navigator.pushToInAppPurchaseVC)
             .disposed(by: disposeBag)
         
         return Output(levels: levels.asDriver(onErrorJustReturn: []),

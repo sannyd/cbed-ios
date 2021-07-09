@@ -16,25 +16,114 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="InAppPurchaseCell" id="gTV-IL-0wX" customClass="InAppPurchaseCell" customModule="CBED" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="245" height="128"/>
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="InAppPurchaseCell" id="gTV-IL-0wX" customClass="InAppPurchaseCell" customModule="CBED" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="346" height="155"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="245" height="128"/>
+                <rect key="frame" x="0.0" y="0.0" width="346" height="155"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X16-Aw-Ovg">
-                        <rect key="frame" x="0.0" y="0.0" width="245" height="128"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X16-Aw-Ovg" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="346" height="155"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WpK-lT-1EX">
-                                <rect key="frame" x="8" y="15" width="58" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="24"/>
-                                <nil key="textColor"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WEG-6g-sjl">
+                                <rect key="frame" x="20" y="41" width="134" height="73"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ebs-ie-3bX">
+                                        <rect key="frame" x="0.0" y="0.0" width="134" height="29"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zyi-8m-sqE">
+                                                <rect key="frame" x="0.0" y="0.0" width="58" height="29"/>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="24"/>
+                                                <color key="textColor" name="Primary Text"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v3b-yy-VDd" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="66" y="2.5" width="68" height="24"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Best Deal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iao-gd-y15">
+                                                        <rect key="frame" x="8" y="4" width="52" height="16"/>
+                                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" name="Primary Blue"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="2px-L0-Zch"/>
+                                                    <constraint firstItem="Iao-gd-y15" firstAttribute="centerY" secondItem="v3b-yy-VDd" secondAttribute="centerY" id="D4H-BX-nTb"/>
+                                                    <constraint firstItem="Iao-gd-y15" firstAttribute="centerX" secondItem="v3b-yy-VDd" secondAttribute="centerX" id="MEC-MY-udX"/>
+                                                    <constraint firstItem="Iao-gd-y15" firstAttribute="top" secondItem="v3b-yy-VDd" secondAttribute="top" constant="4" id="Xux-ag-4Js"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Iao-gd-y15" secondAttribute="bottom" constant="4" id="d2o-fA-Npl"/>
+                                                    <constraint firstItem="Iao-gd-y15" firstAttribute="leading" secondItem="v3b-yy-VDd" secondAttribute="leading" constant="8" id="mw0-pg-ehr"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Iao-gd-y15" secondAttribute="trailing" constant="8" id="qKU-MD-hY8"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                                        <real key="value" value="12"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6p5-wB-qPr">
+                                        <rect key="frame" x="0.0" y="49" width="134" height="24"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WpK-lT-1EX">
+                                                <rect key="frame" x="0.0" y="0.0" width="48.5" height="24"/>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="20"/>
+                                                <color key="textColor" red="0.66274509803921566" green="0.72549019607843135" blue="0.80392156862745101" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hfS-4v-LAr">
+                                                <rect key="frame" x="56.5" y="0.0" width="77.5" height="24"/>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="20"/>
+                                                <color key="textColor" name="Primary Blue"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56 MBE levels 56 MBE levels 56 MBE levels" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgq-87-XGQ">
+                                <rect key="frame" x="184" y="41" width="75" height="43.5"/>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                                <color key="textColor" name="Primary Text"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" name="Cell Color"/>
+                        <constraints>
+                            <constraint firstItem="WEG-6g-sjl" firstAttribute="leading" secondItem="X16-Aw-Ovg" secondAttribute="leading" constant="20" id="8a9-e2-3Ca"/>
+                            <constraint firstItem="WEG-6g-sjl" firstAttribute="centerY" secondItem="X16-Aw-Ovg" secondAttribute="centerY" id="YPs-KE-qSx"/>
+                            <constraint firstItem="mgq-87-XGQ" firstAttribute="top" secondItem="WEG-6g-sjl" secondAttribute="top" id="mAA-y4-OPI"/>
+                            <constraint firstItem="mgq-87-XGQ" firstAttribute="leading" secondItem="WEG-6g-sjl" secondAttribute="trailing" constant="30" id="pbK-3d-bQ9"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                <real key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                <real key="value" value="0.080000000000000002"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                <real key="value" value="12"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                <size key="value" width="0.0" height="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
             </view>
@@ -45,13 +134,27 @@
                 <constraint firstAttribute="trailing" secondItem="X16-Aw-Ovg" secondAttribute="trailing" id="WPe-Y7-jQj"/>
                 <constraint firstItem="X16-Aw-Ovg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="cKh-6z-4O6"/>
             </constraints>
-            <size key="customSize" width="245" height="128"/>
-            <point key="canvasLocation" x="273.1884057971015" y="111.83035714285714"/>
+            <size key="customSize" width="346" height="155"/>
+            <connections>
+                <outlet property="labelDescription" destination="mgq-87-XGQ" id="lQH-ng-iqw"/>
+                <outlet property="labelPromotionPrice" destination="WpK-lT-1EX" id="NzR-BO-K29"/>
+                <outlet property="labelRealPrice" destination="hfS-4v-LAr" id="DIZ-ii-gy0"/>
+                <outlet property="labelSubtitle" destination="Iao-gd-y15" id="Gqu-q3-kjo"/>
+                <outlet property="labelTitle" destination="zyi-8m-sqE" id="Smo-30-CMN"/>
+                <outlet property="subtitleView" destination="v3b-yy-VDd" id="grp-Pe-7VU"/>
+            </connections>
+            <point key="canvasLocation" x="362.31884057971018" y="118.19196428571428"/>
         </collectionViewCell>
     </objects>
     <resources>
         <namedColor name="Cell Color">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Primary Blue">
+            <color red="0.16099999845027924" green="0.35699999332427979" blue="0.87800002098083496" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Primary Text">
+            <color red="0.21199999749660492" green="0.20399999618530273" blue="0.23899999260902405" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

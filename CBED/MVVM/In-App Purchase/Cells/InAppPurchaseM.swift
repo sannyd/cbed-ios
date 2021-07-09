@@ -58,6 +58,15 @@ enum InAppPurchaseType {
                     "Essays Drills + Videos"]
         }
     }
+    
+    var purchaseID: String {
+        switch self {
+        case .ProBar:
+            return "com.barexamdrills.app.unlockall"
+        case .BabyBar:
+            return "com.barexamdrills.app.levelid8"
+        }
+    }
 }
 
 struct InAppPurchaseM {

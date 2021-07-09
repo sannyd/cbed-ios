@@ -20,7 +20,6 @@
 		182DD563268CBE3600172927 /* Encodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD562268CBE3600172927 /* Encodable+.swift */; };
 		182DD565268CC2D700172927 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD564268CC2D700172927 /* CustomError.swift */; };
 		184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC10267F28A0004048A5 /* EKAttributes+.swift */; };
-		184ABC132683927E004048A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 184ABC122683927E004048A5 /* GoogleService-Info.plist */; };
 		184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC15268395CD004048A5 /* AppNavigator.swift */; };
 		184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC16268395CD004048A5 /* AppUseCase.swift */; };
 		184ABC1B268395CD004048A5 /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC17268395CD004048A5 /* AppViewController.swift */; };
@@ -128,6 +127,7 @@
 		185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B62674B43E00A63898 /* UIBezierPath+Circle.swift */; };
 		185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B72674B43E00A63898 /* CGSize+Min.swift */; };
 		185F87BD2674B43E00A63898 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B82674B43E00A63898 /* LoadingIndicatorView.swift */; };
+		189039D026975D5C00C1EE37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 189039CF26975D5C00C1EE37 /* GoogleService-Info.plist */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
 		FF1E61E8268C626000CF96B5 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E3268C625F00CF96B5 /* PullToRefresh.swift */; };
 		FF1E61E9268C626000CF96B5 /* LoadMoreViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E4268C625F00CF96B5 /* LoadMoreViewAnimator.swift */; };
@@ -175,7 +175,6 @@
 		182DD562268CBE3600172927 /* Encodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+.swift"; sourceTree = "<group>"; };
 		182DD564268CC2D700172927 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		184ABC10267F28A0004048A5 /* EKAttributes+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EKAttributes+.swift"; sourceTree = "<group>"; };
-		184ABC122683927E004048A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		184ABC15268395CD004048A5 /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		184ABC16268395CD004048A5 /* AppUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUseCase.swift; sourceTree = "<group>"; };
 		184ABC17268395CD004048A5 /* AppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
@@ -286,6 +285,7 @@
 		185F87B62674B43E00A63898 /* UIBezierPath+Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Circle.swift"; sourceTree = "<group>"; };
 		185F87B72674B43E00A63898 /* CGSize+Min.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Min.swift"; sourceTree = "<group>"; };
 		185F87B82674B43E00A63898 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
+		189039CF26975D5C00C1EE37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -597,7 +597,7 @@
 		185F8776266D29C900A63898 /* Configs */ = {
 			isa = PBXGroup;
 			children = (
-				184ABC122683927E004048A5 /* GoogleService-Info.plist */,
+				189039CF26975D5C00C1EE37 /* GoogleService-Info.plist */,
 				185F87B02674A36100A63898 /* Config.xcconfig */,
 			);
 			path = Configs;
@@ -886,7 +886,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				185F87882672764800A63898 /* Lato-Italic.ttf in Resources */,
-				184ABC132683927E004048A5 /* GoogleService-Info.plist in Resources */,
 				185F878C2672764800A63898 /* Lato-Black.ttf in Resources */,
 				185B0646267A582300A17664 /* UsefulLinkCell.xib in Resources */,
 				185F87892672764800A63898 /* Lato-LightItalic.ttf in Resources */,
@@ -907,6 +906,7 @@
 				180C44D52695F69600416335 /* InAppPurchaseCell.xib in Resources */,
 				185B0665267DF15100A17664 /* AnswerCell.xib in Resources */,
 				185F87912672764800A63898 /* Lato-Light.ttf in Resources */,
+				189039D026975D5C00C1EE37 /* GoogleService-Info.plist in Resources */,
 				185B06342677C2FE00A17664 /* SectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

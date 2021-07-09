@@ -17,6 +17,7 @@ final class LevelViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var gradientViewHeight: NSLayoutConstraint!
     @IBOutlet weak var searchView: CustomBorderView!
+    @IBOutlet weak var unlockView: UIView!
     
     // MARK: - Properties
     
@@ -60,7 +61,8 @@ final class LevelViewController: UIViewController {
         let input = LevelViewModel.Input(firstLoadTrigger: Observable.merge(pullToRefreshTrigger,
                                                                             rxViewWillAppear),
                                          levelTapped: collectionView.rxModelSelected(),
-                                         searchViewTapped: searchView.rxGestureTapped)
+                                         searchViewTapped: searchView.rxGestureTapped,
+                                         unlockViewTapped: unlockView.rxGestureTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output

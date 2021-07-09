@@ -7,7 +7,25 @@
 
 import UIKit
 
+extension Double {
+    func digit(maximumFractionDigits: Int) -> String? {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale.init(identifier: "en_CA")
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = maximumFractionDigits
+        formatter.minimumFractionDigits = maximumFractionDigits
+        return formatter.string(for: self)
+    }
+}
+
 class InAppPurchaseCell: UICollectionViewCell, CellType {
+    @IBOutlet weak var labelTitle: UILabel!
+    @IBOutlet weak var subtitleView: CustomBorderView!
+    @IBOutlet weak var labelSubtitle: UILabel!
+    @IBOutlet weak var labelPromotionPrice: UILabel!
+    @IBOutlet weak var labelRealPrice: UILabel!
+    @IBOutlet weak var labelDescription: UILabel!
+    
     static var cellHeight: CGFloat {
         return 100
     }
@@ -17,13 +35,18 @@ class InAppPurchaseCell: UICollectionViewCell, CellType {
     }
     
     typealias T = InAppPurchaseType
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
 
     func populateData(_ data: InAppPurchaseType) {
+        labelTitle.text = data.title
+        if let subtitle = data.subtitle {
+            labelSubtitle.text = subtitle
+            subtitleView.isHidden = false
+        } else {
+            subtitleView.isHidden = true
+        }
+        labelPromotionPrice.text = data.promotionPrice.digit(maximumFractionDigits: 2)
+        labelRealPrice.text = data.realPrice.digit(maximumFractionDigits: 2)
         
+        labelDescription.text = data.descriptions.joined(separator: "\n")
     }
 }

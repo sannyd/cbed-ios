@@ -11,6 +11,7 @@ protocol LevelNavigatorType {
     func pushToSectionsVC(levelID: Int,
                           levelTitle: String)
     func pushToSearchVC()
+    func pushToInAppPurchaseVC()
 }
 
 struct LevelNavigator: LevelNavigatorType {
@@ -31,5 +32,12 @@ struct LevelNavigator: LevelNavigatorType {
         searchVC.viewModel = .init(useCase: SearchUseCase(),
                                    navigator: SearchNavigator(navigationController: navigationController))
         navigationController.pushViewController(searchVC, animated: true)
+    }
+    
+    func pushToInAppPurchaseVC() {
+        let inappPurchaseVC: InAppPurchaseViewController = StoryboardManager.getVCFromHomeSB()
+        inappPurchaseVC.viewModel = .init(useCase: InAppPurchaseUseCase(),
+                                          navigator: InAppPurchaseNavigator(navigationController: navigationController))
+        navigationController.pushViewController(inappPurchaseVC, animated: true)
     }
 }

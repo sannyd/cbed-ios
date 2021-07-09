@@ -26,6 +26,7 @@ final class InAppPurchaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        bindViewModel()
     }
     
     deinit {
@@ -38,6 +39,12 @@ final class InAppPurchaseViewController: UIViewController {
         let input = InAppPurchaseViewModel.Input(firstLoadTrigger: rxViewWillAppear,
                                                  inAppPurchaseItemTrigger: collectionView.rxModelSelected())
         let output = viewModel.transform(input, disposeBag: disposeBag)
+        
+        [output
+            .data
+            .asDriverOnErrorJustComplete()
+            .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource))]
+            .forEach { $0.disposed(by: disposeBag) }
     }
     
     private func setupCollectionView() {

@@ -12,4 +12,5 @@ protocol InAppPurchaseNavigatorType {
 }
 
 struct InAppPurchaseNavigator: InAppPurchaseNavigatorType {
+    unowned let navigationController: UINavigationController
 }
