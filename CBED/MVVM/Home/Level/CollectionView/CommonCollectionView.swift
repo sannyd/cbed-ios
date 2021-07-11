@@ -213,6 +213,16 @@ class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
         isScrollEnabled = false
         clipsToBounds = false
         register(C.nib(), forCellWithReuseIdentifier: C.nibName())
+        
+        NotificationCenter
+            .default
+            .rx
+            .notification(UIContentSizeCategory.didChangeNotification)
+            .mapToVoid()
+            .subscribe(onNext: { _ in
+                self.collectionViewLayout.invalidateLayout()
+            })
+            .disposed(by: disposeBag)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

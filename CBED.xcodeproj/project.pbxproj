@@ -14,11 +14,14 @@
 		180C44D42695F69600416335 /* InAppPurchaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C44D22695F69600416335 /* InAppPurchaseCell.swift */; };
 		180C44D52695F69600416335 /* InAppPurchaseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180C44D32695F69600416335 /* InAppPurchaseCell.xib */; };
 		180C44D72695F71900416335 /* InAppPurchaseM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C44D62695F71900416335 /* InAppPurchaseM.swift */; };
+		182C324B2699C706008E97CE /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C324A2699C706008E97CE /* UILabel+.swift */; };
+		182C324D2699C761008E97CE /* Lato.plist in Resources */ = {isa = PBXBuildFile; fileRef = 182C324C2699C761008E97CE /* Lato.plist */; };
 		182DD55C268B6E4D00172927 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182DD55B268B6E4D00172927 /* StoreKit.framework */; };
 		182DD55F268CBCED00172927 /* SearchSectionRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD55E268CBCED00172927 /* SearchSectionRequestM.swift */; };
 		182DD561268CBD1200172927 /* BaseRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD560268CBD1200172927 /* BaseRequestM.swift */; };
 		182DD563268CBE3600172927 /* Encodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD562268CBE3600172927 /* Encodable+.swift */; };
 		182DD565268CC2D700172927 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD564268CC2D700172927 /* CustomError.swift */; };
+		183E32D5269AE5AD006B4507 /* RegisterRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32D4269AE5AD006B4507 /* RegisterRequestM.swift */; };
 		184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC10267F28A0004048A5 /* EKAttributes+.swift */; };
 		184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC15268395CD004048A5 /* AppNavigator.swift */; };
 		184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC16268395CD004048A5 /* AppUseCase.swift */; };
@@ -127,7 +130,12 @@
 		185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B62674B43E00A63898 /* UIBezierPath+Circle.swift */; };
 		185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B72674B43E00A63898 /* CGSize+Min.swift */; };
 		185F87BD2674B43E00A63898 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B82674B43E00A63898 /* LoadingIndicatorView.swift */; };
+		186A9B4A2699B979008AF01B /* ScaledFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186A9B492699B979008AF01B /* ScaledFont.swift */; };
 		189039D026975D5C00C1EE37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 189039CF26975D5C00C1EE37 /* GoogleService-Info.plist */; };
+		189039D6269998F200C1EE37 /* RegisterNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189039D2269998F200C1EE37 /* RegisterNavigator.swift */; };
+		189039D7269998F200C1EE37 /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189039D3269998F200C1EE37 /* RegisterUseCase.swift */; };
+		189039D8269998F200C1EE37 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189039D4269998F200C1EE37 /* RegisterViewController.swift */; };
+		189039D9269998F200C1EE37 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189039D5269998F200C1EE37 /* RegisterViewModel.swift */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
 		FF1E61E8268C626000CF96B5 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E3268C625F00CF96B5 /* PullToRefresh.swift */; };
 		FF1E61E9268C626000CF96B5 /* LoadMoreViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E4268C625F00CF96B5 /* LoadMoreViewAnimator.swift */; };
@@ -169,11 +177,15 @@
 		180C44D22695F69600416335 /* InAppPurchaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseCell.swift; sourceTree = "<group>"; };
 		180C44D32695F69600416335 /* InAppPurchaseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InAppPurchaseCell.xib; sourceTree = "<group>"; };
 		180C44D62695F71900416335 /* InAppPurchaseM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseM.swift; sourceTree = "<group>"; };
+		182C324A2699C706008E97CE /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		182C324C2699C761008E97CE /* Lato.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Lato.plist; sourceTree = "<group>"; };
+		182C324E269AB2B1008E97CE /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		182DD55B268B6E4D00172927 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		182DD55E268CBCED00172927 /* SearchSectionRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionRequestM.swift; sourceTree = "<group>"; };
 		182DD560268CBD1200172927 /* BaseRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRequestM.swift; sourceTree = "<group>"; };
 		182DD562268CBE3600172927 /* Encodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+.swift"; sourceTree = "<group>"; };
 		182DD564268CC2D700172927 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		183E32D4269AE5AD006B4507 /* RegisterRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequestM.swift; sourceTree = "<group>"; };
 		184ABC10267F28A0004048A5 /* EKAttributes+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EKAttributes+.swift"; sourceTree = "<group>"; };
 		184ABC15268395CD004048A5 /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		184ABC16268395CD004048A5 /* AppUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUseCase.swift; sourceTree = "<group>"; };
@@ -285,7 +297,12 @@
 		185F87B62674B43E00A63898 /* UIBezierPath+Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Circle.swift"; sourceTree = "<group>"; };
 		185F87B72674B43E00A63898 /* CGSize+Min.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Min.swift"; sourceTree = "<group>"; };
 		185F87B82674B43E00A63898 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
+		186A9B492699B979008AF01B /* ScaledFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledFont.swift; sourceTree = "<group>"; };
 		189039CF26975D5C00C1EE37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		189039D2269998F200C1EE37 /* RegisterNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterNavigator.swift; sourceTree = "<group>"; };
+		189039D3269998F200C1EE37 /* RegisterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUseCase.swift; sourceTree = "<group>"; };
+		189039D4269998F200C1EE37 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		189039D5269998F200C1EE37 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -361,6 +378,7 @@
 			children = (
 				182DD55E268CBCED00172927 /* SearchSectionRequestM.swift */,
 				182DD560268CBD1200172927 /* BaseRequestM.swift */,
+				183E32D4269AE5AD006B4507 /* RegisterRequestM.swift */,
 			);
 			path = "Request Models";
 			sourceTree = "<group>";
@@ -559,6 +577,7 @@
 		185F8753266CC84800A63898 = {
 			isa = PBXGroup;
 			children = (
+				182C324E269AB2B1008E97CE /* Configuration.storekit */,
 				185F875E266CC84800A63898 /* CBED */,
 				185F875D266CC84800A63898 /* Products */,
 				27F01E22D8F24CAB2D7E3AF8 /* Pods */,
@@ -590,6 +609,7 @@
 				185F8768266CC84A00A63898 /* Assets.xcassets */,
 				185F876A266CC84A00A63898 /* LaunchScreen.storyboard */,
 				185F876D266CC84A00A63898 /* Info.plist */,
+				182C324C2699C761008E97CE /* Lato.plist */,
 			);
 			path = CBED;
 			sourceTree = "<group>";
@@ -688,6 +708,28 @@
 			path = "Custom Loading Indicator";
 			sourceTree = "<group>";
 		};
+		189039D12699979B00C1EE37 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				189039D2269998F200C1EE37 /* RegisterNavigator.swift */,
+				189039D3269998F200C1EE37 /* RegisterUseCase.swift */,
+				189039D4269998F200C1EE37 /* RegisterViewController.swift */,
+				189039D5269998F200C1EE37 /* RegisterViewModel.swift */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		189039DA269998FA00C1EE37 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				185F87A92674978E00A63898 /* LoginNavigator.swift */,
+				185F8763266CC84800A63898 /* LoginViewController.swift */,
+				FFD576EF267367DE00CC9CF1 /* LoginViewModel.swift */,
+				185F87A12674743C00A63898 /* LoginUseCase.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		27F01E22D8F24CAB2D7E3AF8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -710,6 +752,7 @@
 			isa = PBXGroup;
 			children = (
 				FF1E61E2268C625F00CF96B5 /* Refreshable */,
+				186A9B492699B979008AF01B /* ScaledFont.swift */,
 			);
 			path = "Third Parties";
 			sourceTree = "<group>";
@@ -752,10 +795,8 @@
 		FFD576EE267367CF00CC9CF1 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				185F87A92674978E00A63898 /* LoginNavigator.swift */,
-				185F8763266CC84800A63898 /* LoginViewController.swift */,
-				FFD576EF267367DE00CC9CF1 /* LoginViewModel.swift */,
-				185F87A12674743C00A63898 /* LoginUseCase.swift */,
+				189039D12699979B00C1EE37 /* Register */,
+				189039DA269998FA00C1EE37 /* Login */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -821,6 +862,7 @@
 				185B0666267E0DCD00A17664 /* String+.swift */,
 				FF1E61ED268C637800CF96B5 /* UIScrollView+.swift */,
 				182DD562268CBE3600172927 /* Encodable+.swift */,
+				182C324A2699C706008E97CE /* UILabel+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -897,6 +939,7 @@
 				185F877A266D29E300A63898 /* Login.storyboard in Resources */,
 				185B060826761D4C00A17664 /* LevelCell.xib in Resources */,
 				185F878F2672764800A63898 /* OFL.txt in Resources */,
+				182C324D2699C761008E97CE /* Lato.plist in Resources */,
 				185F87922672764800A63898 /* Lato-ThinItalic.ttf in Resources */,
 				185F876C266CC84A00A63898 /* LaunchScreen.storyboard in Resources */,
 				185F8769266CC84A00A63898 /* Assets.xcassets in Resources */,
@@ -983,12 +1026,14 @@
 				185B05F92676183C00A17664 /* LevelDetailM.swift in Sources */,
 				FF1E61EE268C637800CF96B5 /* UIScrollView+.swift in Sources */,
 				185B060726761D4C00A17664 /* LevelCell.swift in Sources */,
+				189039D9269998F200C1EE37 /* RegisterViewModel.swift in Sources */,
 				185F879E2674547800A63898 /* RegisterResponseM.swift in Sources */,
 				180C44D42695F69600416335 /* InAppPurchaseCell.swift in Sources */,
 				182DD561268CBD1200172927 /* BaseRequestM.swift in Sources */,
 				185B062026762F7C00A17664 /* SettingNavigator.swift in Sources */,
 				185B05ED267615A600A17664 /* LevelViewModel.swift in Sources */,
 				185B05FB2676190E00A17664 /* QuestionM.swift in Sources */,
+				189039D7269998F200C1EE37 /* RegisterUseCase.swift in Sources */,
 				185F87BA2674B43E00A63898 /* CAPropertyAnimation+Key.swift in Sources */,
 				185B065E267BB6AE00A17664 /* CustomAlertView.swift in Sources */,
 				184ABC3426878D56004048A5 /* UIColor+CoreColorsWithTraitCollectionProviders.swift in Sources */,
@@ -1031,6 +1076,7 @@
 				180C44CF2695F5E700416335 /* InAppPurchaseViewController.swift in Sources */,
 				185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */,
 				185B061A26762F5E00A17664 /* ScoreboardViewModel.swift in Sources */,
+				183E32D5269AE5AD006B4507 /* RegisterRequestM.swift in Sources */,
 				185B0660267DE58600A17664 /* BaseNibView.swift in Sources */,
 				FF1E61EB268C626000CF96B5 /* PullToRefreshAnimator.swift in Sources */,
 				185B065A267BAB8A00A17664 /* ExamViewModel.swift in Sources */,
@@ -1056,6 +1102,7 @@
 				185B0664267DF15100A17664 /* AnswerCell.swift in Sources */,
 				185F87A8267494C400A63898 /* Button+.swift in Sources */,
 				185B0658267BAB8A00A17664 /* ExamUseCase.swift in Sources */,
+				182C324B2699C706008E97CE /* UILabel+.swift in Sources */,
 				185F879B2674540300A63898 /* AuthUseCase.swift in Sources */,
 				185F87A62674949200A63898 /* UIView+.swift in Sources */,
 				FFD576F72673681C00CC9CF1 /* UIAlertHelper.swift in Sources */,
@@ -1075,7 +1122,9 @@
 				FFB19240268F22300000B256 /* SearchViewController.swift in Sources */,
 				184ABC292684EAC9004048A5 /* ResultViewModel.swift in Sources */,
 				185B061926762F5E00A17664 /* ScoreboardViewController.swift in Sources */,
+				189039D6269998F200C1EE37 /* RegisterNavigator.swift in Sources */,
 				184ABC3626878D69004048A5 /* UIColor+DynamicColorContext.swift in Sources */,
+				189039D8269998F200C1EE37 /* RegisterViewController.swift in Sources */,
 				185B0638267A34CD00A17664 /* TokenRefreshResponseM.swift in Sources */,
 				FFD577172673717900CC9CF1 /* UIApplication+Extensions.swift in Sources */,
 				180C44CD2695F5E700416335 /* InAppPurchaseNavigator.swift in Sources */,
@@ -1087,6 +1136,7 @@
 				FFD577112673710400CC9CF1 /* ErrorTracker.swift in Sources */,
 				185F87A22674743C00A63898 /* LoginUseCase.swift in Sources */,
 				184ABC272684EAC9004048A5 /* ResultUseCase.swift in Sources */,
+				186A9B4A2699B979008AF01B /* ScaledFont.swift in Sources */,
 				185B062126762F7C00A17664 /* SettingUseCase.swift in Sources */,
 				185B0650267B994400A17664 /* PreviewWebViewViewController.swift in Sources */,
 				184ABC3226878D45004048A5 /* UIColor+BackwardsCompatibleResolvedColor.swift in Sources */,

@@ -30,6 +30,7 @@ final class ExamViewController: UIViewController {
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
+        setupFont()
         super.viewDidLoad()
         setupCollectionView()
         bindViewModel()
@@ -98,5 +99,9 @@ final class ExamViewController: UIViewController {
                                             right: 0)
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
+    }
+    
+    private func setupFont() {
+        labelQuestion.scaledFont(style: .body)
     }
 }

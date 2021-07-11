@@ -25,12 +25,14 @@ protocol AuthUseCase {
 }
 
 extension AuthUseCase {
-    func register(email: String,
-                  password: String) -> Single<RegisterResponseM> {
+    func register(request: RegisterRequestM) -> Single<RegisterResponseM> {
+        guard let params = request.toParams() else {
+            return .error(CustomError.CannotGetParams)
+        }
+        
         return APIClient
             .shared
-            .request(AuthRouter.register(params: ["email": email,
-                                                  "password": password]))
+            .request(AuthRouter.register(params: params))
     }
     
     func signin(email: String,

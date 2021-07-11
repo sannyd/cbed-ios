@@ -39,6 +39,7 @@ struct InAppPurchaseViewModel: ViewModel {
                 SwiftyStoreKit.purchaseProduct(item.purchaseID, quantity: 1, atomically: false) { result in
                     switch result {
                     case .success(let product):
+                        Log.d(product)
                         // fetch content from your server, then:
                         if product.needsFinishTransaction {
                             SwiftyStoreKit.finishTransaction(product.transaction)

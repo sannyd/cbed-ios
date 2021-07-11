@@ -28,6 +28,12 @@ class AnswerCell: UICollectionViewCell,
         return UIScreen.main.bounds.width - 30 - 30
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        labelText.scaledFont(style: .body)
+    }
+    
     func populateData(_ data: SelectableAnswer) {
         if data.isSelected {
             if data.answer.isCorrect {
@@ -52,8 +58,8 @@ class AnswerCell: UICollectionViewCell,
     }
 
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-            let targetSize = CGSize(width: UIScreen.main.bounds.width - 20 - 20 - 16 - 16, height: 0)
-            layoutAttributes.frame.size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
-            return layoutAttributes
-        }
+        let targetSize = CGSize(width: UIScreen.main.bounds.width - 20 - 20 - 16 - 16, height: 0)
+        layoutAttributes.frame.size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+        return layoutAttributes
+    }
 }
