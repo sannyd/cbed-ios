@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import Alamofire
 
 enum SSOType: String, Decodable {
     case facebook
@@ -15,7 +16,8 @@ enum SSOType: String, Decodable {
 }
 
 protocol AuthUseCase {
-    func register(request: RegisterRequestM) -> Single<RegisterResponseM>
+    func register(request: RegisterRequestM,
+                  imageData: Data?) -> Single<RegisterResponseM>
     func signin(email: String,
                 password: String) -> Single<SignInResponseM>
     func singleSignOn(type: SSOType,
@@ -24,14 +26,26 @@ protocol AuthUseCase {
 }
 
 extension AuthUseCase {
-    func register(request: RegisterRequestM) -> Single<RegisterResponseM> {
+    func register(request: RegisterRequestM,
+                  imageData: Data?) -> Single<RegisterResponseM> {
         guard let params = request.toParams() else {
             return .error(CustomError.CannotGetParams)
         }
         
+        let multipartFormData = MultipartFormData()
+        
+        if let imageData = imageData {
+            multipartFormData.append(imageData, withName: "avatar")
+        }
+        
+        for (key, value) in params {
+            multipartFormData.append((value as! String).data(using: .utf8)!, withName: key)
+        }
+        
         return APIClient
             .shared
-            .request(AuthRouter.register(params: params))
+            .upload(multipartFormData: multipartFormData,
+                    urlConvertible: AuthRouter.register)
     }
     
     func signin(email: String,

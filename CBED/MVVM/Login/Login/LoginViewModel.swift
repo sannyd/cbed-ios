@@ -85,6 +85,7 @@ struct LoginViewModel: ViewModel {
             .buttonGoogleTrigger
             .flatMapLatest { showGoogleLogin }
             .flatMapLatest(handleSingleSignOn(type:accessToken:))
+            .delay(.seconds(1), scheduler: MainScheduler.instance)
             .do(onNext: { response in
                 Storage.accessToken = response.token.access
                 Storage.refreshToken = response.token.refresh

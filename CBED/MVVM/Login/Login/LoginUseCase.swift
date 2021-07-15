@@ -9,7 +9,8 @@ import Foundation
 import RxSwift
 
 protocol LoginUseCaseType {
-    func register(request: RegisterRequestM) -> Single<RegisterResponseM>
+    func register(request: RegisterRequestM,
+                  imageData: Data?) -> Single<RegisterResponseM>
     func signin(email: String,
                 password: String) -> Single<SignInResponseM>
     func singleSignOn(type: SSOType,

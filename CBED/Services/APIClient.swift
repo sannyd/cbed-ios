@@ -78,6 +78,37 @@ final class APIClient: SessionDelegate {
         }
     }
     
+    func upload<T: Decodable>(multipartFormData: MultipartFormData,
+                              urlConvertible: URLRequestConvertible,
+                              dateFormatters: [DateFormatter] = [.iso8601Full]) -> Single<T> {
+        return Single<T>.create { single in
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategyFormatters = dateFormatters
+            
+            let request = self.sessionManager!.upload(multipartFormData: multipartFormData, with: urlConvertible)
+                .validate()
+                .validate(statusCode: 200..<300)
+                .responseDecodable(decoder: decoder) { (response: DataResponse<T, AFError>) in
+                    switch response.result {
+                    case .success(let result):
+                        single(.success(result))
+                    case .failure(let error):
+                        let decoder = JSONDecoder()
+                        if let data = response.data,
+                           let serverError = try? decoder.decode(ServerError.self, from: data) {
+                            single(.failure(serverError))
+                        } else {
+                            single(.failure(error))
+                        }
+                    }
+                }
+            
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+    
     func requestWithoutValidation<T: Decodable>(_ urlConvertible: URLRequestConvertible,
                                dateFormatters: [DateFormatter] = [.iso8601Full]) -> Single<T> {
         return Single<T>.create { single in

@@ -8,7 +8,8 @@
 import RxSwift
 
 protocol RegisterUseCaseType {
-    func register(request: RegisterRequestM) -> Single<RegisterResponseM>
+    func register(request: RegisterRequestM,
+                  imageData: Data?) -> Single<RegisterResponseM>
 }
 
 struct RegisterUseCase: RegisterUseCaseType,

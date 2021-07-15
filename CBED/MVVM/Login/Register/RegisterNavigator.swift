@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol RegisterNavigatorType {
     func showRegisterSuccessAlert()
+    func showImagePicker(index: Int) -> Observable<[UIImagePickerController.InfoKey: Any]>
 }
 
 struct RegisterNavigator: RegisterNavigatorType {
@@ -17,6 +19,20 @@ struct RegisterNavigator: RegisterNavigatorType {
     func showRegisterSuccessAlert() {
         UIAlertHelper.showAlertController(title: "Congratulation", message: "You have successfully create your account", cancel: "OK", others: nil) { _, index in
             navigationController.popViewController(animated: true)
+        }
+    }
+    
+    func showImagePicker(index: Int) -> Observable<[UIImagePickerController.InfoKey: Any]> {
+        if index == 0 {
+            return UIImagePickerController.rx.createAndPresent(from: navigationController, animated: true) { (picker) in
+                picker.sourceType = .camera
+                picker.allowsEditing = true
+            }
+        } else {
+            return UIImagePickerController.rx.createAndPresent(from: navigationController, animated: true) { (picker) in
+                picker.sourceType = .photoLibrary
+                picker.allowsEditing = true
+            }
         }
     }
 }

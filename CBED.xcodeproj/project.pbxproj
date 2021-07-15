@@ -26,6 +26,9 @@
 		183E32DC269F048C006B4507 /* ForgotPasswordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32D8269F048C006B4507 /* ForgotPasswordUseCase.swift */; };
 		183E32DD269F048C006B4507 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32D9269F048C006B4507 /* ForgotPasswordViewController.swift */; };
 		183E32DE269F048C006B4507 /* ForgotPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32DA269F048C006B4507 /* ForgotPasswordViewModel.swift */; };
+		183E32E226A08A9E006B4507 /* RxMediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32E026A08A9D006B4507 /* RxMediaPicker.swift */; };
+		183E32E326A08A9E006B4507 /* RxMediaPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32E126A08A9D006B4507 /* RxMediaPickerDelegate.swift */; };
+		183E32E526A08C06006B4507 /* UIImagePickerController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32E426A08C06006B4507 /* UIImagePickerController+.swift */; };
 		184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC10267F28A0004048A5 /* EKAttributes+.swift */; };
 		184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC15268395CD004048A5 /* AppNavigator.swift */; };
 		184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC16268395CD004048A5 /* AppUseCase.swift */; };
@@ -194,6 +197,9 @@
 		183E32D8269F048C006B4507 /* ForgotPasswordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordUseCase.swift; sourceTree = "<group>"; };
 		183E32D9269F048C006B4507 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		183E32DA269F048C006B4507 /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
+		183E32E026A08A9D006B4507 /* RxMediaPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMediaPicker.swift; sourceTree = "<group>"; };
+		183E32E126A08A9D006B4507 /* RxMediaPickerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMediaPickerDelegate.swift; sourceTree = "<group>"; };
+		183E32E426A08C06006B4507 /* UIImagePickerController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+.swift"; sourceTree = "<group>"; };
 		184ABC10267F28A0004048A5 /* EKAttributes+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EKAttributes+.swift"; sourceTree = "<group>"; };
 		184ABC15268395CD004048A5 /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		184ABC16268395CD004048A5 /* AppUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUseCase.swift; sourceTree = "<group>"; };
@@ -402,6 +408,15 @@
 			path = "Forgot Password";
 			sourceTree = "<group>";
 		};
+		183E32DF26A08A9D006B4507 /* RxMediaPicker */ = {
+			isa = PBXGroup;
+			children = (
+				183E32E026A08A9D006B4507 /* RxMediaPicker.swift */,
+				183E32E126A08A9D006B4507 /* RxMediaPickerDelegate.swift */,
+			);
+			path = RxMediaPicker;
+			sourceTree = "<group>";
+		};
 		184ABC14268395C0004048A5 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -546,7 +561,6 @@
 				185B0642267A581000A17664 /* Cells */,
 				185B0639267A516E00A17664 /* SectionDetailNavigator.swift */,
 				185B063A267A516E00A17664 /* SectionDetailUseCase.swift */,
-				185B063B267A516E00A17664 /* SectionDetailViewController.swift */,
 				185B063C267A516E00A17664 /* SectionDetailViewModel.swift */,
 			);
 			path = "Section Detail";
@@ -555,6 +569,7 @@
 		185B0642267A581000A17664 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				185B063B267A516E00A17664 /* SectionDetailViewController.swift */,
 				185B0643267A582300A17664 /* UsefulLinkCell.swift */,
 				185B0644267A582300A17664 /* UsefulLinkCell.xib */,
 			);
@@ -770,6 +785,7 @@
 		FF1E61E1268C625600CF96B5 /* Third Parties */ = {
 			isa = PBXGroup;
 			children = (
+				183E32DF26A08A9D006B4507 /* RxMediaPicker */,
 				FF1E61E2268C625F00CF96B5 /* Refreshable */,
 				186A9B492699B979008AF01B /* ScaledFont.swift */,
 			);
@@ -883,6 +899,7 @@
 				FF1E61ED268C637800CF96B5 /* UIScrollView+.swift */,
 				182DD562268CBE3600172927 /* Encodable+.swift */,
 				182C324A2699C706008E97CE /* UILabel+.swift */,
+				183E32E426A08C06006B4507 /* UIImagePickerController+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1057,6 +1074,7 @@
 				185F87BD2674B43E00A63898 /* LoadingIndicatorView.swift in Sources */,
 				FF1E61EC268C626000CF96B5 /* UIScrollView+Extensions.swift in Sources */,
 				185B062326762F7C00A17664 /* SettingViewModel.swift in Sources */,
+				183E32E526A08C06006B4507 /* UIImagePickerController+.swift in Sources */,
 				185B061126762F1A00A17664 /* TabBarViewController.swift in Sources */,
 				185F8764266CC84800A63898 /* LoginViewController.swift in Sources */,
 				184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */,
@@ -1082,6 +1100,7 @@
 				185B061A26762F5E00A17664 /* ScoreboardViewModel.swift in Sources */,
 				183E32D5269AE5AD006B4507 /* RegisterRequestM.swift in Sources */,
 				185B0660267DE58600A17664 /* BaseNibView.swift in Sources */,
+				183E32E226A08A9E006B4507 /* RxMediaPicker.swift in Sources */,
 				FF1E61EB268C626000CF96B5 /* PullToRefreshAnimator.swift in Sources */,
 				185B065A267BAB8A00A17664 /* ExamViewModel.swift in Sources */,
 				184ABC1C268395CD004048A5 /* AppViewModel.swift in Sources */,
@@ -1094,6 +1113,7 @@
 				185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */,
 				180C44CE2695F5E700416335 /* InAppPurchaseUseCase.swift in Sources */,
 				FFB1923F268F22300000B256 /* SearchUseCase.swift in Sources */,
+				183E32E326A08A9E006B4507 /* RxMediaPickerDelegate.swift in Sources */,
 				185F87B92674B43E00A63898 /* CGRect+Center.swift in Sources */,
 				184ABC2E26878D22004048A5 /* ColorContext.swift in Sources */,
 				FFB19241268F22300000B256 /* SearchViewModel.swift in Sources */,

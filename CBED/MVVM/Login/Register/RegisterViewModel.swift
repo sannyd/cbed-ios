@@ -11,7 +11,7 @@ import RxCocoa
 // MARK: Input + Output
 extension RegisterViewModel {
     struct Input {
-        let profileImage: Observable<Data?>
+        let profileImageTrigger: Observable<Int>
         let name: Observable<String>
         let email: Observable<String>
         let password: Observable<String>
@@ -34,8 +34,22 @@ struct RegisterViewModel: ViewModel {
     let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
+        let profileImage = input
+            .profileImageTrigger
+            .flatMap { index -> Observable<[UIImagePickerController.InfoKey: Any]> in
+                return navigator.showImagePicker(index: index)
+            }
+            .map { (info: [UIImagePickerController.InfoKey : Any]) -> UIImage? in
+                if let originalImage = info[.originalImage] as? UIImage {
+                    return originalImage
+                }
+                if let editImage = info[.editedImage] as? UIImage {
+                    return editImage
+                }
+                return nil
+            }
         
-        let sharedData = Observable.combineLatest(input.profileImage,
+        let sharedData = Observable.combineLatest(profileImage,
                                                   input.name,
                                                   input.email,
                                                   input.password,
@@ -54,9 +68,9 @@ struct RegisterViewModel: ViewModel {
             .buttonRegisterTrigger
             .withLatestFrom(sharedData)
             .map { profileImage, name, email, password, state in
-                return RegisterRequestM(name: name, email: email, password: password, state: state)
+                return (RegisterRequestM(name: name, email: email, password: password, state: state), profileImage)
             }
-            .flatMapLatest(register(request:))
+            .flatMapLatest(register(request:image:))
             .mapToVoid()
             .asDriverOnErrorJustComplete()
             .drive(onNext: navigator.showRegisterSuccessAlert)
@@ -67,9 +81,10 @@ struct RegisterViewModel: ViewModel {
                       error: errorTracker.asObservable())
     }
     
-    private func register(request: RegisterRequestM) -> Observable<RegisterResponseM> {
+    private func register(request: RegisterRequestM, image: UIImage?) -> Observable<RegisterResponseM> {
         self.useCase
-            .register(request: request)
+            .register(request: request,
+                      imageData: image?.jpegData(compressionQuality: 0.8))
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
             .catch { _ in

@@ -12,7 +12,9 @@ import RxCocoa
 final class SettingViewController: UIViewController {
     
     // MARK: - IBOutlets
-    
+    @IBOutlet weak var labelName: UILabel!
+    @IBOutlet weak var labelEmail: UILabel!
+    @IBOutlet weak var labelMembership: UILabel!
     @IBOutlet weak var buttonLogout: UIButton!
     // MARK: - Properties
     

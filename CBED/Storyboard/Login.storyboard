@@ -34,13 +34,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvk-a0-kHg">
-                                <rect key="frame" x="30" y="386" width="73" height="36"/>
+                                <rect key="frame" x="30" y="386" width="74.5" height="35"/>
                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="fEA-ni-zyC">
-                                <rect key="frame" x="30" y="448" width="354" height="92"/>
+                                <rect key="frame" x="30" y="447" width="354" height="92"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qaV-Aq-SuS">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="31"/>
@@ -113,7 +113,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQc-M5-v4d" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                <rect key="frame" x="30" y="570" width="354" height="50"/>
+                                <rect key="frame" x="30" y="569" width="354" height="50"/>
                                 <color key="backgroundColor" name="Primary Blue"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="E7c-hK-OLW"/>
@@ -151,16 +151,16 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="4Lg-i6-9US">
-                                <rect key="frame" x="89.5" y="638" width="235.5" height="32"/>
+                                <rect key="frame" x="84.5" y="637" width="245" height="31"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account ?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cko-3k-7Tn">
-                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="32"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="175" height="31"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                         <color key="textColor" name="Primary Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpY-m2-7tR">
-                                        <rect key="frame" x="180.5" y="0.0" width="55" height="32"/>
+                                        <rect key="frame" x="188" y="0.0" width="57" height="31"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                         <state key="normal" title="Sign-up">
                                             <color key="titleColor" name="Primary Blue"/>
@@ -169,23 +169,23 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="nYl-0V-6H8">
-                                <rect key="frame" x="30" y="730" width="354" height="19.5"/>
+                                <rect key="frame" x="30" y="728" width="354" height="19"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sDz-s9-aGB">
-                                        <rect key="frame" x="0.0" y="9.5" width="116.5" height="1"/>
+                                        <rect key="frame" x="0.0" y="9" width="117.5" height="1"/>
                                         <color key="backgroundColor" name="Primary Text"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="5kH-Ph-iSL"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or, login with" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5m2-Wi-60c">
-                                        <rect key="frame" x="129.5" y="0.0" width="95.5" height="19.5"/>
+                                        <rect key="frame" x="130.5" y="0.0" width="93.5" height="19"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                         <color key="textColor" name="Primary Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3X0-cS-Gk3">
-                                        <rect key="frame" x="238" y="9.5" width="116" height="1"/>
+                                        <rect key="frame" x="237" y="9" width="117" height="1"/>
                                         <color key="backgroundColor" name="Primary Text"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="dPt-3D-Sz6"/>
@@ -197,7 +197,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="44" translatesAutoresizingMaskIntoConstraints="NO" id="0Yo-5B-tlA">
-                                <rect key="frame" x="125" y="773.5" width="164" height="60"/>
+                                <rect key="frame" x="125" y="771" width="164" height="60"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_login_facebook" translatesAutoresizingMaskIntoConstraints="NO" id="coz-Tx-NdX">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -274,7 +274,7 @@
                                         <state key="normal" image="img_back_black"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Account" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W41-b8-I9Y">
-                                        <rect key="frame" x="144" y="29" width="126.5" height="22"/>
+                                        <rect key="frame" x="144.5" y="29.5" width="125.5" height="21"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                                         <color key="textColor" name="Primary Text"/>
                                         <nil key="highlightedColor"/>
@@ -516,7 +516,7 @@
                                         <state key="normal" image="img_back_black"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forgot Password" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YMU-AL-bez">
-                                        <rect key="frame" x="139.5" y="29" width="135.5" height="22"/>
+                                        <rect key="frame" x="138.5" y="29.5" width="137.5" height="21"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                                         <color key="textColor" name="Primary Text"/>
                                         <nil key="highlightedColor"/>
@@ -546,13 +546,13 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter email associated with your account an email with instructions to reset password will be sent to you." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LV9-rB-XcH">
-                                <rect key="frame" x="20" y="144" width="374" height="50.5"/>
+                                <rect key="frame" x="20" y="144" width="374" height="49"/>
                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                 <color key="textColor" name="Primary Text"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ZaD-me-hrc">
-                                <rect key="frame" x="20" y="214.5" width="374" height="31"/>
+                                <rect key="frame" x="20" y="213" width="374" height="31"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="rDF-EP-UjW">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
@@ -581,7 +581,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTg-at-bPe" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                <rect key="frame" x="20" y="273.5" width="374" height="50"/>
+                                <rect key="frame" x="20" y="272" width="374" height="50"/>
                                 <color key="backgroundColor" name="Primary Blue"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="v0l-iy-jn9"/>

@@ -10,7 +10,7 @@ import Alamofire
 
 enum AuthRouter {
     case signIn(params: Parameters)
-    case register(params: Parameters)
+    case register
     case singleSignOn(params: Parameters)
     case refreshToken(params: Parameters)
 }
@@ -48,11 +48,12 @@ extension AuthRouter: URLRequestConvertible {
         
         switch self {
         case .signIn(let params),
-             .register(let params),
              .singleSignOn(let params),
              .refreshToken(let params):
             let encoding = Alamofire.JSONEncoding.default
             request = try encoding.encode(request, with: params)
+        default:
+            break
         }
 
         return request

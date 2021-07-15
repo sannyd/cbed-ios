@@ -21,7 +21,7 @@ extension Reactive where Base: GIDSignIn {
                     return
                 }
                 
-                guard let token = user?.authentication.accessToken else {
+                guard let token = user?.authentication.idToken else {
                     observer.on(.error(FacebookSDKError.tokenNotFound))
                     return
                 }

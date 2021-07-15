@@ -9,4 +9,7 @@ import Foundation
 
 struct RegisterResponseM: Decodable {
     let email: String
+    let name: String
+    let state: String
+    let avatar: String?
 }
