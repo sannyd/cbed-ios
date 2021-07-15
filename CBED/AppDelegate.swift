@@ -121,7 +121,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         fetchRemoteConfig()
         
-        GIDSignIn.sharedInstance().clientID = "660482726170-lbmu7vtnugfrm6tb03oetv44361v7tci.apps.googleusercontent.com"
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         IQKeyboardManager.shared.enable = true
@@ -151,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         return FBSDKCoreKit.ApplicationDelegate.shared.application(app, open: url, options: options) ||
-            GIDSignIn.sharedInstance().handle(url)
+            GIDSignIn.sharedInstance.handle(url)
     }
     
     func logout() {

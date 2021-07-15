@@ -49,7 +49,15 @@ final class RegisterViewController: UIViewController {
         [output
             .isButtonRegisterValid
             .asDriver(onErrorJustReturn: false)
-            .drive(buttonRegister.rx.isEnabled)]
+            .drive(buttonRegister.rx.isEnabled),
+        output
+            .isLoading
+            .asDriver(onErrorJustReturn: false)
+            .drive(LoadingIndicatorView.rx.isAnimating),
+        output
+            .error
+            .asDriverOnErrorJustComplete()
+            .drive(errorBinding)]
             .forEach { $0.disposed(by: disposeBag) }
     }
 }

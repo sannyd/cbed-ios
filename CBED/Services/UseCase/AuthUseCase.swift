@@ -15,8 +15,7 @@ enum SSOType: String, Decodable {
 }
 
 protocol AuthUseCase {
-    func register(email: String,
-                  password: String) -> Single<RegisterResponseM>
+    func register(request: RegisterRequestM) -> Single<RegisterResponseM>
     func signin(email: String,
                 password: String) -> Single<SignInResponseM>
     func singleSignOn(type: SSOType,

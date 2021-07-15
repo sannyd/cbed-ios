@@ -130,16 +130,17 @@ struct LoginViewModel: ViewModel {
     }
     
     private var showGoogleLogin: Observable<(SSOType, String)> {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return GIDSignIn
-            .sharedInstance()
+            .sharedInstance
             .rx
-            .signIn
+            .login(from: appDelegate.getCurrentViewController())
             .trackError(self.errorTracker)
             .catch { _ in
                 return .never()
             }
-            .map { user in (SSOType.google,
-                            user.authentication.idToken) }
+            .map { accessToken in (SSOType.google,
+                                   accessToken) }
     }
     
     private func handleSingleSignOn(type: SSOType, accessToken: String) -> Observable<SingleSignOnResponseM> {

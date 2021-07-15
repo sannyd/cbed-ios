@@ -22,6 +22,10 @@
 		182DD563268CBE3600172927 /* Encodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD562268CBE3600172927 /* Encodable+.swift */; };
 		182DD565268CC2D700172927 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DD564268CC2D700172927 /* CustomError.swift */; };
 		183E32D5269AE5AD006B4507 /* RegisterRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32D4269AE5AD006B4507 /* RegisterRequestM.swift */; };
+		183E32DB269F048C006B4507 /* ForgotPasswordNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32D7269F048C006B4507 /* ForgotPasswordNavigator.swift */; };
+		183E32DC269F048C006B4507 /* ForgotPasswordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32D8269F048C006B4507 /* ForgotPasswordUseCase.swift */; };
+		183E32DD269F048C006B4507 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32D9269F048C006B4507 /* ForgotPasswordViewController.swift */; };
+		183E32DE269F048C006B4507 /* ForgotPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32DA269F048C006B4507 /* ForgotPasswordViewModel.swift */; };
 		184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC10267F28A0004048A5 /* EKAttributes+.swift */; };
 		184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC15268395CD004048A5 /* AppNavigator.swift */; };
 		184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC16268395CD004048A5 /* AppUseCase.swift */; };
@@ -186,6 +190,10 @@
 		182DD562268CBE3600172927 /* Encodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+.swift"; sourceTree = "<group>"; };
 		182DD564268CC2D700172927 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		183E32D4269AE5AD006B4507 /* RegisterRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequestM.swift; sourceTree = "<group>"; };
+		183E32D7269F048C006B4507 /* ForgotPasswordNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordNavigator.swift; sourceTree = "<group>"; };
+		183E32D8269F048C006B4507 /* ForgotPasswordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordUseCase.swift; sourceTree = "<group>"; };
+		183E32D9269F048C006B4507 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		183E32DA269F048C006B4507 /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
 		184ABC10267F28A0004048A5 /* EKAttributes+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EKAttributes+.swift"; sourceTree = "<group>"; };
 		184ABC15268395CD004048A5 /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		184ABC16268395CD004048A5 /* AppUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUseCase.swift; sourceTree = "<group>"; };
@@ -381,6 +389,17 @@
 				183E32D4269AE5AD006B4507 /* RegisterRequestM.swift */,
 			);
 			path = "Request Models";
+			sourceTree = "<group>";
+		};
+		183E32D6269F0476006B4507 /* Forgot Password */ = {
+			isa = PBXGroup;
+			children = (
+				183E32D7269F048C006B4507 /* ForgotPasswordNavigator.swift */,
+				183E32D8269F048C006B4507 /* ForgotPasswordUseCase.swift */,
+				183E32D9269F048C006B4507 /* ForgotPasswordViewController.swift */,
+				183E32DA269F048C006B4507 /* ForgotPasswordViewModel.swift */,
+			);
+			path = "Forgot Password";
 			sourceTree = "<group>";
 		};
 		184ABC14268395C0004048A5 /* App */ = {
@@ -795,6 +814,7 @@
 		FFD576EE267367CF00CC9CF1 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				183E32D6269F0476006B4507 /* Forgot Password */,
 				189039D12699979B00C1EE37 /* Register */,
 				189039DA269998FA00C1EE37 /* Login */,
 			);
@@ -879,7 +899,6 @@
 				185F8759266CC84800A63898 /* Frameworks */,
 				185F875A266CC84800A63898 /* Resources */,
 				EF58888BE0234A1B16E61B96 /* [CP] Embed Pods Frameworks */,
-				D8A704986DD1B2F13F92AE7E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -979,23 +998,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D8A704986DD1B2F13F92AE7E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CBED/Pods-CBED-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CBED/Pods-CBED-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CBED/Pods-CBED-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		EF58888BE0234A1B16E61B96 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1061,6 +1063,8 @@
 				FF1E61E9268C626000CF96B5 /* LoadMoreViewAnimator.swift in Sources */,
 				184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */,
 				185B06292677C29500A17664 /* SectionNavigator.swift in Sources */,
+				183E32DB269F048C006B4507 /* ForgotPasswordNavigator.swift in Sources */,
+				183E32DE269F048C006B4507 /* ForgotPasswordViewModel.swift in Sources */,
 				FFD5770A2673701A00CC9CF1 /* Constants.swift in Sources */,
 				185B064F267B994400A17664 /* PreviewWebViewUseCase.swift in Sources */,
 				185F87942672796000A63898 /* CustomBorderButton.swift in Sources */,
@@ -1102,6 +1106,7 @@
 				185B0664267DF15100A17664 /* AnswerCell.swift in Sources */,
 				185F87A8267494C400A63898 /* Button+.swift in Sources */,
 				185B0658267BAB8A00A17664 /* ExamUseCase.swift in Sources */,
+				183E32DC269F048C006B4507 /* ForgotPasswordUseCase.swift in Sources */,
 				182C324B2699C706008E97CE /* UILabel+.swift in Sources */,
 				185F879B2674540300A63898 /* AuthUseCase.swift in Sources */,
 				185F87A62674949200A63898 /* UIView+.swift in Sources */,
@@ -1130,6 +1135,7 @@
 				180C44CD2695F5E700416335 /* InAppPurchaseNavigator.swift in Sources */,
 				185B060F267629A300A17664 /* UICollectionView+.swift in Sources */,
 				185B060426761B1B00A17664 /* CommonCollectionView.swift in Sources */,
+				183E32DD269F048C006B4507 /* ForgotPasswordViewController.swift in Sources */,
 				185B05F72676179900A17664 /* LevelM.swift in Sources */,
 				FFB1923E268F22300000B256 /* SearchNavigator.swift in Sources */,
 				180C44D02695F5E700416335 /* InAppPurchaseViewModel.swift in Sources */,

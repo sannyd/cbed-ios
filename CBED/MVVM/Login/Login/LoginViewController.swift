@@ -23,7 +23,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        GIDSignIn.sharedInstance()?.presentingViewController = self
         bindViewModel()
     }
     

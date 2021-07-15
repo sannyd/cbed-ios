@@ -21,6 +21,8 @@ extension RegisterViewModel {
     
     struct Output {
         let isButtonRegisterValid: Observable<Bool>
+        let isLoading: Observable<Bool>
+        let error: Observable<Error>
     }
 }
 
@@ -60,7 +62,9 @@ struct RegisterViewModel: ViewModel {
             .drive(onNext: navigator.showRegisterSuccessAlert)
             .disposed(by: disposeBag)
         
-        return Output(isButtonRegisterValid: isButtonRegisterValid)
+        return Output(isButtonRegisterValid: isButtonRegisterValid,
+                      isLoading: activityIndicator.asObservable(),
+                      error: errorTracker.asObservable())
     }
     
     private func register(request: RegisterRequestM) -> Observable<RegisterResponseM> {
