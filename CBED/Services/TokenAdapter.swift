@@ -55,6 +55,10 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
             if isSuccess {
                 completion(.retry)
             } else {
+                DispatchQueue.main.async {
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.logout()
+                }
                 completion(.doNotRetryWithError(error))
             }
         }
@@ -95,12 +99,21 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
         isRefreshing = true
         let parameters = ["refresh": refreshToken]
         AF.request("https://cbed.airdemo.xyz/api/auth/token-refresh/", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+            Log.d(response)
+            if let error = response.error {
+                Log.e(error)
+                isRefreshing = false
+                completion(false)
+            }
+            
             if let data = response.data, let token = (try? JSONSerialization.jsonObject(with: data, options: [])
                 as? [String: Any])?["access"] as? String {
+                isRefreshing = false
                 Storage.accessToken = token
                 print("\nRefresh token completed successfully. New token is: \(token)\n")
                 completion(true)
             } else {
+                isRefreshing = false
                 completion(false)
             }
         }

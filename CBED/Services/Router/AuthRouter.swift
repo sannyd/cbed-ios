@@ -13,6 +13,7 @@ enum AuthRouter {
     case register
     case singleSignOn(params: Parameters)
     case refreshToken(params: Parameters)
+    case forgotPassword(params: Parameters)
 }
 
 // MARK: - TargetType: Moya compatible
@@ -34,6 +35,8 @@ extension AuthRouter: URLRequestConvertible {
             return "/single_sign_on"
         case .refreshToken:
             return "/token-refresh/"
+        case .forgotPassword:
+            return "/request_reset_password"
         }
     }
     
@@ -49,7 +52,8 @@ extension AuthRouter: URLRequestConvertible {
         switch self {
         case .signIn(let params),
              .singleSignOn(let params),
-             .refreshToken(let params):
+             .refreshToken(let params),
+             .forgotPassword(let params):
             let encoding = Alamofire.JSONEncoding.default
             request = try encoding.encode(request, with: params)
         default:

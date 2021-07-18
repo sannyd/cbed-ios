@@ -15,7 +15,7 @@ extension SettingViewModel {
     }
     
     struct Output {
-        
+        let profileInfo: Observable<ProfileInfoM>
     }
 }
 
@@ -24,6 +24,8 @@ struct SettingViewModel: ViewModel {
     let navigator: SettingNavigatorType
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
-        return Output()
+        let profileInfo = Observable.just(Storage.profileInfo)
+        
+        return Output(profileInfo: profileInfo.unwrap())
     }
 }

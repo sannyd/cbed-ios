@@ -49,9 +49,9 @@ final class SectionDetailViewController: UIViewController {
             .usefulLinks
             .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
          output
-            .sectionInfo
-            .drive(onNext: { [weak self] sectionInfo in
-                self?.labelSectionName.text = sectionInfo.levelTitle
+            .sectionDetail
+            .drive(onNext: { [weak self] sectionDetail in
+                self?.labelSectionName.text = sectionDetail.name
             }),
          output
             .isLoading

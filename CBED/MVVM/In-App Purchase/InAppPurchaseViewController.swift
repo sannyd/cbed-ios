@@ -13,6 +13,7 @@ final class InAppPurchaseViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var backButton: UIButton!
     
     // MARK: - Properties
     
@@ -43,7 +44,13 @@ final class InAppPurchaseViewController: UIViewController {
         [output
             .data
             .asDriverOnErrorJustComplete()
-            .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource))]
+            .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
+         backButton
+            .rxButtonTapped
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            })]
             .forEach { $0.disposed(by: disposeBag) }
     }
     

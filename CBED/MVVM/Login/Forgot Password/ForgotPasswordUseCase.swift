@@ -8,9 +8,10 @@
 import RxSwift
 
 protocol ForgotPasswordUseCaseType {
-    
+    func forgotPassword(email: String) -> Single<Any>
 }
 
-struct ForgotPasswordUseCase: ForgotPasswordUseCaseType {
+struct ForgotPasswordUseCase: ForgotPasswordUseCaseType,
+                              AuthUseCase {
     
 }

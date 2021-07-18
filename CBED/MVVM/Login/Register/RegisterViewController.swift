@@ -19,6 +19,8 @@ final class RegisterViewController: UIViewController {
     @IBOutlet weak var passwordTextfield: UITextField!
     @IBOutlet weak var stateTextfield: UITextField!
     @IBOutlet weak var buttonRegister: CustomBorderButton!
+    @IBOutlet weak var buttonBack: UIButton!
+    
     // MARK: - Properties
     
     var viewModel: RegisterViewModel!
@@ -67,7 +69,13 @@ final class RegisterViewController: UIViewController {
         output
             .error
             .asDriverOnErrorJustComplete()
-            .drive(errorBinding)]
+            .drive(errorBinding),
+        buttonBack
+            .rxButtonTapped
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            })]
             .forEach { $0.disposed(by: disposeBag) }
     }
 }
@@ -82,7 +90,6 @@ struct AlertAction {
 }
 
 extension UIViewController {
-    
     func showAlert(title: String?, message: String?, style: UIAlertController.Style, actions: [AlertAction])
      -> Observable<Int>
     {

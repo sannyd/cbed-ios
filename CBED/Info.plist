@@ -93,5 +93,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>We need to access to help you take profile photo</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need to access to help you choose profile photo</string>
 </dict>
 </plist>

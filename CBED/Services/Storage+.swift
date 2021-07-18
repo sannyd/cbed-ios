@@ -39,4 +39,25 @@ extension Storage {
             Storage.set(value: data, forKey: StorageKey.refreshToken.rawValue, storageType: .userDefault)
         }
     }
+    
+    static var profileInfo: ProfileInfoM? {
+        get {
+            let userDefaults = UserDefaults.standard
+            do {
+                let user = try userDefaults.getObject(forKey: StorageKey.profileInfo.rawValue, castTo: ProfileInfoM.self)
+                return user
+            } catch {
+                print(error.localizedDescription)
+            }
+            return nil
+        }
+        set {
+            let userDefaults = UserDefaults.standard
+            do {
+                try userDefaults.setObject(newValue, forKey: StorageKey.profileInfo.rawValue)
+            } catch {
+                Log.e(error.localizedDescription)
+            }
+        }
+    }
 }

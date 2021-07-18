@@ -44,7 +44,9 @@ final class AppViewController: UIViewController {
                 if isEnableLogin {
                     let loginVC = StoryboardManager.instanceLoginVC()
                     let nav = UINavigationController(rootViewController: loginVC)
-                    loginVC.viewModel = .init(useCase: LoginUseCase(), navigator: LoginNavigator(window: appDelegate.window!))
+                    loginVC.viewModel = .init(useCase: LoginUseCase(),
+                                              navigator: LoginNavigator(window: appDelegate.window!,
+                                                                        navigationController: nav))
                     appDelegate.window?.rootViewController = nav
                 } else {
                     let tabbarVC = StoryboardManager.instanceTabBarVC()

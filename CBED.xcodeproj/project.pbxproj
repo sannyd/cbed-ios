@@ -29,6 +29,13 @@
 		183E32E226A08A9E006B4507 /* RxMediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32E026A08A9D006B4507 /* RxMediaPicker.swift */; };
 		183E32E326A08A9E006B4507 /* RxMediaPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32E126A08A9D006B4507 /* RxMediaPickerDelegate.swift */; };
 		183E32E526A08C06006B4507 /* UIImagePickerController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32E426A08C06006B4507 /* UIImagePickerController+.swift */; };
+		183E32E726A1E2ED006B4507 /* ProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32E626A1E2ED006B4507 /* ProfileUseCase.swift */; };
+		183E32E926A1E355006B4507 /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32E826A1E355006B4507 /* ProfileRouter.swift */; };
+		183E32EB26A1E43E006B4507 /* ProfileInfoM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32EA26A1E43E006B4507 /* ProfileInfoM.swift */; };
+		183E32ED26A1EAF0006B4507 /* UserDefaults+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32EC26A1EAF0006B4507 /* UserDefaults+.swift */; };
+		183E32EF26A2F6FD006B4507 /* Nuke+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32EE26A2F6FD006B4507 /* Nuke+.swift */; };
+		183E32F226A4154C006B4507 /* InAppPurchaseAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183E32F126A4154B006B4507 /* InAppPurchaseAlertView.xib */; };
+		183E32F426A41737006B4507 /* InAppPurchaseAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183E32F326A41737006B4507 /* InAppPurchaseAlertView.swift */; };
 		184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC10267F28A0004048A5 /* EKAttributes+.swift */; };
 		184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC15268395CD004048A5 /* AppNavigator.swift */; };
 		184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184ABC16268395CD004048A5 /* AppUseCase.swift */; };
@@ -200,6 +207,13 @@
 		183E32E026A08A9D006B4507 /* RxMediaPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMediaPicker.swift; sourceTree = "<group>"; };
 		183E32E126A08A9D006B4507 /* RxMediaPickerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMediaPickerDelegate.swift; sourceTree = "<group>"; };
 		183E32E426A08C06006B4507 /* UIImagePickerController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+.swift"; sourceTree = "<group>"; };
+		183E32E626A1E2ED006B4507 /* ProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUseCase.swift; sourceTree = "<group>"; };
+		183E32E826A1E355006B4507 /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
+		183E32EA26A1E43E006B4507 /* ProfileInfoM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoM.swift; sourceTree = "<group>"; };
+		183E32EC26A1EAF0006B4507 /* UserDefaults+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+.swift"; sourceTree = "<group>"; };
+		183E32EE26A2F6FD006B4507 /* Nuke+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Nuke+.swift"; sourceTree = "<group>"; };
+		183E32F126A4154B006B4507 /* InAppPurchaseAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InAppPurchaseAlertView.xib; sourceTree = "<group>"; };
+		183E32F326A41737006B4507 /* InAppPurchaseAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseAlertView.swift; sourceTree = "<group>"; };
 		184ABC10267F28A0004048A5 /* EKAttributes+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EKAttributes+.swift"; sourceTree = "<group>"; };
 		184ABC15268395CD004048A5 /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		184ABC16268395CD004048A5 /* AppUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUseCase.swift; sourceTree = "<group>"; };
@@ -368,6 +382,7 @@
 		180C44C82695F5D500416335 /* In-App Purchase */ = {
 			isa = PBXGroup;
 			children = (
+				183E32F026A41523006B4507 /* Views */,
 				180C44D12695F67700416335 /* Cells */,
 				180C44C92695F5E700416335 /* InAppPurchaseNavigator.swift */,
 				180C44CA2695F5E700416335 /* InAppPurchaseUseCase.swift */,
@@ -415,6 +430,15 @@
 				183E32E126A08A9D006B4507 /* RxMediaPickerDelegate.swift */,
 			);
 			path = RxMediaPicker;
+			sourceTree = "<group>";
+		};
+		183E32F026A41523006B4507 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				183E32F126A4154B006B4507 /* InAppPurchaseAlertView.xib */,
+				183E32F326A41737006B4507 /* InAppPurchaseAlertView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		184ABC14268395C0004048A5 /* App */ = {
@@ -561,6 +585,7 @@
 				185B0642267A581000A17664 /* Cells */,
 				185B0639267A516E00A17664 /* SectionDetailNavigator.swift */,
 				185B063A267A516E00A17664 /* SectionDetailUseCase.swift */,
+				185B063B267A516E00A17664 /* SectionDetailViewController.swift */,
 				185B063C267A516E00A17664 /* SectionDetailViewModel.swift */,
 			);
 			path = "Section Detail";
@@ -569,7 +594,6 @@
 		185B0642267A581000A17664 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				185B063B267A516E00A17664 /* SectionDetailViewController.swift */,
 				185B0643267A582300A17664 /* UsefulLinkCell.swift */,
 				185B0644267A582300A17664 /* UsefulLinkCell.xib */,
 			);
@@ -708,6 +732,7 @@
 				185F879A2674540300A63898 /* AuthUseCase.swift */,
 				185B05F4267616F000A17664 /* LevelsUseCase.swift */,
 				185B05FE267619DE00A17664 /* SectionAPIUseCase.swift */,
+				183E32E626A1E2ED006B4507 /* ProfileUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -726,6 +751,7 @@
 				185B0637267A34CC00A17664 /* TokenRefreshResponseM.swift */,
 				184ABC1D2684E4FC004048A5 /* SectionSearchResponseM.swift */,
 				184ABC1F2684E576004048A5 /* SaveResultResponseM.swift */,
+				183E32EA26A1E43E006B4507 /* ProfileInfoM.swift */,
 			);
 			path = "Response Models";
 			sourceTree = "<group>";
@@ -875,6 +901,7 @@
 				185B05EE267615E400A17664 /* LevelRouter.swift */,
 				185B05F02676168D00A17664 /* SectionRouter.swift */,
 				185B05F2267616BB00A17664 /* UserRouter.swift */,
+				183E32E826A1E355006B4507 /* ProfileRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -882,6 +909,8 @@
 		FFD5770B2673703F00CC9CF1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				183E32EE26A2F6FD006B4507 /* Nuke+.swift */,
+				183E32EC26A1EAF0006B4507 /* UserDefaults+.swift */,
 				184ABC10267F28A0004048A5 /* EKAttributes+.swift */,
 				185F87972673C29C00A63898 /* Google+Reactive.swift */,
 				185F87952673C28C00A63898 /* Facebook+Reactive.swift */,
@@ -977,6 +1006,7 @@
 				185F878F2672764800A63898 /* OFL.txt in Resources */,
 				182C324D2699C761008E97CE /* Lato.plist in Resources */,
 				185F87922672764800A63898 /* Lato-ThinItalic.ttf in Resources */,
+				183E32F226A4154C006B4507 /* InAppPurchaseAlertView.xib in Resources */,
 				185F876C266CC84A00A63898 /* LaunchScreen.storyboard in Resources */,
 				185F8769266CC84A00A63898 /* Assets.xcassets in Resources */,
 				185F878D2672764800A63898 /* Lato-Regular.ttf in Resources */,
@@ -1067,6 +1097,7 @@
 				185B060D26761F3B00A17664 /* CustomBorderView.swift in Sources */,
 				FFD576F52673681200CC9CF1 /* Environment.swift in Sources */,
 				184ABC262684EAC9004048A5 /* ResultNavigator.swift in Sources */,
+				183E32EF26A2F6FD006B4507 /* Nuke+.swift in Sources */,
 				184ABC3026878D34004048A5 /* TraitCollectionProvider.swift in Sources */,
 				FFD5770026736F2700CC9CF1 /* AuthRouter.swift in Sources */,
 				185B063E267A516F00A17664 /* SectionDetailUseCase.swift in Sources */,
@@ -1078,6 +1109,7 @@
 				185B061126762F1A00A17664 /* TabBarViewController.swift in Sources */,
 				185F8764266CC84800A63898 /* LoginViewController.swift in Sources */,
 				184ABC19268395CD004048A5 /* AppNavigator.swift in Sources */,
+				183E32EB26A1E43E006B4507 /* ProfileInfoM.swift in Sources */,
 				FF1E61E9268C626000CF96B5 /* LoadMoreViewAnimator.swift in Sources */,
 				184ABC11267F28A0004048A5 /* EKAttributes+.swift in Sources */,
 				185B06292677C29500A17664 /* SectionNavigator.swift in Sources */,
@@ -1089,6 +1121,7 @@
 				182DD565268CC2D700172927 /* CustomError.swift in Sources */,
 				182DD55F268CBCED00172927 /* SearchSectionRequestM.swift in Sources */,
 				185B05EF267615E400A17664 /* LevelRouter.swift in Sources */,
+				183E32E726A1E2ED006B4507 /* ProfileUseCase.swift in Sources */,
 				185B0640267A516F00A17664 /* SectionDetailViewModel.swift in Sources */,
 				185B05F5267616F000A17664 /* LevelsUseCase.swift in Sources */,
 				184ABC282684EAC9004048A5 /* ResultViewController.swift in Sources */,
@@ -1140,6 +1173,7 @@
 				FFD576F92673682700CC9CF1 /* BaseViewModel.swift in Sources */,
 				FFD576F32673680800CC9CF1 /* ViewModelType.swift in Sources */,
 				185F87A426747BB100A63898 /* SingleSignOnResponseM.swift in Sources */,
+				183E32ED26A1EAF0006B4507 /* UserDefaults+.swift in Sources */,
 				185B05F3267616BB00A17664 /* UserRouter.swift in Sources */,
 				185B06332677C2FE00A17664 /* SectionCell.swift in Sources */,
 				185B060126761AAE00A17664 /* UIViewController+.swift in Sources */,
@@ -1148,6 +1182,7 @@
 				184ABC292684EAC9004048A5 /* ResultViewModel.swift in Sources */,
 				185B061926762F5E00A17664 /* ScoreboardViewController.swift in Sources */,
 				189039D6269998F200C1EE37 /* RegisterNavigator.swift in Sources */,
+				183E32F426A41737006B4507 /* InAppPurchaseAlertView.swift in Sources */,
 				184ABC3626878D69004048A5 /* UIColor+DynamicColorContext.swift in Sources */,
 				189039D8269998F200C1EE37 /* RegisterViewController.swift in Sources */,
 				185B0638267A34CD00A17664 /* TokenRefreshResponseM.swift in Sources */,
@@ -1169,6 +1204,7 @@
 				185B062226762F7C00A17664 /* SettingViewController.swift in Sources */,
 				185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */,
 				FFD577132673712C00CC9CF1 /* UIColor+.swift in Sources */,
+				183E32E926A1E355006B4507 /* ProfileRouter.swift in Sources */,
 				185B05FF267619DE00A17664 /* SectionAPIUseCase.swift in Sources */,
 				184ABC202684E576004048A5 /* SaveResultResponseM.swift in Sources */,
 				185B0667267E0DCD00A17664 /* String+.swift in Sources */,

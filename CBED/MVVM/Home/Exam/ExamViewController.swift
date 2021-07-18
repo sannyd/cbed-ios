@@ -30,8 +30,8 @@ final class ExamViewController: UIViewController {
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
-        setupFont()
         super.viewDidLoad()
+        setupFont()
         setupCollectionView()
         bindViewModel()
     }

@@ -36,6 +36,7 @@ struct RegisterViewModel: ViewModel {
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let profileImage = input
             .profileImageTrigger
+            .filter { $0 != 2 }
             .flatMap { index -> Observable<[UIImagePickerController.InfoKey: Any]> in
                 return navigator.showImagePicker(index: index)
             }

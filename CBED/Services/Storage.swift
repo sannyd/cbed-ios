@@ -11,7 +11,7 @@ import KeychainSwift
 enum StorageKey: String {
     case accessToken
     case refreshToken
-    case availableDriver
+    case profileInfo
 }
 
 enum StorageType {

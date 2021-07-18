@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InAppPurchaseAlertView" customModule="CBED" customModuleProvider="target">
+            <connections>
+                <outlet property="buttonProceed" destination="dHw-8t-8om" id="Aib-Fg-5Ar"/>
+                <outlet property="labelLeft" destination="oW1-Ne-nxb" id="2ef-dH-GGv"/>
+                <outlet property="leftView" destination="lRT-zT-svk" id="71x-L1-EzH"/>
+                <outlet property="rightLabel" destination="GJG-jL-uav" id="6aj-WG-1Yb"/>
+                <outlet property="rightView" destination="IxB-1X-Y83" id="g5L-wn-Dzd"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="337" height="250"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Which month are you taking  the exam ?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S11-vD-5pI">
+                    <rect key="frame" x="20" y="20" width="297" height="42"/>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="20"/>
+                    <color key="textColor" name="Primary Blue"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="3F3-U8-qWi">
+                    <rect key="frame" x="20" y="92" width="297" height="68"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lRT-zT-svk" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="135.5" height="68"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fub" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oW1-Ne-nxb">
+                                    <rect key="frame" x="56" y="25.5" width="23.5" height="17"/>
+                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" name="Primary Blue"/>
+                            <constraints>
+                                <constraint firstItem="oW1-Ne-nxb" firstAttribute="centerX" secondItem="lRT-zT-svk" secondAttribute="centerX" id="lZm-lt-BZN"/>
+                                <constraint firstItem="oW1-Ne-nxb" firstAttribute="centerY" secondItem="lRT-zT-svk" secondAttribute="centerY" id="my7-am-0RY"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                    <real key="value" value="20"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IxB-1X-Y83" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                            <rect key="frame" x="161.5" y="0.0" width="135.5" height="68"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fub" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJG-jL-uav">
+                                    <rect key="frame" x="56" y="25.5" width="23.5" height="17"/>
+                                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" name="Textfield Color"/>
+                            <constraints>
+                                <constraint firstItem="GJG-jL-uav" firstAttribute="centerX" secondItem="IxB-1X-Y83" secondAttribute="centerX" id="2c2-EU-5M3"/>
+                                <constraint firstItem="GJG-jL-uav" firstAttribute="centerY" secondItem="IxB-1X-Y83" secondAttribute="centerY" id="XWX-NJ-xhD"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                    <real key="value" value="20"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="68" id="4dG-X2-gXc"/>
+                    </constraints>
+                </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dHw-8t-8om" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="200" width="337" height="50"/>
+                    <color key="backgroundColor" name="Primary Blue"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="wvo-F8-mHo"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="24"/>
+                    <state key="normal" title="Proceed">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
+                            <color key="value" name="Primary Blue"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
+                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="S11-vD-5pI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="2xd-Mo-bR7"/>
+                <constraint firstItem="3F3-U8-qWi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="6pD-S1-LFp"/>
+                <constraint firstItem="dHw-8t-8om" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="AZ8-7n-Fih"/>
+                <constraint firstAttribute="bottom" secondItem="dHw-8t-8om" secondAttribute="bottom" id="M5Y-sK-eOs"/>
+                <constraint firstItem="3F3-U8-qWi" firstAttribute="top" secondItem="S11-vD-5pI" secondAttribute="bottom" constant="30" id="QC0-yc-3Yi"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="S11-vD-5pI" secondAttribute="trailing" constant="20" id="VnI-8V-fdm"/>
+                <constraint firstAttribute="trailing" secondItem="dHw-8t-8om" secondAttribute="trailing" id="ksk-dh-ie3"/>
+                <constraint firstItem="S11-vD-5pI" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="qVb-SG-Ld4"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="3F3-U8-qWi" secondAttribute="trailing" constant="20" id="qeX-UU-vCl"/>
+                <constraint firstItem="dHw-8t-8om" firstAttribute="top" secondItem="3F3-U8-qWi" secondAttribute="bottom" constant="40" id="r3G-wJ-3Mx"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-10.869565217391305" y="10.044642857142856"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="Primary Blue">
+            <color red="0.16099999845027924" green="0.35699999332427979" blue="0.87800002098083496" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Textfield Color">
+            <color red="0.66299998760223389" green="0.72500002384185791" blue="0.80400002002716064" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

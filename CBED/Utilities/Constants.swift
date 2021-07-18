@@ -8,6 +8,45 @@
 import Foundation
 import UIKit
 
+enum Membership {
+    case pro
+    case baby
+    case free
+}
+
+enum InAppPurchaseMonth {
+    case ProBarFeb
+    case ProBarJul
+    case BabyBarJun
+    case BabyBarOct
+    
+    var monthString: String {
+        switch self {
+        case .ProBarFeb:
+            return "February"
+        case .ProBarJul:
+            return "July"
+        case .BabyBarJun:
+            return "June"
+        case .BabyBarOct:
+            return "October"
+        }
+    }
+    
+    var purchaseID: String {
+        switch self {
+        case .ProBarFeb:
+            return "com.barexamdrills.app.unlockall"
+        case .ProBarJul:
+            return "com.barexamdrills.app.unlockall"
+        case .BabyBarJun:
+            return "com.barexamdrills.app.unlockall"
+        case .BabyBarOct:
+            return "com.barexamdrills.app.unlockall"
+        }
+    }
+}
+
 struct Constants {
     struct Storyboards {
         static let Login = UIStoryboard(name: "Login", bundle: nil)
@@ -33,6 +72,7 @@ struct Constants {
     }
 
     static let ColorC4C4C4 = #colorLiteral(red: 0.768627451, green: 0.768627451, blue: 0.768627451, alpha: 1)
+    static let primaryTextfieldColor = #colorLiteral(red: 0.662745098, green: 0.7254901961, blue: 0.8039215686, alpha: 1)
     static let ColorE0293F = #colorLiteral(red: 0.8784313725, green: 0.1607843137, blue: 0.2470588235, alpha: 1)
     static let PrimaryTextColor = UIColor.dynamicColor { context in
         switch context.mode {

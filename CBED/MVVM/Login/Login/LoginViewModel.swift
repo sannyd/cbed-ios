@@ -18,6 +18,8 @@ extension LoginViewModel {
         let buttonLoginTrigger: Observable<Void>
         let buttonFacebookTrigger: Observable<Void>
         let buttonGoogleTrigger: Observable<Void>
+        let buttonForgotPasswordTrigger: Observable<Void>
+        let buttonRegisterTrigger: Observable<Void>
     }
     
     struct Output {
@@ -97,7 +99,26 @@ struct LoginViewModel: ViewModel {
             .merge(loginSuccess,
                    facebookLoginSuccess,
                    googleLoginSuccess)
+            .flatMapLatest(fetchProfileInfo)
+            .do(onNext: { profile in
+                Storage.profileInfo = profile
+            })
+            .mapToVoid()
             .subscribe(onNext: navigator.pushToLevelVC)
+            .disposed(by: disposeBag)
+        
+        // Handle sign up tapped
+        input
+            .buttonRegisterTrigger
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: navigator.pushToRegisterVC)
+            .disposed(by: disposeBag)
+        
+        // Handle forgot password tapped
+        input
+            .buttonForgotPasswordTrigger
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: navigator.pushToForgotPasswordVC)
             .disposed(by: disposeBag)
         
         return Output(buttonLoginValid: buttonLoginValid.asDriver(onErrorJustReturn: false),
@@ -151,6 +172,16 @@ struct LoginViewModel: ViewModel {
             .trackActivity(self.activityIndicator)
             .trackError(self.errorTracker)
             .catch({ (error) -> Observable<SingleSignOnResponseM> in
+                return .never()
+            })
+    }
+    
+    private func fetchProfileInfo() -> Observable<ProfileInfoM> {
+        return self.useCase
+            .getProfileInfo()
+            .trackActivity(self.activityIndicator)
+            .trackError(self.errorTracker)
+            .catch({ (error) -> Observable<ProfileInfoM> in
                 return .never()
             })
     }

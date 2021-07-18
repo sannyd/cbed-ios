@@ -67,6 +67,17 @@ enum InAppPurchaseType {
             return "com.barexamdrills.app.levelid8"
         }
     }
+    
+    var months: (leftData: InAppPurchaseMonth, rightData: InAppPurchaseMonth) {
+        switch self {
+        case .ProBar:
+            return (InAppPurchaseMonth.ProBarFeb,
+                    InAppPurchaseMonth.ProBarJul)
+        case .BabyBar:
+            return (InAppPurchaseMonth.BabyBarJun,
+                    InAppPurchaseMonth.BabyBarOct)
+        }
+    }
 }
 
 struct InAppPurchaseM {

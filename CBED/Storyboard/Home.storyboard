@@ -995,6 +995,12 @@
                                 <color key="textColor" name="Primary Text"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick the plan which works best for you" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NUq-sC-IPY">
+                                <rect key="frame" x="103.5" y="703" width="207.5" height="14"/>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
+                                <color key="textColor" name="Textfield Color"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="few-Rb-n6J"/>
                         <color key="backgroundColor" name="Background"/>
@@ -1005,7 +1011,9 @@
                             <constraint firstItem="few-Rb-n6J" firstAttribute="trailing" secondItem="hkQ-Qq-NBL" secondAttribute="trailing" constant="20" id="H21-YN-iGv"/>
                             <constraint firstItem="xAJ-5Y-ggJ" firstAttribute="top" secondItem="gCE-tT-abG" secondAttribute="bottom" constant="38" id="O4K-uW-FKM"/>
                             <constraint firstItem="gCE-tT-abG" firstAttribute="centerX" secondItem="nZO-Fx-T8J" secondAttribute="centerX" id="V7P-Hd-8Ll"/>
+                            <constraint firstItem="NUq-sC-IPY" firstAttribute="centerX" secondItem="nZO-Fx-T8J" secondAttribute="centerX" id="Y5t-hO-Sn3"/>
                             <constraint firstItem="xAJ-5Y-ggJ" firstAttribute="leading" secondItem="few-Rb-n6J" secondAttribute="leading" constant="20" id="bmk-2C-GPi"/>
+                            <constraint firstItem="NUq-sC-IPY" firstAttribute="top" secondItem="xAJ-5Y-ggJ" secondAttribute="bottom" constant="20" id="dcI-l6-AQT"/>
                             <constraint firstItem="gCE-tT-abG" firstAttribute="top" secondItem="hkQ-Qq-NBL" secondAttribute="bottom" constant="30" id="fLM-NZ-0uS"/>
                             <constraint firstItem="hkQ-Qq-NBL" firstAttribute="leading" secondItem="few-Rb-n6J" secondAttribute="leading" constant="20" id="jX4-TG-hZ0"/>
                             <constraint firstItem="hkQ-Qq-NBL" firstAttribute="top" secondItem="GHA-TP-9lT" secondAttribute="bottom" constant="20" id="kaD-Jf-5FS"/>
@@ -1013,6 +1021,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="Yxj-f5-Dt5" id="tgo-mA-IbR"/>
                         <outlet property="containerView" destination="xAJ-5Y-ggJ" id="H8c-4O-5VD"/>
                     </connections>
                 </viewController>

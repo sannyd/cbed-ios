@@ -16,6 +16,7 @@ final class SettingViewController: UIViewController {
     @IBOutlet weak var labelEmail: UILabel!
     @IBOutlet weak var labelMembership: UILabel!
     @IBOutlet weak var buttonLogout: UIButton!
+    @IBOutlet weak var profileImageView: UIImageView!
     // MARK: - Properties
     
     var viewModel: SettingViewModel!
@@ -43,12 +44,21 @@ final class SettingViewController: UIViewController {
         let input = SettingViewModel.Input()
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
-        buttonLogout
-            .rxButtonTapped
-            .subscribe(onNext: { _ in
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.logout()
-            })
-            .disposed(by: disposeBag)
+        [output
+            .profileInfo
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] profileInfo in
+                self?.labelName.text = profileInfo.name
+                self?.labelEmail.text = profileInfo.email
+                self?.labelMembership.text = profileInfo.membership
+                self?.profileImageView.loadImage(with: profileInfo.avatar)
+            }),
+         buttonLogout
+             .rxButtonTapped
+             .subscribe(onNext: { _ in
+                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                 appDelegate.logout()
+             })]
+            .forEach { $0.disposed(by: disposeBag) }
     }
 }

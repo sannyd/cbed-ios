@@ -18,6 +18,7 @@ protocol LoginUseCaseType {
 }
 
 struct LoginUseCase: LoginUseCaseType,
-                     AuthUseCase {
+                     AuthUseCase,
+                     ProfileUseCase {
     
 }

@@ -52,10 +52,13 @@ class LoginViewController: UIViewController {
                      password: textfieldPassword.rx.text.orEmpty.asObservable(),
                      buttonLoginTrigger: buttonLogin.rxButtonTapped.do(onNext: { self.view.endEditing(true) }),
                      buttonFacebookTrigger: buttonFacebook.rxGestureTapped,
-                     buttonGoogleTrigger: buttonGoogle.rxGestureTapped)
+                     buttonGoogleTrigger: buttonGoogle.rxGestureTapped,
+                     buttonForgotPasswordTrigger: buttonForgot.rxButtonTapped,
+                     buttonRegisterTrigger: buttonSignUp.rxButtonTapped)
     }
 }
 
+// MARK: UITextFieldDelegate
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == textfieldEmail {

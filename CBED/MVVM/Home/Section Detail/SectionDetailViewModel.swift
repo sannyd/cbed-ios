@@ -27,7 +27,7 @@ extension SectionDetailViewModel {
     }
     
     struct Output {
-        let sectionInfo: Driver<SectionInfo>
+        let sectionDetail: Driver<SectionDetailM>
         let usefulLinks: Driver<[CommonCollectionViewSection<UsefulLink>]>
         let isLoading: Driver<Bool>
         let error: Driver<Error>
@@ -42,25 +42,29 @@ struct SectionInfo {
 struct SectionDetailViewModel: ViewModel {
     let useCase: SectionDetailUseCaseType
     let navigator: SectionDetailNavigatorType
-    let sectionInfo: SectionInfo
+    let sectionDetail: SectionDetailM
     
     private let errorTracker = ErrorTracker()
     private let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
-        let sectionDetail = input
-            .firstLoadTrigger
-            .flatMapLatest(fetchSectionDetail)
-            .share(replay: 1)
+//        let sectionDetail = input
+//            .firstLoadTrigger
+//            .flatMapLatest(fetchSectionDetail)
+//            .share(replay: 1)
         
-        let youtubes = sectionDetail
+        let youtubes = Observable
+            .just(sectionDetail)
             .map(\.youtubeUrls)
             .unwrap()
+            .filter { $0.allSatisfy { !$0.isEmpty } }
             .map { $0.map { UsefulLink(type: .pdf, url: $0) } }
         
-        let pdfs = sectionDetail
+        let pdfs = Observable
+            .just(sectionDetail)
             .map(\.pdfUrls)
             .unwrap()
+            .filter { $0.allSatisfy { !$0.isEmpty } }
             .map { $0.map { UsefulLink(type: .pdf, url: $0) } }
         
         let usefulLinks = Observable.combineLatest(youtubes,
@@ -78,24 +82,24 @@ struct SectionDetailViewModel: ViewModel {
         
         input
             .buttonStartTrigger
-            .withLatestFrom(sectionDetail)
+            .map { _ in sectionDetail }
             .asDriverOnErrorJustComplete()
             .drive(onNext: navigator.pushToExamVC(sectionDetail:))
             .disposed(by: disposeBag)
         
-        return Output(sectionInfo: .just(sectionInfo),
+        return Output(sectionDetail: .just(sectionDetail),
                       usefulLinks: usefulLinks,
                       isLoading: activityIndicator.asDriver(),
                       error: errorTracker.asDriver())
     }
     
-    private func fetchSectionDetail() -> Observable<SectionDetailM> {
-        return self.useCase
-            .getSectionByID(id: sectionInfo.sectionID)
-            .trackError(errorTracker)
-            .trackActivity(activityIndicator)
-            .catch { _ in
-                return .never()
-            }
-    }
+//    private func fetchSectionDetail() -> Observable<SectionDetailM> {
+//        return self.useCase
+//            .getSectionByID(id: sectionInfo.sectionID)
+//            .trackError(errorTracker)
+//            .trackActivity(activityIndicator)
+//            .catch { _ in
+//                return .never()
+//            }
+//    }
 }

@@ -35,8 +35,23 @@ struct InAppPurchaseViewModel: ViewModel {
         
         input
             .inAppPurchaseItemTrigger
-            .subscribe(onNext: { item in
-                SwiftyStoreKit.purchaseProduct(item.purchaseID, quantity: 1, atomically: false) { result in
+            .map { $0.months }
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: navigator.showMonthAlertView(leftData:rightData:))
+            .disposed(by: disposeBag)
+        
+        navigator
+            .alertViewPublisher
+            .map { events -> InAppPurchaseMonth? in
+                switch events {
+                case .didTapProceed(let month):
+                    return month
+                }
+            }
+            .unwrap()
+            .map { $0.purchaseID }
+            .subscribe(onNext: { purchaseID in
+                SwiftyStoreKit.purchaseProduct(purchaseID, quantity: 1, atomically: false) { result in
                     switch result {
                     case .success(let product):
                         Log.d(product)

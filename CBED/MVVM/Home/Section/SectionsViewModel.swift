@@ -176,9 +176,25 @@ struct SectionsViewModel: LoadMoreViewModel {
         
         input
             .sectionTapped
-            .map { SectionInfo(sectionID: $0.id, levelTitle: $0.name ?? "") }
-            .subscribe(onNext: navigator.pushToSectionDetailVC(sectionInfo:))
+            .map { $0.id }
+            .flatMapLatest(fetchSectionDetailByID(id:))
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { sectionDetail in
+                if (sectionDetail.questions ?? []).isEmpty {
+                    if let youtubeURL = sectionDetail.youtubeUrls?.first {
+                        navigator.pushToPreviewWebView(usefulLinkURL: youtubeURL)
+                    }
+                    if let pdfURL = sectionDetail.pdfUrls?.first {
+                        navigator.pushToPreviewWebView(usefulLinkURL: pdfURL)
+                    }
+                } else {
+                    navigator.pushToSectionDetailVC(sectionDetail: sectionDetail)
+                }
+            })
             .disposed(by: disposeBag)
+//            .map { SectionInfo(sectionID: $0.id, levelTitle: $0.name ?? "") }
+//            .subscribe(onNext: navigator.pushToSectionDetailVC(sectionInfo:))
+//            .disposed(by: disposeBag)
         
         return Output(sections: sections.asObservable(),
                       navigationTitle: .just(levelTitle),
@@ -191,7 +207,6 @@ struct SectionsViewModel: LoadMoreViewModel {
     
     func getNextPage(offset: Int,
                      searchText: String) -> Observable<SectionSearchResponseM> {
-        //        return .deferred {
         return self.useCase
             .searchSection(request: .init(search: searchText,
                                           level: "\(levelID)",
@@ -199,6 +214,15 @@ struct SectionsViewModel: LoadMoreViewModel {
                                           offset: offset))
             .trackActivity(activityIndicator)
             .trackError(errorTracker)
-        //        }
+    }
+    
+    private func fetchSectionDetailByID(id: Int) -> Observable<SectionDetailM> {
+        return self.useCase
+            .getSectionByID(id: id)
+            .trackError(errorTracker)
+            .trackActivity(activityIndicator)
+            .catch { _ in
+                return .never()
+            }
     }
 }
