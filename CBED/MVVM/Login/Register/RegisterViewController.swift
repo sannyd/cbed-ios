@@ -26,10 +26,13 @@ final class RegisterViewController: UIViewController {
     var viewModel: RegisterViewModel!
     var disposeBag = DisposeBag()
     
+    private let statePicker = UIPickerView()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        stateTextfield.inputView = statePicker
         bindViewModel()
     }
     
@@ -50,11 +53,20 @@ final class RegisterViewController: UIViewController {
                 ])
             }
         
+        let state = statePicker
+            .rx
+            .modelSelected(String.self)
+            .map { $0.first ?? "" }
+            .do(onNext: { [weak self] text in
+                self?.stateTextfield.text = text
+            })
+            .asObservable()
+        
         let input = RegisterViewModel.Input(profileImageTrigger: profileImageTrigger,
                                             name: nameTextfield.rx.text.orEmpty.asObservable(),
                                             email: emailTextfield.rx.text.orEmpty.asObservable(),
                                             password: passwordTextfield.rx.text.orEmpty.asObservable(),
-                                            state: stateTextfield.rx.text.orEmpty.asObservable(),
+                                            state: state,
                                             buttonRegisterTrigger: buttonRegister.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
@@ -62,15 +74,31 @@ final class RegisterViewController: UIViewController {
             .isButtonRegisterValid
             .asDriver(onErrorJustReturn: false)
             .drive(buttonRegister.rx.isEnabled),
-        output
+         output
+            .profileImage
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] image in
+                if image ==  nil {
+                    self?.profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
+                } else {
+                    self?.profileImageView.image = image
+                }
+            }),
+         output
+            .states
+            .asDriverOnErrorJustComplete()
+            .drive(statePicker.rx.itemTitles){ _, item in
+                return "\(item)"
+            },
+         output
             .isLoading
             .asDriver(onErrorJustReturn: false)
             .drive(LoadingIndicatorView.rx.isAnimating),
-        output
+         output
             .error
             .asDriverOnErrorJustComplete()
             .drive(errorBinding),
-        buttonBack
+         buttonBack
             .rxButtonTapped
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] _ in

@@ -21,6 +21,8 @@ extension RegisterViewModel {
     
     struct Output {
         let isButtonRegisterValid: Observable<Bool>
+        let profileImage: Observable<UIImage?>
+        let states: Observable<[String]>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
     }
@@ -37,19 +39,24 @@ struct RegisterViewModel: ViewModel {
         let profileImage = input
             .profileImageTrigger
             .filter { $0 != 2 }
-            .flatMap { index -> Observable<[UIImagePickerController.InfoKey: Any]> in
-                return navigator.showImagePicker(index: index)
+            .flatMapLatest { index -> Observable<[UIImagePickerController.InfoKey: Any]> in
+                return navigator
+                    .showImagePicker(index: index)
             }
             .map { (info: [UIImagePickerController.InfoKey : Any]) -> UIImage? in
-                if let originalImage = info[.originalImage] as? UIImage {
-                    return originalImage
-                }
                 if let editImage = info[.editedImage] as? UIImage {
                     return editImage
                 }
+                
+                if let originalImage = info[.originalImage] as? UIImage {
+                    return originalImage
+                }
+                
                 return nil
             }
-        
+            .startWith(nil)
+            .share(replay: 1)
+
         let sharedData = Observable.combineLatest(profileImage,
                                                   input.name,
                                                   input.email,
@@ -78,6 +85,8 @@ struct RegisterViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         return Output(isButtonRegisterValid: isButtonRegisterValid,
+                      profileImage: profileImage.asObservable(),
+                      states: .just(Constants.states),
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
     }

@@ -13,6 +13,24 @@ import IQKeyboardManagerSwift
 import Firebase
 import SwiftyStoreKit
 
+#if os(iOS)
+
+import RxSwift
+import RxCocoa
+import UIKit
+
+open class RxImagePickerDelegateProxy
+    : RxNavigationControllerDelegateProxy, UIImagePickerControllerDelegate {
+
+    public init(imagePicker: UIImagePickerController) {
+        super.init(navigationController: imagePicker)
+    }
+
+}
+
+#endif
+
+
 var remoteConfig = RemoteConfig.remoteConfig()
 
 //extension UIFontDescriptor.AttributeName {
@@ -85,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+        RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) }
         if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
             FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
 

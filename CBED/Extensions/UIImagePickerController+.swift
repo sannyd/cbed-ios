@@ -49,6 +49,21 @@ private func castOrThrow<T>(_ resultType: T.Type, _ object: Any) throws -> T {
     return returnValue
 }
 
+func dismissViewController(_ viewController: UIViewController, animated: Bool) {
+    if viewController.isBeingDismissed || viewController.isBeingPresented {
+        DispatchQueue.main.async {
+            dismissViewController(viewController, animated: animated)
+        }
+
+        return
+    }
+
+    if viewController.presentingViewController != nil {
+        viewController.dismiss(animated: animated, completion: nil)
+    }
+}
+
+
 extension Reactive where Base: UIImagePickerController {
     static func createAndPresent(from parent: UIViewController?, animated: Bool = true, configureImagePicker: @escaping (UIImagePickerController) throws -> Void = { x in }) -> Observable<[UIImagePickerController.InfoKey: Any]> {
         return Observable.create { [weak parent] observer in
@@ -59,7 +74,7 @@ extension Reactive where Base: UIImagePickerController {
                     guard let imagePicker = imagePicker else {
                         return
                     }
-                    imagePicker.dismiss(animated: true)
+                    dismissViewController(imagePicker, animated: animated)
                 })
             let eventDisposable = imagePicker.rx.didFinishPickingMediaWithInfo
                 .subscribe(onNext: { [weak imagePicker] info in
@@ -67,7 +82,7 @@ extension Reactive where Base: UIImagePickerController {
                         return
                     }
                     observer.on(.next(info))
-                    imagePicker.dismiss(animated: true)
+                    dismissViewController(imagePicker, animated: animated)
                 })
             
             do {

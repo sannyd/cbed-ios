@@ -25,6 +25,7 @@ final class ForgotPasswordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindViewModel()
     }
     
     deinit {

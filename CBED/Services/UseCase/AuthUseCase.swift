@@ -36,7 +36,7 @@ extension AuthUseCase {
         let multipartFormData = MultipartFormData()
         
         if let imageData = imageData {
-            multipartFormData.append(imageData, withName: "avatar")
+            multipartFormData.append(imageData, withName: "avatar", fileName: "avatar.jpg", mimeType: "image/jpg")
         }
         
         for (key, value) in params {
@@ -74,7 +74,7 @@ extension AuthUseCase {
     func forgotPassword(email: String) -> Single<Any> {
         return APIClient
             .shared
-            .request(AuthRouter.refreshToken(params: ["email": email]))
+            .request(AuthRouter.forgotPassword(params: ["email": email]))
             .map { _ in }
     }
 }
