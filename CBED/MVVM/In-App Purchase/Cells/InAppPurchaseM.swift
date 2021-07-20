@@ -25,7 +25,7 @@ enum InAppPurchaseType {
         case .ProBar:
             return "Best Deal"
         case .BabyBar:
-            return "Baby Bar"
+            return ""
         }
     }
     

@@ -32,6 +32,7 @@ final class RegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        profileImageView.setRoundShape()
         stateTextfield.inputView = statePicker
         bindViewModel()
     }

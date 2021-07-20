@@ -22,6 +22,13 @@ class UsefulLinkCell: UICollectionViewCell, CellType {
         return UIScreen.main.bounds.width - 30 - 30
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+//        labelName.scaledFont(style: .title3)
+//        labelLink.scaledFont(style: .title3)
+    }
+    
     func populateData(_ data: UsefulLink) {
         switch data.type {
         case .video:

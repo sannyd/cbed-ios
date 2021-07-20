@@ -123,8 +123,9 @@ extension SectionsViewModel {
         let sections: Observable<[CommonCollectionViewSection<SearchResultM>]>
         let navigationTitle: Observable<String>
         let lastPageInvoked: Observable<Void>
-        let isLoading: Observable<Bool>
+        let isReloading: Observable<Bool>
         let isLoadMore: Observable<Bool>
+        let isLoading: Observable<Bool>
         let isLastPagination: Observable<Bool>
         let error: Observable<Error>
     }
@@ -147,6 +148,7 @@ struct SectionsViewModel: LoadMoreViewModel {
     
     let errorTracker = ErrorTracker()
     let activityIndicator = ActivityIndicator()
+    let loadingIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let sections = BehaviorRelay<[CommonCollectionViewSection<SearchResultM>]>(value: [])
@@ -199,8 +201,9 @@ struct SectionsViewModel: LoadMoreViewModel {
         return Output(sections: sections.asObservable(),
                       navigationTitle: .just(levelTitle),
                       lastPageInvoked: lastPageTrigger.asObservable(),
-                      isLoading: isReload.asObservable(),
+                      isReloading: isReload.asObservable(),
                       isLoadMore: isLoadMore.asObservable(),
+                      isLoading: loadingIndicator.asObservable(),
                       isLastPagination: isLastPagination.asObservable(),
                       error: errorTracker.asObservable())
     }
@@ -220,7 +223,7 @@ struct SectionsViewModel: LoadMoreViewModel {
         return self.useCase
             .getSectionByID(id: id)
             .trackError(errorTracker)
-            .trackActivity(activityIndicator)
+            .trackActivity(loadingIndicator)
             .catch { _ in
                 return .never()
             }

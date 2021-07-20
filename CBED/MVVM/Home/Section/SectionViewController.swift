@@ -60,7 +60,7 @@ final class SectionsViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
         output
-           .isLoading
+           .isReloading
             .asDriverOnErrorJustComplete()
            .drive(onNext: { [weak self] isLoading in
                if isLoading {
@@ -69,6 +69,10 @@ final class SectionsViewController: UIViewController {
                    self?.collectionView.refreshControl?.endRefreshing()
                }
            }),
+        output
+            .isLoading
+            .asDriverOnErrorJustComplete()
+            .drive(LoadingIndicatorView.rx.isAnimating),
         output
             .error
             .asDriverOnErrorJustComplete()

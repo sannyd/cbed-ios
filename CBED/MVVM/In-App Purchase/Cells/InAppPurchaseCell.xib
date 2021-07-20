@@ -90,7 +90,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56 MBE levels 56 MBE levels 56 MBE levels" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgq-87-XGQ">
-                                <rect key="frame" x="184" y="41" width="75" height="43.5"/>
+                                <rect key="frame" x="251" y="41" width="75" height="43.5"/>
                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
                                 <color key="textColor" name="Primary Text"/>
                                 <nil key="highlightedColor"/>
@@ -99,9 +99,9 @@
                         <color key="backgroundColor" name="Cell Color"/>
                         <constraints>
                             <constraint firstItem="WEG-6g-sjl" firstAttribute="leading" secondItem="X16-Aw-Ovg" secondAttribute="leading" constant="20" id="8a9-e2-3Ca"/>
+                            <constraint firstAttribute="trailing" secondItem="mgq-87-XGQ" secondAttribute="trailing" constant="20" id="AdD-GQ-L3b"/>
                             <constraint firstItem="WEG-6g-sjl" firstAttribute="centerY" secondItem="X16-Aw-Ovg" secondAttribute="centerY" id="YPs-KE-qSx"/>
                             <constraint firstItem="mgq-87-XGQ" firstAttribute="top" secondItem="WEG-6g-sjl" secondAttribute="top" id="mAA-y4-OPI"/>
-                            <constraint firstItem="mgq-87-XGQ" firstAttribute="leading" secondItem="WEG-6g-sjl" secondAttribute="trailing" constant="30" id="pbK-3d-bQ9"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
