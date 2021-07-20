@@ -27,19 +27,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="346" height="155"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WEG-6g-sjl">
-                                <rect key="frame" x="20" y="41" width="134" height="73"/>
+                                <rect key="frame" x="20" y="42" width="135" height="71.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ebs-ie-3bX">
-                                        <rect key="frame" x="0.0" y="0.0" width="134" height="29"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="135" height="28"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zyi-8m-sqE">
-                                                <rect key="frame" x="0.0" y="0.0" width="58" height="29"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="59" height="28"/>
                                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="24"/>
                                                 <color key="textColor" name="Primary Text"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v3b-yy-VDd" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                                <rect key="frame" x="66" y="2.5" width="68" height="24"/>
+                                                <rect key="frame" x="67" y="2" width="68" height="24"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Best Deal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iao-gd-y15">
                                                         <rect key="frame" x="8" y="4" width="52" height="16"/>
@@ -71,16 +71,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6p5-wB-qPr">
-                                        <rect key="frame" x="0.0" y="49" width="134" height="24"/>
+                                        <rect key="frame" x="0.0" y="48" width="135" height="23.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WpK-lT-1EX">
-                                                <rect key="frame" x="0.0" y="0.0" width="48.5" height="24"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="49" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="20"/>
                                                 <color key="textColor" red="0.66274509803921566" green="0.72549019607843135" blue="0.80392156862745101" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hfS-4v-LAr">
-                                                <rect key="frame" x="56.5" y="0.0" width="77.5" height="24"/>
+                                                <rect key="frame" x="57" y="0.0" width="78" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="20"/>
                                                 <color key="textColor" name="Primary Blue"/>
                                                 <nil key="highlightedColor"/>
@@ -90,7 +90,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56 MBE levels 56 MBE levels 56 MBE levels" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgq-87-XGQ">
-                                <rect key="frame" x="251" y="41" width="75" height="43.5"/>
+                                <rect key="frame" x="249.5" y="42" width="76.5" height="42"/>
                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="12"/>
                                 <color key="textColor" name="Primary Text"/>
                                 <nil key="highlightedColor"/>
