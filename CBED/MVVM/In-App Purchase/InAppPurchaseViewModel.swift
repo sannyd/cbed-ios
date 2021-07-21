@@ -56,6 +56,23 @@ struct InAppPurchaseViewModel: ViewModel {
                     case .success(let product):
                         Log.d(product)
                         // fetch content from your server, then:
+                        
+                        if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
+                            FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
+
+                            do {
+                                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .dataReadingMapped)
+                                print(receiptData)
+                                let string = String(data: receiptData, encoding: .utf8)
+                                Log.d(string)
+                                
+                                let receiptString = receiptData.base64EncodedString(options: [])
+                                Log.d(receiptString)
+                                // Read receiptData
+                            }
+                            catch { print("Couldn't read receipt data with error: " + error.localizedDescription) }
+                        }
+                        
                         if product.needsFinishTransaction {
                             SwiftyStoreKit.finishTransaction(product.transaction)
                         }

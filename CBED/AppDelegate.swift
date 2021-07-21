@@ -104,13 +104,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) }
+        if let receiptData = SwiftyStoreKit.localReceiptData {
+           let receiptDataAsString = receiptData.base64EncodedString(options: [])
+            Log.d(receiptDataAsString)
+        }
+        
         if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
             FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
 
             do {
-                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .alwaysMapped)
+                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .dataReadingMapped)
                 print(receiptData)
-
+                let string = String(data: receiptData, encoding: .utf8)
+                Log.d(string)
+                
                 let receiptString = receiptData.base64EncodedString(options: [])
                 Log.d(receiptString)
                 // Read receiptData

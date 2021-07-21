@@ -193,7 +193,6 @@
 		180C44D62695F71900416335 /* InAppPurchaseM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseM.swift; sourceTree = "<group>"; };
 		182C324A2699C706008E97CE /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		182C324C2699C761008E97CE /* Lato.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Lato.plist; sourceTree = "<group>"; };
-		182C324E269AB2B1008E97CE /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		182DD55B268B6E4D00172927 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		182DD55E268CBCED00172927 /* SearchSectionRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionRequestM.swift; sourceTree = "<group>"; };
 		182DD560268CBD1200172927 /* BaseRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRequestM.swift; sourceTree = "<group>"; };
@@ -635,7 +634,6 @@
 		185F8753266CC84800A63898 = {
 			isa = PBXGroup;
 			children = (
-				182C324E269AB2B1008E97CE /* Configuration.storekit */,
 				185F875E266CC84800A63898 /* CBED */,
 				185F875D266CC84800A63898 /* Products */,
 				27F01E22D8F24CAB2D7E3AF8 /* Pods */,
@@ -1358,6 +1356,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -1380,6 +1379,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
