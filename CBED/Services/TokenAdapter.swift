@@ -30,7 +30,7 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         guard let response = request.task?.response as? HTTPURLResponse,
-              response.statusCode == 401 else {
+              response.statusCode == 401 || response.statusCode == 403  else {
             /// The request did not fail due to a 401 Unauthorized response.
             /// Return the original error and don't retry the request.
             return completion(.doNotRetry)

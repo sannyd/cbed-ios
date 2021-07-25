@@ -104,25 +104,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) }
-        if let receiptData = SwiftyStoreKit.localReceiptData {
-           let receiptDataAsString = receiptData.base64EncodedString(options: [])
-            Log.d(receiptDataAsString)
-        }
-        
-        if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
-            FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
-
-            do {
-                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .dataReadingMapped)
-                print(receiptData)
-                let string = String(data: receiptData, encoding: .utf8)
-                Log.d(string)
+        SwiftyStoreKit.fetchReceipt(forceRefresh: true) { result in
+            switch result {
+            case .success(let receiptData):
+                let encryptedReceipt = receiptData.base64EncodedString(options: [])
                 
-                let receiptString = receiptData.base64EncodedString(options: [])
-                Log.d(receiptString)
-                // Read receiptData
+                let urlString = "https://sandbox.itunes.apple.com/verifyReceipt"
+                let requestData = ["receipt-data" : encryptedReceipt ?? "", "exclude-old-transactions" : false] as [String : Any]
+                var request = URLRequest(url: URL(string: urlString)!)
+                request.httpMethod = "POST"
+                request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+                let httpBody = try? JSONSerialization.data(withJSONObject: requestData, options: [])
+                request.httpBody = httpBody
+                URLSession.shared.dataTask(with: request)  { (data, response, error) in
+                    // view your transactions here
+                    if let data = data {
+                        let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+                        print("duma: \(json)")
+                    }
+                    
+                    print(response)
+                }.resume()
+                
+                print("Fetch receipt success:\n\(encryptedReceipt)")
+            case .error(let error):
+                print("Fetch receipt failed: \(error)")
             }
-            catch { print("Couldn't read receipt data with error: " + error.localizedDescription) }
         }
         
         SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
@@ -134,12 +141,62 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         // Deliver content from server, then:
                         SwiftyStoreKit.finishTransaction(purchase.transaction)
                     }
+      
                 // Unlock content
                 case .failed, .purchasing, .deferred:
                     break // do nothing
                 }
             }
+            
+            if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
+                FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
+
+                do {
+                    let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .dataReadingMapped)
+                    print(receiptData)
+      
+                    
+                    let receiptString = receiptData.base64EncodedString(options: [])
+                    Log.d(receiptString)
+                    
+                    
+                    //                        #if DEBUG
+                    //                            let urlString = "https://sandbox.itunes.apple.com/verifyReceipt"
+                    //                        #else
+                    //                            let urlString = "https://buy.itunes.apple.com/verifyReceipt"
+                    //                        #endif
+                   
+                    // Read receiptData
+                }
+                catch { print("Couldn't read receipt data with error: " + error.localizedDescription) }
+            }
         }
+        
+//        let appleValidator = AppleReceiptValidator(service: .sandbox)
+//        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+//            switch result {
+//            case .success(let receipt):
+//                let productId = "com.barexamdrills.app.unlockall"
+//                // Verify the purchase of a Subscription
+//                let purchaseResult = SwiftyStoreKit.verifySubscription(
+//                    ofType: .nonRenewing(validDuration: 11000), // or .nonRenewing (see below)
+//                    productId: productId,
+//                    inReceipt: receipt)
+//
+//                switch purchaseResult {
+//                case .purchased(let expiryDate, let items):
+//                    print("\(productId) is valid until \(expiryDate)\n\(items)\n")
+//                case .expired(let expiryDate, let items):
+//                    print("\(productId) is expired since \(expiryDate)\n\(items)\n")
+//                case .notPurchased:
+//                    print("The user has never purchased \(productId)")
+//                }
+//
+//            case .error(let error):
+//                print("Receipt verification failed: \(error)")
+//            }
+//        }
+//
         
 //        UIFont.overrideInitialize()
         

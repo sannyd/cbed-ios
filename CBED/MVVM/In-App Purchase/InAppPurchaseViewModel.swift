@@ -51,7 +51,7 @@ struct InAppPurchaseViewModel: ViewModel {
             .unwrap()
             .map { $0.purchaseID }
             .subscribe(onNext: { purchaseID in
-                SwiftyStoreKit.purchaseProduct(purchaseID, quantity: 1, atomically: false) { result in
+                SwiftyStoreKit.purchaseProduct(purchaseID, quantity: 1, atomically: true) { result in
                     switch result {
                     case .success(let product):
                         Log.d(product)
@@ -69,6 +69,7 @@ struct InAppPurchaseViewModel: ViewModel {
                                 let receiptString = receiptData.base64EncodedString(options: [])
                                 Log.d(receiptString)
                                 // Read receiptData
+                                
                             }
                             catch { print("Couldn't read receipt data with error: " + error.localizedDescription) }
                         }
@@ -76,6 +77,11 @@ struct InAppPurchaseViewModel: ViewModel {
                         if product.needsFinishTransaction {
                             SwiftyStoreKit.finishTransaction(product.transaction)
                         }
+//                        let jsonEncoder = JSONEncoder()
+//                        let jsonData = try? jsonEncoder.encode(product)
+//                        let json = String(data: jsonData, encoding: String.Encoding.utf16)
+//                        let jsonString = try? JSONSerialization.jsonObject(with: product, options: .allowFragments)
+                        
                         print("Purchase Success: \(product.productId)")
                     case .error(let error):
                         switch error.code {
