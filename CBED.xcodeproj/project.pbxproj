@@ -181,6 +181,8 @@
 		FFD577172673717900CC9CF1 /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD577162673717900CC9CF1 /* UIApplication+Extensions.swift */; };
 		FFD57719267371A300CC9CF1 /* ObservableType+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD57718267371A300CC9CF1 /* ObservableType+.swift */; };
 		FFD5771B2673722200CC9CF1 /* Validation+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD5771A2673722200CC9CF1 /* Validation+String.swift */; };
+		FFE4D16E26AD7AA100594323 /* ScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE4D16C26AD7AA100594323 /* ScoreCell.swift */; };
+		FFE4D16F26AD7AA100594323 /* ScoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFE4D16D26AD7AA100594323 /* ScoreCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -363,6 +365,8 @@
 		FFD577162673717900CC9CF1 /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
 		FFD57718267371A300CC9CF1 /* ObservableType+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableType+.swift"; sourceTree = "<group>"; };
 		FFD5771A2673722200CC9CF1 /* Validation+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Validation+String.swift"; sourceTree = "<group>"; };
+		FFE4D16C26AD7AA100594323 /* ScoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCell.swift; sourceTree = "<group>"; };
+		FFE4D16D26AD7AA100594323 /* ScoreCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScoreCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -516,6 +520,7 @@
 		185B061226762F4C00A17664 /* Scoreboard */ = {
 			isa = PBXGroup;
 			children = (
+				FFE4D16B26AD7A8D00594323 /* Cells */,
 				185B061326762F5E00A17664 /* ScoreboardNavigator.swift */,
 				185B061426762F5E00A17664 /* ScoreboardUseCase.swift */,
 				185B061526762F5E00A17664 /* ScoreboardViewController.swift */,
@@ -931,6 +936,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		FFE4D16B26AD7A8D00594323 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FFE4D16C26AD7AA100594323 /* ScoreCell.swift */,
+				FFE4D16D26AD7AA100594323 /* ScoreCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1002,6 +1016,7 @@
 				185F877A266D29E300A63898 /* Login.storyboard in Resources */,
 				185B060826761D4C00A17664 /* LevelCell.xib in Resources */,
 				185F878F2672764800A63898 /* OFL.txt in Resources */,
+				FFE4D16F26AD7AA100594323 /* ScoreCell.xib in Resources */,
 				182C324D2699C761008E97CE /* Lato.plist in Resources */,
 				185F87922672764800A63898 /* Lato-ThinItalic.ttf in Resources */,
 				183E32F226A4154C006B4507 /* InAppPurchaseAlertView.xib in Resources */,
@@ -1173,6 +1188,7 @@
 				185F87A426747BB100A63898 /* SingleSignOnResponseM.swift in Sources */,
 				183E32ED26A1EAF0006B4507 /* UserDefaults+.swift in Sources */,
 				185B05F3267616BB00A17664 /* UserRouter.swift in Sources */,
+				FFE4D16E26AD7AA100594323 /* ScoreCell.swift in Sources */,
 				185B06332677C2FE00A17664 /* SectionCell.swift in Sources */,
 				185B060126761AAE00A17664 /* UIViewController+.swift in Sources */,
 				185B063D267A516F00A17664 /* SectionDetailNavigator.swift in Sources */,

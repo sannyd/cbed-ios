@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+        </array>
+        <array key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ScoreCell" customModule="CBED" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="352" height="81"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="352" height="81"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RJm-N2-MQc" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="352" height="81"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e8t-af-AnB">
+                                <rect key="frame" x="15" y="14.5" width="52" height="52"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="52" id="Fjc-TH-4MI"/>
+                                    <constraint firstAttribute="width" constant="52" id="He6-M1-twA"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nq2-lf-hpE">
+                                <rect key="frame" x="89" y="30" width="44.5" height="21"/>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
+                                <color key="textColor" name="Primary Text"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LOb-ku-zmi">
+                                <rect key="frame" x="298.5" y="31" width="39.5" height="19"/>
+                                <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                                <color key="textColor" name="Primary Text"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" name="Cell Color"/>
+                        <constraints>
+                            <constraint firstItem="e8t-af-AnB" firstAttribute="centerY" secondItem="RJm-N2-MQc" secondAttribute="centerY" id="ImR-L6-TOj"/>
+                            <constraint firstItem="Nq2-lf-hpE" firstAttribute="leading" secondItem="e8t-af-AnB" secondAttribute="trailing" constant="22" id="T8h-8i-mMN"/>
+                            <constraint firstItem="LOb-ku-zmi" firstAttribute="centerY" secondItem="RJm-N2-MQc" secondAttribute="centerY" id="VDI-XX-o3E"/>
+                            <constraint firstItem="Nq2-lf-hpE" firstAttribute="centerY" secondItem="RJm-N2-MQc" secondAttribute="centerY" id="clB-cI-p9l"/>
+                            <constraint firstAttribute="trailing" secondItem="LOb-ku-zmi" secondAttribute="trailing" constant="14" id="dkl-Hc-jcs"/>
+                            <constraint firstItem="e8t-af-AnB" firstAttribute="leading" secondItem="RJm-N2-MQc" secondAttribute="leading" constant="15" id="esj-mb-JEd"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                <real key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                <real key="value" value="0.080000000000000002"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                <real key="value" value="20"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                <size key="value" width="0.0" height="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="RJm-N2-MQc" secondAttribute="trailing" id="EjJ-mh-TNH"/>
+                <constraint firstItem="RJm-N2-MQc" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="WlR-wy-QJx"/>
+                <constraint firstItem="RJm-N2-MQc" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="lXj-5h-evE"/>
+                <constraint firstAttribute="bottom" secondItem="RJm-N2-MQc" secondAttribute="bottom" id="vdl-7Y-mR2"/>
+            </constraints>
+            <size key="customSize" width="352" height="81"/>
+            <connections>
+                <outlet property="labelUserID" destination="Nq2-lf-hpE" id="qrC-B9-aVl"/>
+                <outlet property="labelUserPosition" destination="LOb-ku-zmi" id="BDC-G3-Tco"/>
+                <outlet property="profileImageView" destination="e8t-af-AnB" id="X4S-MH-R6i"/>
+            </connections>
+            <point key="canvasLocation" x="224.63768115942031" y="114.17410714285714"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <namedColor name="Cell Color">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Primary Text">
+            <color red="0.21199999749660492" green="0.20399999618530273" blue="0.23899999260902405" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

@@ -12,6 +12,14 @@ import RxCocoa
 final class ScoreboardViewController: UIViewController {
     
     // MARK: - IBOutlets
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var labelUserName: UILabel!
+    @IBOutlet weak var labelUserPosition: UILabel!
+    @IBOutlet weak var labelProBarFeb: UILabel!
+    @IBOutlet weak var labelProBarJuly: UILabel!
+    @IBOutlet weak var labelBabyBarJun: UILabel!
+    @IBOutlet weak var labelBabyBarOct: UILabel!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: - Properties
     
@@ -36,7 +44,7 @@ final class ScoreboardViewController: UIViewController {
     // MARK: - Methods
     
     func bindViewModel() {
-        let input = ScoreboardViewModel.Input()
+        let input = ScoreboardViewModel.Input(firstLoadTrigger: rxViewWillAppear)
         let output = viewModel.transform(input, disposeBag: disposeBag)
     }
 }
