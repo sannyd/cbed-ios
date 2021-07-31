@@ -10,15 +10,18 @@ import UIKit
 import Nuke
 
 protocol NukeExtension {
-    func loadImage(with url: String?)
+    func loadImage(with url: String?,
+                   placeholder: UIImage?)
 }
     
 extension NukeExtension where Self: ImageDisplayingView {
-    func loadImage(with url: String?) {
+    func loadImage(with url: String?,
+                   placeholder: UIImage?) {
        
         guard let url = url,
             !url.isEmpty,
             let imageUrl = URL(string: url) else {
+                nuke_display(image: placeholder)
             return
         }
         let request = ImageRequest(url: imageUrl)

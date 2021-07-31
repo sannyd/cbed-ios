@@ -12,6 +12,7 @@ import RxCocoa
 extension LevelViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
+        let viewWillAppear: Observable<Void>
         let levelTapped: Observable<LevelM>
         let searchViewTapped: Observable<Void>
         let unlockViewTapped: Observable<Void>
@@ -19,6 +20,7 @@ extension LevelViewModel {
     
     struct Output {
         let levels: Driver<[CommonCollectionViewSection<LevelM>]>
+        let userProfile: Observable<ProfileInfoM?>
         let isLoading: Driver<Bool>
         let error: Driver<Error>
     }
@@ -36,6 +38,10 @@ struct LevelViewModel: ViewModel {
             .firstLoadTrigger
             .flatMapLatest(fetchAllLevels)
             .map { [CommonCollectionViewSection(items: $0)] }
+        
+        let userProfile = input
+            .viewWillAppear
+            .map { _ in Storage.profileInfo }
         
         input
             .levelTapped
@@ -57,6 +63,7 @@ struct LevelViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         return Output(levels: levels.asDriver(onErrorJustReturn: []),
+                      userProfile: userProfile,
                       isLoading: activityIndicator.asDriver(),
                       error: errorTracker.asDriver())
     }

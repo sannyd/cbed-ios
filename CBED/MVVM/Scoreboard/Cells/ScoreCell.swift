@@ -7,7 +7,17 @@
 
 import UIKit
 
-class ScoreCell: UICollectionViewCell {
+class ScoreCell: UICollectionViewCell, CellType {
+    static var cellHeight: CGFloat {
+        return 80
+    }
+    
+    static var cellWidth: CGFloat {
+        return UIScreen.main.bounds.width - 20 - 20
+    }
+    
+    typealias T = ScoreM
+    
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var labelUserID: UILabel!
     @IBOutlet weak var labelUserPosition: UILabel!
@@ -16,5 +26,10 @@ class ScoreCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
+    func populateData(_ data: ScoreM) {
+        profileImageView.loadImage(with: data.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
+        labelUserID.text = "\(data.id)"
+        labelUserPosition.text = "\(data.lastSectionName ?? "N/A")"
+    }
 }

@@ -36,13 +36,13 @@ enum InAppPurchaseMonth {
     var purchaseID: String {
         switch self {
         case .ProBarFeb:
-            return "com.barexamdrills.app.unlockall"
+            return "com.barexamdrills.app.probarfeb"
         case .ProBarJul:
-            return "com.barexamdrills.app.unlockall"
+            return "com.barexamdrills.app.probarjuly"
         case .BabyBarJun:
-            return "com.barexamdrills.app.unlockall"
+            return "com.barexamdrills.app.babybarjune"
         case .BabyBarOct:
-            return "com.barexamdrills.app.unlockall"
+            return "com.barexamdrills.app.babybaroct"
         }
     }
 }

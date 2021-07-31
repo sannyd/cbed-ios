@@ -11,7 +11,7 @@ import RxCocoa
 // MARK: Input + Output
 extension SettingViewModel {
     struct Input {
-        
+        let viewWillAppear: Observable<Void>
     }
     
     struct Output {
@@ -24,8 +24,10 @@ struct SettingViewModel: ViewModel {
     let navigator: SettingNavigatorType
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
-        let profileInfo = Observable.just(Storage.profileInfo)
+        let userProfile = input
+            .viewWillAppear
+            .map { _ in Storage.profileInfo }
         
-        return Output(profileInfo: profileInfo.unwrap())
+        return Output(profileInfo: userProfile.unwrap())
     }
 }

@@ -42,7 +42,11 @@ final class SettingViewController: UIViewController {
     // MARK: - Methods
     
     func bindViewModel() {
-        let input = SettingViewModel.Input()
+        let viewWillAppear = rx
+            .sentMessage(#selector(UIViewController.viewWillAppear))
+            .mapToVoid()
+        
+        let input = SettingViewModel.Input(viewWillAppear: viewWillAppear)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
@@ -51,15 +55,15 @@ final class SettingViewController: UIViewController {
             .drive(onNext: { [weak self] profileInfo in
                 self?.labelName.text = profileInfo.name
                 self?.labelEmail.text = profileInfo.email
-                self?.labelMembership.text = profileInfo.membership
-                self?.profileImageView.loadImage(with: profileInfo.avatar)
+                self?.labelMembership.text = profileInfo.memberPlan.stringValue
+                self?.profileImageView.loadImage(with: profileInfo.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
             }),
          buttonLogout
-             .rxButtonTapped
-             .subscribe(onNext: { _ in
-                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                 appDelegate.logout()
-             })]
+            .rxButtonTapped
+            .subscribe(onNext: { _ in
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.logout()
+            })]
             .forEach { $0.disposed(by: disposeBag) }
     }
 }

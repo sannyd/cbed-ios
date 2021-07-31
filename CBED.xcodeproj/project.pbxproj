@@ -145,11 +145,17 @@
 		185F87BC2674B43E00A63898 /* CGSize+Min.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B72674B43E00A63898 /* CGSize+Min.swift */; };
 		185F87BD2674B43E00A63898 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F87B82674B43E00A63898 /* LoadingIndicatorView.swift */; };
 		186A9B4A2699B979008AF01B /* ScaledFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186A9B492699B979008AF01B /* ScaledFont.swift */; };
+		18812AC026B1B03D003A7CEF /* ScoreboardResponseM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18812ABF26B1B03D003A7CEF /* ScoreboardResponseM.swift */; };
+		18812AC226B1B0BD003A7CEF /* ScoreboardRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18812AC126B1B0BD003A7CEF /* ScoreboardRouter.swift */; };
+		18812AC426B1B16A003A7CEF /* ScoreboardAPIUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18812AC326B1B16A003A7CEF /* ScoreboardAPIUseCase.swift */; };
 		189039D026975D5C00C1EE37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 189039CF26975D5C00C1EE37 /* GoogleService-Info.plist */; };
 		189039D6269998F200C1EE37 /* RegisterNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189039D2269998F200C1EE37 /* RegisterNavigator.swift */; };
 		189039D7269998F200C1EE37 /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189039D3269998F200C1EE37 /* RegisterUseCase.swift */; };
 		189039D8269998F200C1EE37 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189039D4269998F200C1EE37 /* RegisterViewController.swift */; };
 		189039D9269998F200C1EE37 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189039D5269998F200C1EE37 /* RegisterViewModel.swift */; };
+		18DA979B26B3158A003144ED /* PurchaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979A26B3158A003144ED /* PurchaseRouter.swift */; };
+		18DA979D26B31621003144ED /* PurchaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979C26B31621003144ED /* PurchaseUseCase.swift */; };
+		18DA979F26B3165D003144ED /* PurchaseMembershipRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979E26B3165D003144ED /* PurchaseMembershipRequestM.swift */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
 		FF1E61E8268C626000CF96B5 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E3268C625F00CF96B5 /* PullToRefresh.swift */; };
 		FF1E61E9268C626000CF96B5 /* LoadMoreViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E4268C625F00CF96B5 /* LoadMoreViewAnimator.swift */; };
@@ -327,11 +333,17 @@
 		185F87B72674B43E00A63898 /* CGSize+Min.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Min.swift"; sourceTree = "<group>"; };
 		185F87B82674B43E00A63898 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		186A9B492699B979008AF01B /* ScaledFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaledFont.swift; sourceTree = "<group>"; };
+		18812ABF26B1B03D003A7CEF /* ScoreboardResponseM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardResponseM.swift; sourceTree = "<group>"; };
+		18812AC126B1B0BD003A7CEF /* ScoreboardRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardRouter.swift; sourceTree = "<group>"; };
+		18812AC326B1B16A003A7CEF /* ScoreboardAPIUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardAPIUseCase.swift; sourceTree = "<group>"; };
 		189039CF26975D5C00C1EE37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		189039D2269998F200C1EE37 /* RegisterNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterNavigator.swift; sourceTree = "<group>"; };
 		189039D3269998F200C1EE37 /* RegisterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUseCase.swift; sourceTree = "<group>"; };
 		189039D4269998F200C1EE37 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		189039D5269998F200C1EE37 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		18DA979A26B3158A003144ED /* PurchaseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseRouter.swift; sourceTree = "<group>"; };
+		18DA979C26B31621003144ED /* PurchaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseUseCase.swift; sourceTree = "<group>"; };
+		18DA979E26B3165D003144ED /* PurchaseMembershipRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseMembershipRequestM.swift; sourceTree = "<group>"; };
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -411,6 +423,7 @@
 				182DD55E268CBCED00172927 /* SearchSectionRequestM.swift */,
 				182DD560268CBD1200172927 /* BaseRequestM.swift */,
 				183E32D4269AE5AD006B4507 /* RegisterRequestM.swift */,
+				18DA979E26B3165D003144ED /* PurchaseMembershipRequestM.swift */,
 			);
 			path = "Request Models";
 			sourceTree = "<group>";
@@ -736,6 +749,8 @@
 				185B05F4267616F000A17664 /* LevelsUseCase.swift */,
 				185B05FE267619DE00A17664 /* SectionAPIUseCase.swift */,
 				183E32E626A1E2ED006B4507 /* ProfileUseCase.swift */,
+				18812AC326B1B16A003A7CEF /* ScoreboardAPIUseCase.swift */,
+				18DA979C26B31621003144ED /* PurchaseUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -755,6 +770,7 @@
 				184ABC1D2684E4FC004048A5 /* SectionSearchResponseM.swift */,
 				184ABC1F2684E576004048A5 /* SaveResultResponseM.swift */,
 				183E32EA26A1E43E006B4507 /* ProfileInfoM.swift */,
+				18812ABF26B1B03D003A7CEF /* ScoreboardResponseM.swift */,
 			);
 			path = "Response Models";
 			sourceTree = "<group>";
@@ -905,6 +921,8 @@
 				185B05F02676168D00A17664 /* SectionRouter.swift */,
 				185B05F2267616BB00A17664 /* UserRouter.swift */,
 				183E32E826A1E355006B4507 /* ProfileRouter.swift */,
+				18812AC126B1B0BD003A7CEF /* ScoreboardRouter.swift */,
+				18DA979A26B3158A003144ED /* PurchaseRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -1085,6 +1103,7 @@
 				FFD5770D2673704B00CC9CF1 /* DateFormatter+.swift in Sources */,
 				FFD577152673715D00CC9CF1 /* UIWindow+Extensions.swift in Sources */,
 				FF1E61EA268C626000CF96B5 /* LoadMore.swift in Sources */,
+				18DA979B26B3158A003144ED /* PurchaseRouter.swift in Sources */,
 				185B05F92676183C00A17664 /* LevelDetailM.swift in Sources */,
 				FF1E61EE268C637800CF96B5 /* UIScrollView+.swift in Sources */,
 				185B060726761D4C00A17664 /* LevelCell.swift in Sources */,
@@ -1104,6 +1123,7 @@
 				FF1E61E8268C626000CF96B5 /* PullToRefresh.swift in Sources */,
 				FFD576F0267367DE00CC9CF1 /* LoginViewModel.swift in Sources */,
 				185B06362678ED4700A17664 /* SectionDetailM.swift in Sources */,
+				18DA979D26B31621003144ED /* PurchaseUseCase.swift in Sources */,
 				182DD563268CBE3600172927 /* Encodable+.swift in Sources */,
 				FFD5771B2673722200CC9CF1 /* Validation+String.swift in Sources */,
 				185F87AA2674978E00A63898 /* LoginNavigator.swift in Sources */,
@@ -1118,6 +1138,7 @@
 				185F87BD2674B43E00A63898 /* LoadingIndicatorView.swift in Sources */,
 				FF1E61EC268C626000CF96B5 /* UIScrollView+Extensions.swift in Sources */,
 				185B062326762F7C00A17664 /* SettingViewModel.swift in Sources */,
+				18812AC426B1B16A003A7CEF /* ScoreboardAPIUseCase.swift in Sources */,
 				183E32E526A08C06006B4507 /* UIImagePickerController+.swift in Sources */,
 				185B061126762F1A00A17664 /* TabBarViewController.swift in Sources */,
 				185F8764266CC84800A63898 /* LoginViewController.swift in Sources */,
@@ -1137,6 +1158,7 @@
 				183E32E726A1E2ED006B4507 /* ProfileUseCase.swift in Sources */,
 				185B0640267A516F00A17664 /* SectionDetailViewModel.swift in Sources */,
 				185B05F5267616F000A17664 /* LevelsUseCase.swift in Sources */,
+				18DA979F26B3165D003144ED /* PurchaseMembershipRequestM.swift in Sources */,
 				184ABC282684EAC9004048A5 /* ResultViewController.swift in Sources */,
 				184ABC2C26878D06004048A5 /* ColorContext+UITraitCollection.swift in Sources */,
 				185B0651267B994400A17664 /* PreviewWebViewViewModel.swift in Sources */,
@@ -1158,6 +1180,7 @@
 				184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */,
 				185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */,
 				180C44CE2695F5E700416335 /* InAppPurchaseUseCase.swift in Sources */,
+				18812AC026B1B03D003A7CEF /* ScoreboardResponseM.swift in Sources */,
 				FFB1923F268F22300000B256 /* SearchUseCase.swift in Sources */,
 				183E32E326A08A9E006B4507 /* RxMediaPickerDelegate.swift in Sources */,
 				185F87B92674B43E00A63898 /* CGRect+Center.swift in Sources */,
@@ -1224,6 +1247,7 @@
 				185B0667267E0DCD00A17664 /* String+.swift in Sources */,
 				185F87982673C29C00A63898 /* Google+Reactive.swift in Sources */,
 				185F8760266CC84800A63898 /* AppDelegate.swift in Sources */,
+				18812AC226B1B0BD003A7CEF /* ScoreboardRouter.swift in Sources */,
 				184ABC1B268395CD004048A5 /* AppViewController.swift in Sources */,
 				185B0645267A582300A17664 /* UsefulLinkCell.swift in Sources */,
 				FFD577062673700300CC9CF1 /* Storage.swift in Sources */,

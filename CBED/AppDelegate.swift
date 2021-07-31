@@ -110,7 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let encryptedReceipt = receiptData.base64EncodedString(options: [])
                 
                 let urlString = "https://sandbox.itunes.apple.com/verifyReceipt"
-                let requestData = ["receipt-data" : encryptedReceipt ?? "", "exclude-old-transactions" : false] as [String : Any]
+                let requestData = ["receipt-data" : encryptedReceipt ?? "", "exclude-old-transactions" : true] as [String : Any]
                 var request = URLRequest(url: URL(string: urlString)!)
                 request.httpMethod = "POST"
                 request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
@@ -172,31 +172,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-//        let appleValidator = AppleReceiptValidator(service: .sandbox)
-//        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-//            switch result {
-//            case .success(let receipt):
-//                let productId = "com.barexamdrills.app.unlockall"
-//                // Verify the purchase of a Subscription
-//                let purchaseResult = SwiftyStoreKit.verifySubscription(
-//                    ofType: .nonRenewing(validDuration: 11000), // or .nonRenewing (see below)
-//                    productId: productId,
-//                    inReceipt: receipt)
-//
-//                switch purchaseResult {
-//                case .purchased(let expiryDate, let items):
-//                    print("\(productId) is valid until \(expiryDate)\n\(items)\n")
-//                case .expired(let expiryDate, let items):
-//                    print("\(productId) is expired since \(expiryDate)\n\(items)\n")
-//                case .notPurchased:
-//                    print("The user has never purchased \(productId)")
-//                }
-//
-//            case .error(let error):
-//                print("Receipt verification failed: \(error)")
-//            }
-//        }
-//
+        let appleValidator = AppleReceiptValidator(service: .sandbox)
+//        SwiftyStoreKit.verifySubscription(ofType: .nonRenewing(validDuration: 11000),
+//                                          productId: "com.barexamdrills.app.probarfeb", inReceipt: <#T##ReceiptInfo#>, validUntil: <#T##Date#>)
+        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+            switch result {
+            case .success(let receipt):
+                print("receipt: \(receipt)")
+                let productId = "com.barexamdrills.app.probarfeb"
+                // Verify the purchase of a Subscription
+                let purchaseResult = SwiftyStoreKit.verifySubscription(
+                    ofType: .nonRenewing(validDuration: 11000), // or .nonRenewing (see below)
+                    productId: productId,
+                    inReceipt: receipt)
+
+                switch purchaseResult {
+                case .purchased(let expiryDate, let items):
+                    print("\(productId) is valid until \(expiryDate)\n\(items)\n")
+                case .expired(let expiryDate, let items):
+                    print("\(productId) is expired since \(expiryDate)\n\(items)\n")
+                case .notPurchased:
+                    print("The user has never purchased \(productId)")
+                }
+
+            case .error(let error):
+                print("Receipt verification failed: \(error)")
+            }
+        }
+
         
 //        UIFont.overrideInitialize()
         

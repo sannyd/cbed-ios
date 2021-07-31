@@ -18,12 +18,18 @@ extension InAppPurchaseViewModel {
     
     struct Output {
         let data: Observable<[CommonCollectionViewSection<InAppPurchaseType>]>
+        let purchaseSuccessInvoked: Observable<Void>
+        let isLoading: Observable<Bool>
+        let error: Observable<Error>
     }
 }
 
 struct InAppPurchaseViewModel: ViewModel {
     let useCase: InAppPurchaseUseCaseType
     let navigator: InAppPurchaseNavigatorType
+    
+    private let errorTracker = ErrorTracker()
+    private let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let data = input
@@ -40,7 +46,7 @@ struct InAppPurchaseViewModel: ViewModel {
             .drive(onNext: navigator.showMonthAlertView(leftData:rightData:))
             .disposed(by: disposeBag)
         
-        navigator
+        let purchaseSuccessInvoked = navigator
             .alertViewPublisher
             .map { events -> InAppPurchaseMonth? in
                 switch events {
@@ -50,57 +56,88 @@ struct InAppPurchaseViewModel: ViewModel {
             }
             .unwrap()
             .map { $0.purchaseID }
-            .subscribe(onNext: { purchaseID in
-                SwiftyStoreKit.purchaseProduct(purchaseID, quantity: 1, atomically: true) { result in
-                    switch result {
-                    case .success(let product):
-                        Log.d(product)
-                        // fetch content from your server, then:
-                        
-                        if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
-                            FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
-
-                            do {
-                                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .dataReadingMapped)
-                                print(receiptData)
-                                let string = String(data: receiptData, encoding: .utf8)
-                                Log.d(string)
-                                
-                                let receiptString = receiptData.base64EncodedString(options: [])
-                                Log.d(receiptString)
-                                // Read receiptData
-                                
-                            }
-                            catch { print("Couldn't read receipt data with error: " + error.localizedDescription) }
-                        }
-                        
-                        if product.needsFinishTransaction {
-                            SwiftyStoreKit.finishTransaction(product.transaction)
-                        }
-//                        let jsonEncoder = JSONEncoder()
-//                        let jsonData = try? jsonEncoder.encode(product)
-//                        let json = String(data: jsonData, encoding: String.Encoding.utf16)
-//                        let jsonString = try? JSONSerialization.jsonObject(with: product, options: .allowFragments)
-                        
-                        print("Purchase Success: \(product.productId)")
-                    case .error(let error):
-                        switch error.code {
-                        case .unknown: print("Unknown error. Please contact support")
-                        case .clientInvalid: print("Not allowed to make the payment")
-                        case .paymentCancelled: break
-                        case .paymentInvalid: print("The purchase identifier was invalid")
-                        case .paymentNotAllowed: print("The device is not allowed to make the payment")
-                        case .storeProductNotAvailable: print("The product is not available in the current storefront")
-                        case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-                        case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-                        case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-                        default: print((error as NSError).localizedDescription)
-                        }
-                    }
-                }
+            .flatMapLatest(handleIAP(purchaseID:))
+            .flatMapLatest(verifyIAP(purchaseDetails:))
+            .flatMapLatest(getProfile)
+            .do(onNext: { profile in
+                Storage.profileInfo = profile
             })
-            .disposed(by: disposeBag)
+            .map { _ in }
         
-        return Output(data: data)
+        return Output(data: data,
+                      purchaseSuccessInvoked: purchaseSuccessInvoked.asObservable(),
+                      isLoading: activityIndicator.asObservable(),
+                      error: errorTracker.asObservable())
+    }
+    
+    private func handleIAP(purchaseID: String) -> Single<PurchaseDetails> {
+        Single<PurchaseDetails>.create { observer in
+            SwiftyStoreKit.purchaseProduct(purchaseID, quantity: 1, atomically: true) { result in
+                switch result {
+                case .success(let product):
+                    Log.d(product)
+                    // fetch content from your server, then:
+                    observer(.success(product))
+                   
+                    
+                    if product.needsFinishTransaction {
+                        SwiftyStoreKit.finishTransaction(product.transaction)
+                    }
+                    print("Purchase Success: \(product.productId)")
+                case .error(let error):
+                    switch error.code {
+                    case .unknown: print("Unknown error. Please contact support")
+                    case .clientInvalid: print("Not allowed to make the payment")
+                    case .paymentCancelled: break
+                    case .paymentInvalid: print("The purchase identifier was invalid")
+                    case .paymentNotAllowed: print("The device is not allowed to make the payment")
+                    case .storeProductNotAvailable: print("The product is not available in the current storefront")
+                    case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+                    case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+                    case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+                    default: print((error as NSError).localizedDescription)
+                    }
+                    
+                    observer(.failure(error))
+                }
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    private func verifyIAP(purchaseDetails: PurchaseDetails) -> Observable<Void> {
+        if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
+            FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
+
+            do {
+                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .dataReadingMapped)
+                let receiptString = receiptData.base64EncodedString(options: [])
+                // Read receiptData
+                return useCase
+                    .purchaseMembership(request: PurchaseMembershipRequestM(receiptData: receiptString))
+                    .trackError(errorTracker)
+                    .trackActivity(activityIndicator)
+                    .catch { _ in
+                        return .never()
+                    }
+                    .map { _ in }
+            } catch {
+                Log.e("Couldn't read receipt data with error: " + error.localizedDescription)
+                return Observable.error(error)
+            }
+        } else {
+            return .error(CustomError.CannotGetIAPReceiptData)
+        }
+    }
+    
+    private func getProfile() -> Observable<ProfileInfoM> {
+        return useCase
+            .getProfileInfo()
+            .trackError(errorTracker)
+            .trackActivity(activityIndicator)
+            .catch { _ in
+                return .never()
+            }
     }
 }

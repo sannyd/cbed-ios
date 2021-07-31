@@ -8,9 +8,12 @@
 import RxSwift
 
 protocol InAppPurchaseUseCaseType {
-    
+    func purchaseMembership(request: PurchaseMembershipRequestM) -> Single<Any>
+    func getProfileInfo() -> Single<ProfileInfoM>
 }
 
-struct InAppPurchaseUseCase: InAppPurchaseUseCaseType {
+struct InAppPurchaseUseCase: InAppPurchaseUseCaseType,
+                             PurchaseAPIUseCase,
+                             ProfileUseCase {
     
 }

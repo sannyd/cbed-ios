@@ -58,8 +58,13 @@ final class LevelViewController: UIViewController {
             .controlEvent(.valueChanged)
             .asObservable()
         
+        let viewWillAppear = rx
+            .sentMessage(#selector(UIViewController.viewWillAppear))
+            .mapToVoid()
+        
         let input = LevelViewModel.Input(firstLoadTrigger: Observable.merge(pullToRefreshTrigger,
                                                                             rxViewWillAppear),
+                                         viewWillAppear: viewWillAppear,
                                          levelTapped: collectionView.rxModelSelected(),
                                          searchViewTapped: searchView.rxGestureTapped,
                                          unlockViewTapped: unlockView.rxGestureTapped)
@@ -75,6 +80,21 @@ final class LevelViewController: UIViewController {
                     self?.collectionView.refreshControl?.beginRefreshing()
                 } else {
                     self?.collectionView.refreshControl?.endRefreshing()
+                }
+            }),
+        output
+            .userProfile
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] profile in
+                guard let profile = profile else {
+                    return
+                }
+                
+                switch profile.memberPlan {
+                case .free:
+                    self?.unlockView.isHidden = false
+                default:
+                    self?.unlockView.isHidden = true
                 }
             })]
             .forEach { $0.disposed(by: disposeBag) }

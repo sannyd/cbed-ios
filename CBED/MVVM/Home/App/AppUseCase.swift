@@ -8,9 +8,10 @@
 import RxSwift
 
 protocol AppUseCaseType {
-    
+    func getProfileInfo() -> Single<ProfileInfoM>
 }
 
-struct AppUseCase: AppUseCaseType {
+struct AppUseCase: AppUseCaseType,
+                   ProfileUseCase {
     
 }

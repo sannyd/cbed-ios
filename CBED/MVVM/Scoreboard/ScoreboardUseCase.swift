@@ -8,9 +8,10 @@
 import RxSwift
 
 protocol ScoreboardUseCaseType {
-    
+    func getScoreboard() -> Single<ScoreboardResponseM>
 }
 
-struct ScoreboardUseCase: ScoreboardUseCaseType {
+struct ScoreboardUseCase: ScoreboardUseCaseType,
+                          ScoreboardAPIUseCase {
     
 }

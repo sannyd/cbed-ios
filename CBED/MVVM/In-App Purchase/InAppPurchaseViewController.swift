@@ -45,6 +45,12 @@ final class InAppPurchaseViewController: UIViewController {
             .data
             .asDriverOnErrorJustComplete()
             .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
+         output
+            .purchaseSuccessInvoked
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { _ in
+                
+            }),
          backButton
             .rxButtonTapped
             .asDriverOnErrorJustComplete()
