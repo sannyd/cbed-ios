@@ -26,7 +26,7 @@ class SectionCell: UICollectionViewCell, CellType {
         labelTitle.text = data.name
         labelSubtitle.text = data.subtitle
         if let imageURL = data.image {
-            
+            sectionImageView.loadImage(with: imageURL, placeholder: #imageLiteral(resourceName: "img_tort"))
         } else {
             sectionImageView.image = #imageLiteral(resourceName: "img_tort")
         }

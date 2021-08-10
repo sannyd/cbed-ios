@@ -15,7 +15,7 @@ extension AppViewModel {
     }
     
     struct Output {
-        let loadAppTrigger: Observable<Void>
+        let loadAppTrigger: Observable<Bool>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
     }
@@ -29,16 +29,16 @@ struct AppViewModel: ViewModel {
     let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
-        let loadAppTrigger = PublishSubject<Void>()
+        let loadAppTrigger = PublishSubject<Bool>()
         
         input
             .firstLoadTrigger
             .flatMapLatest(fetchProfileInfo)
             .subscribe { profile in
                 Storage.profileInfo = profile
-                loadAppTrigger.onNext(())
+                loadAppTrigger.onNext(true)
             } onError: { error in
-                loadAppTrigger.onNext(())
+                loadAppTrigger.onNext(false)
             }
             .disposed(by: disposeBag)
 
@@ -55,7 +55,7 @@ struct AppViewModel: ViewModel {
             .trackActivity(self.activityIndicator)
             .trackError(self.errorTracker)
             .catch({ (error) -> Observable<ProfileInfoM> in
-                return .never()
+                return .error(error)
             })
     }
 }

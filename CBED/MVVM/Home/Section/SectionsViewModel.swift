@@ -90,7 +90,7 @@ extension LoadMoreViewModel {
             .subscribe(on: MainScheduler.instance)
             .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
             .flatMapLatest { searchText in
-                getNextPage(offset: offset,
+                getNextPage(offset: 0,
                             searchText: searchText)
             }
             .do(onNext: { response in
@@ -144,7 +144,7 @@ struct SectionsViewModel: LoadMoreViewModel {
     let navigator: SectionsNavigatorType
     let levelID: Int
     let levelTitle: String
-    private let offset = 10
+    private let offset = 20
     
     let errorTracker = ErrorTracker()
     let activityIndicator = ActivityIndicator()

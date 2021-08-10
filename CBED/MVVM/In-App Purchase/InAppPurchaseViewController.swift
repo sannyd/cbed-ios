@@ -51,6 +51,14 @@ final class InAppPurchaseViewController: UIViewController {
             .drive(onNext: { _ in
                 
             }),
+         output
+            .isLoading
+            .asDriverOnErrorJustComplete()
+            .drive(LoadingIndicatorView.rx.isAnimating),
+         output
+            .error
+            .asDriverOnErrorJustComplete()
+            .drive(errorBinding),
          backButton
             .rxButtonTapped
             .asDriverOnErrorJustComplete()

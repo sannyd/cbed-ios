@@ -36,7 +36,7 @@ struct ProfileInfoM: Codable {
     let name: String
     let state: String
     let memberPlan: MemberPlan
-    let memberPlanSimple: String
+    let memberPlanSimple: Int
     let membership: String
     let lastSectionName: String?
     let points: Int

@@ -38,47 +38,57 @@ final class AppViewController: UIViewController {
         [output
             .loadAppTrigger
             .asDriverOnErrorJustComplete()
-            .drive(onNext: { _ in
-                remoteConfig.fetch(withExpirationDuration: 0) { [unowned self] (status, error) in
-                    guard error == nil else {
-                        //                self.showAlert(title: USER_ERROR_TITLE, message: error?.localizedDescription ?? "")
-                        return
-                    }
-                    remoteConfig.activate()
+            .drive(onNext: { isProfileInfoLoaded in
+                if isProfileInfoLoaded {
+                    remoteConfig.fetch(withExpirationDuration: 0) { [unowned self] (status, error) in
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        
+                        guard error == nil else {
+                            let tabbarVC = StoryboardManager.instanceTabBarVC()
+                            appDelegate.window?.rootViewController = tabbarVC
+                            return
+                        }
+                        remoteConfig.activate()
+                        
+                        let remoteConfigData = remoteConfig.configValue(forKey: "remote_configs").dataValue
                     
-                    let remoteConfigData = remoteConfig.configValue(forKey: "remote_configs").dataValue
-                
-                    guard let remoteConfigs = try? JSONSerialization.jsonObject(with: remoteConfigData,
-                                                                                options: .mutableContainers) as? [String: Any],
-                          let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool else {
-                        return
-                    }
-                    
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    
-                    if Storage.accessToken == nil {
-                        if isEnableLogin {
-                            let loginVC = StoryboardManager.instanceLoginVC()
-                            let nav = UINavigationController(rootViewController: loginVC)
-                            loginVC.viewModel = .init(useCase: LoginUseCase(),
-                                                      navigator: LoginNavigator(window: appDelegate.window!,
-                                                                                navigationController: nav))
-                            appDelegate.window?.rootViewController = nav
+                        guard let remoteConfigs = try? JSONSerialization.jsonObject(with: remoteConfigData,
+                                                                                    options: .mutableContainers) as? [String: Any],
+                              let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool else {
+                            return
+                        }
+                        
+                        if Storage.accessToken == nil {
+                            if isEnableLogin {
+                                self.goToLogin()
+                            } else {
+                                let tabbarVC = StoryboardManager.instanceTabBarVC()
+                                appDelegate.window?.rootViewController = tabbarVC
+                            }
                         } else {
                             let tabbarVC = StoryboardManager.instanceTabBarVC()
                             appDelegate.window?.rootViewController = tabbarVC
                         }
-                    } else {
-                        let tabbarVC = StoryboardManager.instanceTabBarVC()
-                        appDelegate.window?.rootViewController = tabbarVC
                     }
+                } else {
+                    Storage.removeAll()
+                    self.goToLogin()
                 }
-
             }),
         output
             .isLoading
             .asDriverOnErrorJustComplete()
             .drive(LoadingIndicatorView.rx.isAnimating)]
             .forEach { $0.disposed(by: disposeBag) }
+    }
+    
+    private func goToLogin() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let loginVC = StoryboardManager.instanceLoginVC()
+        let nav = UINavigationController(rootViewController: loginVC)
+        loginVC.viewModel = .init(useCase: LoginUseCase(),
+                                  navigator: LoginNavigator(window: appDelegate.window!,
+                                                            navigationController: nav))
+        appDelegate.window?.rootViewController = nav
     }
 }
