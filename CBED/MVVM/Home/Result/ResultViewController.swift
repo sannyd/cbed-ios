@@ -41,7 +41,10 @@ final class ResultViewController: UIViewController {
     
     func bindViewModel() {
         let input = ResultViewModel.Input(firstLoadTrigger: rxViewWillAppear,
-                                          buttonShareTrigger: buttonShare.rxButtonTapped)
+                                          buttonShareTrigger: buttonShare.rxButtonTapped,
+                                          buttonTryAgainTrigger: buttonTryAgain.rxButtonTapped,
+                                          buttonTakeNewTestTrigger: buttonTakeNewTest.rxButtonTapped,
+                                          buttonBackToHomeTrigger: buttonBack.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
@@ -66,12 +69,6 @@ final class ResultViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] result in
                 self?.showSharingVC()
-            }),
-        buttonBack
-            .rxButtonTapped
-            .asDriverOnErrorJustComplete()
-            .drive(onNext: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
             })]
             .forEach { $0.disposed(by: disposeBag) }
     }
@@ -79,7 +76,7 @@ final class ResultViewController: UIViewController {
     func showSharingVC() {
         let screenshot = takeScreenshot()
         let title = "I love this app"
-        let url = URL(string: "https://www.facebook.com/barexamdrills/")
+        let url = URL(string: "https://www.facebook.com/barexamdrills")!
         let ac = UIActivityViewController(activityItems: [title, screenshot, url], applicationActivities: nil)
         present(ac, animated: true)
     }

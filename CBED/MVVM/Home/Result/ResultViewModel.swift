@@ -60,11 +60,18 @@ enum ResultType {
     }
 }
 
+enum ResultViewModelPublisher {
+    case tryAgainTapped
+}
+
 // MARK: Input + Output
 extension ResultViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
         let buttonShareTrigger: Observable<Void>
+        let buttonTryAgainTrigger: Observable<Void>
+        let buttonTakeNewTestTrigger: Observable<Void>
+        let buttonBackToHomeTrigger: Observable<Void>
     }
     
     struct Output {
@@ -78,6 +85,8 @@ struct ResultViewModel: ViewModel {
     let navigator: ResultNavigatorType
     let result: SaveResultResponseM
     
+    weak var publisher: PublishSubject<ResultViewModelPublisher>?
+    
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let result = input
             .firstLoadTrigger
@@ -85,14 +94,23 @@ struct ResultViewModel: ViewModel {
                 let correctAnswers = self.result.correct ?? 0
                 let total = self.result.total ?? 0
                 
-                let correctPercentage = correctAnswers / total * 100
-                return correctPercentage > 90 ? .pass(self.result) : .fail(self.result)
-                
+                let correctPercentage = Double(correctAnswers) / Double(total) * 100
+                return correctPercentage >= 90 ? .pass(self.result) : .fail(self.result)
             }
         
         let buttonShareInvoked = input
             .buttonShareTrigger
             .map { _ in self.result }
+        
+        let tryAgainTapped: () -> () = {
+            publisher?.onNext(.tryAgainTapped)
+            navigator.popViewController()
+        }
+        
+        input
+            .buttonTryAgainTrigger
+            .subscribe(onNext: tryAgainTapped)
+            .disposed(by: disposeBag)
         
         return Output(result: result,
                       buttonShareInvoked: buttonShareInvoked)

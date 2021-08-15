@@ -182,6 +182,11 @@ struct SectionsViewModel: LoadMoreViewModel {
             .flatMapLatest(fetchSectionDetailByID(id:))
             .asDriverOnErrorJustComplete()
             .drive(onNext: { sectionDetail in
+                guard sectionDetail.isAvailable ?? true else {
+                    navigator.showBlockSectionAlert()
+                    return
+                }
+                
                 if (sectionDetail.questions ?? []).isEmpty {
                     if let youtubeURL = sectionDetail.youtubeUrls?.first {
                         navigator.pushToPreviewWebView(usefulLinkURL: youtubeURL)
@@ -194,9 +199,6 @@ struct SectionsViewModel: LoadMoreViewModel {
                 }
             })
             .disposed(by: disposeBag)
-//            .map { SectionInfo(sectionID: $0.id, levelTitle: $0.name ?? "") }
-//            .subscribe(onNext: navigator.pushToSectionDetailVC(sectionInfo:))
-//            .disposed(by: disposeBag)
         
         return Output(sections: sections.asObservable(),
                       navigationTitle: .just(levelTitle),

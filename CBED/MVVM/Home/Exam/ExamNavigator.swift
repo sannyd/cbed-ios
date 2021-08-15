@@ -25,6 +25,7 @@ enum QuestionAlertType {
 
 protocol ExamNavigatorType {
     var publisher: PublishSubject<CustomAlertViewPublisher> { get }
+    var resultViewPublisher: PublishSubject<ResultViewModelPublisher> { get }
     
     func presentAnswerResult(answer: AnswerM)
     func pushToResultVC(result: SaveResultResponseM)
@@ -35,6 +36,7 @@ struct ExamNavigator: ExamNavigatorType {
     unowned let navigationController: UINavigationController
     
     let publisher = PublishSubject<CustomAlertViewPublisher>()
+    let resultViewPublisher = PublishSubject<ResultViewModelPublisher>()
     
     func presentAnswerResult(answer: AnswerM) {
         let alertVC = CustomAlertView()
@@ -55,6 +57,7 @@ struct ExamNavigator: ExamNavigatorType {
         resultVC.viewModel = .init(useCase: ResultUseCase(),
                                    navigator: ResultNavigator(navigationController: navigationController),
                                    result: result)
+        resultVC.viewModel.publisher = resultViewPublisher
         navigationController.pushViewController(resultVC, animated: true)
     }
     

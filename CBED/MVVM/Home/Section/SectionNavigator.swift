@@ -10,6 +10,7 @@ import UIKit
 protocol SectionsNavigatorType {
     func pushToSectionDetailVC(sectionDetail: SectionDetailM)
     func pushToPreviewWebView(usefulLinkURL: String)
+    func showBlockSectionAlert()
 }
 
 struct SectionsNavigator: SectionsNavigatorType {
@@ -29,5 +30,14 @@ struct SectionsNavigator: SectionsNavigatorType {
                                     navigator: PreviewWebViewNavigator(),
                                     usefulLinkURL: usefulLinkURL)
         navigationController.pushViewController(previewVC, animated: true)
+    }
+    
+    func showBlockSectionAlert() {
+        let alertView = UIAlertHelper.showAlertController(title: "Opps",
+                                                      message: "You have to pass previous section in order to access this section",
+                                                      cancel: "OK",
+                                                      others: nil,
+                                                      handleAction: nil)
+        navigationController.presentingViewController?.present(alertView, animated: true)
     }
 }

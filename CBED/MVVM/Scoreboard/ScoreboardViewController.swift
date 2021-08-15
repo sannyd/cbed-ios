@@ -70,7 +70,14 @@ final class ScoreboardViewController: UIViewController {
             .sentMessage(#selector(UIViewController.viewWillAppear))
             .mapToVoid()
         
-        let input = ScoreboardViewModel.Input(firstLoadTrigger: rxViewWillAppear,
+        let pullToRefreshTrigger = collectionView
+            .refreshControl!
+            .rx
+            .controlEvent(.valueChanged)
+            .asObservable()
+        
+        let input = ScoreboardViewModel.Input(firstLoadTrigger: Observable.merge(pullToRefreshTrigger,
+                                                                                 rxViewWillAppear),
                                               viewWillAppear: viewWillAppear,
                                               filterTrigger: Observable.merge(proBarFebTrigger,
                                                                               proBarJulTrigger,
@@ -118,14 +125,20 @@ final class ScoreboardViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] profile in
                 self?.labelUserName.text = profile.email
-                self?.labelUserPosition.text = profile.lastSectionName ?? "N/A"
+                self?.labelUserPosition.text = "👑 \(profile.lastSectionName ?? "N/A")"
                 self?.profileImageView.loadImage(with: profile.avatar,
                                                  placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
             }),
          output
             .isLoading
             .asDriverOnErrorJustComplete()
-            .drive(LoadingIndicatorView.rx.isAnimating),
+            .drive(onNext: { [weak self] isLoading in
+                if isLoading {
+                    self?.collectionView.refreshControl?.beginRefreshing()
+                } else {
+                    self?.collectionView.refreshControl?.endRefreshing()
+                }
+            }),
          output
             .error
             .asDriverOnErrorJustComplete()

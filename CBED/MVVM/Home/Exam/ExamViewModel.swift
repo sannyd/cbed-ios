@@ -39,15 +39,22 @@ struct ExamViewModel: ViewModel {
         let sectionStartTime = "section_start_time_\(sectionDetail.id)"
         let sectionEndTime = "section_end_time_\(sectionDetail.id)"
         
+        func removeAllSavedSectionData() {
+            UserDefaults.standard.removeObject(forKey: sectionKey)
+            UserDefaults.standard.removeObject(forKey: sectionStartTime)
+            UserDefaults.standard.removeObject(forKey: sectionEndTime)
+        }
+        
         let questions = sectionDetail.questions ?? []
-        let previousQuestionIndex = UserDefaults.standard.value(forKey: sectionKey) as? Int ?? 0
+        var previousQuestionIndex = UserDefaults.standard.value(forKey: sectionKey) as? Int ?? 0
         let currentQuestionIndex = BehaviorRelay<Int>(value: previousQuestionIndex)
         let sharedCurrentQuestionIndex = currentQuestionIndex.share(replay: 1)
         let currentAnswers = BehaviorRelay<[CommonCollectionViewSection<SelectableAnswer>]>(value: [])
         let saveResultTrigger = PublishRelay<Void>()
-        var correctAnswers = previousQuestionIndex + 1
+        var correctAnswers = 0
         let scrollToTopInvoked = PublishSubject<Void>()
         let timerTrigger = PublishSubject<String>()
+        let resetSectionTrigger = PublishSubject<Void>()
         
         UserDefaults.standard.setValue(Date(), forKey: sectionStartTime)
         
@@ -58,9 +65,7 @@ struct ExamViewModel: ViewModel {
                 if let startTime = UserDefaults.standard.value(forKey: sectionStartTime) as? Date,
                    let endTime = UserDefaults.standard.value(forKey: sectionEndTime) as? Date {
                     guard endTime > startTime else {
-                        UserDefaults.standard.removeObject(forKey: sectionKey)
-                        UserDefaults.standard.removeObject(forKey: sectionStartTime)
-                        UserDefaults.standard.removeObject(forKey: sectionEndTime)
+                        removeAllSavedSectionData()
                         navigator.popViewController()
                         return
                     }
@@ -128,19 +133,28 @@ struct ExamViewModel: ViewModel {
                         
                         UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
                     }
-                    scrollToTopInvoked.onNext(())
                 case .wrong:
-                    break
+                    if currentQuestionIndex.value >= questions.count - 1 {
+                        saveResultTrigger.accept(())
+                    } else {
+                        let nextQuestionIndex = currentQuestionIndex.value + 1
+                        currentQuestionIndex.accept(currentQuestionIndex.value + 1)
+                        let answers = (questions[currentQuestionIndex.value].answers ?? [])
+                            .map { SelectableAnswer(isSelected: false, answer: $0) }
+                        currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                        
+                        UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
+                    }
                 }
-                
+                scrollToTopInvoked.onNext(())
                 SwiftEntryKit.dismiss()
             })
             .map { _ in questions[currentQuestionIndex.value] }
         
        
         
-        let initialQuestion = input
-            .firstLoadTrigger
+        let initialQuestion = Observable.merge(resetSectionTrigger,
+                                               input.firstLoadTrigger)
             .filter { currentQuestionIndex.value < questions.count - 1 }
             .map { questions[currentQuestionIndex.value] }
         
@@ -190,6 +204,21 @@ struct ExamViewModel: ViewModel {
             .delay(.milliseconds(150))
             .drive(onNext: navigator.presentAnswerResult(answer:))
             .disposed(by: disposeBag)
+        
+        navigator.resultViewPublisher
+            .subscribe(onNext: { events in
+                switch events {
+                case .tryAgainTapped:
+                    // Remove all saved data in user defaults
+                    removeAllSavedSectionData()
+                    
+                    // Reset all values
+                    previousQuestionIndex = 0
+                    currentQuestionIndex.accept(previousQuestionIndex)
+                    correctAnswers = 0
+                }
+            })
+        
         
         return Output(currentQuestion: currentQuestion,
                       answers: currentAnswers.asObservable(),

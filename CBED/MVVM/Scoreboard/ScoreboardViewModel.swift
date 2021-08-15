@@ -48,9 +48,6 @@ struct ScoreboardViewModel: ViewModel {
         input
             .firstLoadTrigger
             .flatMapLatest(fetchScoreboard)
-//            .map { response in
-//                return (response.proBarFeb, response.proBarJuly, response.babyBarJune, response.babyBarOct)
-//            }
             .subscribe(onNext: { response in
                 proBarFebData = response.proBarFeb
                 proBarJulData = response.proBarJuly
