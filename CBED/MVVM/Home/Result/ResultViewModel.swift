@@ -112,6 +112,11 @@ struct ResultViewModel: ViewModel {
             .subscribe(onNext: tryAgainTapped)
             .disposed(by: disposeBag)
         
+        input
+            .buttonBackToHomeTrigger
+            .subscribe(onNext: navigator.backToSectionsVC)
+            .disposed(by: disposeBag)
+        
         return Output(result: result,
                       buttonShareInvoked: buttonShareInvoked)
     }

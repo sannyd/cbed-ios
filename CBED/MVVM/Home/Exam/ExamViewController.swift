@@ -86,7 +86,15 @@ final class ExamViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] _ in
                 self?.scrollView.setContentOffset(.zero, animated: true)
-            })]
+            }),
+        output
+            .isLoading
+            .asDriverOnErrorJustComplete()
+            .drive(LoadingIndicatorView.rx.isAnimating),
+        output
+            .error
+            .asDriverOnErrorJustComplete()
+            .drive(errorBinding)]
             .forEach { $0.disposed(by: disposeBag) }
     }
     

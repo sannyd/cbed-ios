@@ -23,6 +23,8 @@ extension ExamViewModel {
         let numberOfQuestions: Observable<String>
         let scrollToTopInvoked: Observable<Void>
         let timerText: Observable<String>
+        let isLoading: Observable<Bool>
+        let error: Observable<Error>
     }
 }
 
@@ -38,11 +40,13 @@ struct ExamViewModel: ViewModel {
         let sectionKey = "section_\(sectionDetail.id)"
         let sectionStartTime = "section_start_time_\(sectionDetail.id)"
         let sectionEndTime = "section_end_time_\(sectionDetail.id)"
+        let sectionResult = "section_result_\(sectionDetail.id)"
         
         func removeAllSavedSectionData() {
             UserDefaults.standard.removeObject(forKey: sectionKey)
             UserDefaults.standard.removeObject(forKey: sectionStartTime)
             UserDefaults.standard.removeObject(forKey: sectionEndTime)
+            UserDefaults.standard.removeObject(forKey: sectionResult)
         }
         
         let questions = sectionDetail.questions ?? []
@@ -51,7 +55,7 @@ struct ExamViewModel: ViewModel {
         let sharedCurrentQuestionIndex = currentQuestionIndex.share(replay: 1)
         let currentAnswers = BehaviorRelay<[CommonCollectionViewSection<SelectableAnswer>]>(value: [])
         let saveResultTrigger = PublishRelay<Void>()
-        var correctAnswers = 0
+        var correctAnswers = UserDefaults.standard.value(forKey: sectionResult) as? Int ?? 0
         let scrollToTopInvoked = PublishSubject<Void>()
         let timerTrigger = PublishSubject<String>()
         let resetSectionTrigger = PublishSubject<Void>()
@@ -120,25 +124,26 @@ struct ExamViewModel: ViewModel {
             .unwrap()
             .do(onNext: { questionAlertType in
                 switch questionAlertType {
-                case .correct:              
+                case .correct:
+                    correctAnswers += 1
                     if currentQuestionIndex.value >= questions.count - 1 {
                         saveResultTrigger.accept(())
                     } else {
-                        correctAnswers += 1
                         let nextQuestionIndex = currentQuestionIndex.value + 1
-                        currentQuestionIndex.accept(currentQuestionIndex.value + 1)
+                        currentQuestionIndex.accept(nextQuestionIndex)
                         let answers = (questions[currentQuestionIndex.value].answers ?? [])
                             .map { SelectableAnswer(isSelected: false, answer: $0) }
                         currentAnswers.accept([CommonCollectionViewSection(items: answers)])
                         
                         UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
+                        UserDefaults.standard.setValue(correctAnswers, forKey: sectionResult)
                     }
                 case .wrong:
                     if currentQuestionIndex.value >= questions.count - 1 {
                         saveResultTrigger.accept(())
                     } else {
                         let nextQuestionIndex = currentQuestionIndex.value + 1
-                        currentQuestionIndex.accept(currentQuestionIndex.value + 1)
+                        currentQuestionIndex.accept(nextQuestionIndex)
                         let answers = (questions[currentQuestionIndex.value].answers ?? [])
                             .map { SelectableAnswer(isSelected: false, answer: $0) }
                         currentAnswers.accept([CommonCollectionViewSection(items: answers)])
@@ -155,7 +160,7 @@ struct ExamViewModel: ViewModel {
         
         let initialQuestion = Observable.merge(resetSectionTrigger,
                                                input.firstLoadTrigger)
-            .filter { currentQuestionIndex.value < questions.count - 1 }
+            .filter { currentQuestionIndex.value <= questions.count - 1 }
             .map { questions[currentQuestionIndex.value] }
         
         let currentQuestion = Observable
@@ -173,7 +178,7 @@ struct ExamViewModel: ViewModel {
             .flatMapLatest(saveResult(correct:totalQuestion:))
             .asDriverOnErrorJustComplete()
             .do(onNext: { _ in
-                UserDefaults.standard.removeObject(forKey: sectionKey)
+                removeAllSavedSectionData()
             })
             .drive(onNext: navigator.pushToResultVC(result:))
             .disposed(by: disposeBag)
@@ -218,6 +223,7 @@ struct ExamViewModel: ViewModel {
                     correctAnswers = 0
                 }
             })
+            .disposed(by: disposeBag)
         
         
         return Output(currentQuestion: currentQuestion,
@@ -225,7 +231,9 @@ struct ExamViewModel: ViewModel {
                       navigationTitle: .just(sectionDetail.name),
                       numberOfQuestions: numberOfQuestions,
                       scrollToTopInvoked: scrollToTopInvoked.asObservable(),
-                      timerText: timerTrigger.asObservable())
+                      timerText: timerTrigger.asObservable(),
+                      isLoading: activityIndicator.asObservable(),
+                      error: errorTracker.asObservable())
     }
     
     private func saveResult(correct: Int,
