@@ -74,7 +74,7 @@ final class LevelViewController: UIViewController {
             .levels
             .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
          output
-            .isLoading
+            .isReloading
             .drive(onNext: { [weak self] isLoading in
                 if isLoading {
                     self?.collectionView.refreshControl?.beginRefreshing()
@@ -82,6 +82,9 @@ final class LevelViewController: UIViewController {
                     self?.collectionView.refreshControl?.endRefreshing()
                 }
             }),
+         output
+            .isLoading
+            .drive(LoadingIndicatorView.rx.isAnimating),
         output
             .userProfile
             .asDriverOnErrorJustComplete()

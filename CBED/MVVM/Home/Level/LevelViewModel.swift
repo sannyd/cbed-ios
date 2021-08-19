@@ -21,6 +21,7 @@ extension LevelViewModel {
     struct Output {
         let levels: Driver<[CommonCollectionViewSection<LevelM>]>
         let userProfile: Observable<ProfileInfoM?>
+        let isReloading: Driver<Bool>
         let isLoading: Driver<Bool>
         let error: Driver<Error>
     }
@@ -32,6 +33,7 @@ struct LevelViewModel: ViewModel {
     
     private let errorTracker = ErrorTracker()
     private let activityIndicator = ActivityIndicator()
+    private let loadindIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let levels = input
@@ -64,7 +66,8 @@ struct LevelViewModel: ViewModel {
         
         return Output(levels: levels.asDriver(onErrorJustReturn: []),
                       userProfile: userProfile,
-                      isLoading: activityIndicator.asDriver(),
+                      isReloading: activityIndicator.asDriver(),
+                      isLoading: loadindIndicator.asDriver(),
                       error: errorTracker.asDriver())
     }
     
@@ -73,6 +76,16 @@ struct LevelViewModel: ViewModel {
             .getAllLevels()
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
+            .catch { _ in
+                return .never()
+            }
+    }
+    
+    private func fetchSectionDetailByID(id: Int) -> Observable<SectionDetailM> {
+        return self.useCase
+            .getSectionByID(id: id)
+            .trackError(errorTracker)
+            .trackActivity(loadindIndicator)
             .catch { _ in
                 return .never()
             }

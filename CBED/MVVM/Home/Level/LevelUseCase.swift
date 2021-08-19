@@ -9,6 +9,7 @@ import RxSwift
 
 protocol LevelUseCaseType {
     func getAllLevels() -> Single<[LevelM]>
+    func getSectionByID(id: Int) -> Single<SectionDetailM>
 //    func getLevelByID(_ id: Int) -> Single<LevelDetailM>
 //    func searchSection(request: SearchSectionRequestM) -> Single<SectionSearchResponseM>
 }
