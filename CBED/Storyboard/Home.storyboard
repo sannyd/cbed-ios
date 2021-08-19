@@ -1024,7 +1024,7 @@
                                                 </constraints>
                                             </imageView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search Here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ewh-VD-weR">
-                                                <rect key="frame" x="10" y="16" width="319" height="18.5"/>
+                                                <rect key="frame" x="20" y="16" width="309" height="18.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -1032,7 +1032,7 @@
                                         <color key="backgroundColor" name="Cell Color"/>
                                         <constraints>
                                             <constraint firstItem="O29-XT-HyN" firstAttribute="leading" secondItem="Ewh-VD-weR" secondAttribute="trailing" id="Dr4-Q6-RyE"/>
-                                            <constraint firstItem="Ewh-VD-weR" firstAttribute="leading" secondItem="sGM-Jv-xb6" secondAttribute="leading" constant="10" id="L2j-16-IDL"/>
+                                            <constraint firstItem="Ewh-VD-weR" firstAttribute="leading" secondItem="sGM-Jv-xb6" secondAttribute="leading" constant="20" id="L2j-16-IDL"/>
                                             <constraint firstItem="O29-XT-HyN" firstAttribute="centerY" secondItem="sGM-Jv-xb6" secondAttribute="centerY" id="Mzm-on-ai0"/>
                                             <constraint firstAttribute="height" constant="50" id="bIm-HP-BTv"/>
                                             <constraint firstItem="Ewh-VD-weR" firstAttribute="centerY" secondItem="sGM-Jv-xb6" secondAttribute="centerY" id="eUt-Vt-Lm3"/>

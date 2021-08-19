@@ -117,6 +117,11 @@ struct ResultViewModel: ViewModel {
             .subscribe(onNext: navigator.backToSectionsVC)
             .disposed(by: disposeBag)
         
+        input
+            .buttonTakeNewTestTrigger
+            .subscribe(onNext: navigator.backToSectionsVC)
+            .disposed(by: disposeBag)
+        
         return Output(result: result,
                       buttonShareInvoked: buttonShareInvoked)
     }

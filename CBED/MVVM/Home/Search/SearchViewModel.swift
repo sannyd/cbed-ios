@@ -20,6 +20,7 @@ extension SearchViewModel {
     struct Output {
         let sections: Observable<[CommonCollectionViewSection<SearchResultM>]>
         let lastPageInvoked: Observable<Void>
+        let isReloading: Observable<Bool>
         let isLoading: Observable<Bool>
         let isLoadMore: Observable<Bool>
         let isLastPagination: Observable<Bool>
@@ -43,6 +44,7 @@ struct SearchViewModel: LoadMoreViewModel {
     
     let errorTracker = ErrorTracker()
     let activityIndicator = ActivityIndicator()
+    let loadingIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let sections = BehaviorRelay<[CommonCollectionViewSection<SearchResultM>]>(value: [])
@@ -74,9 +76,34 @@ struct SearchViewModel: LoadMoreViewModel {
             .bind(to: sections)
             .disposed(by: disposeBag)
         
+        input
+            .sectionTapped
+            .map { $0.id }
+            .flatMapLatest(fetchSectionDetailByID(id:))
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { sectionDetail in
+                guard sectionDetail.isAvailable ?? true else {
+                    navigator.showBlockSectionAlert()
+                    return
+                }
+                
+                if (sectionDetail.questions ?? []).isEmpty {
+                    if let youtubeURL = sectionDetail.youtubeUrls?.first {
+                        navigator.pushToPreviewWebView(usefulLinkURL: youtubeURL)
+                    }
+                    if let pdfURL = sectionDetail.pdfUrls?.first {
+                        navigator.pushToPreviewWebView(usefulLinkURL: pdfURL)
+                    }
+                } else {
+                    navigator.pushToSectionDetailVC(sectionDetail: sectionDetail)
+                }
+            })
+            .disposed(by: disposeBag)
+        
         return Output(sections: sections.asObservable(),
                       lastPageInvoked: lastPageTrigger.asObservable(),
-                      isLoading: isReload.asObservable(),
+                      isReloading: isReload.asObservable(),
+                      isLoading: loadingIndicator.asObservable(),
                       isLoadMore: isLoadMore.asObservable(),
                       isLastPagination: isLastPagination.asObservable(),
                       error: errorTracker.asObservable())
@@ -92,5 +119,15 @@ struct SearchViewModel: LoadMoreViewModel {
                                           offset: offset))
             .trackActivity(activityIndicator)
             .trackError(errorTracker)
+    }
+    
+    private func fetchSectionDetailByID(id: Int) -> Observable<SectionDetailM> {
+        return self.useCase
+            .getSectionByID(id: id)
+            .trackError(errorTracker)
+            .trackActivity(loadingIndicator)
+            .catch { _ in
+                return .never()
+            }
     }
 }

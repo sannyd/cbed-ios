@@ -74,13 +74,13 @@ final class SectionsViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(LoadingIndicatorView.rx.isAnimating),
         output
-            .error
-            .asDriverOnErrorJustComplete()
-            .drive(errorBinding),
-        output
             .isLoadMore
             .asDriver(onErrorJustReturn: false)
             .drive(collectionView.rx.loadingMore),
+        output
+            .error
+            .asDriverOnErrorJustComplete()
+            .drive(errorBinding),
         output
             .isLastPagination
             .asDriverOnErrorJustComplete()

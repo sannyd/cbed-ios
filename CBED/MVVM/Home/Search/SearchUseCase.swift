@@ -9,6 +9,7 @@ import RxSwift
 
 protocol SearchUseCaseType {
     func searchSection(request: SearchSectionRequestM) -> Single<SectionSearchResponseM>
+    func getSectionByID(id: Int) -> Single<SectionDetailM>
 }
 
 struct SearchUseCase: SearchUseCaseType,

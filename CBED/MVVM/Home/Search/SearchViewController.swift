@@ -28,8 +28,7 @@ final class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchTextfield
-            .becomeFirstResponder()
+        searchTextfield.becomeFirstResponder()
         setupCollectionView()
         setupGradientView()
         bindViewModel()
@@ -60,7 +59,7 @@ final class SearchViewController: UIViewController {
             .asDriver(onErrorJustReturn: [])
             .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
          output
-            .isLoading
+            .isReloading
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] isLoading in
                 if isLoading {
@@ -69,6 +68,14 @@ final class SearchViewController: UIViewController {
                     self?.collectionView.refreshControl?.endRefreshing()
                 }
             }),
+         output
+            .isLoading
+            .asDriverOnErrorJustComplete()
+            .drive(LoadingIndicatorView.rx.isAnimating),
+         output
+            .isLoadMore
+            .asDriver(onErrorJustReturn: false)
+            .drive(collectionView.rx.loadingMore),
          output
             .error
             .asDriverOnErrorJustComplete()
@@ -87,6 +94,13 @@ final class SearchViewController: UIViewController {
                     self?.collectionView.setLoadMoreEnable(true)
                 }
             }),
+//         collectionView.rx.didScroll
+//            .mapToVoid()
+//            .asDriverOnErrorJustComplete()
+//            .skip(1)
+//            .drive(onNext: { [weak self] _ in
+//                self?.searchTextfield.resignFirstResponder()
+//            }),
         buttonBack
             .rxButtonTapped
             .asDriverOnErrorJustComplete()
