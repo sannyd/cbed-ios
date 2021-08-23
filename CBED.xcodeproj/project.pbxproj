@@ -157,6 +157,9 @@
 		18DA979D26B31621003144ED /* PurchaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979C26B31621003144ED /* PurchaseUseCase.swift */; };
 		18DA979F26B3165D003144ED /* PurchaseMembershipRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979E26B3165D003144ED /* PurchaseMembershipRequestM.swift */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
+		FF0A916E26D2353E007DB4A8 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */; };
+		FF0A917026D23ECF007DB4A8 /* ReceiptM.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */; };
+		FF0A917226D3CDA9007DB4A8 /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A917126D3CDA9007DB4A8 /* Notification+.swift */; };
 		FF1E61E8268C626000CF96B5 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E3268C625F00CF96B5 /* PullToRefresh.swift */; };
 		FF1E61E9268C626000CF96B5 /* LoadMoreViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E4268C625F00CF96B5 /* LoadMoreViewAnimator.swift */; };
 		FF1E61EA268C626000CF96B5 /* LoadMore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E5268C625F00CF96B5 /* LoadMore.swift */; };
@@ -347,6 +350,9 @@
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitService.swift; sourceTree = "<group>"; };
+		FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptM.swift; sourceTree = "<group>"; };
+		FF0A917126D3CDA9007DB4A8 /* Notification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+.swift"; sourceTree = "<group>"; };
 		FF1E61E3268C625F00CF96B5 /* PullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		FF1E61E4268C625F00CF96B5 /* LoadMoreViewAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMoreViewAnimator.swift; sourceTree = "<group>"; };
 		FF1E61E5268C625F00CF96B5 /* LoadMore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMore.swift; sourceTree = "<group>"; };
@@ -908,6 +914,8 @@
 				FFD577072673700A00CC9CF1 /* Storage+.swift */,
 				FFD5770126736FDC00CC9CF1 /* APIClient.swift */,
 				FFD5770326736FEA00CC9CF1 /* TokenAdapter.swift */,
+				FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */,
+				FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */,
 				182DD564268CC2D700172927 /* CustomError.swift */,
 			);
 			path = Services;
@@ -950,6 +958,7 @@
 				182DD562268CBE3600172927 /* Encodable+.swift */,
 				182C324A2699C706008E97CE /* UILabel+.swift */,
 				183E32E426A08C06006B4507 /* UIImagePickerController+.swift */,
+				FF0A917126D3CDA9007DB4A8 /* Notification+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1178,6 +1187,7 @@
 				185B0657267BAB8A00A17664 /* ExamNavigator.swift in Sources */,
 				185F87AF2674A0A300A63898 /* StoryboardManager.swift in Sources */,
 				184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */,
+				FF0A916E26D2353E007DB4A8 /* StoreKitService.swift in Sources */,
 				185F87BB2674B43E00A63898 /* UIBezierPath+Circle.swift in Sources */,
 				180C44CE2695F5E700416335 /* InAppPurchaseUseCase.swift in Sources */,
 				18812AC026B1B03D003A7CEF /* ScoreboardResponseM.swift in Sources */,
@@ -1213,6 +1223,7 @@
 				185B05F3267616BB00A17664 /* UserRouter.swift in Sources */,
 				FFE4D16E26AD7AA100594323 /* ScoreCell.swift in Sources */,
 				185B06332677C2FE00A17664 /* SectionCell.swift in Sources */,
+				FF0A917026D23ECF007DB4A8 /* ReceiptM.swift in Sources */,
 				185B060126761AAE00A17664 /* UIViewController+.swift in Sources */,
 				185B063D267A516F00A17664 /* SectionDetailNavigator.swift in Sources */,
 				FFB19240268F22300000B256 /* SearchViewController.swift in Sources */,
@@ -1236,6 +1247,7 @@
 				184ABC272684EAC9004048A5 /* ResultUseCase.swift in Sources */,
 				186A9B4A2699B979008AF01B /* ScaledFont.swift in Sources */,
 				185B062126762F7C00A17664 /* SettingUseCase.swift in Sources */,
+				FF0A917226D3CDA9007DB4A8 /* Notification+.swift in Sources */,
 				185B0650267B994400A17664 /* PreviewWebViewViewController.swift in Sources */,
 				184ABC3226878D45004048A5 /* UIColor+BackwardsCompatibleResolvedColor.swift in Sources */,
 				185B062226762F7C00A17664 /* SettingViewController.swift in Sources */,
@@ -1396,7 +1408,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -1419,7 +1431,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;

@@ -309,8 +309,37 @@
                                     <constraint firstAttribute="width" constant="196" id="fRw-M3-dPM"/>
                                 </constraints>
                             </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="foi-bA-1Ae">
+                                <rect key="frame" x="30" y="432" width="354" height="31"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="P5a-PF-e1C">
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="22"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_globe_gray" translatesAutoresizingMaskIntoConstraints="NO" id="txM-V6-E9C">
+                                                <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="txM-V6-E9C" secondAttribute="height" multiplier="1:1" id="IgJ-J1-Uft"/>
+                                                    <constraint firstAttribute="width" constant="22" id="NPT-hb-NPq"/>
+                                                </constraints>
+                                            </imageView>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d0w-x6-REj">
+                                                <rect key="frame" x="34" y="0.0" width="320" height="22"/>
+                                                <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y94-kk-lIP">
+                                        <rect key="frame" x="0.0" y="30" width="354" height="1"/>
+                                        <color key="backgroundColor" name="Separator Line"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="gDm-bb-OCi"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="teW-fE-icH">
-                                <rect key="frame" x="30" y="370" width="354" height="214"/>
+                                <rect key="frame" x="30" y="370" width="354" height="275"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Muq-bZ-Wm3">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="31"/>
@@ -328,7 +357,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rIM-rd-2ZR">
                                                         <rect key="frame" x="34" y="0.0" width="320" height="22"/>
                                                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="name"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -357,7 +386,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4zE-b7-86m">
                                                         <rect key="frame" x="34" y="0.0" width="320" height="22"/>
                                                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="email"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -386,7 +415,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C9H-Ya-65g">
                                                         <rect key="frame" x="34" y="0.0" width="320" height="22"/>
                                                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -424,6 +453,35 @@
                                                 <color key="backgroundColor" name="Separator Line"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="xOc-0I-SeA"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Zou-Mg-COu">
+                                        <rect key="frame" x="0.0" y="244" width="354" height="31"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="4y4-dw-gGp">
+                                                <rect key="frame" x="0.0" y="0.0" width="354" height="22"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_phone" translatesAutoresizingMaskIntoConstraints="NO" id="80H-In-2R9">
+                                                        <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="22" id="DCk-Gz-4az"/>
+                                                            <constraint firstAttribute="width" secondItem="80H-In-2R9" secondAttribute="height" multiplier="1:1" id="o4U-xE-1wf"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bUJ-qE-8S6" customClass="PhoneTextfield" customModule="CBED" customModuleProvider="target">
+                                                        <rect key="frame" x="34" y="0.0" width="320" height="22"/>
+                                                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kcl-bH-fMz">
+                                                <rect key="frame" x="0.0" y="30" width="354" height="1"/>
+                                                <color key="backgroundColor" name="Separator Line"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="9uU-LK-zVm"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -491,6 +549,7 @@
                         <outlet property="emailTextfield" destination="4zE-b7-86m" id="wRn-Ge-EyA"/>
                         <outlet property="nameTextfield" destination="rIM-rd-2ZR" id="GU7-Jy-aB0"/>
                         <outlet property="passwordTextfield" destination="C9H-Ya-65g" id="eWV-Vk-wSb"/>
+                        <outlet property="phoneNumberTextfield" destination="bUJ-qE-8S6" id="Oqh-GV-Lll"/>
                         <outlet property="profileImageView" destination="5Vg-gW-cgu" id="xUs-zg-taP"/>
                         <outlet property="stateTextfield" destination="KVw-tF-RrV" id="YgW-EE-gkB"/>
                     </connections>
@@ -657,6 +716,7 @@
         <image name="img_lock_gray" width="22" height="22"/>
         <image name="img_login_facebook" width="84" height="84"/>
         <image name="img_login_google" width="84" height="84"/>
+        <image name="img_phone" width="79" height="79"/>
         <image name="img_user_gray" width="19" height="22"/>
         <image name="img_user_placeholder" width="196" height="196"/>
         <image name="logo" width="767" height="767"/>

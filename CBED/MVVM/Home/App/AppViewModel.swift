@@ -41,7 +41,6 @@ struct AppViewModel: ViewModel {
                 loadAppTrigger.onNext(false)
             }
             .disposed(by: disposeBag)
-
         
         return Output(loadAppTrigger: loadAppTrigger.asObservable(),
                       isLoading: activityIndicator.asObservable(),

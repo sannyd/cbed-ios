@@ -8,6 +8,16 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import PhoneNumberKit
+
+class PhoneTextfield: PhoneNumberTextField {
+    override var defaultRegion: String {
+        get {
+            return "US"
+        }
+        set {} // exists for backward compatibility
+    }
+}
 
 final class RegisterViewController: UIViewController {
     
@@ -18,6 +28,7 @@ final class RegisterViewController: UIViewController {
     @IBOutlet weak var emailTextfield: UITextField!
     @IBOutlet weak var passwordTextfield: UITextField!
     @IBOutlet weak var stateTextfield: UITextField!
+    @IBOutlet weak var phoneNumberTextfield: PhoneTextfield!
     @IBOutlet weak var buttonRegister: CustomBorderButton!
     @IBOutlet weak var buttonBack: UIButton!
     
@@ -68,6 +79,7 @@ final class RegisterViewController: UIViewController {
                                             email: emailTextfield.rx.text.orEmpty.asObservable(),
                                             password: passwordTextfield.rx.text.orEmpty.asObservable(),
                                             state: state,
+                                            phone: phoneNumberTextfield.rx.text.map { _ in self.phoneNumberTextfield.text ?? "" }.asObservable(),
                                             buttonRegisterTrigger: buttonRegister.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         

@@ -18,6 +18,7 @@ def utility_pods
    pod 'SwiftEntryKit'
    pod 'SwiftyStoreKit'
    pod 'IQKeyboardManagerSwift'
+   pod 'PhoneNumberKit'
 end
 
 def sso_pods

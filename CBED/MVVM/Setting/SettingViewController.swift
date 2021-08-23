@@ -33,6 +33,7 @@ final class SettingViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        buttonLogout.isHidden = !IsEnableLogin
     }
     
     deinit {
@@ -53,9 +54,13 @@ final class SettingViewController: UIViewController {
             .profileInfo
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] profileInfo in
-                self?.labelName.text = profileInfo.name
-                self?.labelEmail.text = profileInfo.email
-                self?.labelMembership.text = profileInfo.memberPlan.stringValue
+                let name = IsEnableLogin ? profileInfo.name : "Newcomer"
+                self?.labelName.text = "Name: \(name)"
+                let email = IsEnableLogin ? profileInfo.email : "N/A"
+                self?.labelEmail.text = "Email: \(email)"
+                self?.labelEmail.isHidden = !IsEnableLogin
+                let membership = IsEnableLogin ? profileInfo.memberPlan.stringValue : (CurrentMembershipType?.name ?? "")
+                self?.labelMembership.text = "Membership: \(membership)"
                 self?.profileImageView.loadImage(with: profileInfo.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
             }),
          buttonLogout

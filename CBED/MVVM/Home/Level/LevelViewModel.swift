@@ -39,6 +39,24 @@ struct LevelViewModel: ViewModel {
         let levels = input
             .firstLoadTrigger
             .flatMapLatest(fetchAllLevels)
+            .map { items -> [LevelM] in
+                if !IsEnableLogin {
+                    if let currentMembership = CurrentMembershipType {
+                        switch currentMembership {
+                        case .ProBarFeb,
+                             .ProBarJul:
+                            return items
+                        case .BabyBarJun,
+                             .BabyBarOct:
+                            return items.filter { $0.id == 10 }
+                        }
+                    } else {
+                        return items.filter { $0.id == 8 }
+                    }
+                } else {
+                    return items
+                }
+            }
             .map { [CommonCollectionViewSection(items: $0)] }
         
         let userProfile = input

@@ -124,8 +124,8 @@ final class ScoreboardViewController: UIViewController {
             .unwrap()
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] profile in
-                self?.labelUserName.text = profile.email
-                self?.labelUserPosition.text = "👑 \(profile.lastSectionName ?? "N/A")"
+                self?.labelUserName.text = IsEnableLogin ? profile.email : "Newcomer"
+                self?.labelUserPosition.text = IsEnableLogin ? "👑 \(profile.lastSectionName ?? "N/A")" : ""
                 self?.profileImageView.loadImage(with: profile.avatar,
                                                  placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
             }),

@@ -12,4 +12,10 @@ struct RegisterRequestM: BaseRequestM, Encodable {
     let email: String
     let password: String
     let state: String
+    let phone: String
+    
+    enum CodingKeys: String, CodingKey {
+        case email, password, name, state
+        case phone = "phone_number"
+    }
 }

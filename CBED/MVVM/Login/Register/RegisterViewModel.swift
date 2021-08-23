@@ -7,6 +7,7 @@
 
 import RxSwift
 import RxCocoa
+import PhoneNumberKit
 
 // MARK: Input + Output
 extension RegisterViewModel {
@@ -16,6 +17,7 @@ extension RegisterViewModel {
         let email: Observable<String>
         let password: Observable<String>
         let state: Observable<String>
+        let phone: Observable<String>
         let buttonRegisterTrigger: Observable<Void>
     }
     
@@ -61,22 +63,31 @@ struct RegisterViewModel: ViewModel {
                                                   input.name,
                                                   input.email,
                                                   input.password,
-                                                  input.state)
+                                                  input.state,
+                                                  input.phone)
         
         let isButtonRegisterValid = sharedData
-            .map { profileImage, name, email, password, state in
+            .map { profileImage, name, email, password, state, phone in
                 return profileImage != nil &&
                     !name.isEmpty &&
                     !email.isEmpty &&
                     !password.isEmpty &&
-                    !state.isEmpty
+                    !state.isEmpty &&
+                    !phone.isEmpty
             }
         
         input
             .buttonRegisterTrigger
             .withLatestFrom(sharedData)
-            .map { profileImage, name, email, password, state in
-                return (RegisterRequestM(name: name, email: email, password: password, state: state), profileImage)
+            .map { profileImage, name, email, password, state, phone in
+                var formattedPhone = phone
+                
+                let phoneNumberKit = PhoneNumberKit()
+                if let phoneNumber = try? phoneNumberKit.parse(phone) {
+                    formattedPhone = phoneNumberKit.format(phoneNumber, toType: .international)
+                }
+                
+                return (RegisterRequestM(name: name, email: email, password: password, state: state, phone: formattedPhone), profileImage)
             }
             .flatMapLatest(register(request:image:))
             .mapToVoid()
@@ -84,7 +95,7 @@ struct RegisterViewModel: ViewModel {
             .drive(onNext: navigator.showRegisterSuccessAlert)
             .disposed(by: disposeBag)
         
-        return Output(isButtonRegisterValid: isButtonRegisterValid,
+        return Output(isButtonRegisterValid: isButtonRegisterValid.startWith(false),
                       profileImage: profileImage.asObservable(),
                       states: .just(Constants.states),
                       isLoading: activityIndicator.asObservable(),

@@ -14,11 +14,11 @@ enum Membership {
     case free
 }
 
-enum InAppPurchaseMonth {
-    case ProBarFeb
-    case ProBarJul
-    case BabyBarJun
-    case BabyBarOct
+enum InAppPurchaseMonth: String, CaseIterable {
+    case ProBarFeb = "com.barexamdrills.app.probarfeb"
+    case ProBarJul = "com.barexamdrills.app.probarjuly"
+    case BabyBarJun = "com.barexamdrills.app.babybarjune"
+    case BabyBarOct = "com.barexamdrills.app.babybaroct"
     
     var monthString: String {
         switch self {
@@ -33,6 +33,19 @@ enum InAppPurchaseMonth {
         }
     }
     
+    var name: String {
+        switch self {
+        case .ProBarFeb:
+            return "Pro Bar - February"
+        case .ProBarJul:
+            return "Pro Bar - July"
+        case .BabyBarJun:
+            return "Baby Bar - June"
+        case .BabyBarOct:
+            return "Baby Bar - October"
+        }
+    }
+    
     var purchaseID: String {
         switch self {
         case .ProBarFeb:
@@ -44,6 +57,10 @@ enum InAppPurchaseMonth {
         case .BabyBarOct:
             return "com.barexamdrills.app.babybaroct"
         }
+    }
+    
+    static func getMonthType(from purchaseID: String) -> InAppPurchaseMonth? {
+        return InAppPurchaseMonth(rawValue: purchaseID)
     }
 }
 

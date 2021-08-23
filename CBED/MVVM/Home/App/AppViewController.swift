@@ -57,7 +57,7 @@ final class AppViewController: UIViewController {
                               let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool else {
                             return
                         }
-                        
+                        IsEnableLogin = isEnableLogin
                         if Storage.accessToken == nil {
                             if isEnableLogin {
                                 self.goToLogin()
@@ -71,8 +71,35 @@ final class AppViewController: UIViewController {
                         }
                     }
                 } else {
-                    Storage.removeAll()
-                    self.goToLogin()
+                    remoteConfig.fetch(withExpirationDuration: 0) { [unowned self] (status, error) in
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        
+                        guard error == nil else {
+                            let tabbarVC = StoryboardManager.instanceTabBarVC()
+                            appDelegate.window?.rootViewController = tabbarVC
+                            return
+                        }
+                        remoteConfig.activate()
+                        
+                        let remoteConfigData = remoteConfig.configValue(forKey: "remote_configs").dataValue
+                    
+                        guard let remoteConfigs = try? JSONSerialization.jsonObject(with: remoteConfigData,
+                                                                                    options: .mutableContainers) as? [String: Any],
+                              let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool else {
+                            Storage.removeAll()
+                            self.goToLogin()
+                            return
+                        }
+                        IsEnableLogin = isEnableLogin
+                        if isEnableLogin {
+                            Storage.removeAll()
+                            self.goToLogin()
+                        } else {
+                            Storage.accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoyMjYwMzY4NjY5LCJqdGkiOiJqa2ZoYjc4NGc5NzI4dWJyaXUyM3k0OTI4dWsiLCJ1c2VyX2lkIjoxN30.2rhFITU6xMC4qJXIip6DaFMNMkdhZ5qOilbLN-fyHz0"
+                            let tabbarVC = StoryboardManager.instanceTabBarVC()
+                            appDelegate.window?.rootViewController = tabbarVC
+                        }
+                    }
                 }
             }),
         output

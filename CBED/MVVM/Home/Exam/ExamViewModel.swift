@@ -55,7 +55,8 @@ struct ExamViewModel: ViewModel {
         let sharedCurrentQuestionIndex = currentQuestionIndex.share(replay: 1)
         let currentAnswers = BehaviorRelay<[CommonCollectionViewSection<SelectableAnswer>]>(value: [])
         let saveResultTrigger = PublishRelay<Void>()
-        var correctAnswers = UserDefaults.standard.value(forKey: sectionResult) as? Int ?? 0
+        let previousCorrectAnswers = UserDefaults.standard.value(forKey: sectionResult) as? Int ?? 0
+        var correctAnswers = previousCorrectAnswers <= questions.count ? previousCorrectAnswers : questions.count - 1
         let scrollToTopInvoked = PublishSubject<Void>()
         let timerTrigger = PublishSubject<String>()
         let resetSectionTrigger = PublishSubject<Void>()
@@ -239,7 +240,7 @@ struct ExamViewModel: ViewModel {
     private func saveResult(correct: Int,
                             totalQuestion: Int) -> Observable<SaveResultResponseM> {
         return self.useCase
-            .saveSectionResult(id: sectionDetail.id, correct: correct, total: totalQuestion)
+            .saveSectionResult(id: sectionDetail.id, correct: correct <= totalQuestion ? correct : totalQuestion, total: totalQuestion)
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
             .catch { _ in

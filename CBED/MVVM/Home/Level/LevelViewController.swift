@@ -43,6 +43,15 @@ final class LevelViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        searchView.isHidden = !IsEnableLogin
+        
+        if !IsEnableLogin {
+            if CurrentMembershipType == nil {
+                unlockView.isHidden = false
+            } else {
+                unlockView.isHidden = true
+            }
+        }
     }
     
     deinit {
@@ -62,7 +71,12 @@ final class LevelViewController: UIViewController {
             .sentMessage(#selector(UIViewController.viewWillAppear))
             .mapToVoid()
         
+        let purchaseSuccessfulTrigger = NotificationCenter.default.rx
+            .notification(.PurchaseSuccessful)
+            .mapToVoid()
+        
         let input = LevelViewModel.Input(firstLoadTrigger: Observable.merge(pullToRefreshTrigger,
+                                                                            purchaseSuccessfulTrigger,
                                                                             rxViewWillAppear),
                                          viewWillAppear: viewWillAppear,
                                          levelTapped: collectionView.rxModelSelected(),
@@ -89,7 +103,7 @@ final class LevelViewController: UIViewController {
             .userProfile
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] profile in
-                guard let profile = profile else {
+                guard let profile = profile, IsEnableLogin else {
                     return
                 }
                 

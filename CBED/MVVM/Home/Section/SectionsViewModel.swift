@@ -182,9 +182,11 @@ struct SectionsViewModel: LoadMoreViewModel {
             .flatMapLatest(fetchSectionDetailByID(id:))
             .asDriverOnErrorJustComplete()
             .drive(onNext: { sectionDetail in
-                guard sectionDetail.isAvailable ?? true else {
-                    navigator.showBlockSectionAlert()
-                    return
+                if IsEnableLogin {
+                    guard sectionDetail.isAvailable ?? true else {
+                        navigator.showBlockSectionAlert()
+                        return
+                    }
                 }
                 
                 if (sectionDetail.questions ?? []).isEmpty {

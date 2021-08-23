@@ -58,6 +58,9 @@ struct InAppPurchaseViewModel: ViewModel {
             .map { $0.purchaseID }
             .flatMapLatest(handleIAP(purchaseID:))
             .flatMapLatest(verifyIAP(purchaseDetails:))
+            .do(onNext: { profile in
+                NotificationCenter.default.post(.init(name: .PurchaseSuccessful))
+            })
             .flatMapLatest(getProfile)
             .do(onNext: { profile in
                 Storage.profileInfo = profile
@@ -78,7 +81,6 @@ struct InAppPurchaseViewModel: ViewModel {
                     Log.d(product)
                     // fetch content from your server, then:
                     observer(.success(product))
-                   
                     
                     if product.needsFinishTransaction {
                         SwiftyStoreKit.finishTransaction(product.transaction)
@@ -107,27 +109,56 @@ struct InAppPurchaseViewModel: ViewModel {
     }
     
     private func verifyIAP(purchaseDetails: PurchaseDetails) -> Observable<Void> {
-        if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
-            FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
-
-            do {
-                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .dataReadingMapped)
-                let receiptString = receiptData.base64EncodedString(options: [])
-                // Read receiptData
-                return useCase
-                    .purchaseMembership(request: PurchaseMembershipRequestM(receiptData: receiptString))
-                    .trackError(errorTracker)
-                    .trackActivity(activityIndicator)
-                    .catch { _ in
-                        return .never()
-                    }
-                    .map { _ in }
-            } catch {
-                Log.e("Couldn't read receipt data with error: " + error.localizedDescription)
-                return Observable.error(error)
-            }
+        let remoteConfigData = remoteConfig.configValue(forKey: "remote_configs").dataValue
+    
+        if let remoteConfigs = try? JSONSerialization.jsonObject(with: remoteConfigData,
+                                                                    options: .mutableContainers) as? [String: Any],
+              let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool,
+              !isEnableLogin {
+            
+            return verifyIAPLocally()
         } else {
-            return .error(CustomError.CannotGetIAPReceiptData)
+            if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
+                FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
+
+                do {
+                    let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .dataReadingMapped)
+                    let receiptString = receiptData.base64EncodedString(options: [])
+                    // Read receiptData
+                    return useCase
+                        .purchaseMembership(request: PurchaseMembershipRequestM(receiptData: receiptString))
+                        .trackError(errorTracker)
+                        .trackActivity(activityIndicator)
+                        .catch { _ in
+                            return .never()
+                        }
+                        .map { _ in }
+                } catch {
+                    Log.e("Couldn't read receipt data with error: " + error.localizedDescription)
+                    return Observable.error(error)
+                }
+            } else {
+                return .error(CustomError.CannotGetIAPReceiptData)
+            }
+        }
+    }
+    
+    private func verifyIAPLocally() -> Observable<Void> {
+        Observable.create { observer in
+            StoreKitService.shared.getLastReceipt { receipt in
+                if let receipt = receipt {
+                    StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
+                        CurrentMembershipType = monthType
+                        observer.onNext(())
+                        observer.onCompleted()
+                    })
+                } else {
+                    observer.onNext(())
+                    observer.onCompleted()
+                }
+            }
+            
+            return Disposables.create()
         }
     }
     

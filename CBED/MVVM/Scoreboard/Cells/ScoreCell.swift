@@ -28,8 +28,18 @@ class ScoreCell: UICollectionViewCell, CellType {
     }
     
     func populateData(_ data: ScoreM) {
-        profileImageView.loadImage(with: data.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
+        if IsEnableLogin {
+            profileImageView.loadImage(with: data.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
+        } else {
+            profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
+        }
+        
         labelUserID.text = "\(data.id)"
         labelUserPosition.text = "\(data.lastSectionName ?? "N/A")"
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        profileImageView.setRoundShape()
     }
 }
