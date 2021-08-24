@@ -38,8 +38,12 @@ struct ScoreboardViewModel: ViewModel {
         var babyBarJunData: [ScoreM] = []
         var babyBarOctData: [ScoreM] = []
         let data = BehaviorRelay<[ScoreM]>(value: [])
+        let filterTrigger = BehaviorRelay<InAppPurchaseMonth>(value: .ProBarFeb)
         
         let sharedFilterTrigger = input.filterTrigger.share(replay: 1)
+        sharedFilterTrigger
+            .bind(to: filterTrigger)
+            .disposed(by: disposeBag)
         
         let userProfile = input
             .viewWillAppear
@@ -53,7 +57,18 @@ struct ScoreboardViewModel: ViewModel {
                 proBarJulData = response.proBarJuly
                 babyBarJunData = response.babyBarJune
                 babyBarOctData = response.babyBarOct
-                data.accept(proBarFebData)
+                
+                switch filterTrigger.value {
+                case .ProBarFeb:
+                    data.accept(proBarFebData)
+                case .ProBarJul:
+                    data.accept(proBarJulData)
+                case .BabyBarJun:
+                    data.accept(babyBarJunData)
+                case .BabyBarOct:
+                    data.accept(babyBarOctData)
+                }
+                
             })
             .disposed(by: disposeBag)
         

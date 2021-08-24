@@ -183,9 +183,11 @@ PODS:
     - RxCocoa (~> 6.0)
     - RxSwiftExt/Core
   - SnapKit (5.0.1)
+  - SwiftConfettiView (0.1.0)
   - SwiftEntryKit (1.2.7):
     - QuickLayout (= 3.0.0)
   - SwiftLint (0.43.1)
+  - SwiftySound (1.2.0)
   - SwiftyStoreKit (0.16.1)
 
 DEPENDENCIES:
@@ -206,8 +208,10 @@ DEPENDENCIES:
   - RxSwift
   - RxSwiftExt
   - SnapKit
+  - SwiftConfettiView
   - SwiftEntryKit
   - SwiftLint
+  - SwiftySound
   - SwiftyStoreKit
 
 SPEC REPOS:
@@ -250,8 +254,10 @@ SPEC REPOS:
     - RxSwift
     - RxSwiftExt
     - SnapKit
+    - SwiftConfettiView
     - SwiftEntryKit
     - SwiftLint
+    - SwiftySound
     - SwiftyStoreKit
 
 SPEC CHECKSUMS:
@@ -293,10 +299,12 @@ SPEC CHECKSUMS:
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   RxSwiftExt: d61c4b9b06e0a448041b1c659e0f1b5c5a035afc
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SwiftConfettiView: 1bdbc2e6913b6b1c76d8070802b212508ad5c352
   SwiftEntryKit: 537c92699d6034efb1ef9c32b11e0b37c97aa589
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
+  SwiftySound: 9eb28bb14edb601b40027e44319e0ef8383f88bf
   SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
 
-PODFILE CHECKSUM: 085a97682a2ef094b0b5c24f62f66f5b4ff41a25
+PODFILE CHECKSUM: 2e8d55b3319008c1a3d0726041eb3faeccdcee72
 
 COCOAPODS: 1.10.2

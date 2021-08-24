@@ -160,6 +160,10 @@
 		FF0A916E26D2353E007DB4A8 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */; };
 		FF0A917026D23ECF007DB4A8 /* ReceiptM.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */; };
 		FF0A917226D3CDA9007DB4A8 /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A917126D3CDA9007DB4A8 /* Notification+.swift */; };
+		FF0A917426D4AA4E007DB4A8 /* VICTORY.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FF0A917326D4AA4E007DB4A8 /* VICTORY.mp3 */; };
+		FF0A917626D4AA86007DB4A8 /* FAIL.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FF0A917526D4AA86007DB4A8 /* FAIL.mp3 */; };
+		FF0A917826D4AAC2007DB4A8 /* KICK.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FF0A917726D4AAC2007DB4A8 /* KICK.mp3 */; };
+		FF0A917A26D4AB48007DB4A8 /* DING.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FF0A917926D4AB48007DB4A8 /* DING.mp3 */; };
 		FF1E61E8268C626000CF96B5 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E3268C625F00CF96B5 /* PullToRefresh.swift */; };
 		FF1E61E9268C626000CF96B5 /* LoadMoreViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E4268C625F00CF96B5 /* LoadMoreViewAnimator.swift */; };
 		FF1E61EA268C626000CF96B5 /* LoadMore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1E61E5268C625F00CF96B5 /* LoadMore.swift */; };
@@ -353,6 +357,10 @@
 		FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitService.swift; sourceTree = "<group>"; };
 		FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptM.swift; sourceTree = "<group>"; };
 		FF0A917126D3CDA9007DB4A8 /* Notification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+.swift"; sourceTree = "<group>"; };
+		FF0A917326D4AA4E007DB4A8 /* VICTORY.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = VICTORY.mp3; sourceTree = "<group>"; };
+		FF0A917526D4AA86007DB4A8 /* FAIL.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = FAIL.mp3; sourceTree = "<group>"; };
+		FF0A917726D4AAC2007DB4A8 /* KICK.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = KICK.mp3; sourceTree = "<group>"; };
+		FF0A917926D4AB48007DB4A8 /* DING.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = DING.mp3; sourceTree = "<group>"; };
 		FF1E61E3268C625F00CF96B5 /* PullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		FF1E61E4268C625F00CF96B5 /* LoadMoreViewAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMoreViewAnimator.swift; sourceTree = "<group>"; };
 		FF1E61E5268C625F00CF96B5 /* LoadMore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMore.swift; sourceTree = "<group>"; };
@@ -706,6 +714,10 @@
 		185F8777266D29CE00A63898 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FF0A917926D4AB48007DB4A8 /* DING.mp3 */,
+				FF0A917726D4AAC2007DB4A8 /* KICK.mp3 */,
+				FF0A917526D4AA86007DB4A8 /* FAIL.mp3 */,
+				FF0A917326D4AA4E007DB4A8 /* VICTORY.mp3 */,
 				185F877B2672763E00A63898 /* Fonts */,
 			);
 			path = "Supporting Files";
@@ -1034,6 +1046,7 @@
 				185F87882672764800A63898 /* Lato-Italic.ttf in Resources */,
 				185F878C2672764800A63898 /* Lato-Black.ttf in Resources */,
 				185B0646267A582300A17664 /* UsefulLinkCell.xib in Resources */,
+				FF0A917426D4AA4E007DB4A8 /* VICTORY.mp3 in Resources */,
 				185F87892672764800A63898 /* Lato-LightItalic.ttf in Resources */,
 				185F878A2672764800A63898 /* Lato-Thin.ttf in Resources */,
 				185B065D267BB6AE00A17664 /* CustomAlertView.xib in Resources */,
@@ -1042,9 +1055,11 @@
 				185B0648267A67FE00A17664 /* Setting.storyboard in Resources */,
 				185F877A266D29E300A63898 /* Login.storyboard in Resources */,
 				185B060826761D4C00A17664 /* LevelCell.xib in Resources */,
+				FF0A917A26D4AB48007DB4A8 /* DING.mp3 in Resources */,
 				185F878F2672764800A63898 /* OFL.txt in Resources */,
 				FFE4D16F26AD7AA100594323 /* ScoreCell.xib in Resources */,
 				182C324D2699C761008E97CE /* Lato.plist in Resources */,
+				FF0A917826D4AAC2007DB4A8 /* KICK.mp3 in Resources */,
 				185F87922672764800A63898 /* Lato-ThinItalic.ttf in Resources */,
 				183E32F226A4154C006B4507 /* InAppPurchaseAlertView.xib in Resources */,
 				185F876C266CC84A00A63898 /* LaunchScreen.storyboard in Resources */,
@@ -1052,6 +1067,7 @@
 				185F878D2672764800A63898 /* Lato-Regular.ttf in Resources */,
 				185F878B2672764800A63898 /* Lato-Bold.ttf in Resources */,
 				185F87902672764800A63898 /* Lato-BoldItalic.ttf in Resources */,
+				FF0A917626D4AA86007DB4A8 /* FAIL.mp3 in Resources */,
 				180C44D52695F69600416335 /* InAppPurchaseCell.xib in Resources */,
 				185B0665267DF15100A17664 /* AnswerCell.xib in Resources */,
 				185F87912672764800A63898 /* Lato-Light.ttf in Resources */,

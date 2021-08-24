@@ -8,6 +8,7 @@
 import RxSwift
 import RxCocoa
 import SwiftEntryKit
+import SwiftySound
 
 // MARK: Input + Output
 extension ExamViewModel {
@@ -194,6 +195,16 @@ struct ExamViewModel: ViewModel {
             .map { indexPath, answerSections -> (AnswerM, CommonCollectionViewSection<SelectableAnswer>)? in
                 if var answers = answerSections.first?.items {
                     var choosenAnswer = answers[indexPath.item]
+                    if choosenAnswer.answer.isCorrect {
+                        if let url = Bundle.main.url(forResource: "DING", withExtension: "mp3") {
+                            Sound.play(url: url)
+                        }
+                    } else {
+                        if let url = Bundle.main.url(forResource: "KICK", withExtension: "mp3") {
+                            Sound.play(url: url)
+                        }
+                    }
+                    
                     choosenAnswer.isSelected = true
                     answers[indexPath.item] = choosenAnswer
                     

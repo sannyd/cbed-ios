@@ -8,6 +8,8 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SwiftConfettiView
+import SwiftySound
 
 final class ResultViewController: UIViewController {
     
@@ -21,6 +23,8 @@ final class ResultViewController: UIViewController {
     @IBOutlet weak var buttonTakeNewTest: CustomBorderButton!
     @IBOutlet weak var buttonTryAgain: CustomBorderButton!
     
+    private var confettiView: SwiftConfettiView!
+    
     // MARK: - Properties
     
     var viewModel: ResultViewModel!
@@ -30,6 +34,7 @@ final class ResultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupConfettiView()
         bindViewModel()
     }
     
@@ -38,6 +43,16 @@ final class ResultViewController: UIViewController {
     }
     
     // MARK: - Methods
+    
+    private func setupConfettiView() {
+        confettiView = SwiftConfettiView(frame: self.view.bounds)
+        confettiView.isUserInteractionEnabled = false
+        confettiView.type = .confetti
+        confettiView.intensity = 0.5
+        confettiView.colors = [.red, .green, .blue]
+        view.addSubview(confettiView)
+        view.bringSubviewToFront(confettiView)
+    }
     
     func bindViewModel() {
         let input = ResultViewModel.Input(firstLoadTrigger: rxViewWillAppear,
@@ -56,9 +71,16 @@ final class ResultViewController: UIViewController {
                 self?.labelTitle.text = type.title
                 switch type {
                 case .pass:
+                    if let url = Bundle.main.url(forResource: "VICTORY", withExtension: "mp3") {
+                        Sound.play(url: url)
+                    }
+                    self?.confettiView.startConfetti()
                     self?.buttonTakeNewTest.isHidden = false
                     self?.buttonTryAgain.isHidden = true
                 case .fail:
+                    if let url = Bundle.main.url(forResource: "FAIL", withExtension: "mp3") {
+                        Sound.play(url: url)
+                    }
                     self?.buttonTakeNewTest.isHidden = true
                     self?.buttonShare.isHidden = true
                     self?.labelReason.isHidden = false
@@ -76,8 +98,8 @@ final class ResultViewController: UIViewController {
     func showSharingVC() {
         let screenshot = takeScreenshot()
         let title = "I love this app"
-        let url = URL(string: "https://www.facebook.com/barexamdrills")!
-        let ac = UIActivityViewController(activityItems: [title, screenshot, url], applicationActivities: nil)
+        let url = URL(string: "https://www.instagram.com/barexamdrills/")!
+        let ac = UIActivityViewController(activityItems: [screenshot, title , url], applicationActivities: nil)
         present(ac, animated: true)
     }
     

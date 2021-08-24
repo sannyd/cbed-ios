@@ -706,7 +706,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F3a-LA-82L">
-                                <rect key="frame" x="20" y="435" width="374" height="427"/>
+                                <rect key="frame" x="0.0" y="435" width="414" height="427"/>
                                 <color key="backgroundColor" name="Background"/>
                             </view>
                         </subviews>
@@ -723,9 +723,9 @@
                             <constraint firstItem="i3m-gC-V1g" firstAttribute="centerX" secondItem="jK1-sf-iTO" secondAttribute="centerX" id="fzE-ne-4RS"/>
                             <constraint firstItem="xBE-vE-oZV" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" constant="20" id="hhb-Ux-oNa"/>
                             <constraint firstItem="sGO-u7-bu2" firstAttribute="top" secondItem="i3m-gC-V1g" secondAttribute="bottom" constant="16" id="iNf-2k-IhE"/>
-                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="F3a-LA-82L" secondAttribute="trailing" constant="20" id="lyu-fi-2Dh"/>
+                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="F3a-LA-82L" secondAttribute="trailing" id="lyu-fi-2Dh"/>
                             <constraint firstItem="Zt6-be-EeI" firstAttribute="bottom" secondItem="F3a-LA-82L" secondAttribute="bottom" id="m2f-Vc-xpb"/>
-                            <constraint firstItem="F3a-LA-82L" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" constant="20" id="mza-ej-cOS"/>
+                            <constraint firstItem="F3a-LA-82L" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" id="mza-ej-cOS"/>
                             <constraint firstItem="xBE-vE-oZV" firstAttribute="top" secondItem="sGO-u7-bu2" secondAttribute="bottom" constant="20" id="ref-n8-0ia"/>
                         </constraints>
                     </view>
