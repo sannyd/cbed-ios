@@ -126,8 +126,12 @@ final class ScoreboardViewController: UIViewController {
             .drive(onNext: { [weak self] profile in
                 self?.labelUserName.text = IsEnableLogin ? profile.email : "Newcomer"
                 self?.labelUserPosition.text = IsEnableLogin ? "👑 \(profile.lastSectionName ?? "N/A")" : ""
-                self?.profileImageView.loadImage(with: profile.avatar,
-                                                 placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
+                if IsEnableLogin {
+                    self?.profileImageView.loadImage(with: profile.avatar,
+                                                     placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
+                } else {
+                    self?.profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
+                }
             }),
          output
             .isLoading

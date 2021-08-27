@@ -136,13 +136,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                print("Receipt verification failed: \(error)")
 //            }
 //        }
-        StoreKitService.shared.getLastReceipt { receipt in
-            if let receipt = receipt {
-                StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
-                    CurrentMembershipType = monthType
-                })
-            }
-        }
         
 //        UIFont.overrideInitialize()
         

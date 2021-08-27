@@ -8,6 +8,15 @@
 import RxSwift
 import RxCocoa
 import SwiftyStoreKit
+extension ObservableType {
+    func filterErrors() -> Observable<Element> {
+        return materialize()
+            .filter { item in
+                item.element != nil
+            }
+            .dematerialize()
+    }
+}
 
 // MARK: Input + Output
 extension InAppPurchaseViewModel {
@@ -19,6 +28,7 @@ extension InAppPurchaseViewModel {
     struct Output {
         let data: Observable<[CommonCollectionViewSection<InAppPurchaseType>]>
         let purchaseSuccessInvoked: Observable<Void>
+        let isShowingIAPBlockerView: Observable<Bool>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
     }
@@ -30,8 +40,11 @@ struct InAppPurchaseViewModel: ViewModel {
     
     private let errorTracker = ErrorTracker()
     private let activityIndicator = ActivityIndicator()
+    let isShowingIAPBlockerView = BehaviorRelay<Bool>(value: false)
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
+        
+        
         let data = input
             .firstLoadTrigger
             .map { _ in
@@ -56,32 +69,59 @@ struct InAppPurchaseViewModel: ViewModel {
             }
             .unwrap()
             .map { $0.purchaseID }
-            .flatMapLatest(handleIAP(purchaseID:))
-            .flatMapLatest(verifyIAP(purchaseDetails:))
-            .do(onNext: { profile in
-                NotificationCenter.default.post(.init(name: .PurchaseSuccessful))
+            .do(onNext: { _ in
+                isShowingIAPBlockerView.accept(true)
             })
-            .flatMapLatest(getProfile)
+            .flatMapLatest{ purchaseID in
+                return handleIAP(purchaseID: purchaseID)
+                    .catch { _ in
+                        self.isShowingIAPBlockerView.accept(false)
+                        return .never()
+                    }
+            }
+            .flatMapLatest{ purchaseDetails in
+                return verifyIAP(purchaseDetails: purchaseDetails)
+                    .catch { _ in
+                        self.isShowingIAPBlockerView.accept(false)
+                        return .never()
+                    }
+            }
+            .flatMapLatest { _ in
+                return getProfile()
+                    .catch { _ in
+                        self.isShowingIAPBlockerView.accept(false)
+                        return .never()
+                    }
+            }
+
             .do(onNext: { profile in
                 Storage.profileInfo = profile
+                NotificationCenter.default.post(.init(name: .PurchaseSuccessful))
+                isShowingIAPBlockerView.accept(false)
             })
+//            , onError: { error in
+//                isShowingIAPBlockerView.accept(false)
+//            }, onCompleted: {
+//                isShowingIAPBlockerView.accept(false)
+//            })
             .map { _ in }
         
         return Output(data: data,
                       purchaseSuccessInvoked: purchaseSuccessInvoked.asObservable(),
+                      isShowingIAPBlockerView: isShowingIAPBlockerView.asObservable(),
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
     }
     
-    private func handleIAP(purchaseID: String) -> Single<PurchaseDetails> {
-        Single<PurchaseDetails>.create { observer in
+    private func handleIAP(purchaseID: String) -> Observable<PurchaseDetails> {
+        Observable<PurchaseDetails>.create { observer in
             SwiftyStoreKit.purchaseProduct(purchaseID, quantity: 1, atomically: true) { result in
                 switch result {
                 case .success(let product):
                     Log.d(product)
                     // fetch content from your server, then:
-                    observer(.success(product))
-                    
+//                    observer(.success(product))
+                    observer.onNext(product)
                     if product.needsFinishTransaction {
                         SwiftyStoreKit.finishTransaction(product.transaction)
                     }
@@ -99,8 +139,8 @@ struct InAppPurchaseViewModel: ViewModel {
                     case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
                     default: print((error as NSError).localizedDescription)
                     }
-                    
-                    observer(.failure(error))
+                    observer.onError(error)
+//                    observer(.failure(error))
                 }
             }
             

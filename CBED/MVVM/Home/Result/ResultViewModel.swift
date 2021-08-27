@@ -109,7 +109,7 @@ struct ResultViewModel: ViewModel {
         
         input
             .buttonTryAgainTrigger
-            .subscribe(onNext: tryAgainTapped)
+            .subscribe(onNext: navigator.backToSectionsVC)
             .disposed(by: disposeBag)
         
         input

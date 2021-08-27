@@ -873,8 +873,8 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="MSO-JL-3SX">
                                 <rect key="frame" x="30" y="686" width="354" height="56"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbw-Kg-gdf" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="106" height="56"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbw-Kg-gdf" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="56"/>
                                         <color key="backgroundColor" red="0.39215686274509803" green="0.47843137254901957" blue="0.70588235294117641" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                         <state key="normal" title="Back to Home">
@@ -902,7 +902,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fBW-XE-Pfw" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                        <rect key="frame" x="124" y="0.0" width="106" height="56"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="168" height="56"/>
                                         <color key="backgroundColor" name="Primary Blue"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                         <state key="normal" title="Take New Test">
@@ -930,7 +930,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pBd-lK-Nt9" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                        <rect key="frame" x="248" y="0.0" width="106" height="56"/>
+                                        <rect key="frame" x="186" y="0.0" width="168" height="56"/>
                                         <color key="backgroundColor" name="Primary Red"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                         <state key="normal" title="Try again">
@@ -1155,15 +1155,40 @@
                                 <color key="textColor" name="Textfield Color"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="esE-II-hBE">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Proceed purchasing. Please wait!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bpm-Ej-qAw">
+                                        <rect key="frame" x="35" y="433.5" width="344.5" height="29"/>
+                                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="24"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="lgs-2J-Tnf">
+                                        <rect key="frame" x="188.5" y="474.5" width="37" height="37"/>
+                                        <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="lgs-2J-Tnf" firstAttribute="centerX" secondItem="esE-II-hBE" secondAttribute="centerX" id="DcR-T5-Sv5"/>
+                                    <constraint firstItem="lgs-2J-Tnf" firstAttribute="top" secondItem="bpm-Ej-qAw" secondAttribute="bottom" constant="12" id="YNT-Jp-Ed9"/>
+                                    <constraint firstItem="bpm-Ej-qAw" firstAttribute="centerY" secondItem="esE-II-hBE" secondAttribute="centerY" id="sBA-Tt-kVP"/>
+                                    <constraint firstItem="bpm-Ej-qAw" firstAttribute="centerX" secondItem="esE-II-hBE" secondAttribute="centerX" id="tXL-QY-Ltf"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="few-Rb-n6J"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="GHA-TP-9lT" firstAttribute="top" secondItem="few-Rb-n6J" secondAttribute="top" id="3Ms-uq-7J5"/>
                             <constraint firstItem="GHA-TP-9lT" firstAttribute="leading" secondItem="nZO-Fx-T8J" secondAttribute="leading" id="8Ot-4S-b0v"/>
+                            <constraint firstAttribute="bottom" secondItem="esE-II-hBE" secondAttribute="bottom" id="8iQ-SN-07g"/>
                             <constraint firstItem="few-Rb-n6J" firstAttribute="trailing" secondItem="GHA-TP-9lT" secondAttribute="trailing" id="G9D-X7-Om9"/>
                             <constraint firstItem="few-Rb-n6J" firstAttribute="trailing" secondItem="hkQ-Qq-NBL" secondAttribute="trailing" constant="20" id="H21-YN-iGv"/>
+                            <constraint firstItem="few-Rb-n6J" firstAttribute="trailing" secondItem="esE-II-hBE" secondAttribute="trailing" id="NuA-mc-5AY"/>
                             <constraint firstItem="xAJ-5Y-ggJ" firstAttribute="top" secondItem="gCE-tT-abG" secondAttribute="bottom" constant="38" id="O4K-uW-FKM"/>
+                            <constraint firstItem="esE-II-hBE" firstAttribute="leading" secondItem="few-Rb-n6J" secondAttribute="leading" id="RNi-iQ-vZm"/>
                             <constraint firstItem="gCE-tT-abG" firstAttribute="centerX" secondItem="nZO-Fx-T8J" secondAttribute="centerX" id="V7P-Hd-8Ll"/>
                             <constraint firstItem="NUq-sC-IPY" firstAttribute="centerX" secondItem="nZO-Fx-T8J" secondAttribute="centerX" id="Y5t-hO-Sn3"/>
                             <constraint firstItem="xAJ-5Y-ggJ" firstAttribute="leading" secondItem="few-Rb-n6J" secondAttribute="leading" constant="20" id="bmk-2C-GPi"/>
@@ -1172,9 +1197,11 @@
                             <constraint firstItem="hkQ-Qq-NBL" firstAttribute="leading" secondItem="few-Rb-n6J" secondAttribute="leading" constant="20" id="jX4-TG-hZ0"/>
                             <constraint firstItem="hkQ-Qq-NBL" firstAttribute="top" secondItem="GHA-TP-9lT" secondAttribute="bottom" constant="20" id="kaD-Jf-5FS"/>
                             <constraint firstItem="few-Rb-n6J" firstAttribute="trailing" secondItem="xAJ-5Y-ggJ" secondAttribute="trailing" constant="20" id="rjv-S7-IOA"/>
+                            <constraint firstItem="esE-II-hBE" firstAttribute="top" secondItem="nZO-Fx-T8J" secondAttribute="top" id="ubq-Wf-Ih4"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="IAPBlockerView" destination="esE-II-hBE" id="Op4-9h-Kwy"/>
                         <outlet property="backButton" destination="Yxj-f5-Dt5" id="tgo-mA-IbR"/>
                         <outlet property="containerView" destination="xAJ-5Y-ggJ" id="H8c-4O-5VD"/>
                     </connections>

@@ -113,7 +113,7 @@ struct SearchViewModel: LoadMoreViewModel {
     func getNextPage(offset: Int,
                      searchText: String) -> Observable<SectionSearchResponseM> {
         return self.useCase
-            .searchSection(request: .init(search: searchText,
+            .searchEssay(request: .init(search: searchText,
                                           level: "9",
                                           limit: self.offset,
                                           offset: offset))

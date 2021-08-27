@@ -43,11 +43,13 @@ struct ExamNavigator: ExamNavigatorType {
         alertVC.publisher = publisher
         let isCorrect = answer.isCorrect
         let title = isCorrect ? "Correct" : "Wrong"
+        let buttonTitle = isCorrect ? "OK" : "Try Again"
         let type: QuestionAlertType = isCorrect ? .correct : .wrong
         alertVC.setupAlertView(title: title,
                                description: answer.discussion,
                                type: type,
-                               rightButtonTitle: "OK")
+                               leftButtonTitle: buttonTitle,
+                               rightButtonTitle: nil)
         let attribute = EKAttributes.createCustomAlertAttributes(isDismissable: false)
         SwiftEntryKit.display(entry: alertVC, using: attribute)
     }

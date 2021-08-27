@@ -38,20 +38,20 @@ class InAppPurchaseCell: UICollectionViewCell, CellType {
 
     func populateData(_ data: InAppPurchaseType) {
         labelTitle.text = data.title
-        if let subtitle = data.subtitle,
-           !subtitle.isEmpty {
-            labelSubtitle.text = subtitle
-            subtitleView.isHidden = false
-        } else {
-            subtitleView.isHidden = true
-        }
+//        if let subtitle = data.subtitle,
+//           !subtitle.isEmpty {
+//            labelSubtitle.text = subtitle
+//            subtitleView.isHidden = false
+//        } else {
+//            subtitleView.isHidden = true
+//        }
         let promotionText = data.promotionPrice.digit(maximumFractionDigits: 2) ?? ""
         let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: promotionText)
             attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle,
                                          value: 1,
                                          range: NSMakeRange(0, attributeString.length))
         labelPromotionPrice.attributedText = attributeString
-        labelRealPrice.text = data.realPrice.digit(maximumFractionDigits: 2)
+        labelRealPrice.text = "\(data.realPrice.digit(maximumFractionDigits: 2)!)$"
         
         labelDescription.text = data.descriptions.joined(separator: "\n")
     }

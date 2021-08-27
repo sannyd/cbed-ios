@@ -11,6 +11,7 @@ import RxSwift
 protocol SectionAPIUseCase {
     func getSectionByID(id: Int) -> Single<SectionDetailM>
     func searchSection(request: SearchSectionRequestM) -> Single<SectionSearchResponseM>
+    func searchEssay(request: SearchSectionRequestM) -> Single<SectionSearchResponseM>
     func saveSectionResult(id: Int,
                            correct: Int,
                            total: Int) -> Single<SaveResultResponseM>
@@ -30,6 +31,15 @@ extension SectionAPIUseCase {
         return APIClient
             .shared
             .request(SectionRouter.searchSection(params: params))
+    }
+    
+    func searchEssay(request: SearchSectionRequestM) -> Single<SectionSearchResponseM> {
+        guard let params = request.toParams() else {
+            return .error(CustomError.CannotGetParams)
+        }
+        return APIClient
+            .shared
+            .request(SectionRouter.searchEssays(params: params))
     }
     
     func saveSectionResult(id: Int,

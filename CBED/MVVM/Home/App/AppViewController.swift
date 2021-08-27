@@ -60,14 +60,29 @@ final class AppViewController: UIViewController {
                         IsEnableLogin = isEnableLogin
                         if Storage.accessToken == nil {
                             if isEnableLogin {
+                                Storage.removeAll()
                                 self.goToLogin()
                             } else {
                                 let tabbarVC = StoryboardManager.instanceTabBarVC()
                                 appDelegate.window?.rootViewController = tabbarVC
                             }
                         } else {
-                            let tabbarVC = StoryboardManager.instanceTabBarVC()
-                            appDelegate.window?.rootViewController = tabbarVC
+                            if isEnableLogin {
+                                Storage.removeAll()
+                                self.goToLogin()
+                            } else {
+                                StoreKitService.shared.getLastReceipt { receipt in
+                                    if let receipt = receipt {
+                                        StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
+                                            CurrentMembershipType = monthType
+                                            
+                                            let tabbarVC = StoryboardManager.instanceTabBarVC()
+                                            appDelegate.window?.rootViewController = tabbarVC
+                                            
+                                        })
+                                    }
+                                }
+                            }
                         }
                     }
                 } else {
@@ -96,8 +111,18 @@ final class AppViewController: UIViewController {
                             self.goToLogin()
                         } else {
                             Storage.accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoyMjYwMzY4NjY5LCJqdGkiOiJqa2ZoYjc4NGc5NzI4dWJyaXUyM3k0OTI4dWsiLCJ1c2VyX2lkIjoxN30.2rhFITU6xMC4qJXIip6DaFMNMkdhZ5qOilbLN-fyHz0"
-                            let tabbarVC = StoryboardManager.instanceTabBarVC()
-                            appDelegate.window?.rootViewController = tabbarVC
+                            
+                            StoreKitService.shared.getLastReceipt { receipt in
+                                if let receipt = receipt {
+                                    StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
+                                        CurrentMembershipType = monthType
+                                        
+                                        let tabbarVC = StoryboardManager.instanceTabBarVC()
+                                        appDelegate.window?.rootViewController = tabbarVC
+                                        
+                                    })
+                                }
+                            }
                         }
                     }
                 }

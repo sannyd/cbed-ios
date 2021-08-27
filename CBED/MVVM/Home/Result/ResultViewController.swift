@@ -48,7 +48,7 @@ final class ResultViewController: UIViewController {
         confettiView = SwiftConfettiView(frame: self.view.bounds)
         confettiView.isUserInteractionEnabled = false
         confettiView.type = .confetti
-        confettiView.intensity = 0.5
+        confettiView.intensity = 0.75
         confettiView.colors = [.red, .green, .blue]
         view.addSubview(confettiView)
         view.bringSubviewToFront(confettiView)
@@ -97,8 +97,9 @@ final class ResultViewController: UIViewController {
     
     func showSharingVC() {
         let screenshot = takeScreenshot()
-        let title = "I love this app"
-        let url = URL(string: "https://www.instagram.com/barexamdrills/")!
+
+        let title = "This is how I’m going to pass the next exam!"
+        let url = URL(string: "https://apps.apple.com/us/app/bar-exam-drills/id1466447387")!
         let ac = UIActivityViewController(activityItems: [screenshot, title , url], applicationActivities: nil)
         present(ac, animated: true)
     }

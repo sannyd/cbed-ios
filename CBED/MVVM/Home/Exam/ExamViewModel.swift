@@ -116,6 +116,8 @@ struct ExamViewModel: ViewModel {
             })
             .disposed(by: disposeBag)
         
+        var previousIncorrectAnswerIndex: Int?
+        
         let nextQuestion = sharedAlertPublisher
             .map { delegate -> QuestionAlertType? in
                 if case .OKTapped(let questionAlertType) = delegate {
@@ -127,7 +129,10 @@ struct ExamViewModel: ViewModel {
             .do(onNext: { questionAlertType in
                 switch questionAlertType {
                 case .correct:
-                    correctAnswers += 1
+                    if previousIncorrectAnswerIndex != currentQuestionIndex.value {
+                        correctAnswers += 1
+                    }
+                    
                     if currentQuestionIndex.value >= questions.count - 1 {
                         saveResultTrigger.accept(())
                     } else {
@@ -139,21 +144,23 @@ struct ExamViewModel: ViewModel {
                         
                         UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
                         UserDefaults.standard.setValue(correctAnswers, forKey: sectionResult)
+                        scrollToTopInvoked.onNext(())
                     }
                 case .wrong:
-                    if currentQuestionIndex.value >= questions.count - 1 {
-                        saveResultTrigger.accept(())
-                    } else {
-                        let nextQuestionIndex = currentQuestionIndex.value + 1
-                        currentQuestionIndex.accept(nextQuestionIndex)
-                        let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                            .map { SelectableAnswer(isSelected: false, answer: $0) }
-                        currentAnswers.accept([CommonCollectionViewSection(items: answers)])
-                        
-                        UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
-                    }
+                    previousIncorrectAnswerIndex = currentQuestionIndex.value
+//                    if currentQuestionIndex.value >= questions.count - 1 {
+//                        saveResultTrigger.accept(())
+//                    } else {
+//                        let nextQuestionIndex = currentQuestionIndex.value + 1
+//                        currentQuestionIndex.accept(nextQuestionIndex)
+//                        let answers = (questions[currentQuestionIndex.value].answers ?? [])
+//                            .map { SelectableAnswer(isSelected: false, answer: $0) }
+//                        currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+//
+//                        UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
+//                    }
                 }
-                scrollToTopInvoked.onNext(())
+                
                 SwiftEntryKit.dismiss()
             })
             .map { _ in questions[currentQuestionIndex.value] }
@@ -218,7 +225,7 @@ struct ExamViewModel: ViewModel {
             })
             .map { $0.0 }
             .asDriverOnErrorJustComplete()
-            .delay(.milliseconds(150))
+            .delay(.milliseconds(100))
             .drive(onNext: navigator.presentAnswerResult(answer:))
             .disposed(by: disposeBag)
         

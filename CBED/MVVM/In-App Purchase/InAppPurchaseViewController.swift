@@ -14,6 +14,7 @@ final class InAppPurchaseViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var IAPBlockerView: UIView!
     
     // MARK: - Properties
     
@@ -48,8 +49,20 @@ final class InAppPurchaseViewController: UIViewController {
          output
             .purchaseSuccessInvoked
             .asDriverOnErrorJustComplete()
-            .drive(onNext: { _ in
-                
+            .drive(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            }),
+         output
+            .isShowingIAPBlockerView
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] isShowingIAPBlockerView in
+                if isShowingIAPBlockerView {
+                    self?.IAPBlockerView.isHidden = false
+                    self?.IAPBlockerView.isUserInteractionEnabled = true
+                } else {
+                    self?.IAPBlockerView.isHidden = true
+                    self?.IAPBlockerView.isUserInteractionEnabled = false
+                }
             }),
          output
             .isLoading
@@ -70,8 +83,8 @@ final class InAppPurchaseViewController: UIViewController {
     
     private func setupCollectionView() {
         collectionView = CommonCollectionView<CommonCollectionViewSection<InAppPurchaseType>, InAppPurchaseCell>(lineSpacing: 20)
+        collectionView.isScrollEnabled = false
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
-        collectionView.addLoadMore {}
     }
 }

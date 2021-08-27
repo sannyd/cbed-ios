@@ -11,6 +11,7 @@ import Alamofire
 enum SectionRouter {
     case getSectionByID(_ id: Int)
     case searchSection(params: Parameters)
+    case searchEssays(params: Parameters)
     case saveSectionResult(id: Int,
                            correct: Int,
                            total: Int)
@@ -31,6 +32,8 @@ extension SectionRouter: URLRequestConvertible {
             return "/\(id)/"
         case .searchSection:
             return "/"
+        case .searchEssays:
+            return "/essays/"
         case .saveSectionResult(let id, _, _):
             return "/\(id)/save_result/"
         }
@@ -51,7 +54,8 @@ extension SectionRouter: URLRequestConvertible {
         request.method = method
         
         switch self {
-        case .searchSection(let params):
+        case .searchSection(let params),
+             .searchEssays(let params):
             let encoder = Alamofire.URLEncoding.queryString
             request = try encoder.encode(request, with: params)
         case .saveSectionResult(_,
