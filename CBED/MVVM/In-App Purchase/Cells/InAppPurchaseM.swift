@@ -14,7 +14,7 @@ enum InAppPurchaseType {
     var title: String {
         switch self {
         case .ProBar:
-            return "Pro Bar"
+            return "Bar Exam"
         case .BabyBar:
             return "Baby Bar"
         }

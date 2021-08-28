@@ -68,8 +68,8 @@ final class AppViewController: UIViewController {
                             }
                         } else {
                             if isEnableLogin {
-                                Storage.removeAll()
-                                self.goToLogin()
+                                let tabbarVC = StoryboardManager.instanceTabBarVC()
+                                appDelegate.window?.rootViewController = tabbarVC
                             } else {
                                 StoreKitService.shared.getLastReceipt { receipt in
                                     if let receipt = receipt {

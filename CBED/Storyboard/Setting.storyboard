@@ -29,82 +29,126 @@
                                     <constraint firstAttribute="height" constant="140" id="gAf-cd-pgo"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w5S-nM-Mvs" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                <rect key="frame" x="30" y="772" width="354" height="50"/>
-                                <color key="backgroundColor" name="Primary Red"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="nNc-dk-BIM"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
-                                <state key="normal" title="Logout">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
-                                        <color key="value" name="Primary Red"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                        <real key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                        <color key="value" name="Primary Red"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                        <size key="value" width="0.0" height="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <integer key="value" value="0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                        <real key="value" value="0.080000000000000002"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
-                                        <color key="value" red="0.34901960780000002" green="0.35294117650000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
-                                </userDefinedRuntimeAttributes>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rFo-wH-AEH">
-                                <rect key="frame" x="187.5" y="224" width="39" height="74.5"/>
+                                <rect key="frame" x="187.5" y="224" width="39.5" height="73"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cHa-p5-lMn">
-                                        <rect key="frame" x="0.0" y="0.0" width="39" height="19.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="39.5" height="19"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                         <color key="textColor" name="Primary Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7or-cV-bYw">
-                                        <rect key="frame" x="0.0" y="27.5" width="39" height="19.5"/>
+                                        <rect key="frame" x="0.0" y="27" width="39.5" height="19"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                         <color key="textColor" name="Primary Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P72-nk-1KI">
-                                        <rect key="frame" x="0.0" y="55" width="39" height="19.5"/>
+                                        <rect key="frame" x="0.0" y="54" width="39.5" height="19"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
                                         <color key="textColor" name="Primary Blue"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="6cw-x4-2bm">
+                                <rect key="frame" x="30" y="706" width="354" height="116"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7YK-lT-S6H" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="50"/>
+                                        <color key="backgroundColor" name="Primary Blue"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="KZO-8Z-uzE"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                                        <state key="normal" title="Restore Purchase">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
+                                                <color key="value" name="Primary Blue"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" name="Primary Blue"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                <size key="value" width="0.0" height="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <integer key="value" value="0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                <real key="value" value="0.080000000000000002"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
+                                                <color key="value" red="0.34901960780000002" green="0.35294117650000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w5S-nM-Mvs" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="66" width="354" height="50"/>
+                                        <color key="backgroundColor" name="Primary Red"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="nNc-dk-BIM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                                        <state key="normal" title="Logout">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
+                                                <color key="value" name="Primary Red"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" name="Primary Red"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                <size key="value" width="0.0" height="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <integer key="value" value="0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                <real key="value" value="0.080000000000000002"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
+                                                <color key="value" red="0.34901960780000002" green="0.35294117650000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
+                            <constraint firstItem="6cw-x4-2bm" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="0u2-7A-DwP"/>
                             <constraint firstItem="rFo-wH-AEH" firstAttribute="top" secondItem="l59-TT-hgF" secondAttribute="bottom" constant="20" id="1FS-Gi-GVb"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="w5S-nM-Mvs" secondAttribute="bottom" constant="40" id="FXR-35-mri"/>
-                            <constraint firstAttribute="trailing" secondItem="w5S-nM-Mvs" secondAttribute="trailing" constant="30" id="VXB-W7-f76"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="6cw-x4-2bm" secondAttribute="bottom" constant="40" id="MBU-fd-oVV"/>
                             <constraint firstItem="rFo-wH-AEH" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="W7V-z1-TAL"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="6cw-x4-2bm" secondAttribute="trailing" constant="30" id="hs3-dV-zWu"/>
                             <constraint firstItem="l59-TT-hgF" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="mQF-ZI-PJo"/>
                             <constraint firstItem="l59-TT-hgF" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="mS7-d4-xoj"/>
-                            <constraint firstItem="w5S-nM-Mvs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="rle-1J-LLx"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="buttonLogout" destination="w5S-nM-Mvs" id="PfQ-9B-rsX"/>
+                        <outlet property="buttonRestorePurchase" destination="7YK-lT-S6H" id="xcn-pC-Sz0"/>
                         <outlet property="labelEmail" destination="7or-cV-bYw" id="ssh-R5-epQ"/>
                         <outlet property="labelMembership" destination="P72-nk-1KI" id="ich-gI-SJh"/>
                         <outlet property="labelName" destination="cHa-p5-lMn" id="SU8-ei-GkE"/>

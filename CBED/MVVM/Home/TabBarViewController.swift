@@ -28,8 +28,8 @@ class TabBarViewController: UITabBarController {
         let scoreboardNav = UINavigationController(rootViewController: scoreboardVC)
         
         let settingVC: SettingViewController = StoryboardManager.instanceSettingVC()
-        settingVC.viewModel = .init(useCase: SettingUseCase(), navigator: SettingNavigator())
         let settingNav = UINavigationController(rootViewController: settingVC)
+        settingVC.viewModel = .init(useCase: SettingUseCase(), navigator: SettingNavigator(navigationController: settingNav))
         
         viewControllers = [levelNav, scoreboardNav, settingNav]
         addChild(levelNav)

@@ -51,7 +51,7 @@ class InAppPurchaseCell: UICollectionViewCell, CellType {
                                          value: 1,
                                          range: NSMakeRange(0, attributeString.length))
         labelPromotionPrice.attributedText = attributeString
-        labelRealPrice.text = "\(data.realPrice.digit(maximumFractionDigits: 2)!)$"
+        labelRealPrice.text = "$\(data.realPrice.digit(maximumFractionDigits: 2)!)"
         
         labelDescription.text = data.descriptions.joined(separator: "\n")
     }

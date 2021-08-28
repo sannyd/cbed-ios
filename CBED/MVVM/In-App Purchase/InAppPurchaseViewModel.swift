@@ -93,7 +93,6 @@ struct InAppPurchaseViewModel: ViewModel {
                         return .never()
                     }
             }
-
             .do(onNext: { profile in
                 Storage.profileInfo = profile
                 NotificationCenter.default.post(.init(name: .PurchaseSuccessful))
@@ -190,11 +189,9 @@ struct InAppPurchaseViewModel: ViewModel {
                     StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
                         CurrentMembershipType = monthType
                         observer.onNext(())
-                        observer.onCompleted()
                     })
                 } else {
                     observer.onNext(())
-                    observer.onCompleted()
                 }
             }
             

@@ -17,6 +17,8 @@ final class SettingViewController: UIViewController {
     @IBOutlet weak var labelMembership: UILabel!
     @IBOutlet weak var buttonLogout: UIButton!
     @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var buttonRestorePurchase: CustomBorderButton!
+    
     // MARK: - Properties
     
     var viewModel: SettingViewModel!
@@ -47,7 +49,8 @@ final class SettingViewController: UIViewController {
             .sentMessage(#selector(UIViewController.viewWillAppear))
             .mapToVoid()
         
-        let input = SettingViewModel.Input(viewWillAppear: viewWillAppear)
+        let input = SettingViewModel.Input(viewWillAppear: viewWillAppear,
+                                           buttonRestorePurchaseTrigger: buttonRestorePurchase.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
@@ -63,6 +66,14 @@ final class SettingViewController: UIViewController {
                 self?.labelMembership.text = "Membership: \(membership)"
                 self?.profileImageView.loadImage(with: profileInfo.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
             }),
+         output
+            .isLoading
+            .asDriverOnErrorJustComplete()
+            .drive(LoadingIndicatorView.rx.isAnimating),
+         output
+            .error
+            .asDriverOnErrorJustComplete()
+            .drive(errorBinding),
          buttonLogout
             .rxButtonTapped
             .subscribe(onNext: { _ in
