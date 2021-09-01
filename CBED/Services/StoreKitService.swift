@@ -44,8 +44,9 @@ class StoreKitService {
         switch result {
         case .purchased(let expiryDate, let items):
             print("nani: \(expiryDate) - items: \(items)")
-            
-            if let purchaseID = items.last?.productId,
+            var temp = items
+            temp = temp.sorted(by: { $0.originalPurchaseDate < $1.originalPurchaseDate })
+            if let purchaseID = temp.last?.productId,
                let monthType = InAppPurchaseMonth(rawValue: purchaseID) {
                 completion(true, monthType)
             } else {

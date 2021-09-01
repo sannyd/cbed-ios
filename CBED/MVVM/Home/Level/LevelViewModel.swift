@@ -48,7 +48,7 @@ struct LevelViewModel: ViewModel {
                             return items
                         case .BabyBarJun,
                              .BabyBarOct:
-                            return items.filter { $0.id == 10 }
+                            return items.filter { $0.id != 10 }
                         }
                     } else {
                         return items.filter { $0.id == 8 }
