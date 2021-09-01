@@ -18,6 +18,8 @@ final class AppViewController: UIViewController {
     var viewModel: AppViewModel!
     var disposeBag = DisposeBag()
     
+    private let staticToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoyMjYwMzY4NjY5LCJqdGkiOiJqa2ZoYjc4NGc5NzI4dWJyaXUyM3k0OTI4dWsiLCJ1c2VyX2lkIjoxN30.2rhFITU6xMC4qJXIip6DaFMNMkdhZ5qOilbLN-fyHz0"
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -57,12 +59,13 @@ final class AppViewController: UIViewController {
                               let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool else {
                             return
                         }
-                        IsEnableLogin = isEnableLogin
+                        
                         if Storage.accessToken == nil {
                             if isEnableLogin {
                                 Storage.removeAll()
                                 self.goToLogin()
                             } else {
+                                IsEnableLogin = isEnableLogin
                                 let tabbarVC = StoryboardManager.instanceTabBarVC()
                                 appDelegate.window?.rootViewController = tabbarVC
                             }
@@ -71,16 +74,23 @@ final class AppViewController: UIViewController {
                                 let tabbarVC = StoryboardManager.instanceTabBarVC()
                                 appDelegate.window?.rootViewController = tabbarVC
                             } else {
-                                StoreKitService.shared.getLastReceipt { receipt in
-                                    if let receipt = receipt {
-                                        StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
-                                            CurrentMembershipType = monthType
-                                            
-                                            let tabbarVC = StoryboardManager.instanceTabBarVC()
-                                            appDelegate.window?.rootViewController = tabbarVC
-                                            
-                                        })
+                                if Storage.accessToken == self.staticToken {
+                                    IsEnableLogin = isEnableLogin
+                                    StoreKitService.shared.getLastReceipt { receipt in
+                                        if let receipt = receipt {
+                                            StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
+                                                CurrentMembershipType = monthType
+                                                
+                                                let tabbarVC = StoryboardManager.instanceTabBarVC()
+                                                appDelegate.window?.rootViewController = tabbarVC
+                                                
+                                            })
+                                        }
                                     }
+                                } else {
+                                    
+                                    let tabbarVC = StoryboardManager.instanceTabBarVC()
+                                    appDelegate.window?.rootViewController = tabbarVC
                                 }
                             }
                         }
@@ -110,7 +120,7 @@ final class AppViewController: UIViewController {
                             Storage.removeAll()
                             self.goToLogin()
                         } else {
-                            Storage.accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoyMjYwMzY4NjY5LCJqdGkiOiJqa2ZoYjc4NGc5NzI4dWJyaXUyM3k0OTI4dWsiLCJ1c2VyX2lkIjoxN30.2rhFITU6xMC4qJXIip6DaFMNMkdhZ5qOilbLN-fyHz0"
+                            Storage.accessToken = self.staticToken
                             
                             StoreKitService.shared.getLastReceipt { receipt in
                                 if let receipt = receipt {

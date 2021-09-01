@@ -13,6 +13,7 @@ extension SettingViewModel {
     struct Input {
         let viewWillAppear: Observable<Void>
         let buttonRestorePurchaseTrigger: Observable<Void>
+        let buttonEditTrigger: Observable<Void>
     }
     
     struct Output {
@@ -51,6 +52,12 @@ struct SettingViewModel: ViewModel {
             .mapToVoid()
             .asDriverOnErrorJustComplete()
             .drive(onNext: navigator.presentRestorePurchaseSuccessAlert)
+            .disposed(by: disposeBag)
+        
+        input
+            .buttonEditTrigger
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: navigator.presentUpdateProfileVC)
             .disposed(by: disposeBag)
         
         return Output(profileInfo: userProfile.unwrap(),

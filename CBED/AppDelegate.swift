@@ -140,7 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        UIFont.overrideInitialize()
         
         FirebaseApp.configure()
-        fetchRemoteConfig()
+//        fetchRemoteConfig()
         
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         

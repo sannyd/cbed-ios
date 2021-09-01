@@ -52,6 +52,10 @@ struct StoryboardManager {
         return HomeSB.instantiateViewController(withIdentifier: T.getClassName()) as! T
     }
     
+    static func getVCFromSettingSB<T: UIViewController>() -> T {
+        return SettingSB.instantiateViewController(withIdentifier: T.getClassName()) as! T
+    }
+    
     static func getVCFromLoginSB<T: UIViewController>() -> T {
         return LoginSB.instantiateViewController(withIdentifier: T.getClassName()) as! T
     }

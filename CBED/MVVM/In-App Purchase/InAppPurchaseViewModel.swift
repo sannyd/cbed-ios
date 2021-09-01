@@ -163,14 +163,13 @@ struct InAppPurchaseViewModel: ViewModel {
                 do {
                     let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .dataReadingMapped)
                     let receiptString = receiptData.base64EncodedString(options: [])
+                    Log.d("receiptString: \(receiptString)")
+                    
                     // Read receiptData
                     return useCase
                         .purchaseMembership(request: PurchaseMembershipRequestM(receiptData: receiptString))
                         .trackError(errorTracker)
                         .trackActivity(activityIndicator)
-                        .catch { _ in
-                            return .never()
-                        }
                         .map { _ in }
                 } catch {
                     Log.e("Couldn't read receipt data with error: " + error.localizedDescription)

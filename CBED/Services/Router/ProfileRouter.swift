@@ -10,6 +10,7 @@ import Alamofire
 
 enum ProfileRouter {
     case getProfileInfo
+    case updateProfileInfo
 }
 
 // MARK: - TargetType: Moya compatible
@@ -25,11 +26,18 @@ extension ProfileRouter: URLRequestConvertible {
         switch self {
         case .getProfileInfo:
             return "/info/"
+        case .updateProfileInfo:
+            return "/update_info/"
         }
     }
     
     var method: HTTPMethod {
-        return .get
+        switch self {
+        case .getProfileInfo:
+            return .get
+        case .updateProfileInfo:
+            return .patch
+        }
     }
     
     func asURLRequest() throws -> URLRequest {

@@ -55,11 +55,20 @@ class TabBarViewController: UITabBarController {
         
         if #available(iOS 11.0, *) {
             let topBottom = window.safeAreaInsets.bottom == 0 ? window.safeAreaInsets.bottom : window.safeAreaInsets.bottom / 2.5
-            levelNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom, left: 0, bottom: -topBottom, right: 0)
+            levelNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom,
+                                                    left: 0,
+                                                    bottom: UIDevice.current.userInterfaceIdiom == .pad ? -35 : -topBottom,
+                                                    right: 0)
             levelNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
-            scoreboardNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom, left: 0, bottom: -topBottom, right: 0)
+            scoreboardNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom,
+                                                         left: 0,
+                                                         bottom: UIDevice.current.userInterfaceIdiom == .pad ? -35 : -topBottom,
+                                                         right: 0)
             scoreboardNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
-            settingNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom, left: 0, bottom: -topBottom, right: 0)
+            settingNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom,
+                                                      left: 0,
+                                                      bottom: UIDevice.current.userInterfaceIdiom == .pad ? -35 : -topBottom,
+                                                      right: 0)
             settingNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
         } else {
 //            levelNav.tabBarItem.imageInsets = .init(top: 0, left: -30, bottom: 0, right: 30)

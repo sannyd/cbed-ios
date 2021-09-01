@@ -40,6 +40,7 @@ struct ProfileInfoM: Codable {
     let membership: String
     let lastSectionName: String?
     let points: Int
+    let phone: String?
     
     enum CodingKeys: String, CodingKey {
         case email = "email"
@@ -51,5 +52,6 @@ struct ProfileInfoM: Codable {
         case membership = "membership"
         case lastSectionName = "last_section_name"
         case points = "points"
+        case phone = "phone_number"
     }
 }

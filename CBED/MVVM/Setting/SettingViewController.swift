@@ -18,6 +18,7 @@ final class SettingViewController: UIViewController {
     @IBOutlet weak var buttonLogout: UIButton!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var buttonRestorePurchase: CustomBorderButton!
+    @IBOutlet weak var buttonEdit: UIButton!
     
     // MARK: - Properties
     
@@ -36,6 +37,14 @@ final class SettingViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
         buttonLogout.isHidden = !IsEnableLogin
+        buttonEdit.isHidden = !IsEnableLogin
+        
+        if !IsEnableLogin {
+            labelName.text = "Newcomer"
+            labelMembership.text = "Membership: \(CurrentMembershipType?.name ?? "")"
+            labelEmail.isHidden = true
+            profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
+        }
     }
     
     deinit {
@@ -50,7 +59,8 @@ final class SettingViewController: UIViewController {
             .mapToVoid()
         
         let input = SettingViewModel.Input(viewWillAppear: viewWillAppear,
-                                           buttonRestorePurchaseTrigger: buttonRestorePurchase.rxButtonTapped)
+                                           buttonRestorePurchaseTrigger: buttonRestorePurchase.rxButtonTapped,
+                                           buttonEditTrigger: buttonEdit.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output

@@ -34,7 +34,7 @@ class ScoreCell: UICollectionViewCell, CellType {
             profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
         }
         
-        labelUserID.text = "\(data.id)"
+        labelUserID.text = "ID - \(data.id)"
         labelUserPosition.text = "\(data.lastSectionName ?? "N/A")"
     }
     

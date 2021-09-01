@@ -41,6 +41,12 @@ final class ScoreboardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        
+        if !IsEnableLogin {
+            labelUserName.text = "Newcomer"
+            labelUserPosition.isHidden = true
+            profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
+        }
     }
     
     deinit {

@@ -9,6 +9,7 @@ import UIKit
 
 protocol SettingNavigatorType {
     func presentRestorePurchaseSuccessAlert()
+    func presentUpdateProfileVC()
 }
 
 struct SettingNavigator: SettingNavigatorType {
@@ -22,5 +23,11 @@ struct SettingNavigator: SettingNavigatorType {
                                           handleAction: nil)
         
         navigationController.presentingViewController?.present(alert, animated: true)
+    }
+    
+    func presentUpdateProfileVC() {
+        let updateProfileVC: UpdateProfileViewController = StoryboardManager.getVCFromSettingSB()
+        updateProfileVC.viewModel = .init(useCase: UpdateProfileUseCase(), navigator: UpdateProfileNavigator(navigationController: navigationController))
+        navigationController.pushViewController(updateProfileVC, animated: true)
     }
 }
