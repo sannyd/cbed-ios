@@ -112,7 +112,7 @@ struct ExamViewModel: ViewModel {
                 SwiftEntryKit.dismiss()
                 let answers = (questions[currentQuestionIndex.value].answers ?? [])
                     .map { SelectableAnswer(isSelected: false, answer: $0) }
-                currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
             })
             .disposed(by: disposeBag)
         
@@ -140,7 +140,7 @@ struct ExamViewModel: ViewModel {
                         currentQuestionIndex.accept(nextQuestionIndex)
                         let answers = (questions[currentQuestionIndex.value].answers ?? [])
                             .map { SelectableAnswer(isSelected: false, answer: $0) }
-                        currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                        currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
                         
                         UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
                         UserDefaults.standard.setValue(correctAnswers, forKey: sectionResult)
@@ -178,7 +178,7 @@ struct ExamViewModel: ViewModel {
             .do(onNext: { question in
                 let answers = (question.answers ?? [])
                     .map { SelectableAnswer(isSelected: false, answer: $0) }
-                currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
             })
             .share(replay: 1)
         
