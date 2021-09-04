@@ -905,7 +905,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="168" height="56"/>
                                         <color key="backgroundColor" name="Primary Blue"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
-                                        <state key="normal" title="Take New Test">
+                                        <state key="normal" title="Proceed to the next level">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
