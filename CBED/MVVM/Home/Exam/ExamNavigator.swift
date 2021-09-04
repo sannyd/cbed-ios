@@ -27,8 +27,9 @@ protocol ExamNavigatorType {
     var publisher: PublishSubject<CustomAlertViewPublisher> { get }
     var resultViewPublisher: PublishSubject<ResultViewModelPublisher> { get }
     
-    func presentAnswerResult(answer: AnswerM, level: LevelM)
+    func presentAnswerResult(answer: AnswerM, level: LevelM, explainationLink: String?)
     func pushToResultVC(result: SaveResultResponseM)
+    func pushToPreviewWebView(usefulLinkURL: String)
     func popViewController()
 }
 
@@ -38,7 +39,7 @@ struct ExamNavigator: ExamNavigatorType {
     let publisher = PublishSubject<CustomAlertViewPublisher>()
     let resultViewPublisher = PublishSubject<ResultViewModelPublisher>()
     
-    func presentAnswerResult(answer: AnswerM, level: LevelM) {
+    func presentAnswerResult(answer: AnswerM, level: LevelM, explainationLink: String?) {
         let alertVC = CustomAlertView()
         alertVC.publisher = publisher
         let isCorrect = answer.isCorrect
@@ -50,7 +51,8 @@ struct ExamNavigator: ExamNavigatorType {
                                description: answer.discussion,
                                type: type,
                                leftButtonTitle: buttonTitle,
-                               rightButtonTitle: nil)
+                               rightButtonTitle: nil,
+                               explainationLink: explainationLink)
         let attribute = EKAttributes.createCustomAlertAttributes(isDismissable: false)
         SwiftEntryKit.display(entry: alertVC, using: attribute)
     }
@@ -66,5 +68,13 @@ struct ExamNavigator: ExamNavigatorType {
     
     func popViewController() {
         navigationController.popViewController(animated: true)
+    }
+    
+    func pushToPreviewWebView(usefulLinkURL: String) {
+        let previewVC = StoryboardManager.instancePreviewWebViewVC()
+        previewVC.viewModel = .init(useCase: PreviewWebViewUseCase(),
+                                    navigator: PreviewWebViewNavigator(),
+                                    usefulLinkURL: usefulLinkURL)
+        navigationController.pushViewController(previewVC, animated: true)
     }
 }

@@ -173,6 +173,20 @@ struct ExamViewModel: ViewModel {
             })
             .map { _ in questions[currentQuestionIndex.value] }
         
+        sharedAlertPublisher
+            .map { delegate -> String? in
+                if case .openUseLink(let link) = delegate {
+                    return link
+                }
+                return nil
+            }
+            .unwrap()
+            .asDriverOnErrorJustComplete()
+//            .do(onNext: { _ in
+//                SwiftEntryKit.dismiss()
+//            })
+            .drive(onNext: navigator.pushToPreviewWebView(usefulLinkURL:))
+            .disposed(by: disposeBag)
        
         
         let initialQuestion = Observable.merge(resetSectionTrigger,
@@ -231,10 +245,10 @@ struct ExamViewModel: ViewModel {
             .do(onNext: { _, answerSection in
                 currentAnswers.accept([answerSection])
             })
-            .map { ($0.0, level) }
+            .map { ($0.0, level, questions[currentQuestionIndex.value].youtubeURL) }
             .asDriverOnErrorJustComplete()
             .delay(.milliseconds(100))
-            .drive(onNext: navigator.presentAnswerResult(answer:level:))
+            .drive(onNext: navigator.presentAnswerResult(answer:level:explainationLink:))
             .disposed(by: disposeBag)
         
         navigator.resultViewPublisher

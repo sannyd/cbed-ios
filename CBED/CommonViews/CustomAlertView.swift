@@ -24,6 +24,7 @@ class CustomTextView: UITextView {
 
 enum CustomAlertViewPublisher {
     case OKTapped(QuestionAlertType)
+    case openUseLink(String)
     case cancelTapped
 }
 class CustomAlertView: BaseNibView {
@@ -36,6 +37,7 @@ class CustomAlertView: BaseNibView {
     @IBOutlet weak var labelUsefulLink: UILabel!
     
     var type: QuestionAlertType = .correct
+    var explainationLink: String?
     
     var publisher: PublishSubject<CustomAlertViewPublisher>?
     
@@ -56,12 +58,13 @@ class CustomAlertView: BaseNibView {
         buttonYes.roundCorners([.layerMinXMaxYCorner,
                                 .layerMaxXMaxYCorner], radius: 10)
     }
-
+    
     func setupAlertView(title: String?,
                         description: String?,
                         type: QuestionAlertType,
                         leftButtonTitle: String = "OK",
-                        rightButtonTitle: String?) {
+                        rightButtonTitle: String?,
+                        explainationLink: String?) {
         self.type = type
         labelTitle.text = title
         textViewDescription.text = description
@@ -69,11 +72,27 @@ class CustomAlertView: BaseNibView {
         labelTitle.textColor = type.color
         buttonYes.backgroundColor = type.color
         
+        if let explainationLink = explainationLink, !explainationLink.isEmpty {
+            self.explainationLink = explainationLink
+            usefulLinkStackView.isHidden = false
+            let strings = explainationLink.split(separator: ",")
+            labelUsefulLink.text = String(strings.first ?? "")
+            
+            switch type {
+            case .correct:
+                labelUsefulLink.textColor = Constants.PrimaryBlue
+            case .wrong:
+                labelUsefulLink.textColor = Constants.ColorE0293F
+            }
+        }
+        
         if let rightButtonTitle = rightButtonTitle {
             buttonNo.setTitle(rightButtonTitle, for: .normal)
         } else {
             buttonNo.isHidden = true
         }
+        
+        setupUsefulLink()
     }
     
     @IBAction private func buttonYesInvoked(_ sender: UIButton) {
@@ -82,5 +101,20 @@ class CustomAlertView: BaseNibView {
     
     @IBAction private func buttonNoInvoked(_ sender: UIButton) {
         publisher?.onNext(.cancelTapped)
+    }
+    
+    private func setupUsefulLink() {
+        labelUsefulLink.rxGestureTapped
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else {
+                    return
+                }
+                if let explainationLink = self.explainationLink {
+                    let strings = explainationLink.split(separator: ",")
+                    self.publisher?.onNext(.openUseLink(String(strings.last ?? "")))
+                    self.publisher?.onNext(.OKTapped(self.type))
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
