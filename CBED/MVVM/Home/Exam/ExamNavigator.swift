@@ -27,7 +27,7 @@ protocol ExamNavigatorType {
     var publisher: PublishSubject<CustomAlertViewPublisher> { get }
     var resultViewPublisher: PublishSubject<ResultViewModelPublisher> { get }
     
-    func presentAnswerResult(answer: AnswerM)
+    func presentAnswerResult(answer: AnswerM, level: LevelM)
     func pushToResultVC(result: SaveResultResponseM)
     func popViewController()
 }
@@ -38,12 +38,13 @@ struct ExamNavigator: ExamNavigatorType {
     let publisher = PublishSubject<CustomAlertViewPublisher>()
     let resultViewPublisher = PublishSubject<ResultViewModelPublisher>()
     
-    func presentAnswerResult(answer: AnswerM) {
+    func presentAnswerResult(answer: AnswerM, level: LevelM) {
         let alertVC = CustomAlertView()
         alertVC.publisher = publisher
         let isCorrect = answer.isCorrect
         let title = isCorrect ? "Correct" : "Wrong"
-        let buttonTitle = isCorrect ? "OK" : "Try Again"
+        let labelFail = level.id == 5 ? "Try Again" : "Continue"
+        let buttonTitle = isCorrect ? "OK" : labelFail
         let type: QuestionAlertType = isCorrect ? .correct : .wrong
         alertVC.setupAlertView(title: title,
                                description: answer.discussion,

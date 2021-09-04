@@ -231,10 +231,10 @@ struct ExamViewModel: ViewModel {
             .do(onNext: { _, answerSection in
                 currentAnswers.accept([answerSection])
             })
-            .map { $0.0 }
+            .map { ($0.0, level) }
             .asDriverOnErrorJustComplete()
             .delay(.milliseconds(100))
-            .drive(onNext: navigator.presentAnswerResult(answer:))
+            .drive(onNext: navigator.presentAnswerResult(answer:level:))
             .disposed(by: disposeBag)
         
         navigator.resultViewPublisher
