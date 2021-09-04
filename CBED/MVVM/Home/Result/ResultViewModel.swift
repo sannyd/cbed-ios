@@ -26,7 +26,7 @@ enum ResultType {
         case .pass:
             return "Congratulations!"
         case .fail:
-            return "Opps!"
+            return "Oops!"
         }
     }
     
