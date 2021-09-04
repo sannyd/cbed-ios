@@ -65,9 +65,8 @@ struct LevelViewModel: ViewModel {
         
         input
             .levelTapped
-            .map { ($0.id, $0.name ?? "") }
             .asDriverOnErrorJustComplete()
-            .drive(onNext: navigator.pushToSectionsVC(levelID:levelTitle:))
+            .drive(onNext: navigator.pushToSectionsVC(level:))
             .disposed(by: disposeBag)
         
         input

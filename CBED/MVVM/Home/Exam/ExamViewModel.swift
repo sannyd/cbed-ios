@@ -33,6 +33,7 @@ struct ExamViewModel: ViewModel {
     let useCase: ExamUseCaseType
     let navigator: ExamNavigatorType
     let sectionDetail: SectionDetailM
+    let level: LevelM
     
     let errorTracker = ErrorTracker()
     let activityIndicator = ActivityIndicator()
@@ -129,7 +130,11 @@ struct ExamViewModel: ViewModel {
             .do(onNext: { questionAlertType in
                 switch questionAlertType {
                 case .correct:
-                    if previousIncorrectAnswerIndex != currentQuestionIndex.value {
+                    if level.id == 5 {
+                        if previousIncorrectAnswerIndex != currentQuestionIndex.value {
+                            correctAnswers += 1
+                        }
+                    } else {
                         correctAnswers += 1
                     }
                     
@@ -147,18 +152,21 @@ struct ExamViewModel: ViewModel {
                         scrollToTopInvoked.onNext(())
                     }
                 case .wrong:
-                    previousIncorrectAnswerIndex = currentQuestionIndex.value
-//                    if currentQuestionIndex.value >= questions.count - 1 {
-//                        saveResultTrigger.accept(())
-//                    } else {
-//                        let nextQuestionIndex = currentQuestionIndex.value + 1
-//                        currentQuestionIndex.accept(nextQuestionIndex)
-//                        let answers = (questions[currentQuestionIndex.value].answers ?? [])
-//                            .map { SelectableAnswer(isSelected: false, answer: $0) }
-//                        currentAnswers.accept([CommonCollectionViewSection(items: answers)])
-//
-//                        UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
-//                    }
+                    if level.id == 5 {
+                        previousIncorrectAnswerIndex = currentQuestionIndex.value
+                    } else {
+                        if currentQuestionIndex.value >= questions.count - 1 {
+                            saveResultTrigger.accept(())
+                        } else {
+                            let nextQuestionIndex = currentQuestionIndex.value + 1
+                            currentQuestionIndex.accept(nextQuestionIndex)
+                            let answers = (questions[currentQuestionIndex.value].answers ?? [])
+                                .map { SelectableAnswer(isSelected: false, answer: $0) }
+                            currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                            
+                            UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
+                        }
+                    }
                 }
                 
                 SwiftEntryKit.dismiss()

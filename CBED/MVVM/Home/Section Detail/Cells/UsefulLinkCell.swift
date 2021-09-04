@@ -32,12 +32,16 @@ class UsefulLinkCell: UICollectionViewCell, CellType {
     func populateData(_ data: UsefulLink) {
         switch data.type {
         case .video:
-            avatarImageView.image = nil
-            labelName.text = "Video link"
+            avatarImageView.image = #imageLiteral(resourceName: "img_link")
+            let strings = data.url.split(separator: ",")
+            let title = strings.first ?? ""
+            labelName.text = String(title)
             labelLink.text = data.url
         case .pdf:
-            avatarImageView.image = #imageLiteral(resourceName: "img_pdf")
-            labelName.text = "PDF"
+            avatarImageView.image = #imageLiteral(resourceName: "img_link")
+            let strings = data.url.split(separator: ",")
+            let title = strings.first ?? ""
+            labelName.text = String(title)
             labelLink.text = data.url
         }
     }

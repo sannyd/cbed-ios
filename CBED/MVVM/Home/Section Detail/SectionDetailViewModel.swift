@@ -44,6 +44,7 @@ struct SectionDetailViewModel: ViewModel {
     let navigator: SectionDetailNavigatorType
     let sectionDetail: SectionDetailM
     let imageURL: String?
+    let level: LevelM
     
     private let errorTracker = ErrorTracker()
     private let activityIndicator = ActivityIndicator()
@@ -77,15 +78,20 @@ struct SectionDetailViewModel: ViewModel {
         input
             .usefulLinkTapped
             .map(\.url)
+            .map { url in
+                let strings = url.split(separator: ",")
+                
+                return String(strings.last ?? "")
+            }
             .asDriverOnErrorJustComplete()
             .drive(onNext: navigator.pushToPreviewWebView(usefulLinkURL:))
             .disposed(by: disposeBag)
         
         input
             .buttonStartTrigger
-            .map { _ in sectionDetail }
+            .map { _ in (sectionDetail, level) }
             .asDriverOnErrorJustComplete()
-            .drive(onNext: navigator.pushToExamVC(sectionDetail:))
+            .drive(onNext: navigator.pushToExamVC(sectionDetail:level:))
             .disposed(by: disposeBag)
         
         return Output(sectionDetail: .just((imageURL, sectionDetail)),

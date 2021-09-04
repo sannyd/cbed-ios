@@ -39,6 +39,7 @@ struct SearchViewModel: LoadMoreViewModel {
     
     let useCase: SearchUseCaseType
     let navigator: SearchNavigatorType
+    let level: LevelM
     
     private let offset = 10
     
@@ -94,7 +95,7 @@ struct SearchViewModel: LoadMoreViewModel {
                         navigator.pushToPreviewWebView(usefulLinkURL: pdfURL)
                     }
                 } else {
-                    navigator.pushToSectionDetailVC(sectionDetail: sectionDetail, searchResult: searchResult)
+                    navigator.pushToSectionDetailVC(sectionDetail: sectionDetail, searchResult: searchResult, level: level)
                 }
             })
             .disposed(by: disposeBag)

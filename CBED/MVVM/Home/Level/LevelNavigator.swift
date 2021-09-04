@@ -8,8 +8,7 @@
 import UIKit
 
 protocol LevelNavigatorType {
-    func pushToSectionsVC(levelID: Int,
-                          levelTitle: String)
+    func pushToSectionsVC(level: LevelM)
     func pushToSearchVC()
     func pushToInAppPurchaseVC()
 }
@@ -17,20 +16,19 @@ protocol LevelNavigatorType {
 struct LevelNavigator: LevelNavigatorType {
     unowned let navigationController: UINavigationController
     
-    func pushToSectionsVC(levelID: Int,
-                          levelTitle: String) {
+    func pushToSectionsVC(level: LevelM) {
         let sectionsVC = StoryboardManager.instanceSectionsVC()
         sectionsVC.viewModel = .init(useCase: SectionsUseCase(),
                                      navigator: SectionsNavigator(navigationController: navigationController),
-                                     levelID: levelID,
-                                     levelTitle: levelTitle)
+                                     level: level)
         navigationController.pushViewController(sectionsVC, animated: true)
     }
     
     func pushToSearchVC() {
         let searchVC: SearchViewController = StoryboardManager.getVCFromHomeSB()
         searchVC.viewModel = .init(useCase: SearchUseCase(),
-                                   navigator: SearchNavigator(navigationController: navigationController))
+                                   navigator: SearchNavigator(navigationController: navigationController),
+                                   level: LevelM(id: 9, name: "Essay Drills & Videos", order: nil))
         navigationController.pushViewController(searchVC, animated: true)
     }
     

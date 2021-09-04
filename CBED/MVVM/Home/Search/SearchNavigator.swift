@@ -9,7 +9,8 @@ import UIKit
 
 protocol SearchNavigatorType {
     func pushToSectionDetailVC(sectionDetail: SectionDetailM,
-                               searchResult: SearchResultM)
+                               searchResult: SearchResultM,
+                               level: LevelM)
     func pushToPreviewWebView(usefulLinkURL: String)
     func showBlockSectionAlert()
 }
@@ -18,12 +19,14 @@ struct SearchNavigator: SearchNavigatorType {
     unowned let navigationController: UINavigationController
     
     func pushToSectionDetailVC(sectionDetail: SectionDetailM,
-                               searchResult: SearchResultM) {
+                               searchResult: SearchResultM,
+                               level: LevelM) {
         let sectionDetailVC = StoryboardManager.instanceSectionDetailVC()
         sectionDetailVC.viewModel = .init(useCase: SectionDetailUseCase(),
                                           navigator: SectionDetailNavigator(navigationController: navigationController),
                                           sectionDetail: sectionDetail,
-                                          imageURL: searchResult.image)
+                                          imageURL: searchResult.image,
+                                          level: level)
         navigationController.pushViewController(sectionDetailVC, animated: true)
     }
     

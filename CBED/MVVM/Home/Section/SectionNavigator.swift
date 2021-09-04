@@ -9,7 +9,8 @@ import UIKit
 
 protocol SectionsNavigatorType {
     func pushToSectionDetailVC(sectionDetail: SectionDetailM,
-                               imageURL: String?)
+                               imageURL: String?,
+                               level: LevelM)
     func pushToPreviewWebView(usefulLinkURL: String)
     func showBlockSectionAlert(sectionID: Int)
 }
@@ -18,12 +19,14 @@ struct SectionsNavigator: SectionsNavigatorType {
     unowned let navigationController: UINavigationController
     
     func pushToSectionDetailVC(sectionDetail: SectionDetailM,
-                               imageURL: String?) {
+                               imageURL: String?,
+                               level: LevelM) {
         let sectionDetailVC = StoryboardManager.instanceSectionDetailVC()
         sectionDetailVC.viewModel = .init(useCase: SectionDetailUseCase(),
                                           navigator: SectionDetailNavigator(navigationController: navigationController),
                                           sectionDetail: sectionDetail,
-                                          imageURL: imageURL)
+                                          imageURL: imageURL,
+                                          level: level)
         navigationController.pushViewController(sectionDetailVC, animated: true)
     }
     

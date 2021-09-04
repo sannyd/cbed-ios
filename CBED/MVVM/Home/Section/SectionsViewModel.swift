@@ -142,13 +142,12 @@ struct SectionsViewModel: LoadMoreViewModel {
     
     let useCase: SectionsUseCaseType
     let navigator: SectionsNavigatorType
-    let levelID: Int
-    let levelTitle: String
     private let offset = 20
     
     let errorTracker = ErrorTracker()
     let activityIndicator = ActivityIndicator()
     let loadingIndicator = ActivityIndicator()
+    let level: LevelM
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let sections = BehaviorRelay<[CommonCollectionViewSection<SearchResultM>]>(value: [])
@@ -183,7 +182,7 @@ struct SectionsViewModel: LoadMoreViewModel {
             .drive(onNext: { searchResult, sectionDetail in
                 if IsEnableLogin {
                     guard sectionDetail.isAvailable ?? true else {
-                        navigator.showBlockSectionAlert(sectionID: sectionDetail.id)
+                        navigator.showBlockSectionAlert(sectionID: level.id)
                         return
                     }
                 }
@@ -196,13 +195,15 @@ struct SectionsViewModel: LoadMoreViewModel {
                         navigator.pushToPreviewWebView(usefulLinkURL: pdfURL)
                     }
                 } else {
-                    navigator.pushToSectionDetailVC(sectionDetail: sectionDetail, imageURL: searchResult.image)
+                    navigator.pushToSectionDetailVC(sectionDetail: sectionDetail,
+                                                    imageURL: searchResult.image,
+                                                    level: level)
                 }
             })
             .disposed(by: disposeBag)
         
         return Output(sections: sections.asObservable(),
-                      navigationTitle: .just(levelTitle),
+                      navigationTitle: .just(level.name ?? ""),
                       lastPageInvoked: lastPageTrigger.asObservable(),
                       isReloading: isReload.asObservable(),
                       isLoadMore: isLoadMore.asObservable(),
@@ -215,7 +216,7 @@ struct SectionsViewModel: LoadMoreViewModel {
                      searchText: String) -> Observable<SectionSearchResponseM> {
         return self.useCase
             .searchSection(request: .init(search: searchText,
-                                          level: "\(levelID)",
+                                          level: "\(level.id)",
                                           limit: self.offset,
                                           offset: offset))
             .trackActivity(activityIndicator)
