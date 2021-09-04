@@ -15,7 +15,7 @@ class StoreKitService {
     var localMemberPlan: InAppPurchaseMonth?
 
     func getLastReceipt(completion: @escaping (ReceiptInfo?) -> Void)  {
-        let validator = AppleReceiptValidator(service: .sandbox)
+        let validator = AppleReceiptValidator(service: .production)
         
         SwiftyStoreKit.verifyReceipt(using: validator) { result in
             switch result {

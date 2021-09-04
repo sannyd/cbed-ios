@@ -27,7 +27,7 @@ extension SectionDetailViewModel {
     }
     
     struct Output {
-        let sectionDetail: Driver<SectionDetailM>
+        let sectionDetail: Driver<(String?, SectionDetailM)>
         let usefulLinks: Driver<[CommonCollectionViewSection<UsefulLink>]>
         let isLoading: Driver<Bool>
         let error: Driver<Error>
@@ -43,6 +43,7 @@ struct SectionDetailViewModel: ViewModel {
     let useCase: SectionDetailUseCaseType
     let navigator: SectionDetailNavigatorType
     let sectionDetail: SectionDetailM
+    let imageURL: String?
     
     private let errorTracker = ErrorTracker()
     private let activityIndicator = ActivityIndicator()
@@ -58,7 +59,7 @@ struct SectionDetailViewModel: ViewModel {
             .map(\.youtubeUrls)
             .unwrap()
             .filter { $0.allSatisfy { !$0.isEmpty } }
-            .map { $0.map { UsefulLink(type: .pdf, url: $0) } }
+            .map { $0.map { UsefulLink(type: .video, url: $0) } }
         
         let pdfs = Observable
             .just(sectionDetail)
@@ -87,7 +88,7 @@ struct SectionDetailViewModel: ViewModel {
             .drive(onNext: navigator.pushToExamVC(sectionDetail:))
             .disposed(by: disposeBag)
         
-        return Output(sectionDetail: .just(sectionDetail),
+        return Output(sectionDetail: .just((imageURL, sectionDetail)),
                       usefulLinks: usefulLinks,
                       isLoading: activityIndicator.asDriver(),
                       error: errorTracker.asDriver())

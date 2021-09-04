@@ -50,8 +50,9 @@ final class SectionDetailViewController: UIViewController {
             .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
          output
             .sectionDetail
-            .drive(onNext: { [weak self] sectionDetail in
+            .drive(onNext: { [weak self] imageURL, sectionDetail in
                 self?.labelSectionName.text = sectionDetail.name
+                self?.sectionImageView.loadImage(with: imageURL, placeholder: #imageLiteral(resourceName: "img_tort"))
             }),
          output
             .isLoading

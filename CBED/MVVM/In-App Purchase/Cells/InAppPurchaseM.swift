@@ -51,20 +51,11 @@ enum InAppPurchaseType {
         switch self {
         case .ProBar:
             return ["56 MBE levels",
-                    "Essays Drills + Videos",
+                    "Essay Drills + Videos",
                     "PT Drills + Videos"]
         case .BabyBar:
             return ["21 MBE levels",
-                    "Essays Drills + Videos"]
-        }
-    }
-    
-    var purchaseID: String {
-        switch self {
-        case .ProBar:
-            return "com.barexamdrills.app.unlockall"
-        case .BabyBar:
-            return "com.barexamdrills.app.levelid8"
+                    "Essay Drills + Videos"]
         }
     }
     

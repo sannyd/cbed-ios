@@ -8,7 +8,8 @@
 import UIKit
 
 protocol SearchNavigatorType {
-    func pushToSectionDetailVC(sectionDetail: SectionDetailM)
+    func pushToSectionDetailVC(sectionDetail: SectionDetailM,
+                               searchResult: SearchResultM)
     func pushToPreviewWebView(usefulLinkURL: String)
     func showBlockSectionAlert()
 }
@@ -16,11 +17,13 @@ protocol SearchNavigatorType {
 struct SearchNavigator: SearchNavigatorType {
     unowned let navigationController: UINavigationController
     
-    func pushToSectionDetailVC(sectionDetail: SectionDetailM) {
+    func pushToSectionDetailVC(sectionDetail: SectionDetailM,
+                               searchResult: SearchResultM) {
         let sectionDetailVC = StoryboardManager.instanceSectionDetailVC()
         sectionDetailVC.viewModel = .init(useCase: SectionDetailUseCase(),
                                           navigator: SectionDetailNavigator(navigationController: navigationController),
-                                          sectionDetail: sectionDetail)
+                                          sectionDetail: sectionDetail,
+                                          imageURL: searchResult.image)
         navigationController.pushViewController(sectionDetailVC, animated: true)
     }
     
@@ -34,7 +37,7 @@ struct SearchNavigator: SearchNavigatorType {
     
     func showBlockSectionAlert() {
         let alertView = UIAlertHelper.showAlertController(title: "Opps",
-                                                      message: "You have to pass previous section in order to access this section",
+                                                      message: "You have to have be on Level 4 MBEs to access this section",
                                                       cancel: "OK",
                                                       others: nil,
                                                       handleAction: nil)

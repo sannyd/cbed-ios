@@ -34,6 +34,6 @@ class SectionCell: UICollectionViewCell, CellType {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        sectionImageView.setRoundShape()
+//        sectionImageView.setCornerRadius(radius: 8)
     }
 }

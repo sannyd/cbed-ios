@@ -178,13 +178,12 @@ struct SectionsViewModel: LoadMoreViewModel {
         
         input
             .sectionTapped
-            .map { $0.id }
-            .flatMapLatest(fetchSectionDetailByID(id:))
+            .flatMapLatest(fetchSectionDetailByID(searchResult:))
             .asDriverOnErrorJustComplete()
-            .drive(onNext: { sectionDetail in
+            .drive(onNext: { searchResult, sectionDetail in
                 if IsEnableLogin {
                     guard sectionDetail.isAvailable ?? true else {
-                        navigator.showBlockSectionAlert()
+                        navigator.showBlockSectionAlert(sectionID: sectionDetail.id)
                         return
                     }
                 }
@@ -197,7 +196,7 @@ struct SectionsViewModel: LoadMoreViewModel {
                         navigator.pushToPreviewWebView(usefulLinkURL: pdfURL)
                     }
                 } else {
-                    navigator.pushToSectionDetailVC(sectionDetail: sectionDetail)
+                    navigator.pushToSectionDetailVC(sectionDetail: sectionDetail, imageURL: searchResult.image)
                 }
             })
             .disposed(by: disposeBag)
@@ -223,13 +222,14 @@ struct SectionsViewModel: LoadMoreViewModel {
             .trackError(errorTracker)
     }
     
-    private func fetchSectionDetailByID(id: Int) -> Observable<SectionDetailM> {
+    private func fetchSectionDetailByID(searchResult: SearchResultM) -> Observable<(SearchResultM, SectionDetailM)> {
         return self.useCase
-            .getSectionByID(id: id)
+            .getSectionByID(id: searchResult.id)
             .trackError(errorTracker)
             .trackActivity(loadingIndicator)
             .catch { _ in
                 return .never()
             }
+            .map { (searchResult, $0) }
     }
 }
