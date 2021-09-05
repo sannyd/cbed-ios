@@ -86,7 +86,7 @@ struct ExamViewModel: ViewModel {
                 } else {
                     let startTime = Date()
                     let questionCount = questions.count == 0 ? 100 : questions.count
-                    let potentialMultiplier = ceil(Double(questionCount / 100))
+                    let potentialMultiplier = ceil(Double(Double(questionCount) / 100))
                     let multiplier = potentialMultiplier == 0 ? 1 : potentialMultiplier
                     let calendar = Calendar.current
                     let endTime = calendar.date(byAdding: .hour, value: Int(multiplier) * 24, to: startTime)

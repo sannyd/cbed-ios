@@ -16,8 +16,8 @@ struct SettingNavigator: SettingNavigatorType {
     unowned let navigationController: UINavigationController
     
     func presentRestorePurchaseSuccessAlert() {
-        let alert = UIAlertHelper.showAlertController(title: "Restore Purchase Successful",
-                                          message: "Successful restore your previous purchase",
+        let alert = UIAlertHelper.showAlertController(title: "Success",
+                                          message: "Previous purchase restored.",
                                           cancel: "OK",
                                           others: nil,
                                           handleAction: nil)

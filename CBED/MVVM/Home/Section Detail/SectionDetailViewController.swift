@@ -52,7 +52,7 @@ final class SectionDetailViewController: UIViewController {
             .sectionDetail
             .drive(onNext: { [weak self] imageURL, sectionDetail in
                 self?.labelSectionName.text = sectionDetail.name
-                self?.sectionImageView.loadImage(with: imageURL, placeholder: #imageLiteral(resourceName: "img_tort"))
+                self?.sectionImageView.loadImage(with: imageURL, placeholder: #imageLiteral(resourceName: "img_drill"))
             }),
          output
             .isLoading
