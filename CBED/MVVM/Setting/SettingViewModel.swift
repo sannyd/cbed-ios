@@ -18,6 +18,7 @@ extension SettingViewModel {
     
     struct Output {
         let profileInfo: Observable<ProfileInfoM>
+        let restorePurchaseSuccess: Observable<Void>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
     }
@@ -35,12 +36,13 @@ struct SettingViewModel: ViewModel {
             .viewWillAppear
             .map { _ in Storage.profileInfo }
         
-        input
+        let restorePurchaseSuccess = input
             .buttonRestorePurchaseTrigger
             .flatMapLatest { _ in
                 return self.verifyIAPLocally()
+                    .trackError(errorTracker)
                     .catch { _ in
-                        return .never()
+                        return .error(CustomError.CannotRestoreIAP)
                     }
             }
             .flatMapLatest { _ in
@@ -48,11 +50,10 @@ struct SettingViewModel: ViewModel {
             }
             .do(onNext: { profile in
                 Storage.profileInfo = profile
+                NotificationCenter.default.post(.init(name: .PurchaseSuccessful))
             })
             .mapToVoid()
-            .asDriverOnErrorJustComplete()
-            .drive(onNext: navigator.presentRestorePurchaseSuccessAlert)
-            .disposed(by: disposeBag)
+            .do(onNext: navigator.presentRestorePurchaseSuccessAlert)
         
         input
             .buttonEditTrigger
@@ -61,6 +62,7 @@ struct SettingViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         return Output(profileInfo: userProfile.unwrap(),
+                      restorePurchaseSuccess: restorePurchaseSuccess.asObservable(),
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
     }
@@ -74,7 +76,7 @@ struct SettingViewModel: ViewModel {
                         observer.onNext(())
                     })
                 } else {
-                    observer.onNext(())
+                    observer.onError(CustomError.CannotRestoreIAP)
                 }
             }
             

@@ -15,6 +15,8 @@ final class InAppPurchaseViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var IAPBlockerView: UIView!
+    @IBOutlet weak var buttonRestore: CustomBorderButton!
+    @IBOutlet weak var labelLoadingPurchase: UILabel!
     
     // MARK: - Properties
     
@@ -39,7 +41,8 @@ final class InAppPurchaseViewController: UIViewController {
     
     func bindViewModel() {
         let input = InAppPurchaseViewModel.Input(firstLoadTrigger: rxViewWillAppear,
-                                                 inAppPurchaseItemTrigger: collectionView.rxModelSelected())
+                                                 inAppPurchaseItemTrigger: collectionView.rxModelSelected(),
+                                                 buttonRestorePurchaseTrigger: buttonRestore.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
@@ -55,7 +58,13 @@ final class InAppPurchaseViewController: UIViewController {
          output
             .isShowingIAPBlockerView
             .asDriverOnErrorJustComplete()
-            .drive(onNext: { [weak self] isShowingIAPBlockerView in
+            .drive(onNext: { [weak self] isShowingIAPBlockerView, isRestore in
+                if isRestore {
+                    self?.labelLoadingPurchase.text = "Proceeding with restoring.\nPlease wait"
+                } else {
+                    self?.labelLoadingPurchase.text = "Proceeding with purchase.\nPlease wait"
+                }
+                
                 if isShowingIAPBlockerView {
                     self?.IAPBlockerView.isHidden = false
                     self?.IAPBlockerView.isUserInteractionEnabled = true
@@ -63,6 +72,24 @@ final class InAppPurchaseViewController: UIViewController {
                     self?.IAPBlockerView.isHidden = true
                     self?.IAPBlockerView.isUserInteractionEnabled = false
                 }
+            }),
+         output
+            .restorePurchaseSuccess
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] _ in
+                self?.IAPBlockerView.isHidden = true
+                self?.IAPBlockerView.isUserInteractionEnabled = false
+                NotificationCenter.default.post(.init(name: .PurchaseSuccessful))
+//                self?.navigationController?.popViewController(animated: true)
+            }),
+         output
+            .previouslyPurchasedInvoked
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] _ in
+                self?.IAPBlockerView.isHidden = true
+                self?.IAPBlockerView.isUserInteractionEnabled = false
+                NotificationCenter.default.post(.init(name: .PurchaseSuccessful))
+                self?.navigationController?.popViewController(animated: true)
             }),
          output
             .isLoading

@@ -36,6 +36,9 @@ extension UIViewController {
             if let serverError = error as? ServerError {
                 vc.showPopup(withTitle: "Error",
                              message: serverError.detail)
+            } else if let customError = error as? CustomError {
+                vc.showPopup(withTitle: "Error",
+                             message: customError.errorString)
             } else {
                 vc.showPopup(withTitle: "Error",
                              message: error.localizedDescription)

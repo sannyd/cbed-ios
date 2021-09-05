@@ -30,6 +30,7 @@ class StoreKitService {
                 completion(receipt)
             case .error(error: let error):
                 print("nani: \(error)")
+                completion(nil)
             }
         }
     }
@@ -57,6 +58,36 @@ class StoreKitService {
             completion(false, nil)
         case .notPurchased:
             completion(false, nil)
+        }
+    }
+    
+    func previouslyPurchaseItems(_ receipt: ReceiptInfo, completion: @escaping ([InAppPurchaseMonth]) -> Void) {
+        let array = InAppPurchaseMonth.allCases.map { $0.purchaseID }
+        let setProductionIds = Set(array)
+        let result = SwiftyStoreKit.verifySubscriptions(ofType: .nonRenewing(validDuration: 3600 * 24 * 365),
+                                                        productIds: setProductionIds,
+                                                        inReceipt: receipt)
+        
+        switch result {
+        case .purchased(let expiryDate, let items):
+            print("nani: \(expiryDate) - items: \(items)")
+            var temp = items
+            temp = temp.sorted(by: { $0.originalPurchaseDate < $1.originalPurchaseDate })
+            
+            var purchasedMonths: Set<InAppPurchaseMonth> = []
+            
+            for item in temp {
+                if let monthType = InAppPurchaseMonth(rawValue: item.productId) {
+                    purchasedMonths.insert(monthType)
+                }
+            }
+            
+            completion(Array(purchasedMonths))
+        case .expired(let expiryDate, let items):
+            print("nani: \(expiryDate) - items: \(items)")
+            completion([])
+        case .notPurchased:
+            completion([])
         }
     }
 }

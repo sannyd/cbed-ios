@@ -83,12 +83,13 @@ final class AppViewController: UIViewController {
                                                 
                                                 let tabbarVC = StoryboardManager.instanceTabBarVC()
                                                 appDelegate.window?.rootViewController = tabbarVC
-                                                
                                             })
+                                        } else {
+                                            let tabbarVC = StoryboardManager.instanceTabBarVC()
+                                            appDelegate.window?.rootViewController = tabbarVC
                                         }
                                     }
                                 } else {
-                                    
                                     let tabbarVC = StoryboardManager.instanceTabBarVC()
                                     appDelegate.window?.rootViewController = tabbarVC
                                 }
@@ -131,6 +132,9 @@ final class AppViewController: UIViewController {
                                         appDelegate.window?.rootViewController = tabbarVC
                                         
                                     })
+                                } else {
+                                    let tabbarVC = StoryboardManager.instanceTabBarVC()
+                                    appDelegate.window?.rootViewController = tabbarVC
                                 }
                             }
                         }

@@ -15,6 +15,7 @@ protocol InAppPurchaseNavigatorType {
     
     func showMonthAlertView(leftData: InAppPurchaseMonth,
                             rightData: InAppPurchaseMonth)
+    func presentRestorePurchaseSuccessAlert()
 }
 
 struct InAppPurchaseNavigator: InAppPurchaseNavigatorType {
@@ -30,5 +31,17 @@ struct InAppPurchaseNavigator: InAppPurchaseNavigatorType {
         
         let attribute = EKAttributes.createCustomAlertAttributes(isDismissable: true)
         SwiftEntryKit.display(entry: alertVC, using: attribute)
+    }
+    
+    func presentRestorePurchaseSuccessAlert() {
+        let alert = UIAlertHelper.showAlertController(title: "Success",
+                                          message: "Previous purchase restored.",
+                                          cancel: "OK",
+                                          others: nil,
+                                          handleAction: { _, _ in
+                                            navigationController.popViewController(animated: true)
+                                          })
+        
+        navigationController.presentingViewController?.present(alert, animated: true)
     }
 }

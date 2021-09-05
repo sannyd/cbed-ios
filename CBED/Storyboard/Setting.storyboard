@@ -56,9 +56,9 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="6cw-x4-2bm">
-                                <rect key="frame" x="30" y="706" width="354" height="116"/>
+                                <rect key="frame" x="30" y="772" width="354" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7YK-lT-S6H" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7YK-lT-S6H" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="50"/>
                                         <color key="backgroundColor" name="Primary Blue"/>
                                         <constraints>
@@ -97,7 +97,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w5S-nM-Mvs" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="66" width="354" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="50"/>
                                         <color key="backgroundColor" name="Primary Red"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="nNc-dk-BIM"/>

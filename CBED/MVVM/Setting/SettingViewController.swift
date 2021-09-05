@@ -40,10 +40,7 @@ final class SettingViewController: UIViewController {
         buttonEdit.isHidden = !IsEnableLogin
         
         if !IsEnableLogin {
-            labelName.text = "Newcomer"
-            labelMembership.text = "Membership: \(CurrentMembershipType?.name ?? "")"
-            labelEmail.isHidden = true
-            profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
+            updateProfileForLoginDisable()
         }
     }
     
@@ -77,6 +74,14 @@ final class SettingViewController: UIViewController {
                 self?.profileImageView.loadImage(with: profileInfo.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
             }),
          output
+            .restorePurchaseSuccess
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { [weak self] _ in
+                if !IsEnableLogin {
+                    self?.updateProfileForLoginDisable()
+                }
+            }),
+         output
             .isLoading
             .asDriverOnErrorJustComplete()
             .drive(LoadingIndicatorView.rx.isAnimating),
@@ -91,5 +96,18 @@ final class SettingViewController: UIViewController {
                 appDelegate.logout()
             })]
             .forEach { $0.disposed(by: disposeBag) }
+    }
+    
+    private func updateProfileForLoginDisable() {
+        labelName.text = "Newcomer"
+        labelMembership.text = "Membership: \(CurrentMembershipType?.name ?? "Free")"
+        labelEmail.isHidden = true
+        profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
+        
+//        if CurrentMembershipType == nil {
+//            buttonRestorePurchase.isHidden = false
+//        } else {
+//            buttonRestorePurchase.isHidden = true
+//        }
     }
 }
