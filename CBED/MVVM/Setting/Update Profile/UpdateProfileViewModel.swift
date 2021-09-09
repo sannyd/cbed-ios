@@ -38,9 +38,13 @@ struct UpdateProfileViewModel: ViewModel {
     let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
-        let profileImage = input
+        let profileImageStorage = BehaviorRelay<UIImage?>(value: nil)
+        
+        input
             .profileImageTrigger
-            .filter { $0 != 2 }
+            .filter {
+                $0 != 2
+            }
             .flatMapLatest { index -> Observable<[UIImagePickerController.InfoKey: Any]> in
                 return navigator
                     .showImagePicker(index: index)
@@ -56,21 +60,23 @@ struct UpdateProfileViewModel: ViewModel {
                 
                 return nil
             }
-            .startWith(nil)
-            .share(replay: 1)
+            .bind(to: profileImageStorage)
+            .disposed(by: disposeBag)
         
-        let previousProfileImage = Observable.just(Storage.profileInfo?.avatar)
+        Observable.just(Storage.profileInfo?.avatar)
             .unwrap()
             .map { URL(string: $0) }
             .unwrap()
-            .flatMap { ImagePipeline.shared.rx.loadImage(with: $0) }
-            .map { $0.image as? UIImage }
-            .share(replay: 1)
+            .flatMapLatest { ImagePipeline.shared.rx.loadImage(with: $0) }
+            .map { $0.image }
+            .subscribe(onNext: { image in
+                profileImageStorage.accept(image)
+            }, onError: { error in
+                Log.e(error)
+            })
+            .disposed(by: disposeBag)
         
-        let mergedProfileImage = Observable.merge(profileImage,
-                                                  previousProfileImage)
-        
-        let sharedData = Observable.combineLatest(mergedProfileImage,
+        let sharedData = Observable.combineLatest(profileImageStorage,
                                                   input.name.startWith(Storage.profileInfo?.name ?? ""),
                                                   input.state.startWith(Storage.profileInfo?.state ?? ""),
                                                   input.phone.startWith(""))
@@ -106,7 +112,7 @@ struct UpdateProfileViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         return Output(isButtonUpdateValid: isButtonUpdateValid.startWith(false),
-                      profileImage: mergedProfileImage.asObservable(),
+                      profileImage: profileImageStorage.asObservable(),
                       states: .just(Constants.states),
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())

@@ -8,4 +8,5 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-APP_API_URL = https:/$()/cbed.airdemo.xyz/api
+APP_API_URL = https:/$()/api.barexamdrills.com/api
+

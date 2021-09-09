@@ -31,6 +31,7 @@ final class ExamViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        scrollView.contentInset = .init(top: 16, left: 0, bottom: 0, right: 0)
         setupFont()
         setupCollectionView()
         bindViewModel()

@@ -526,6 +526,12 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All fields must be completed to register  (including profile picture)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DqP-9k-TKU">
+                                <rect key="frame" x="16" y="665" width="382" height="33"/>
+                                <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                <color key="textColor" name="Primary Text"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FuE-CH-sye"/>
                         <color key="backgroundColor" name="Background"/>
@@ -533,13 +539,17 @@
                             <constraint firstItem="teW-fE-icH" firstAttribute="top" secondItem="5Vg-gW-cgu" secondAttribute="bottom" constant="30" id="3aw-XR-Qxi"/>
                             <constraint firstItem="FuE-CH-sye" firstAttribute="trailing" secondItem="teW-fE-icH" secondAttribute="trailing" constant="30" id="Efk-3u-Fzb"/>
                             <constraint firstItem="5Vg-gW-cgu" firstAttribute="centerX" secondItem="lAu-Mg-r3B" secondAttribute="centerX" id="Kiv-cj-ld2"/>
+                            <constraint firstAttribute="trailing" secondItem="DqP-9k-TKU" secondAttribute="trailing" constant="16" id="Lqi-7B-3yT"/>
                             <constraint firstItem="t7o-gQ-Fjq" firstAttribute="leading" secondItem="lAu-Mg-r3B" secondAttribute="leading" constant="20" id="OQ5-Xy-MIQ"/>
                             <constraint firstItem="FuE-CH-sye" firstAttribute="trailing" secondItem="s8E-w8-Bw0" secondAttribute="trailing" id="R2R-gJ-NjL"/>
+                            <constraint firstItem="DqP-9k-TKU" firstAttribute="top" secondItem="teW-fE-icH" secondAttribute="bottom" constant="20" id="TtP-Qh-WBU"/>
                             <constraint firstItem="5Vg-gW-cgu" firstAttribute="top" secondItem="s8E-w8-Bw0" secondAttribute="bottom" constant="20" id="WO5-Xd-Lro"/>
+                            <constraint firstItem="DqP-9k-TKU" firstAttribute="leading" secondItem="lAu-Mg-r3B" secondAttribute="leading" constant="16" id="YYk-32-pue"/>
                             <constraint firstItem="teW-fE-icH" firstAttribute="leading" secondItem="FuE-CH-sye" secondAttribute="leading" constant="30" id="bfC-jr-25g"/>
                             <constraint firstItem="FuE-CH-sye" firstAttribute="trailing" secondItem="t7o-gQ-Fjq" secondAttribute="trailing" constant="20" id="cK8-fH-KQZ"/>
                             <constraint firstItem="s8E-w8-Bw0" firstAttribute="leading" secondItem="lAu-Mg-r3B" secondAttribute="leading" id="eMx-jp-q8M"/>
                             <constraint firstItem="FuE-CH-sye" firstAttribute="bottom" secondItem="t7o-gQ-Fjq" secondAttribute="bottom" constant="40" id="fNW-An-8TX"/>
+                            <constraint firstItem="DqP-9k-TKU" firstAttribute="centerX" secondItem="lAu-Mg-r3B" secondAttribute="centerX" id="tNg-vs-JRE"/>
                             <constraint firstItem="s8E-w8-Bw0" firstAttribute="top" secondItem="FuE-CH-sye" secondAttribute="top" id="ukW-Ps-OC7"/>
                         </constraints>
                     </view>
