@@ -62,13 +62,9 @@ final class APIClient: SessionDelegate {
                     case .success(let result):
                         single(.success(result))
                     case .failure(let error):
-                        let decoder = JSONDecoder()
-                        if let data = response.data,
-                           let serverError = try? decoder.decode(ServerError.self, from: data) {
-                            single(.failure(serverError))
-                        } else {
-                            single(.failure(error))
-                        }
+                        self.handleError(error: error,
+                                         responseData: response.data,
+                                         single: single)
                     }
                 }
             
@@ -93,13 +89,9 @@ final class APIClient: SessionDelegate {
                     case .success(let result):
                         single(.success(result))
                     case .failure(let error):
-                        let decoder = JSONDecoder()
-                        if let data = response.data,
-                           let serverError = try? decoder.decode(ServerError.self, from: data) {
-                            single(.failure(serverError))
-                        } else {
-                            single(.failure(error))
-                        }
+                        self.handleError(error: error,
+                                         responseData: response.data,
+                                         single: single)
                     }
                 }
             
@@ -121,13 +113,9 @@ final class APIClient: SessionDelegate {
                     case .success(let result):
                         single(.success(result))
                     case .failure(let error):
-                        let decoder = JSONDecoder()
-                        if let data = response.data,
-                           let serverError = try? decoder.decode(ServerError.self, from: data) {
-                            single(.failure(serverError))
-                        } else {
-                            single(.failure(error))
-                        }
+                        self.handleError(error: error,
+                                         responseData: response.data,
+                                         single: single)
                     }
                 }
             
@@ -147,7 +135,9 @@ final class APIClient: SessionDelegate {
                     case .success:
                         single(.success(()))
                     case .failure(let error):
-                        single(.failure(error))
+                        self.handleError(error: error,
+                                         responseData: response.data,
+                                         single: single)
                     }
                 }
             
@@ -170,5 +160,22 @@ final class APIClient: SessionDelegate {
         let interceptor = JWTAccessTokenAdapter()
         sessionManager = Session(interceptor: interceptor,
                                  eventMonitors: [monitor])
+    }
+    
+    private func handleError<T>(error: Error,
+                                responseData: Data?,
+                                single: (Result<T, Error>) -> Void) {
+        let decoder = JSONDecoder()
+        if let data = responseData {
+            if let serverError = try? decoder.decode(ServerError.self, from: data) {
+                single(.failure(serverError))
+            } else if let forgotError = try? decoder.decode(ForgotPasswordError.self, from: data) {
+                single(.failure(forgotError))
+            } else {
+                single(.failure(error))
+            }
+        } else {
+            single(.failure(error))
+        }
     }
 }

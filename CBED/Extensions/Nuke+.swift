@@ -26,6 +26,14 @@ extension NukeExtension where Self: ImageDisplayingView {
         }
         let request = ImageRequest(url: imageUrl)
         Nuke.loadImage(with: request, into: self)
+        Nuke.loadImage(with: request, into: self) { [weak self] result in
+            switch result {
+            case .success(_):
+                break
+            case .failure(_):
+                self?.nuke_display(image: placeholder)
+            }
+        }
     }
 }
 

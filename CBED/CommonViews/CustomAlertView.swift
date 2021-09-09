@@ -93,6 +93,7 @@ class CustomAlertView: BaseNibView {
         }
         
         setupUsefulLink()
+        textViewDescription.flashScrollIndicators()
     }
     
     @IBAction private func buttonYesInvoked(_ sender: UIButton) {

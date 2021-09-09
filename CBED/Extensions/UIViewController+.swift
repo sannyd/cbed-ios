@@ -30,6 +30,11 @@ struct ServerError: Error, Decodable {
     let detail: String
 }
 
+struct ForgotPasswordError: Codable, Error {
+    let email: [String]
+}
+
+
 extension UIViewController {
     var errorBinding: Binder<Error> {
         return Binder(self, binding: { (vc, error) in
@@ -39,6 +44,9 @@ extension UIViewController {
             } else if let customError = error as? CustomError {
                 vc.showPopup(withTitle: "Error",
                              message: customError.errorString)
+            } else if let forgotPassError = error as? ForgotPasswordError {
+                    vc.showPopup(withTitle: "Error",
+                                 message: forgotPassError.email.first)
             } else {
                 vc.showPopup(withTitle: "Error",
                              message: error.localizedDescription)
