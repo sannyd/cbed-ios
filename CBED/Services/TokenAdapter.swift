@@ -84,7 +84,7 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
             }
             isRefreshing = true
             let parameters = ["refresh": refreshToken]
-            AF.request("https://cbed.airdemo.xyz/api/auth/token-refresh/", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+            AF.request("https://api.barexamdrills.com/api/auth/token-refresh/", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
                 Log.d(response)
                 if let error = response.error {
                     Log.e(error)
