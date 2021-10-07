@@ -166,6 +166,7 @@ struct LoginViewModel: ViewModel {
     }
     
     private func handleSingleSignOn(type: SSOType, accessToken: String) -> Observable<SingleSignOnResponseM> {
+        Log.d("singleSignOn: type - \(type) - \(accessToken)")
         return self.useCase
             .singleSignOn(type: type,
                           accessToken: accessToken)

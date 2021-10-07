@@ -12,6 +12,8 @@ enum StorageKey: String {
     case accessToken
     case refreshToken
     case profileInfo
+    case isEnableFaceID
+    case faceIDExpireDate
 }
 
 enum StorageType {

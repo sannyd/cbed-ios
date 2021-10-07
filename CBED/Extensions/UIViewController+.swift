@@ -49,7 +49,7 @@ extension UIViewController {
                                  message: forgotPassError.email.first)
             } else {
                 vc.showPopup(withTitle: "Error",
-                             message: error.localizedDescription)
+                             message: "Something went wrong! Please try again later.")
             }
         })
     }

@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import LocalAuthentication
 
 final class SettingViewController: UIViewController {
     
@@ -19,6 +20,7 @@ final class SettingViewController: UIViewController {
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var buttonRestorePurchase: CustomBorderButton!
     @IBOutlet weak var buttonEdit: UIButton!
+    @IBOutlet weak var faceIDSwitch: UISwitch!
     
     // MARK: - Properties
     
@@ -42,6 +44,24 @@ final class SettingViewController: UIViewController {
         if !IsEnableLogin {
             updateProfileForLoginDisable()
         }
+        
+        checkFaceID()
+    }
+    
+    private func checkFaceID() {
+        let context = LAContext()
+        
+        //        context.localizedCancelTitle = "Enter Username/Password"
+        
+        // First check if we have the needed hardware support.
+        var error: NSError?
+        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+            faceIDSwitch.isEnabled = true
+            faceIDSwitch.isOn = Storage.isEnableFaceID
+        } else {
+            faceIDSwitch.isEnabled = false
+            Storage.isEnableFaceID = false
+        }
     }
     
     deinit {
@@ -64,23 +84,23 @@ final class SettingViewController: UIViewController {
             .profileInfo
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] profileInfo in
-                let name = IsEnableLogin ? profileInfo.name : "Newcomer"
-                self?.labelName.text = "Name: \(name)"
-                let email = IsEnableLogin ? profileInfo.email : "N/A"
-                self?.labelEmail.text = "Email: \(email)"
-                self?.labelEmail.isHidden = !IsEnableLogin
-                let membership = IsEnableLogin ? profileInfo.memberPlan.stringValue : (CurrentMembershipType?.name ?? "")
-                self?.labelMembership.text = "Membership: \(membership)"
-                self?.profileImageView.loadImage(with: profileInfo.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
-            }),
+            let name = IsEnableLogin ? profileInfo.name : "Newcomer"
+            self?.labelName.text = "Name: \(name)"
+            let email = IsEnableLogin ? profileInfo.email : "N/A"
+            self?.labelEmail.text = "Email: \(email)"
+            self?.labelEmail.isHidden = !IsEnableLogin
+            let membership = IsEnableLogin ? profileInfo.memberPlan.stringValue : (CurrentMembershipType?.name ?? "")
+            self?.labelMembership.text = "Membership: \(membership)"
+            self?.profileImageView.loadImage(with: profileInfo.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
+        }),
          output
             .restorePurchaseSuccess
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] _ in
-                if !IsEnableLogin {
-                    self?.updateProfileForLoginDisable()
-                }
-            }),
+            if !IsEnableLogin {
+                self?.updateProfileForLoginDisable()
+            }
+        }),
          output
             .isLoading
             .asDriverOnErrorJustComplete()
@@ -92,9 +112,16 @@ final class SettingViewController: UIViewController {
          buttonLogout
             .rxButtonTapped
             .subscribe(onNext: { _ in
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.logout()
-            })]
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.logout()
+        }),
+         faceIDSwitch
+            .rx
+            .isOn
+            .skip(1)
+            .subscribe(onNext: { isEnableFaceID in
+            Storage.isEnableFaceID = isEnableFaceID
+        })]
             .forEach { $0.disposed(by: disposeBag) }
     }
     
@@ -104,10 +131,10 @@ final class SettingViewController: UIViewController {
         labelEmail.isHidden = true
         profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
         
-//        if CurrentMembershipType == nil {
-//            buttonRestorePurchase.isHidden = false
-//        } else {
-//            buttonRestorePurchase.isHidden = true
-//        }
+        //        if CurrentMembershipType == nil {
+        //            buttonRestorePurchase.isHidden = false
+        //        } else {
+        //            buttonRestorePurchase.isHidden = true
+        //        }
     }
 }

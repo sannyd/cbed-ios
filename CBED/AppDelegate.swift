@@ -12,6 +12,7 @@ import FBSDKLoginKit
 import IQKeyboardManagerSwift
 import Firebase
 import SwiftyStoreKit
+import LocalAuthentication
 
 #if os(iOS)
 
@@ -38,8 +39,19 @@ var CurrentMembershipType: InAppPurchaseMonth?
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
+    /// An authentication context stored at class scope so it's available for use during UI updates.
+    var context = LAContext()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // The biometryType, which affects this app's UI when state changes, is only meaningful
+        //  after running canEvaluatePolicy. But make sure not to run this test from inside a
+        //  policy evaluation callback (for example, don't put next line in the state's didSet
+        //  method, which is triggered as a result of the state change made in the callback),
+        //  because that might result in deadlock.
+        context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
+        
         RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) }
 //        SwiftyStoreKit.fetchReceipt(forceRefresh: true) { result in
 //            switch result {
@@ -137,10 +149,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
         
-//        UIFont.overrideInitialize()
         
         FirebaseApp.configure()
-//        fetchRemoteConfig()
         
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -156,6 +166,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.makeKeyAndVisible()
         
         return true
+    }
+    
+    func applicationDidBecomeActive(_ app: UIApplication) {
+        if Storage.isEnableFaceID {
+            if let faceIDExpireDate = Storage.faceIDExpireDate {
+                if Date() > faceIDExpireDate {
+                    checkFaceID()
+                }
+            } else {
+                checkFaceID()
+            }
+        }
+    }
+    
+    private func checkFaceID() {
+        context = LAContext()
+
+        // First check if we have the needed hardware support.
+        var error: NSError?
+        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+
+            let reason = "To use the app"
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason ) { success, error in
+
+                if success {
+                    let currentDate = Date()
+                    Storage.faceIDExpireDate = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)
+                    print("Success oh year")
+                } else {
+                    print(error?.localizedDescription ?? "Failed to authenticate")
+
+                    // Fall back to a asking for username and password.
+                    // ...
+                }
+            }
+        } else {
+            print(error?.localizedDescription ?? "Can't evaluate policy")
+
+            // Fall back to a asking for username and password.
+            // ...
+        }
     }
     
     func fetchRemoteConfig() {

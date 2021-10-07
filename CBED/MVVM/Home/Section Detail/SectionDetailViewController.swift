@@ -23,7 +23,7 @@ final class SectionDetailViewController: UIViewController {
     var viewModel: SectionDetailViewModel!
     var disposeBag = DisposeBag()
     
-    private var collectionView: CommonCollectionView<CommonCollectionViewSection<UsefulLink>, UsefulLinkCell>!
+    private var collectionView: AnswerCollectionView<CommonCollectionViewSection<UsefulLink>, UsefulLinkCell>!
     
     // MARK: - Life Cycle
     
@@ -70,7 +70,8 @@ final class SectionDetailViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        collectionView = CommonCollectionView<CommonCollectionViewSection<UsefulLink>, UsefulLinkCell>(lineSpacing: 14)
+        collectionView = AnswerCollectionView<CommonCollectionViewSection<UsefulLink>, UsefulLinkCell>(lineSpacing: 14)
+        collectionView.isScrollEnabled = false
         collectionView.contentInset = .init(top: 20,
                                             left: 0,
                                             bottom: 30,

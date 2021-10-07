@@ -45,4 +45,10 @@ class UsefulLinkCell: UICollectionViewCell, CellType {
             labelLink.text = data.url
         }
     }
+    
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let targetSize = CGSize(width: UIScreen.main.bounds.width - 16 - 16, height: 0)
+        layoutAttributes.frame.size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+        return layoutAttributes
+    }
 }

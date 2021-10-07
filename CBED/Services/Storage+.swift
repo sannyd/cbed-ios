@@ -8,6 +8,28 @@
 import Foundation
 
 extension Storage {
+    static var isEnableFaceID: Bool {
+        get {
+            if UserDefaults.standard.object(forKey: StorageKey.isEnableFaceID.rawValue) == nil {
+                return false
+            } else {
+                return UserDefaults.standard.bool(forKey: StorageKey.isEnableFaceID.rawValue)
+            }
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: StorageKey.isEnableFaceID.rawValue)
+        }
+    }
+    
+    static var faceIDExpireDate: Date? {
+        get {
+            return UserDefaults.standard.object(forKey: StorageKey.faceIDExpireDate.rawValue) as? Date
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: StorageKey.faceIDExpireDate.rawValue)
+        }
+    }
+    
     static var accessToken: String? {
         get {
             guard let data = Storage.get(key: StorageKey.accessToken.rawValue, storageType: .userDefault),
