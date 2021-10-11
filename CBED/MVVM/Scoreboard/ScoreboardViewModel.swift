@@ -53,10 +53,21 @@ struct ScoreboardViewModel: ViewModel {
             .firstLoadTrigger
             .flatMapLatest(fetchScoreboard)
             .subscribe(onNext: { response in
-                proBarFebData = response.proBarFeb
+                proBarFebData = response.proBarFeb.sorted(by: { score1, score2 in
+                    score1.lastSectionName != nil && score2.lastSectionName == nil
+                })
                 proBarJulData = response.proBarJuly
+                    .sorted(by: { score1, score2 in
+                        score1.lastSectionName != nil && score2.lastSectionName == nil
+                    })
                 babyBarJunData = response.babyBarJune
+                    .sorted(by: { score1, score2 in
+                        score1.lastSectionName != nil && score2.lastSectionName == nil
+                    })
                 babyBarOctData = response.babyBarOct
+                    .sorted(by: { score1, score2 in
+                        score1.lastSectionName != nil && score2.lastSectionName == nil
+                    })
                 
                 switch filterTrigger.value {
                 case .ProBarFeb:

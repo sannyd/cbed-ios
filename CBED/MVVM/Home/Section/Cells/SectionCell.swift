@@ -30,6 +30,8 @@ class SectionCell: UICollectionViewCell, CellType {
         } else {
             sectionImageView.image = #imageLiteral(resourceName: "img_drill")
         }
+        
+        
     }
     
     override func layoutSubviews() {

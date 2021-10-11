@@ -131,6 +131,7 @@
             <connections>
                 <outlet property="labelName" destination="7lR-TR-Qcp" id="xUs-yI-ioE"/>
                 <outlet property="labelNumberOfQuestion" destination="wxw-JQ-TSh" id="Gnw-Sa-KXu"/>
+                <outlet property="pillarImageView" destination="BoH-FE-GRI" id="KiE-Fr-5i2"/>
             </connections>
             <point key="canvasLocation" x="344.20289855072468" y="107.8125"/>
         </collectionViewCell>

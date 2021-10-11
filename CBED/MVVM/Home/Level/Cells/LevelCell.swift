@@ -10,6 +10,7 @@ import UIKit
 class LevelCell: UICollectionViewCell, CellType {
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelNumberOfQuestion: UILabel!
+    @IBOutlet weak var pillarImageView: UIImageView!
     
     typealias T = LevelM
 
