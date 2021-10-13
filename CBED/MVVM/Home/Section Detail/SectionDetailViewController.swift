@@ -17,6 +17,7 @@ final class SectionDetailViewController: UIViewController {
     @IBOutlet weak var labelSectionName: UILabel!
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var buttonStart: CustomBorderButton!
+    @IBOutlet weak var labelDisclaimer: UILabel!
     
     // MARK: - Properties
     
@@ -31,6 +32,9 @@ final class SectionDetailViewController: UIViewController {
         super.viewDidLoad()
         setupCollectionView()
         bindViewModel()
+        if viewModel.level.id != 5 {
+            labelDisclaimer.isHidden = true
+        }
     }
     
     deinit {
@@ -51,6 +55,7 @@ final class SectionDetailViewController: UIViewController {
          output
             .sectionDetail
             .drive(onNext: { [weak self] imageURL, sectionDetail in
+               
                 self?.labelSectionName.text = sectionDetail.name
                 self?.sectionImageView.loadImage(with: imageURL, placeholder: #imageLiteral(resourceName: "img_drill"))
             }),

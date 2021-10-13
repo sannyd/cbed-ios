@@ -17,15 +17,15 @@ enum MemberPlan: String, Codable {
     var stringValue: String {
         switch self {
         case .free:
-            return "Free"
+            return "No Membership"
         case .proBarFeb:
-            return "Pro Bar - February"
+            return "Bar Exam - Feb"
         case .proBarJul:
-            return "Pro Bar - July"
+            return "Bar Exam - July"
         case .babybarJun:
             return "Baby Bar - June"
         case .babybarOct:
-            return "Baby Bar - Octobor"
+            return "Baby Bar - Oct"
         }
     }
 }

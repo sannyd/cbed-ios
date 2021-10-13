@@ -49,7 +49,7 @@ extension UIViewController {
                                  message: forgotPassError.email.first)
             } else {
                 vc.showPopup(withTitle: "Error",
-                             message: "Something went wrong! Please try again later.")
+                             message: "There appears to be no internet connectivity. Any progress will not be recorded until connected to the internet")
             }
         })
     }
