@@ -100,8 +100,6 @@ final class ScoreboardViewController: UIViewController {
             .filterInvoked
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [unowned self] filterType in
-                let offset: CGFloat = 20
-                
                 labelProBarFeb.textColor = .black
                 labelProBarJuly.textColor = .black
                 labelBabyBarJun.textColor = .black
@@ -113,13 +111,13 @@ final class ScoreboardViewController: UIViewController {
                     highlightViewLeading.constant = 8
                 case .ProBarJul:
                     labelProBarJuly.textColor = .white
-                    highlightViewLeading.constant = highlightView.bounds.width + offset + 8
+                    highlightViewLeading.constant = highlightView.bounds.width + 8
                 case .BabyBarJun:
                     labelBabyBarJun.textColor = .white
-                    highlightViewLeading.constant = highlightView.bounds.width * 2 + offset * 2 + 8
+                    highlightViewLeading.constant = highlightView.bounds.width * 2 + 8
                 case .BabyBarOct:
                     labelBabyBarOct.textColor = .white
-                    highlightViewLeading.constant = highlightView.bounds.width * 3 + offset * 3 + 8
+                    highlightViewLeading.constant = highlightView.bounds.width * 3 + 8
                 }
                 UIView.animate(withDuration: 0.35) {
                     self.view.layoutIfNeeded()

@@ -45,15 +45,29 @@ class TabBarViewController: UITabBarController {
         scoreboardNav.tabBarItem = tabBarScoreboardItem
         settingNav.tabBarItem = tabBarSettingItem
         
-        UITabBar.appearance().tintColor = Constants.PrimaryBlue
-        UITabBar.appearance().unselectedItemTintColor = Constants.ColorC4C4C4
-        UITabBar.appearance().barTintColor = Constants.BackgroundColor
+        
+        if #available(iOS 15.0, *) {
+
+            let appearance = UITabBarAppearance()
+            appearance.configureWithDefaultBackground()
+            appearance.backgroundColor = Constants.BackgroundColor
+            appearance.selectionIndicatorTintColor = Constants.PrimaryBlue
+            
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = UITabBar.appearance().standardAppearance
+        } else {
+            UITabBar.appearance().tintColor = Constants.PrimaryBlue
+            UITabBar.appearance().unselectedItemTintColor = Constants.ColorC4C4C4
+            UITabBar.appearance().barTintColor = Constants.BackgroundColor
+        }
+
+      
         
         guard let window = UIApplication.shared.keyWindow else {
             return
         }
         
-        if #available(iOS 11.0, *) {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             let topBottom = window.safeAreaInsets.bottom == 0 ? window.safeAreaInsets.bottom : window.safeAreaInsets.bottom / 2.5
             levelNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom,
                                                     left: 0,
@@ -70,10 +84,32 @@ class TabBarViewController: UITabBarController {
                                                       bottom: UIDevice.current.userInterfaceIdiom == .pad ? -35 : -topBottom,
                                                       right: 0)
             settingNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
+        }
+        
+        if #available(iOS 11.0, *) {
+//            let topBottom = window.safeAreaInsets.bottom == 0 ? window.safeAreaInsets.bottom : window.safeAreaInsets.bottom / 2.5
+//            levelNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom,
+//                                                    left: 0,
+//                                                    bottom: UIDevice.current.userInterfaceIdiom == .pad ? -35 : -topBottom,
+//                                                    right: 0)
+//            levelNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
+//            scoreboardNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom,
+//                                                         left: 0,
+//                                                         bottom: UIDevice.current.userInterfaceIdiom == .pad ? -35 : -topBottom,
+//                                                         right: 0)
+//            scoreboardNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
+//            settingNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom,
+//                                                      left: 0,
+//                                                      bottom: UIDevice.current.userInterfaceIdiom == .pad ? -35 : -topBottom,
+//                                                      right: 0)
+//            settingNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
         } else {
 //            levelNav.tabBarItem.imageInsets = .init(top: 0, left: -30, bottom: 0, right: 30)
 //            scoreboardNav.tabBarItem.imageInsets = .init(top: 0, left: 30, bottom: 0, right: -30)
         }
+        
+              
+        
 //        if #available(iOS 13.0, *) {
 //            let appearance = self.tabBar.standardAppearance
 //            appearance.shadowImage = nil
