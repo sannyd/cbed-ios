@@ -9,6 +9,7 @@ import UIKit
 
 struct SelectableAnswer: Equatable {
     var isSelected: Bool
+    var isCheck: Bool
     var answer: AnswerM
 }
 
@@ -36,17 +37,25 @@ class AnswerCell: UICollectionViewCell,
     
     func populateData(_ data: SelectableAnswer) {
         if data.isSelected {
-            if data.answer.isCorrect {
+            if data.isCheck {
+                if data.answer.isCorrect {
+                    backgroundContainerView.backgroundColor = Constants.PrimaryBlue
+                    backgroundContainerView.shadowColor = Constants.PrimaryBlue
+                    labelText.textColor = .white
+                    radioImageView.image = #imageLiteral(resourceName: "img_answer_selected")
+                } else {
+                    backgroundContainerView.backgroundColor = Constants.ColorE0293F
+                    backgroundContainerView.shadowColor = Constants.ColorE0293F
+                    labelText.textColor = Constants.PrimaryTextColor
+                    radioImageView.image = #imageLiteral(resourceName: "img_answer_unselected")
+                }
+            } else {
                 backgroundContainerView.backgroundColor = Constants.PrimaryBlue
                 backgroundContainerView.shadowColor = Constants.PrimaryBlue
                 labelText.textColor = .white
                 radioImageView.image = #imageLiteral(resourceName: "img_answer_selected")
-            } else {
-                backgroundContainerView.backgroundColor = Constants.ColorE0293F
-                backgroundContainerView.shadowColor = Constants.ColorE0293F
-                labelText.textColor = Constants.PrimaryTextColor
-                radioImageView.image = #imageLiteral(resourceName: "img_answer_unselected")
             }
+            
         } else {
             backgroundContainerView.backgroundColor = Constants.CellColor
             backgroundContainerView.shadowColor = .black

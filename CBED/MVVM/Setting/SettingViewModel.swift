@@ -14,11 +14,13 @@ extension SettingViewModel {
         let viewWillAppear: Observable<Void>
         let buttonRestorePurchaseTrigger: Observable<Void>
         let buttonEditTrigger: Observable<Void>
+        let buttonDeactivateTrigger: Observable<Void>
     }
     
     struct Output {
         let profileInfo: Observable<ProfileInfoM>
         let restorePurchaseSuccess: Observable<Void>
+        let deactivateSuccess: Observable<Any>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
     }
@@ -60,9 +62,17 @@ struct SettingViewModel: ViewModel {
             .asDriverOnErrorJustComplete()
             .drive(onNext: navigator.presentUpdateProfileVC)
             .disposed(by: disposeBag)
+                
+                let deactivateSuccess = input
+                .buttonDeactivateTrigger
+                .flatMapLatest { _ in
+                    return self.deactivate()
+                }
+                
         
         return Output(profileInfo: userProfile.unwrap(),
                       restorePurchaseSuccess: restorePurchaseSuccess.asObservable(),
+                      deactivateSuccess: deactivateSuccess.asObservable(),
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
     }
@@ -87,6 +97,17 @@ struct SettingViewModel: ViewModel {
     private func getProfile() -> Observable<ProfileInfoM> {
         return useCase
             .getProfileInfo()
+            .trackError(errorTracker)
+            .trackActivity(activityIndicator)
+            .catch { _ in
+                return .never()
+            }
+    }
+    
+    private func deactivate() -> Observable<Any> {
+        return useCase
+            .deactivate()
+            .asObservable()
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
             .catch { _ in

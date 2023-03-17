@@ -14,6 +14,7 @@ final class SettingViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var labelName: UILabel!
+    @IBOutlet weak var buttonDeactivate: CustomBorderButton!
     @IBOutlet weak var labelEmail: UILabel!
     @IBOutlet weak var labelMembership: UILabel!
     @IBOutlet weak var buttonLogout: UIButton!
@@ -77,7 +78,8 @@ final class SettingViewController: UIViewController {
         
         let input = SettingViewModel.Input(viewWillAppear: viewWillAppear,
                                            buttonRestorePurchaseTrigger: buttonRestorePurchase.rxButtonTapped,
-                                           buttonEditTrigger: buttonEdit.rxButtonTapped)
+                                           buttonEditTrigger: buttonEdit.rxButtonTapped,
+                                           buttonDeactivateTrigger: buttonDeactivate.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
@@ -101,6 +103,13 @@ final class SettingViewController: UIViewController {
                 self?.updateProfileForLoginDisable()
             }
         }),
+         output
+            .deactivateSuccess
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: { _ in
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.logout()
+            }),
          output
             .isLoading
             .asDriverOnErrorJustComplete()

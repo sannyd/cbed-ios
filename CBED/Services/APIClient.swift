@@ -171,6 +171,8 @@ final class APIClient: SessionDelegate {
                 single(.failure(serverError))
             } else if let forgotError = try? decoder.decode(ForgotPasswordError.self, from: data) {
                 single(.failure(forgotError))
+            } else if let dictError = try? decoder.decode([String: [String]].self, from: data) {
+                single(.failure(ServerError.init(code: "400", detail: dictError.first?.value.first ?? "Unknown error")))
             } else {
                 single(.failure(error))
             }

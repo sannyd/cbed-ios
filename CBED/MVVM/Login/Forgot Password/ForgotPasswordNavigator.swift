@@ -15,7 +15,7 @@ struct ForgotPasswordNavigator: ForgotPasswordNavigatorType {
     unowned let navigationController: UINavigationController
     
     func showForgotPasswordSuccessAlert() {
-        UIAlertHelper.showAlertController(title: "Congratulation", message: "You have successfully create your account", cancel: "OK", others: nil) { _, index in
+        UIAlertHelper.showAlertController(title: "Congratulation", message: "Password reset email has been sent!", cancel: "OK", others: nil) { _, index in
             navigationController.popViewController(animated: true)
         }
     }

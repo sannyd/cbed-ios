@@ -14,6 +14,7 @@ enum AuthRouter {
     case singleSignOn(params: Parameters)
     case refreshToken(params: Parameters)
     case forgotPassword(params: Parameters)
+    case deactivate
 }
 
 // MARK: - TargetType: Moya compatible
@@ -37,6 +38,8 @@ extension AuthRouter: URLRequestConvertible {
             return "/token-refresh/"
         case .forgotPassword:
             return "/request_reset_password"
+        case .deactivate:
+            return "/deactivate"
         }
     }
     

@@ -9,9 +9,11 @@ import RxSwift
 
 protocol SettingUseCaseType {
     func getProfileInfo() -> Single<ProfileInfoM>
+    func deactivate() -> Single<Any>
 }
 
 struct SettingUseCase: SettingUseCaseType,
-                       ProfileUseCase {
+                       ProfileUseCase,
+                       AuthUseCase {
     
 }

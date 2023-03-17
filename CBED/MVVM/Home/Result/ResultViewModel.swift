@@ -102,16 +102,14 @@ struct ResultViewModel: ViewModel {
             .buttonShareTrigger
             .map { _ in self.result }
         
-        let tryAgainTapped: () -> () = {
-            publisher?.onNext(.tryAgainTapped)
-            navigator.popViewController()
-        }
-        
         input
             .buttonTryAgainTrigger
-            .subscribe(onNext: navigator.backToSectionsVC)
+            .do(onNext: {
+                publisher?.onNext(.tryAgainTapped)
+            })
+            .subscribe(onNext: navigator.popViewController)
             .disposed(by: disposeBag)
-        
+                
         input
             .buttonBackToHomeTrigger
             .subscribe(onNext: navigator.backToSectionsVC)

@@ -24,6 +24,7 @@ protocol AuthUseCase {
                       accessToken: String) -> Single<SingleSignOnResponseM>
     func refreshToken(refreshToken: String) -> Single<TokenRefreshResponseM>
     func forgotPassword(email: String) -> Single<Any>
+    func deactivate() -> Single<Any>
 }
 
 extension AuthUseCase {
@@ -75,6 +76,13 @@ extension AuthUseCase {
         return APIClient
             .shared
             .request(AuthRouter.forgotPassword(params: ["email": email]))
+            .map { _ in }
+    }
+    
+    func deactivate() -> Single<Any> {
+        return APIClient
+            .shared
+            .request(AuthRouter.deactivate)
             .map { _ in }
     }
 }

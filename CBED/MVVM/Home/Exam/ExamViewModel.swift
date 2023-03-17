@@ -15,6 +15,7 @@ extension ExamViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
         let answerTapped: Observable<IndexPath>
+        let checkAnswerTapped: Observable<Void>
     }
     
     struct Output {
@@ -24,6 +25,7 @@ extension ExamViewModel {
         let numberOfQuestions: Observable<String>
         let scrollToTopInvoked: Observable<Void>
         let timerText: Observable<String>
+        let isDisableCheckAnswer: Observable<Bool>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
     }
@@ -54,6 +56,7 @@ struct ExamViewModel: ViewModel {
         let questions = sectionDetail.questions ?? []
         var previousQuestionIndex = UserDefaults.standard.value(forKey: sectionKey) as? Int ?? 0
         let currentQuestionIndex = BehaviorRelay<Int>(value: previousQuestionIndex)
+        let currentSelectedQuestion = BehaviorRelay<IndexPath?>(value: nil)
         let sharedCurrentQuestionIndex = currentQuestionIndex.share(replay: 1)
         let currentAnswers = BehaviorRelay<[CommonCollectionViewSection<SelectableAnswer>]>(value: [])
         let saveResultTrigger = PublishRelay<Void>()
@@ -101,6 +104,10 @@ struct ExamViewModel: ViewModel {
             .publisher
             .share(replay: 1)
         
+        input.answerTapped
+            .bind(to: currentSelectedQuestion)
+            .disposed(by: disposeBag)
+        
         sharedAlertPublisher
             .map { delegate -> Void? in
                 if case .cancelTapped = delegate {
@@ -112,7 +119,7 @@ struct ExamViewModel: ViewModel {
             .subscribe(onNext: { question in
                 SwiftEntryKit.dismiss()
                 let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                    .map { SelectableAnswer(isSelected: false, answer: $0) }
+                    .map { SelectableAnswer(isSelected: false, isCheck: true, answer: $0) }
                 currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
             })
             .disposed(by: disposeBag)
@@ -144,7 +151,7 @@ struct ExamViewModel: ViewModel {
                         let nextQuestionIndex = currentQuestionIndex.value + 1
                         currentQuestionIndex.accept(nextQuestionIndex)
                         let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                            .map { SelectableAnswer(isSelected: false, answer: $0) }
+                            .map { SelectableAnswer(isSelected: false, isCheck: false, answer: $0) }
                         currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
                         
                         UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
@@ -161,7 +168,7 @@ struct ExamViewModel: ViewModel {
                             let nextQuestionIndex = currentQuestionIndex.value + 1
                             currentQuestionIndex.accept(nextQuestionIndex)
                             let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                                .map { SelectableAnswer(isSelected: false, answer: $0) }
+                                .map { SelectableAnswer(isSelected: false, isCheck: false, answer: $0) }
                             currentAnswers.accept([CommonCollectionViewSection(items: answers)])
                             
                             UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
@@ -199,7 +206,7 @@ struct ExamViewModel: ViewModel {
                    nextQuestion)
             .do(onNext: { question in
                 let answers = (question.answers ?? [])
-                    .map { SelectableAnswer(isSelected: false, answer: $0) }
+                    .map { SelectableAnswer(isSelected: false, isCheck: false, answer: $0) }
                 currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
             })
             .share(replay: 1)
@@ -223,6 +230,34 @@ struct ExamViewModel: ViewModel {
                                                      currentAnswers))
             .map { indexPath, answerSections -> (AnswerM, CommonCollectionViewSection<SelectableAnswer>)? in
                 if var answers = answerSections.first?.items {
+                    
+                    answers = answers.map({ answer in
+                        var answer = answer
+                        answer.isSelected = false
+                        
+                        return answer
+                    })
+                    
+                    var choosenAnswer = answers[indexPath.item]
+                    choosenAnswer.isSelected = true
+                    answers[indexPath.item] = choosenAnswer
+                    
+                    return (choosenAnswer.answer, CommonCollectionViewSection<SelectableAnswer>(items: answers))
+                }
+                return nil
+            }
+            .unwrap()
+            .subscribe(onNext: { _, answerSection in
+                currentAnswers.accept([answerSection])
+            })
+            .disposed(by: disposeBag)
+        
+        input
+            .checkAnswerTapped
+            .withLatestFrom(Observable.combineLatest(input.answerTapped,
+                                                     currentAnswers))
+            .map { indexPath, answerSections -> (AnswerM, CommonCollectionViewSection<SelectableAnswer>)? in
+                if var answers = answerSections.first?.items {
                     var choosenAnswer = answers[indexPath.item]
                     if choosenAnswer.answer.isCorrect {
                         if let url = Bundle.main.url(forResource: "DING", withExtension: "mp3") {
@@ -242,10 +277,10 @@ struct ExamViewModel: ViewModel {
                 return nil
             }
             .unwrap()
-            .do(onNext: { _, answerSection in
-                currentAnswers.accept([answerSection])
-            })
             .map { ($0.0, level, questions[currentQuestionIndex.value].youtubeURL) }
+            .do(onNext: { _ in
+                currentSelectedQuestion.accept(nil)
+            })
             .asDriverOnErrorJustComplete()
             .delay(.milliseconds(100))
             .drive(onNext: navigator.presentAnswerResult(answer:level:explainationLink:))
@@ -266,6 +301,9 @@ struct ExamViewModel: ViewModel {
             })
             .disposed(by: disposeBag)
         
+        let isDisableCheckAnswer = currentSelectedQuestion
+            .map { $0 != nil }
+        
         
         return Output(currentQuestion: currentQuestion,
                       answers: currentAnswers.asObservable(),
@@ -273,6 +311,7 @@ struct ExamViewModel: ViewModel {
                       numberOfQuestions: numberOfQuestions,
                       scrollToTopInvoked: scrollToTopInvoked.asObservable(),
                       timerText: timerTrigger.asObservable(),
+                      isDisableCheckAnswer: isDisableCheckAnswer,
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
     }

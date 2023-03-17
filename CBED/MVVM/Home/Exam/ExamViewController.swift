@@ -19,6 +19,7 @@ final class ExamViewController: UIViewController {
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var labelTime: UILabel!
+    @IBOutlet weak var buttonCheckAnswer: CustomBorderButton!
     
     // MARK: - Properties
     
@@ -45,7 +46,8 @@ final class ExamViewController: UIViewController {
     
     func bindViewModel() {
         let input = ExamViewModel.Input(firstLoadTrigger: rxViewWillAppear,
-                                        answerTapped: collectionView.rxItemSelected())
+                                        answerTapped: collectionView.rxItemSelected(),
+                                        checkAnswerTapped: buttonCheckAnswer.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
@@ -88,6 +90,10 @@ final class ExamViewController: UIViewController {
             .drive(onNext: { [weak self] _ in
                 self?.scrollView.setContentOffset(.zero, animated: true)
             }),
+         output
+            .isDisableCheckAnswer
+            .asDriverOnErrorJustComplete()
+            .drive(buttonCheckAnswer.rx.isEnabled),
         output
             .isLoading
             .asDriverOnErrorJustComplete()
