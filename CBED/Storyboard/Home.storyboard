@@ -231,21 +231,63 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGb-PD-lCF" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                <rect key="frame" x="340" y="762" width="50" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="ABf-8F-awB"/>
+                                    <constraint firstAttribute="height" constant="50" id="IIY-6n-qjl"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="LRv-Eh-zwc"/>
+                                </constraints>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.10000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
+                                        <color key="value" red="0.34901960780000002" green="0.35294117650000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hNM-2q-iiv"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="FNw-Gj-WDV" firstAttribute="top" secondItem="cI7-8g-Svu" secondAttribute="bottom" id="1N6-EM-Vcw"/>
                             <constraint firstItem="cI7-8g-Svu" firstAttribute="top" secondItem="hNM-2q-iiv" secondAttribute="top" id="26Z-yv-9Ys"/>
+                            <constraint firstItem="hNM-2q-iiv" firstAttribute="bottom" secondItem="fGb-PD-lCF" secondAttribute="bottom" constant="50" id="3eM-hO-pB7"/>
                             <constraint firstItem="hNM-2q-iiv" firstAttribute="trailing" secondItem="FNw-Gj-WDV" secondAttribute="trailing" id="Vso-IC-0T0"/>
                             <constraint firstItem="FNw-Gj-WDV" firstAttribute="leading" secondItem="hNM-2q-iiv" secondAttribute="leading" id="YaN-kc-d9Z"/>
                             <constraint firstItem="hNM-2q-iiv" firstAttribute="bottom" secondItem="FNw-Gj-WDV" secondAttribute="bottom" id="ba3-QC-ntK"/>
                             <constraint firstItem="cI7-8g-Svu" firstAttribute="leading" secondItem="hNM-2q-iiv" secondAttribute="leading" id="gNX-tI-V3x"/>
+                            <constraint firstItem="hNM-2q-iiv" firstAttribute="trailing" secondItem="fGb-PD-lCF" secondAttribute="trailing" constant="24" id="ljL-rw-Eww"/>
                             <constraint firstItem="hNM-2q-iiv" firstAttribute="trailing" secondItem="cI7-8g-Svu" secondAttribute="trailing" id="rKQ-Cu-bUZ"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="buttonBack" destination="RFx-yV-n3y" id="j8Y-9Q-QnT"/>
+                        <outlet property="buttonScrollToLastPage" destination="fGb-PD-lCF" id="A0L-U9-F5T"/>
                         <outlet property="containerView" destination="FNw-Gj-WDV" id="Asq-eu-kVv"/>
                         <outlet property="labelNavigationTitle" destination="u1N-Ml-3aC" id="thM-qR-VvH"/>
                     </connections>
@@ -1356,6 +1398,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.down" catalog="system" width="128" height="70"/>
         <image name="img_back_black" width="18.5" height="15.5"/>
         <image name="img_button_share_result" width="137" height="37"/>
         <image name="img_inapp_purchase_bg" width="616" height="436"/>

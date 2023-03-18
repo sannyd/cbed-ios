@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -190,17 +190,10 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="44" translatesAutoresizingMaskIntoConstraints="NO" id="0Yo-5B-tlA">
-                                                <rect key="frame" x="125" y="623.5" width="164" height="60"/>
+                                                <rect key="frame" x="177" y="623.5" width="60" height="60"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_login_facebook" translatesAutoresizingMaskIntoConstraints="NO" id="coz-Tx-NdX">
-                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" secondItem="coz-Tx-NdX" secondAttribute="height" multiplier="1:1" id="8hf-pX-E8H"/>
-                                                            <constraint firstAttribute="height" constant="60" id="gWH-tB-nK2"/>
-                                                        </constraints>
-                                                    </imageView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_login_google" translatesAutoresizingMaskIntoConstraints="NO" id="Br7-ra-cDx">
-                                                        <rect key="frame" x="104" y="0.0" width="60" height="60"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="60" id="1nw-nb-LS5"/>
                                                         </constraints>
@@ -268,7 +261,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="buttonFacebook" destination="coz-Tx-NdX" id="eOD-eA-7rR"/>
                         <outlet property="buttonForgot" destination="srk-2v-MNG" id="PK4-3V-zT5"/>
                         <outlet property="buttonGoogle" destination="Br7-ra-cDx" id="lDS-pz-jOE"/>
                         <outlet property="buttonLogin" destination="kQc-M5-v4d" id="Is3-nH-NSK"/>
@@ -290,7 +282,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s8E-w8-Bw0" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="80"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3pF-HB-7B2">
                                         <rect key="frame" x="0.0" y="15" width="50" height="50"/>
@@ -331,7 +323,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I6X-E9-ODg">
-                                <rect key="frame" x="0.0" y="124" width="414" height="738"/>
+                                <rect key="frame" x="0.0" y="128" width="414" height="734"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4cM-dv-x39">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="665"/>
@@ -602,7 +594,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X0e-lI-ncJ" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="80"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aiI-46-w36">
                                         <rect key="frame" x="0.0" y="15" width="50" height="50"/>
@@ -643,13 +635,13 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter email associated with your account an email with instructions to reset password will be sent to you." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LV9-rB-XcH">
-                                <rect key="frame" x="20" y="144" width="374" height="50.5"/>
+                                <rect key="frame" x="20" y="148" width="374" height="50.5"/>
                                 <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                                 <color key="textColor" name="Primary Text"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ZaD-me-hrc">
-                                <rect key="frame" x="20" y="214.5" width="374" height="31"/>
+                                <rect key="frame" x="20" y="218.5" width="374" height="31"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="rDF-EP-UjW">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
@@ -678,7 +670,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTg-at-bPe" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                <rect key="frame" x="20" y="273.5" width="374" height="50"/>
+                                <rect key="frame" x="20" y="277.5" width="374" height="50"/>
                                 <color key="backgroundColor" name="Primary Blue"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="v0l-iy-jn9"/>
@@ -749,7 +741,6 @@
         <image name="img_back_black" width="18.5" height="15.5"/>
         <image name="img_globe_gray" width="19.5" height="20.5"/>
         <image name="img_lock_gray" width="22" height="22"/>
-        <image name="img_login_facebook" width="84" height="84"/>
         <image name="img_login_google" width="84" height="84"/>
         <image name="img_logo" width="1284" height="656"/>
         <image name="img_phone" width="79" height="79"/>

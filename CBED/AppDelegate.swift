@@ -7,8 +7,8 @@
 
 import UIKit
 import GoogleSignIn
-import FBSDKCoreKit
-import FBSDKLoginKit
+//import FBSDKCoreKit
+//import FBSDKLoginKit
 import IQKeyboardManagerSwift
 import Firebase
 import SwiftyStoreKit
@@ -152,7 +152,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+//        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 120
@@ -221,8 +221,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        return FBSDKCoreKit.ApplicationDelegate.shared.application(app, open: url, options: options) ||
-            GIDSignIn.sharedInstance.handle(url)
+//        return FBSDKCoreKit.ApplicationDelegate.shared.application(app, open: url, options: options) ||
+//            GIDSignIn.sharedInstance.handle(url)
+        GIDSignIn.sharedInstance.handle(url)
     }
     
     func logout() {

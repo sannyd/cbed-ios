@@ -23,11 +23,18 @@ final class JWTAccessTokenAdapter: RequestInterceptor {
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Swift.Result<URLRequest, Error>) -> Void) {
         var urlRequest = urlRequest
         let isRequireBearer = urlRequest.url?.absoluteString.contains("auth") ?? false
+        let isDeactivate = urlRequest.url?.absoluteString.contains("deactivate") ?? false
         if !isRequireBearer {
             if let accessToken = Storage.accessToken {
                 urlRequest.setValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
             } else {
                 completion(.failure(NSError(domain: "401", code: 401, userInfo: [:])))
+            }
+        }
+        
+        if isDeactivate {
+            if let accessToken = Storage.accessToken {
+                urlRequest.setValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
             }
         }
         

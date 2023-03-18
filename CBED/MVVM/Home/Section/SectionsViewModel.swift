@@ -142,7 +142,7 @@ struct SectionsViewModel: LoadMoreViewModel {
     
     let useCase: SectionsUseCaseType
     let navigator: SectionsNavigatorType
-    private let offset = 20
+    private let offset = 1000
     
     let errorTracker = ErrorTracker()
     let activityIndicator = ActivityIndicator()

@@ -13,7 +13,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var textfieldEmail: UITextField!
     @IBOutlet weak var textfieldPassword: UITextField!
     @IBOutlet weak var buttonLogin: CustomBorderButton!
-    @IBOutlet weak var buttonFacebook: UIImageView!
+//    @IBOutlet weak var buttonFacebook: UIImageView!
     @IBOutlet weak var buttonGoogle: UIImageView!
     @IBOutlet weak var buttonSignUp: UIButton!
     @IBOutlet weak var buttonForgot: UIButton!
@@ -51,7 +51,7 @@ class LoginViewController: UIViewController {
         return .init(email: textfieldEmail.rx.text.orEmpty.asObservable(),
                      password: textfieldPassword.rx.text.orEmpty.asObservable(),
                      buttonLoginTrigger: buttonLogin.rxButtonTapped.do(onNext: { self.view.endEditing(true) }),
-                     buttonFacebookTrigger: buttonFacebook.rxGestureTapped,
+                     buttonFacebookTrigger: .never(),
                      buttonGoogleTrigger: buttonGoogle.rxGestureTapped,
                      buttonForgotPasswordTrigger: buttonForgot.rxButtonTapped,
                      buttonRegisterTrigger: buttonSignUp.rxButtonTapped)

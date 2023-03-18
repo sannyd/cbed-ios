@@ -37,6 +37,7 @@ class CommonAnimatableCollectionView<T: AnimatableSectionModelType, C: CellType>
     private var cellHeight: CGFloat!
     private var cellWidth: CGFloat!
     private var lineSpacing: CGFloat!
+    var onScroll: ((UIScrollView) -> ())?
     
     lazy var rxDatasource: RxCollectionViewSectionedAnimatedDataSource<T> = {
         return RxCollectionViewSectionedAnimatedDataSource<T> { datasource, collectionView, indexPath, item in
@@ -94,6 +95,10 @@ class CommonAnimatableCollectionView<T: AnimatableSectionModelType, C: CellType>
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        onScroll?(scrollView)
+    }
 }
 
 class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, UICollectionViewDelegateFlowLayout {
@@ -102,6 +107,7 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     private var cellHeight: CGFloat!
     private var cellWidth: CGFloat!
     private var lineSpacing: CGFloat!
+    var onScroll: ((UIScrollView) -> ())?
     
     lazy var rxDatasource: RxCollectionViewSectionedReloadDataSource<T> = {
         return RxCollectionViewSectionedReloadDataSource<T> { datasource, collectionView, indexPath, item in
@@ -158,6 +164,10 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        onScroll?(scrollView)
     }
 }
 

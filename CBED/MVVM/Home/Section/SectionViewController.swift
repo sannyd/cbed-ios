@@ -15,10 +15,16 @@ final class SectionsViewController: UIViewController {
     @IBOutlet weak var labelNavigationTitle: UILabel!
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var buttonScrollToLastPage: CustomBorderButton!
     // MARK: - Properties
     
     var viewModel: SectionsViewModel!
     var disposeBag = DisposeBag()
+    private var isScrollToLast = true {
+        didSet {
+            buttonScrollToLastPage.setImage(isScrollToLast ? UIImage(systemName: "chevron.down") : UIImage(systemName: "chevron.up"), for: .normal)
+        }
+    }
     
     private var collectionView: CommonCollectionView<CommonCollectionViewSection<SearchResultM>, SectionCell>!
     
@@ -37,6 +43,8 @@ final class SectionsViewController: UIViewController {
     // MARK: - Methods
     
     func bindViewModel() {
+        buttonScrollToLastPage.addTarget(self, action: #selector(scrollToLastPage), for: .touchUpInside)
+        
         let pullToRefreshTrigger = collectionView
             .refreshControl!
             .rx
@@ -100,6 +108,16 @@ final class SectionsViewController: UIViewController {
             .forEach { $0.disposed(by: disposeBag) }
     }
     
+    @objc private func scrollToLastPage() {
+        if isScrollToLast {
+            DispatchQueue.main.async { self.collectionView.scrollToBottom(animated: true) }
+        } else {
+            DispatchQueue.main.async { self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
+                                                                        at: .top, animated: true) }
+        }
+        
+    }
+    
     private func setupCollectionView() {
         collectionView = CommonCollectionView<CommonCollectionViewSection<SearchResultM>, SectionCell>(lineSpacing: 14)
         collectionView.contentInset = .init(top: 20,
@@ -109,5 +127,46 @@ final class SectionsViewController: UIViewController {
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
         collectionView.addLoadMore {}
+        collectionView.onScroll = { [weak self] scrollView in
+            let content = scrollView.contentOffset.y / scrollView.contentSize.height * 100
+            
+            if content >= 95 {
+                self?.isScrollToLast = false
+            } else {
+                self?.isScrollToLast = true
+            }
+        }
+    }
+}
+
+extension UICollectionView {
+
+    // MARK: - UICollectionView scrolling/datasource
+    /// Last Section of the CollectionView
+    var lastSection: Int {
+        return numberOfSections - 1
+    }
+
+    /// IndexPath of the last item in last section.
+    var lastIndexPath: IndexPath? {
+        guard lastSection >= 0 else {
+            return nil
+        }
+
+        let lastItem = numberOfItems(inSection: lastSection) - 1
+        guard lastItem >= 0 else {
+            return nil
+        }
+
+        return IndexPath(item: lastItem, section: lastSection)
+    }
+
+    /// Islands: Scroll to bottom of the CollectionView
+    /// by scrolling to the last item in CollectionView
+    func scrollToBottom(animated: Bool) {
+        guard let lastIndexPath = lastIndexPath else {
+            return
+        }
+        scrollToItem(at: lastIndexPath, at: .bottom, animated: animated)
     }
 }
