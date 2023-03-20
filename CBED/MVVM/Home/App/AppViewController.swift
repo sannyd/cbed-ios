@@ -56,7 +56,8 @@ final class AppViewController: UIViewController {
                     
                         guard let remoteConfigs = try? JSONSerialization.jsonObject(with: remoteConfigData,
                                                                                     options: .mutableContainers) as? [String: Any],
-                              let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool else {
+                              let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool,
+                              let isEnableDeleteAccount = remoteConfigs["is_enable_delete_account"] as? Bool else {
                             return
                         }
                         
@@ -66,6 +67,7 @@ final class AppViewController: UIViewController {
                                 self.goToLogin()
                             } else {
                                 IsEnableLogin = isEnableLogin
+                                IsEnableDeleteAccount = isEnableDeleteAccount
                                 let tabbarVC = StoryboardManager.instanceTabBarVC()
                                 appDelegate.window?.rootViewController = tabbarVC
                             }
@@ -76,6 +78,7 @@ final class AppViewController: UIViewController {
                             } else {
                                 if Storage.accessToken == self.staticToken {
                                     IsEnableLogin = isEnableLogin
+                                    IsEnableDeleteAccount = isEnableDeleteAccount
                                     StoreKitService.shared.getLastReceipt { receipt in
                                         if let receipt = receipt {
                                             StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
@@ -111,12 +114,14 @@ final class AppViewController: UIViewController {
                     
                         guard let remoteConfigs = try? JSONSerialization.jsonObject(with: remoteConfigData,
                                                                                     options: .mutableContainers) as? [String: Any],
-                              let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool else {
-                            Storage.removeAll()
-                            self.goToLogin()
-                            return
+                              let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool,
+                              let isEnableDeleteAccount = remoteConfigs["is_enable_delete_account"] as? Bool else {
+                                  Storage.removeAll()
+                                  self.goToLogin()
+                                  return
                         }
                         IsEnableLogin = isEnableLogin
+                        IsEnableDeleteAccount = isEnableDeleteAccount
                         if isEnableLogin {
                             Storage.removeAll()
                             self.goToLogin()

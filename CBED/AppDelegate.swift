@@ -33,6 +33,7 @@ open class RxImagePickerDelegateProxy
 
 var remoteConfig = RemoteConfig.remoteConfig()
 var IsEnableLogin = true
+var IsEnableDeleteAccount = true
 var CurrentMembershipType: InAppPurchaseMonth?
 
 @main

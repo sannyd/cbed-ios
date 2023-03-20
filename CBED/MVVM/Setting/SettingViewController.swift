@@ -34,6 +34,7 @@ final class SettingViewController: UIViewController {
         super.viewDidLoad()
         profileImageView.setRoundShape()
         bindViewModel()
+        buttonDeactivate.isHidden = !IsEnableDeleteAccount
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -12,19 +12,20 @@ import RxCocoa
 
 extension Reactive where Base: GIDSignIn {
     func login(from: UIViewController?) -> Observable<String> {
-        return Observable.create { [weak base] observer in
+        return .create { [weak base] observer in
             base?.signOut()
-            let config = GIDConfiguration(clientID: "660482726170-lbmu7vtnugfrm6tb03oetv44361v7tci.apps.googleusercontent.com")
-            base?.signIn(with: config, presenting: from!, callback: { user, error in
+            base?.configuration = GIDConfiguration(clientID: "660482726170-lbmu7vtnugfrm6tb03oetv44361v7tci.apps.googleusercontent.com")
+            base?.signIn(withPresenting: from!, completion: { result, error in
                 if let error = error {
                     observer.on(.error(error))
                     return
                 }
                 
-                guard let token = user?.authentication.idToken else {
+                guard let token = result?.user.idToken?.tokenString else {
                     observer.on(.error(FacebookSDKError.tokenNotFound))
                     return
                 }
+                
                 observer.on(.next(token))
                 observer.on(.completed)
             })
