@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -362,44 +363,87 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a4j-Yy-ZHf" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                <rect key="frame" x="30" y="768" width="354" height="50"/>
-                                <color key="backgroundColor" name="Primary Blue"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="qGV-2Q-0TH"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
-                                <state key="normal" title="I Accept">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
-                                        <color key="value" name="Primary Blue"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                        <real key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                        <color key="value" name="Primary Blue"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                        <size key="value" width="0.0" height="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <integer key="value" value="0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                        <real key="value" value="0.080000000000000002"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
-                                        <color key="value" red="0.34901960780000002" green="0.35294117650000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
-                                </userDefinedRuntimeAttributes>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="PpR-Jr-qFt">
+                                <rect key="frame" x="16" y="768" width="382" height="50"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Rs-jp-lr5" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="50"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Nb8-Ab-Czd"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                                        <state key="normal" title="See exam outline">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
+                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                <size key="value" width="0.0" height="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <integer key="value" value="0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                <real key="value" value="0.080000000000000002"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
+                                                <color key="value" red="0.34901960780000002" green="0.35294117650000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a4j-Yy-ZHf" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="50"/>
+                                        <color key="backgroundColor" name="Primary Blue"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="qGV-2Q-0TH"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                                        <state key="normal" title="I Accept">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
+                                                <color key="value" name="Primary Blue"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" name="Primary Blue"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                <size key="value" width="0.0" height="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <integer key="value" value="0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                <real key="value" value="0.080000000000000002"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
+                                                <color key="value" red="0.34901960780000002" green="0.35294117650000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                            </stackView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="50k-C0-c4r">
                                 <rect key="frame" x="0.0" y="211" width="414" height="541"/>
                                 <subviews>
@@ -455,23 +499,24 @@
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="dXF-dX-BPT" firstAttribute="top" secondItem="sNF-vw-mxx" secondAttribute="top" id="7He-Mv-l1o"/>
-                            <constraint firstItem="a4j-Yy-ZHf" firstAttribute="leading" secondItem="sNF-vw-mxx" secondAttribute="leading" constant="30" id="BZF-Mr-069"/>
                             <constraint firstItem="2Zf-YP-nIW" firstAttribute="top" secondItem="dXF-dX-BPT" secondAttribute="bottom" constant="20" id="E1w-XN-PzW"/>
                             <constraint firstItem="sNF-vw-mxx" firstAttribute="trailing" secondItem="50k-C0-c4r" secondAttribute="trailing" id="IKs-7y-xQG"/>
-                            <constraint firstItem="sNF-vw-mxx" firstAttribute="bottom" secondItem="a4j-Yy-ZHf" secondAttribute="bottom" constant="44" id="T4J-RM-JAU"/>
+                            <constraint firstItem="PpR-Jr-qFt" firstAttribute="top" secondItem="50k-C0-c4r" secondAttribute="bottom" constant="16" id="IiY-oO-FfV"/>
+                            <constraint firstItem="sNF-vw-mxx" firstAttribute="trailing" secondItem="PpR-Jr-qFt" secondAttribute="trailing" constant="16" id="L97-YV-tLR"/>
                             <constraint firstItem="50k-C0-c4r" firstAttribute="top" secondItem="2Zf-YP-nIW" secondAttribute="bottom" constant="25" id="Vxl-8p-JKX"/>
                             <constraint firstItem="enO-P5-8J3" firstAttribute="width" secondItem="zcv-n3-jUX" secondAttribute="width" id="Vyu-Ol-vr8"/>
-                            <constraint firstItem="a4j-Yy-ZHf" firstAttribute="top" secondItem="50k-C0-c4r" secondAttribute="bottom" constant="16" id="XBQ-dp-Inh"/>
                             <constraint firstItem="dXF-dX-BPT" firstAttribute="trailing" secondItem="sNF-vw-mxx" secondAttribute="trailing" id="dX8-2T-nIs"/>
                             <constraint firstItem="50k-C0-c4r" firstAttribute="leading" secondItem="sNF-vw-mxx" secondAttribute="leading" id="e5l-OH-plu"/>
                             <constraint firstItem="2Zf-YP-nIW" firstAttribute="leading" secondItem="sNF-vw-mxx" secondAttribute="leading" constant="30" id="eOD-dy-mNY"/>
-                            <constraint firstItem="sNF-vw-mxx" firstAttribute="trailing" secondItem="a4j-Yy-ZHf" secondAttribute="trailing" constant="30" id="fri-UF-htW"/>
+                            <constraint firstItem="sNF-vw-mxx" firstAttribute="bottom" secondItem="PpR-Jr-qFt" secondAttribute="bottom" constant="44" id="q8N-Wv-U5B"/>
                             <constraint firstItem="dXF-dX-BPT" firstAttribute="leading" secondItem="sNF-vw-mxx" secondAttribute="leading" id="r8N-q5-KgB"/>
                             <constraint firstItem="50k-C0-c4r" firstAttribute="width" secondItem="zcv-n3-jUX" secondAttribute="width" id="rzo-TT-dEG"/>
+                            <constraint firstItem="PpR-Jr-qFt" firstAttribute="leading" secondItem="sNF-vw-mxx" secondAttribute="leading" constant="16" id="ug0-nk-aN9"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="buttonBack" destination="xHa-K2-0iA" id="zhW-re-SXP"/>
+                        <outlet property="buttonOutline" destination="0Rs-jp-lr5" id="O46-TE-d2m"/>
                         <outlet property="buttonStart" destination="a4j-Yy-ZHf" id="1GW-QI-xtt"/>
                         <outlet property="containerView" destination="bQz-Y7-jFr" id="SZA-AI-BWC"/>
                         <outlet property="labelDisclaimer" destination="bzJ-sH-MBd" id="fB6-Ac-bHu"/>
@@ -1145,6 +1190,86 @@
             </objects>
             <point key="canvasLocation" x="4204" y="82"/>
         </scene>
+        <!--Outline View Controller-->
+        <scene sceneID="8NV-Vw-zdb">
+            <objects>
+                <viewController storyboardIdentifier="OutlineViewController" id="VSz-tR-wDJ" customClass="OutlineViewController" customModule="CBED" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ocf-UP-hia">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QNS-WH-EhZ" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="48" width="414" height="80"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IzB-YT-2wI">
+                                        <rect key="frame" x="0.0" y="15" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="7P1-YH-rtq"/>
+                                            <constraint firstAttribute="width" constant="50" id="HBU-hL-KdW"/>
+                                        </constraints>
+                                        <state key="normal" image="img_back_black"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exam Outline" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qo-mO-dSU">
+                                        <rect key="frame" x="50" y="29" width="314" height="22"/>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
+                                        <color key="textColor" name="Primary Text"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" name="Background"/>
+                                <constraints>
+                                    <constraint firstItem="IzB-YT-2wI" firstAttribute="leading" secondItem="QNS-WH-EhZ" secondAttribute="leading" id="19V-Go-A9g"/>
+                                    <constraint firstItem="4qo-mO-dSU" firstAttribute="centerX" secondItem="QNS-WH-EhZ" secondAttribute="centerX" id="809-7C-ATO"/>
+                                    <constraint firstItem="4qo-mO-dSU" firstAttribute="leading" secondItem="IzB-YT-2wI" secondAttribute="trailing" id="AII-Zp-km3"/>
+                                    <constraint firstItem="IzB-YT-2wI" firstAttribute="centerY" secondItem="QNS-WH-EhZ" secondAttribute="centerY" id="TsV-CZ-xaI"/>
+                                    <constraint firstAttribute="height" constant="80" id="bsy-ha-fUr"/>
+                                    <constraint firstAttribute="trailing" secondItem="4qo-mO-dSU" secondAttribute="trailing" constant="50" id="cne-UD-Cgh"/>
+                                    <constraint firstItem="4qo-mO-dSU" firstAttribute="centerY" secondItem="QNS-WH-EhZ" secondAttribute="centerY" id="k7Z-PH-1ap"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.080000000000000002"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wcL-8a-0Jg">
+                                <rect key="frame" x="16" y="144" width="382" height="698"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="x9i-lC-S0K"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="x9i-lC-S0K" firstAttribute="trailing" secondItem="wcL-8a-0Jg" secondAttribute="trailing" constant="16" id="Hxz-bF-w8a"/>
+                            <constraint firstItem="wcL-8a-0Jg" firstAttribute="leading" secondItem="x9i-lC-S0K" secondAttribute="leading" constant="16" id="Jnt-e8-MI7"/>
+                            <constraint firstItem="x9i-lC-S0K" firstAttribute="bottom" secondItem="wcL-8a-0Jg" secondAttribute="bottom" constant="20" id="bcG-Xj-fUT"/>
+                            <constraint firstItem="x9i-lC-S0K" firstAttribute="trailing" secondItem="QNS-WH-EhZ" secondAttribute="trailing" id="bsr-HQ-wL3"/>
+                            <constraint firstItem="QNS-WH-EhZ" firstAttribute="top" secondItem="x9i-lC-S0K" secondAttribute="top" id="jry-Hd-Udz"/>
+                            <constraint firstItem="wcL-8a-0Jg" firstAttribute="top" secondItem="QNS-WH-EhZ" secondAttribute="bottom" constant="16" id="oht-5w-f6Y"/>
+                            <constraint firstItem="QNS-WH-EhZ" firstAttribute="leading" secondItem="ocf-UP-hia" secondAttribute="leading" id="sxN-2x-l2d"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="buttonBack" destination="IzB-YT-2wI" id="xdh-bh-Mjk"/>
+                        <outlet property="textView" destination="wcL-8a-0Jg" id="Bb8-n5-DH9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RBe-hU-8H1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5033" y="87"/>
+        </scene>
         <!--Search View Controller-->
         <scene sceneID="1c6-Jb-Cm4">
             <objects>
@@ -1424,5 +1549,11 @@
         <namedColor name="Textfield Color">
             <color red="0.66299998760223389" green="0.72500002384185791" blue="0.80400002002716064" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

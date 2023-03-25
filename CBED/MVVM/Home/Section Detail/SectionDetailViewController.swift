@@ -18,6 +18,7 @@ final class SectionDetailViewController: UIViewController {
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var buttonStart: CustomBorderButton!
     @IBOutlet weak var labelDisclaimer: UILabel!
+    @IBOutlet weak var buttonOutline: CustomBorderButton!
     
     // MARK: - Properties
     
@@ -35,6 +36,10 @@ final class SectionDetailViewController: UIViewController {
         if viewModel.level.id != 5 {
             labelDisclaimer.isHidden = true
         }
+        
+        if viewModel.level.id == 9 || viewModel.level.id == 9 { // PT or Essay
+            buttonOutline.isHidden = false
+        }
     }
     
     deinit {
@@ -46,7 +51,8 @@ final class SectionDetailViewController: UIViewController {
     func bindViewModel() {
         let input = SectionDetailViewModel.Input(firstLoadTrigger: rxViewWillAppear,
                                                  usefulLinkTapped: collectionView.rxModelSelected(),
-                                                 buttonStartTrigger: buttonStart.rxButtonTapped)
+                                                 buttonStartTrigger: buttonStart.rxButtonTapped,
+                                                 buttonOutlineTrigger: buttonOutline.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output

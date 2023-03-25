@@ -24,6 +24,7 @@ extension SectionDetailViewModel {
         let firstLoadTrigger: Observable<Void>
         let usefulLinkTapped: Observable<UsefulLink>
         let buttonStartTrigger: Observable<Void>
+        let buttonOutlineTrigger: Observable<Void>
     }
     
     struct Output {
@@ -92,6 +93,13 @@ struct SectionDetailViewModel: ViewModel {
             .map { _ in (sectionDetail, level) }
             .asDriverOnErrorJustComplete()
             .drive(onNext: navigator.pushToExamVC(sectionDetail:level:))
+            .disposed(by: disposeBag)
+        
+        input
+            .buttonOutlineTrigger
+            .map { _ in sectionDetail }
+            .asDriverOnErrorJustComplete()
+            .drive(onNext: navigator.pushToOutline(sectionDetail:))
             .disposed(by: disposeBag)
         
         return Output(sectionDetail: .just((imageURL, sectionDetail)),

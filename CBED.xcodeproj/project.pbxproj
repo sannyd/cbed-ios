@@ -156,6 +156,7 @@
 		18DA979B26B3158A003144ED /* PurchaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979A26B3158A003144ED /* PurchaseRouter.swift */; };
 		18DA979D26B31621003144ED /* PurchaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979C26B31621003144ED /* PurchaseUseCase.swift */; };
 		18DA979F26B3165D003144ED /* PurchaseMembershipRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979E26B3165D003144ED /* PurchaseMembershipRequestM.swift */; };
+		1B7B484329CEEC08004D3EB4 /* OutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7B484229CEEC08004D3EB4 /* OutlineViewController.swift */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
 		FF0A916E26D2353E007DB4A8 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */; };
 		FF0A917026D23ECF007DB4A8 /* ReceiptM.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */; };
@@ -357,6 +358,7 @@
 		18DA979A26B3158A003144ED /* PurchaseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseRouter.swift; sourceTree = "<group>"; };
 		18DA979C26B31621003144ED /* PurchaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseUseCase.swift; sourceTree = "<group>"; };
 		18DA979E26B3165D003144ED /* PurchaseMembershipRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseMembershipRequestM.swift; sourceTree = "<group>"; };
+		1B7B484229CEEC08004D3EB4 /* OutlineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineViewController.swift; sourceTree = "<group>"; };
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -632,6 +634,7 @@
 				185B063A267A516E00A17664 /* SectionDetailUseCase.swift */,
 				185B063B267A516E00A17664 /* SectionDetailViewController.swift */,
 				185B063C267A516E00A17664 /* SectionDetailViewModel.swift */,
+				1B7B484229CEEC08004D3EB4 /* OutlineViewController.swift */,
 			);
 			path = "Section Detail";
 			sourceTree = "<group>";
@@ -1216,6 +1219,7 @@
 				184ABC2C26878D06004048A5 /* ColorContext+UITraitCollection.swift in Sources */,
 				185B0651267B994400A17664 /* PreviewWebViewViewModel.swift in Sources */,
 				185B05F12676168D00A17664 /* SectionRouter.swift in Sources */,
+				1B7B484329CEEC08004D3EB4 /* OutlineViewController.swift in Sources */,
 				180C44CF2695F5E700416335 /* InAppPurchaseViewController.swift in Sources */,
 				185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */,
 				185B061A26762F5E00A17664 /* ScoreboardViewModel.swift in Sources */,
