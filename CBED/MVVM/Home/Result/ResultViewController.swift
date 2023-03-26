@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import SwiftConfettiView
 import SwiftySound
+import SwiftEntryKit
 
 final class ResultViewController: UIViewController {
     
@@ -84,6 +85,23 @@ final class ResultViewController: UIViewController {
                     self?.buttonTakeNewTest.isHidden = true
                     self?.buttonShare.isHidden = true
                     self?.labelReason.isHidden = false
+                    
+                    
+                    let alertVC = CustomAlertView()
+                    let title = "Slow Down"
+                    let buttonTitle = "OK"
+                    alertVC.setupAlertView(title: title,
+                                           description: "You’ve just scored under 30%. You will need to do the previous subject over again. This is to make sure you’re going through each subject with thought and care. Please think of this as a “speed bump” to slow you down.",
+                                           type: .wrong,
+                                           leftButtonTitle: buttonTitle,
+                                           rightButtonTitle: nil,
+                                           explainationLink: nil)
+                    alertVC.onOKTapped = {
+                        SwiftEntryKit.dismiss()
+                    }
+                    let attribute = EKAttributes.createCustomAlertAttributes(isDismissable: false)
+                    SwiftEntryKit.display(entry: alertVC, using: attribute)
+                    
                 }
             }),
          output

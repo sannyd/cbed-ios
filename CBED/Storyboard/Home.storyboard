@@ -373,7 +373,7 @@
                                             <constraint firstAttribute="height" constant="50" id="Nb8-Ab-Czd"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
-                                        <state key="normal" title="See exam outline">
+                                        <state key="normal" title="Essay Outline">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -540,46 +540,89 @@
                                 <rect key="frame" x="0.0" y="128" width="414" height="734"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mLW-B7-x0U">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="303"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="377"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nQt-YW-Wvv" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="253" width="382" height="50"/>
-                                                <color key="backgroundColor" name="Primary Blue"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="T0y-z0-O4P"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
-                                                <state key="normal" title="Check your answer">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
-                                                        <color key="value" name="Primary Blue"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                                        <real key="value" value="10"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                        <color key="value" name="Primary Blue"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                        <real key="value" value="20"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                                        <size key="value" width="0.0" height="4"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <integer key="value" value="0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                                        <real key="value" value="0.080000000000000002"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
-                                                        <color key="value" red="0.34901960780000002" green="0.35294117650000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
-                                                </userDefinedRuntimeAttributes>
-                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Hmg-d2-7dS">
+                                                <rect key="frame" x="16" y="253" width="382" height="108"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMd-NT-DZA" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="382" height="50"/>
+                                                        <color key="backgroundColor" name="Primary Red"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="e9n-7c-e7U"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                                                        <state key="normal" title="Eliminate wrong answers">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
+                                                                <color key="value" name="Primary Red"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                                                <real key="value" value="10"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                                <color key="value" name="Primary Red"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                                <real key="value" value="20"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                                <size key="value" width="0.0" height="4"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                <integer key="value" value="0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                                <real key="value" value="0.080000000000000002"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
+                                                                <color key="value" red="0.34901960780000002" green="0.35294117650000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nQt-YW-Wvv" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="58" width="382" height="50"/>
+                                                        <color key="backgroundColor" name="Primary Blue"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="pKc-Mx-XPE"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                                                        <state key="normal" title="Check your answer">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="enabledBackgroundColor">
+                                                                <color key="value" name="Primary Blue"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                                                <real key="value" value="10"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                                <color key="value" name="Primary Blue"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                                <real key="value" value="20"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                                <size key="value" width="0.0" height="4"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                <integer key="value" value="0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                                <real key="value" value="0.080000000000000002"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="disabledBackgroundColor">
+                                                                <color key="value" red="0.34901960780000002" green="0.35294117650000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isShowingShadowForDisableMode" value="NO"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="skX-3s-XK8">
                                                 <rect key="frame" x="20" y="0.0" width="374" height="0.0"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -647,11 +690,9 @@
                                         </subviews>
                                         <color key="backgroundColor" name="Background"/>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="nQt-YW-Wvv" secondAttribute="bottom" id="3y2-6f-ewW"/>
-                                            <constraint firstAttribute="trailing" secondItem="nQt-YW-Wvv" secondAttribute="trailing" constant="16" id="Lyk-4n-fzT"/>
-                                            <constraint firstItem="nQt-YW-Wvv" firstAttribute="top" secondItem="wTL-Go-CUr" secondAttribute="bottom" constant="22" id="OBL-pj-Wlb"/>
+                                            <constraint firstItem="Hmg-d2-7dS" firstAttribute="top" secondItem="wTL-Go-CUr" secondAttribute="bottom" constant="22" id="FEj-wb-SMx"/>
                                             <constraint firstAttribute="trailing" secondItem="skX-3s-XK8" secondAttribute="trailing" constant="20" id="QCh-P9-Irv"/>
-                                            <constraint firstItem="nQt-YW-Wvv" firstAttribute="leading" secondItem="mLW-B7-x0U" secondAttribute="leading" constant="16" id="UAv-H7-POv"/>
+                                            <constraint firstItem="Hmg-d2-7dS" firstAttribute="leading" secondItem="mLW-B7-x0U" secondAttribute="leading" constant="16" id="Tdc-ZP-NZJ"/>
                                             <constraint firstItem="skX-3s-XK8" firstAttribute="top" secondItem="mLW-B7-x0U" secondAttribute="top" id="cyw-g8-84J"/>
                                             <constraint firstItem="skX-3s-XK8" firstAttribute="leading" secondItem="mLW-B7-x0U" secondAttribute="leading" constant="20" id="fSN-3B-Oxr"/>
                                             <constraint firstItem="wTL-Go-CUr" firstAttribute="top" secondItem="skX-3s-XK8" secondAttribute="bottom" constant="40" id="fqz-Ya-Zid"/>
@@ -659,6 +700,8 @@
                                             <constraint firstItem="mo1-oG-eyy" firstAttribute="top" secondItem="wTL-Go-CUr" secondAttribute="top" constant="-15" id="lWZ-Jm-h9Q"/>
                                             <constraint firstItem="wTL-Go-CUr" firstAttribute="leading" secondItem="mLW-B7-x0U" secondAttribute="leading" constant="20" id="rKi-za-2sm"/>
                                             <constraint firstItem="mo1-oG-eyy" firstAttribute="centerX" secondItem="wTL-Go-CUr" secondAttribute="centerX" id="u57-TY-piw"/>
+                                            <constraint firstAttribute="trailing" secondItem="Hmg-d2-7dS" secondAttribute="trailing" constant="16" id="uau-pV-x2a"/>
+                                            <constraint firstAttribute="bottom" secondItem="Hmg-d2-7dS" secondAttribute="bottom" constant="16" id="wsX-9x-yPs"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -744,6 +787,7 @@
                     <connections>
                         <outlet property="buttonBack" destination="shK-x3-2Pf" id="eJB-wE-YLM"/>
                         <outlet property="buttonCheckAnswer" destination="nQt-YW-Wvv" id="z6V-Mw-zHv"/>
+                        <outlet property="buttonEliminateAnswer" destination="tMd-NT-DZA" id="cZu-lW-rcV"/>
                         <outlet property="containerView" destination="iAg-5f-3C0" id="Q7q-vg-H4s"/>
                         <outlet property="labelQuestion" destination="skX-3s-XK8" id="kv1-Jg-ob9"/>
                         <outlet property="labelSubtitle" destination="Dyt-eG-zJW" id="MMG-Y3-ZEI"/>
@@ -1209,7 +1253,7 @@
                                         </constraints>
                                         <state key="normal" image="img_back_black"/>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exam Outline" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qo-mO-dSU">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Essay Outline" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qo-mO-dSU">
                                         <rect key="frame" x="50" y="29" width="314" height="22"/>
                                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                                         <color key="textColor" name="Primary Text"/>

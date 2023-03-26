@@ -10,6 +10,7 @@ import UIKit
 struct SelectableAnswer: Equatable {
     var isSelected: Bool
     var isCheck: Bool
+    var isEliminated: Bool
     var answer: AnswerM
 }
 
@@ -57,10 +58,17 @@ class AnswerCell: UICollectionViewCell,
             }
             
         } else {
-            backgroundContainerView.backgroundColor = Constants.CellColor
-            backgroundContainerView.shadowColor = .black
-            labelText.textColor = Constants.PrimaryTextColor
-            radioImageView.image = #imageLiteral(resourceName: "img_answer_unselected")
+            if data.isEliminated {
+                backgroundContainerView.backgroundColor = .gray
+                backgroundContainerView.shadowColor = .black
+                labelText.textColor = Constants.PrimaryTextColor
+                radioImageView.image = nil
+            } else {
+                backgroundContainerView.backgroundColor = Constants.CellColor
+                backgroundContainerView.shadowColor = .black
+                labelText.textColor = Constants.PrimaryTextColor
+                radioImageView.image = #imageLiteral(resourceName: "img_answer_unselected")
+            }
         }
         
         labelText.text = data.answer.content

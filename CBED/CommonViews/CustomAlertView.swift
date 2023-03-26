@@ -43,6 +43,8 @@ class CustomAlertView: BaseNibView {
     
     var disposeBag = DisposeBag()
     
+    var onOKTapped: (() -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         loadContentViewWithNib(nibName: CustomAlertView.nibName())
@@ -97,6 +99,7 @@ class CustomAlertView: BaseNibView {
     }
     
     @IBAction private func buttonYesInvoked(_ sender: UIButton) {
+        onOKTapped?()
         publisher?.onNext(.OKTapped(type))
     }
     

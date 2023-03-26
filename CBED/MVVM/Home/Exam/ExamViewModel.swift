@@ -16,6 +16,7 @@ extension ExamViewModel {
         let firstLoadTrigger: Observable<Void>
         let answerTapped: Observable<IndexPath>
         let checkAnswerTapped: Observable<Void>
+        let buttonEliminateAnswerTapped: Observable<Void>
     }
     
     struct Output {
@@ -26,6 +27,8 @@ extension ExamViewModel {
         let scrollToTopInvoked: Observable<Void>
         let timerText: Observable<String>
         let isDisableCheckAnswer: Observable<Bool>
+        let isHidingEliminateAnswer: Observable<Bool>
+        let eliminateButtonTitle: Observable<String>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
     }
@@ -65,6 +68,8 @@ struct ExamViewModel: ViewModel {
         let scrollToTopInvoked = PublishSubject<Void>()
         let timerTrigger = PublishSubject<String>()
         let resetSectionTrigger = PublishSubject<Void>()
+        let eliminateAnswerCount = BehaviorRelay<Int>(value: 5)
+        let isEliminateAnswerSelected = BehaviorRelay<Bool>(value: false)
         
         UserDefaults.standard.setValue(Date(), forKey: sectionStartTime)
         
@@ -104,7 +109,21 @@ struct ExamViewModel: ViewModel {
             .publisher
             .share(replay: 1)
         
-        input.answerTapped
+        input
+            .answerTapped
+            .withLatestFrom(Observable.combineLatest(input.answerTapped,
+                                                     currentAnswers))
+            .map { indexPath, answerSections -> IndexPath? in
+                if let answers = answerSections.first?.items {
+                    let tempChoosenAnswer = answers[indexPath.item]
+                    guard !tempChoosenAnswer.isEliminated else {
+                        return nil
+                    }
+                }
+                
+                return indexPath
+            }
+            .unwrap()
             .bind(to: currentSelectedQuestion)
             .disposed(by: disposeBag)
         
@@ -119,7 +138,10 @@ struct ExamViewModel: ViewModel {
             .subscribe(onNext: { question in
                 SwiftEntryKit.dismiss()
                 let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                    .map { SelectableAnswer(isSelected: false, isCheck: true, answer: $0) }
+                    .map { SelectableAnswer(isSelected: false,
+                                            isCheck: true,
+                                            isEliminated: false,
+                                            answer: $0) }
                 currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
             })
             .disposed(by: disposeBag)
@@ -135,6 +157,8 @@ struct ExamViewModel: ViewModel {
             }
             .unwrap()
             .do(onNext: { questionAlertType in
+                isEliminateAnswerSelected.accept(false)
+                
                 switch questionAlertType {
                 case .correct:
                     if level.id == 5 {
@@ -151,7 +175,10 @@ struct ExamViewModel: ViewModel {
                         let nextQuestionIndex = currentQuestionIndex.value + 1
                         currentQuestionIndex.accept(nextQuestionIndex)
                         let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                            .map { SelectableAnswer(isSelected: false, isCheck: false, answer: $0) }
+                            .map { SelectableAnswer(isSelected: false,
+                                                    isCheck: false,
+                                                    isEliminated: false,
+                                                    answer: $0) }
                         currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
                         
                         UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
@@ -168,7 +195,10 @@ struct ExamViewModel: ViewModel {
                             let nextQuestionIndex = currentQuestionIndex.value + 1
                             currentQuestionIndex.accept(nextQuestionIndex)
                             let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                                .map { SelectableAnswer(isSelected: false, isCheck: false, answer: $0) }
+                                .map { SelectableAnswer(isSelected: false,
+                                                        isCheck: false,
+                                                        isEliminated: false,
+                                                        answer: $0) }
                             currentAnswers.accept([CommonCollectionViewSection(items: answers)])
                             
                             UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
@@ -206,7 +236,10 @@ struct ExamViewModel: ViewModel {
                    nextQuestion)
             .do(onNext: { question in
                 let answers = (question.answers ?? [])
-                    .map { SelectableAnswer(isSelected: false, isCheck: false, answer: $0) }
+                    .map { SelectableAnswer(isSelected: false,
+                                            isCheck: false,
+                                            isEliminated: false,
+                                            answer: $0) }
                 currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
             })
             .share(replay: 1)
@@ -230,6 +263,10 @@ struct ExamViewModel: ViewModel {
                                                      currentAnswers))
             .map { indexPath, answerSections -> (AnswerM, CommonCollectionViewSection<SelectableAnswer>)? in
                 if var answers = answerSections.first?.items {
+                    let tempChoosenAnswer = answers[indexPath.item]
+                    guard !tempChoosenAnswer.isEliminated else {
+                        return nil
+                    }
                     
                     answers = answers.map({ answer in
                         var answer = answer
@@ -305,6 +342,46 @@ struct ExamViewModel: ViewModel {
             .map { $0 != nil }
         
         
+        input.buttonEliminateAnswerTapped
+            .withLatestFrom(currentAnswers)
+            .subscribe(onNext: { answerSection in
+                
+                var temp: [SelectableAnswer] = []
+                var eliminateCountLeft = 2
+                
+                if let answers = answerSection.first?.items {
+                    for answer in answers {
+                        
+                        var tempAnswer = answer
+                        tempAnswer.isSelected = false
+                        tempAnswer.isCheck = false
+                        if !tempAnswer.answer.isCorrect && eliminateCountLeft > 0 {
+                            tempAnswer.isEliminated = true
+                            eliminateCountLeft -= 1
+                        }
+                        temp.append(tempAnswer)
+                    }
+                }
+                
+                currentAnswers.accept([CommonCollectionViewSection(items: temp)])
+                
+                var eliminateAnswerCountLeft = eliminateAnswerCount.value
+                eliminateAnswerCountLeft -= 1
+                eliminateAnswerCount.accept(eliminateAnswerCountLeft)
+                
+                currentSelectedQuestion.accept(nil)
+                isEliminateAnswerSelected.accept(true)
+            })
+            .disposed(by: disposeBag)
+        
+        let isHidingEliminateAnswer = Observable.combineLatest(isEliminateAnswerSelected,
+                                                               eliminateAnswerCount.map { $0 == 0 })
+            .map { isEliminateAnswerSelected, eliminateAnswerCount in
+                isEliminateAnswerSelected || eliminateAnswerCount
+            }
+        
+        let eliminateButtonTitle = eliminateAnswerCount.map { "Eliminate wrong answers [\($0)]" }
+        
         return Output(currentQuestion: currentQuestion,
                       answers: currentAnswers.asObservable(),
                       navigationTitle: .just(sectionDetail.name),
@@ -312,6 +389,8 @@ struct ExamViewModel: ViewModel {
                       scrollToTopInvoked: scrollToTopInvoked.asObservable(),
                       timerText: timerTrigger.asObservable(),
                       isDisableCheckAnswer: isDisableCheckAnswer,
+                      isHidingEliminateAnswer: isHidingEliminateAnswer,
+                      eliminateButtonTitle: eliminateButtonTitle,
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
     }

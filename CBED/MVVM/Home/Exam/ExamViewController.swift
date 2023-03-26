@@ -20,6 +20,7 @@ final class ExamViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var buttonCheckAnswer: CustomBorderButton!
+    @IBOutlet weak var buttonEliminateAnswer: CustomBorderButton!
     
     // MARK: - Properties
     
@@ -47,7 +48,8 @@ final class ExamViewController: UIViewController {
     func bindViewModel() {
         let input = ExamViewModel.Input(firstLoadTrigger: rxViewWillAppear,
                                         answerTapped: collectionView.rxItemSelected(),
-                                        checkAnswerTapped: buttonCheckAnswer.rxButtonTapped)
+                                        checkAnswerTapped: buttonCheckAnswer.rxButtonTapped,
+                                        buttonEliminateAnswerTapped: buttonEliminateAnswer.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
@@ -101,7 +103,16 @@ final class ExamViewController: UIViewController {
         output
             .error
             .asDriverOnErrorJustComplete()
-            .drive(errorBinding)]
+            .drive(errorBinding),
+         output
+            .isHidingEliminateAnswer
+            .asDriverOnErrorJustComplete()
+            .drive(buttonEliminateAnswer.rx.isHidden),
+         output
+            .eliminateButtonTitle
+            .asDriverOnErrorJustComplete()
+            .drive(buttonEliminateAnswer.rx.title())
+        ]
             .forEach { $0.disposed(by: disposeBag) }
     }
     
