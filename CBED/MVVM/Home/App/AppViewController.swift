@@ -60,6 +60,7 @@ final class AppViewController: UIViewController {
                               let isEnableDeleteAccount = remoteConfigs["is_enable_delete_account"] as? Bool else {
                             return
                         }
+                        IsEnableDeleteAccount = isEnableDeleteAccount
                         
                         if Storage.accessToken == nil {
                             if isEnableLogin {

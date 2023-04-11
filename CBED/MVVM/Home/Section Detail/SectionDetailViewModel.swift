@@ -97,9 +97,9 @@ struct SectionDetailViewModel: ViewModel {
         
         input
             .buttonOutlineTrigger
-            .map { _ in sectionDetail }
+            .map { _ in (sectionDetail, level) }
             .asDriverOnErrorJustComplete()
-            .drive(onNext: navigator.pushToOutline(sectionDetail:))
+            .drive(onNext: navigator.pushToOutline(sectionDetail:level:))
             .disposed(by: disposeBag)
         
         return Output(sectionDetail: .just((imageURL, sectionDetail)),

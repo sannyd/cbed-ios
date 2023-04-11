@@ -37,8 +37,20 @@ final class SectionDetailViewController: UIViewController {
             labelDisclaimer.isHidden = true
         }
         
-        if viewModel.level.id == 9 || viewModel.level.id == 9 { // PT or Essay
+        if viewModel.level.id == 9 || viewModel.level.id == 8 || viewModel.level.id == 10 { // PT or Essay or Free
             buttonOutline.isHidden = false
+        }
+        
+        if viewModel.level.id == 9 { // Essay
+            buttonOutline.setTitle("Essay Outline", for: .normal)
+        }
+        
+        if viewModel.level.id == 8 { // Free
+            buttonOutline.setTitle("Essay Outline", for: .normal)
+        }
+        
+        if viewModel.level.id == 10 { // PT
+            buttonOutline.setTitle("PT Outline", for: .normal)
         }
     }
     

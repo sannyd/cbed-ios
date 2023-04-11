@@ -239,3 +239,87 @@ class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
         return lineSpacing
     }
 }
+
+class AnswerCollectionView2<T: SectionModelType, C: CellType>: UICollectionView, UICollectionViewDelegateFlowLayout {
+    private let disposeBag = DisposeBag()
+    private var lineSpacing: CGFloat!
+    
+    lazy var rxDatasource: RxCollectionViewSectionedReloadDataSource<T> = {
+        return RxCollectionViewSectionedReloadDataSource<T> { datasource, collectionView, indexPath, item in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as! C
+            cell.populateData(item as! C.T)
+            
+            return cell
+        }
+    }()
+    
+    override var intrinsicContentSize: CGSize {
+        return self.contentSize
+    }
+    
+    override var contentSize: CGSize {
+        didSet {
+            invalidateIntrinsicContentSize()
+        }
+    }
+    
+    override func reloadData() {
+        super.reloadData()
+        self.invalidateIntrinsicContentSize()
+    }
+    
+    convenience init(lineSpacing: CGFloat) {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        self.init(frame: .zero, collectionViewLayout: layout)
+        self.lineSpacing = lineSpacing
+    }
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+        setupCollectionView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupCollectionView()
+    }
+    
+    private func setupCollectionView() {
+        backgroundView?.backgroundColor = Constants.BackgroundColor
+        backgroundColor = Constants.BackgroundColor
+        isScrollEnabled = false
+        clipsToBounds = false
+        register(C.nib(), forCellWithReuseIdentifier: C.nibName())
+        
+        NotificationCenter
+            .default
+            .rx
+            .notification(UIContentSizeCategory.didChangeNotification)
+            .mapToVoid()
+            .subscribe(onNext: { _ in
+                self.collectionViewLayout.invalidateLayout()
+            })
+            .disposed(by: disposeBag)
+        delegate = self
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return lineSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let data = rxDatasource.sectionModels[indexPath.section].items[indexPath.item] as! SelectableAnswer
+        let labelWidth: CGFloat = UIScreen.main.bounds.width - 30 - 30 - 8 - 35
+        let maxLabelSize = CGSize(width: labelWidth, height: .greatestFiniteMagnitude)
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont(name: "Lato-Regular", size: 14)!
+        label.text = data.answer.content
+        let titleLabelSize = label.sizeThatFits(maxLabelSize)
+        
+        return .init(width: UIScreen.main.bounds.width - 30 - 30, height: titleLabelSize.height + 8 + 8)
+    }
+}

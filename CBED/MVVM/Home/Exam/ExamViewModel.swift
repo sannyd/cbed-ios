@@ -27,7 +27,6 @@ extension ExamViewModel {
         let scrollToTopInvoked: Observable<Void>
         let timerText: Observable<String>
         let isDisableCheckAnswer: Observable<Bool>
-        let isHidingEliminateAnswer: Observable<Bool>
         let eliminateButtonTitle: Observable<String>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
@@ -59,7 +58,7 @@ struct ExamViewModel: ViewModel {
         let questions = sectionDetail.questions ?? []
         var previousQuestionIndex = UserDefaults.standard.value(forKey: sectionKey) as? Int ?? 0
         let currentQuestionIndex = BehaviorRelay<Int>(value: previousQuestionIndex)
-        let currentSelectedQuestion = BehaviorRelay<IndexPath?>(value: nil)
+        let currentSelectedAnswer = BehaviorRelay<IndexPath?>(value: nil)
         let sharedCurrentQuestionIndex = currentQuestionIndex.share(replay: 1)
         let currentAnswers = BehaviorRelay<[CommonCollectionViewSection<SelectableAnswer>]>(value: [])
         let saveResultTrigger = PublishRelay<Void>()
@@ -68,8 +67,8 @@ struct ExamViewModel: ViewModel {
         let scrollToTopInvoked = PublishSubject<Void>()
         let timerTrigger = PublishSubject<String>()
         let resetSectionTrigger = PublishSubject<Void>()
-        let eliminateAnswerCount = BehaviorRelay<Int>(value: 5)
         let isEliminateAnswerSelected = BehaviorRelay<Bool>(value: false)
+        let eliminateButtonTitle = BehaviorRelay<String>(value: "Eliminate answer")
         
         UserDefaults.standard.setValue(Date(), forKey: sectionStartTime)
         
@@ -111,20 +110,19 @@ struct ExamViewModel: ViewModel {
         
         input
             .answerTapped
-            .withLatestFrom(Observable.combineLatest(input.answerTapped,
-                                                     currentAnswers))
-            .map { indexPath, answerSections -> IndexPath? in
-                if let answers = answerSections.first?.items {
-                    let tempChoosenAnswer = answers[indexPath.item]
-                    guard !tempChoosenAnswer.isEliminated else {
-                        return nil
-                    }
-                }
+            .withLatestFrom(input.answerTapped)
+            .do(onNext: { index in
+                let answer = currentAnswers.value.first?.items ?? []
                 
-                return indexPath
-            }
-            .unwrap()
-            .bind(to: currentSelectedQuestion)
+                let item = answer[index.item]
+                
+                if item.isEliminated {
+                    eliminateButtonTitle.accept("Uneliminate answer")
+                } else {
+                    eliminateButtonTitle.accept("Eliminate answer")
+                }
+            })
+            .bind(to: currentSelectedAnswer)
             .disposed(by: disposeBag)
         
         sharedAlertPublisher
@@ -263,11 +261,6 @@ struct ExamViewModel: ViewModel {
                                                      currentAnswers))
             .map { indexPath, answerSections -> (AnswerM, CommonCollectionViewSection<SelectableAnswer>)? in
                 if var answers = answerSections.first?.items {
-                    let tempChoosenAnswer = answers[indexPath.item]
-                    guard !tempChoosenAnswer.isEliminated else {
-                        return nil
-                    }
-                    
                     answers = answers.map({ answer in
                         var answer = answer
                         answer.isSelected = false
@@ -316,7 +309,7 @@ struct ExamViewModel: ViewModel {
             .unwrap()
             .map { ($0.0, level, questions[currentQuestionIndex.value].youtubeURL) }
             .do(onNext: { _ in
-                currentSelectedQuestion.accept(nil)
+                currentSelectedAnswer.accept(nil)
             })
             .asDriverOnErrorJustComplete()
             .delay(.milliseconds(100))
@@ -338,49 +331,36 @@ struct ExamViewModel: ViewModel {
             })
             .disposed(by: disposeBag)
         
-        let isDisableCheckAnswer = currentSelectedQuestion
+        let isDisableCheckAnswer = currentSelectedAnswer
             .map { $0 != nil }
         
         
         input.buttonEliminateAnswerTapped
-            .withLatestFrom(currentAnswers)
-            .subscribe(onNext: { answerSection in
-                
+            .withLatestFrom(currentSelectedAnswer)
+            .unwrap()
+            .subscribe(onNext: { selectIndex in
+                let answers = currentAnswers.value.first?.items ?? []
                 var temp: [SelectableAnswer] = []
-                var eliminateCountLeft = 2
-                
-                if let answers = answerSection.first?.items {
-                    for answer in answers {
-                        
+                for (index, answer) in answers.enumerated() {
+                    if selectIndex.item == index {
                         var tempAnswer = answer
-                        tempAnswer.isSelected = false
-                        tempAnswer.isCheck = false
-                        if !tempAnswer.answer.isCorrect && eliminateCountLeft > 0 {
-                            tempAnswer.isEliminated = true
-                            eliminateCountLeft -= 1
+                        tempAnswer.isEliminated = !tempAnswer.isEliminated
+                        
+                        if tempAnswer.isEliminated {
+                            eliminateButtonTitle.accept("Uneliminate answer")
+                        } else {
+                            eliminateButtonTitle.accept("Eliminate answer")
                         }
+                        
                         temp.append(tempAnswer)
+                    } else {
+                        temp.append(answer)
                     }
                 }
                 
                 currentAnswers.accept([CommonCollectionViewSection(items: temp)])
-                
-                var eliminateAnswerCountLeft = eliminateAnswerCount.value
-                eliminateAnswerCountLeft -= 1
-                eliminateAnswerCount.accept(eliminateAnswerCountLeft)
-                
-                currentSelectedQuestion.accept(nil)
-                isEliminateAnswerSelected.accept(true)
             })
             .disposed(by: disposeBag)
-        
-        let isHidingEliminateAnswer = Observable.combineLatest(isEliminateAnswerSelected,
-                                                               eliminateAnswerCount.map { $0 == 0 })
-            .map { isEliminateAnswerSelected, eliminateAnswerCount in
-                isEliminateAnswerSelected || eliminateAnswerCount
-            }
-        
-        let eliminateButtonTitle = eliminateAnswerCount.map { "Eliminate wrong answers [\($0)]" }
         
         return Output(currentQuestion: currentQuestion,
                       answers: currentAnswers.asObservable(),
@@ -389,8 +369,7 @@ struct ExamViewModel: ViewModel {
                       scrollToTopInvoked: scrollToTopInvoked.asObservable(),
                       timerText: timerTrigger.asObservable(),
                       isDisableCheckAnswer: isDisableCheckAnswer,
-                      isHidingEliminateAnswer: isHidingEliminateAnswer,
-                      eliminateButtonTitle: eliminateButtonTitle,
+                      eliminateButtonTitle: eliminateButtonTitle.asObservable(),
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
     }

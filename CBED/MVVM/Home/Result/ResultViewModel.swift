@@ -58,6 +58,14 @@ enum ResultType {
             return combination
         }
     }
+    
+    var result: SaveResultResponseM {
+        switch self {
+        case .pass(let result),
+                .fail(let result):
+            return result
+        }
+    }
 }
 
 enum ResultViewModelPublisher {

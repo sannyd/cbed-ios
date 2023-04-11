@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ExamViewController: UIViewController {
+final class ExamViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     
     // MARK: - IBOutlets
     @IBOutlet weak var labelTitle: UILabel!
@@ -27,7 +27,7 @@ final class ExamViewController: UIViewController {
     var viewModel: ExamViewModel!
     var disposeBag = DisposeBag()
     
-    private var collectionView: AnswerCollectionView<CommonCollectionViewSection<SelectableAnswer>, AnswerCell>!
+    private var collectionView: AnswerCollectionView2<CommonCollectionViewSection<SelectableAnswer>, AnswerCell>!
     
     // MARK: - Life Cycle
     
@@ -105,10 +105,6 @@ final class ExamViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(errorBinding),
          output
-            .isHidingEliminateAnswer
-            .asDriverOnErrorJustComplete()
-            .drive(buttonEliminateAnswer.rx.isHidden),
-         output
             .eliminateButtonTitle
             .asDriverOnErrorJustComplete()
             .drive(buttonEliminateAnswer.rx.title())
@@ -117,7 +113,7 @@ final class ExamViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        collectionView = AnswerCollectionView(lineSpacing: 14)
+        collectionView = AnswerCollectionView2(lineSpacing: 14)
         collectionView.isScrollEnabled = false
         collectionView.contentInset = .init(top: 0,
                                             left: 0,

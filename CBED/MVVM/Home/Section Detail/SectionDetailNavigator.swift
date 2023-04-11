@@ -11,7 +11,8 @@ protocol SectionDetailNavigatorType {
     func pushToPreviewWebView(usefulLinkURL: String)
     func pushToExamVC(sectionDetail: SectionDetailM,
                       level: LevelM)
-    func pushToOutline(sectionDetail: SectionDetailM)
+    func pushToOutline(sectionDetail: SectionDetailM,
+                       level: LevelM)
 }
 
 struct SectionDetailNavigator: SectionDetailNavigatorType {
@@ -35,8 +36,22 @@ struct SectionDetailNavigator: SectionDetailNavigatorType {
         navigationController.pushViewController(examVC, animated: true)
     }
     
-    func pushToOutline(sectionDetail: SectionDetailM) {
+    func pushToOutline(sectionDetail: SectionDetailM,
+                       level: LevelM) {
         let outlineVC: OutlineViewController = StoryboardManager.getVCFromHomeSB()
+        if level.id == 9 { // Essay
+            outlineVC.navTitle = "Essay Outline"
+        }
+        
+        if level.id == 8 { // Free
+            outlineVC.navTitle = "Essays Outline"
+        }
+        
+        if level.id == 10 { // PT
+            outlineVC.navTitle = "PT Outline"
+        }
+        
+        
         outlineVC.outlineText = sectionDetail.questions?.last?.content
         navigationController.pushViewController(outlineVC, animated: true)
     }
