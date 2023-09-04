@@ -316,10 +316,10 @@ class AnswerCollectionView2<T: SectionModelType, C: CellType>: UICollectionView,
         let maxLabelSize = CGSize(width: labelWidth, height: .greatestFiniteMagnitude)
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont(name: "Lato-Regular", size: 14)!
+        label.scaledFont(style: .body)
         label.text = data.answer.content
         let titleLabelSize = label.sizeThatFits(maxLabelSize)
         
-        return .init(width: UIScreen.main.bounds.width - 30 - 30, height: titleLabelSize.height + 8 + 8)
+        return .init(width: UIScreen.main.bounds.width - 30 - 30, height: titleLabelSize.height + 16 + 16)
     }
 }

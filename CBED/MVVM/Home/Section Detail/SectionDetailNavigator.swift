@@ -43,12 +43,20 @@ struct SectionDetailNavigator: SectionDetailNavigatorType {
             outlineVC.navTitle = "Essay Outline"
         }
         
+        if level.id == 7 { // MEE
+            outlineVC.navTitle = "Essay Outline"
+        }
+        
         if level.id == 8 { // Free
-            outlineVC.navTitle = "Essays Outline"
+            outlineVC.navTitle = "Essay Outline"
         }
         
         if level.id == 10 { // PT
             outlineVC.navTitle = "PT Outline"
+        }
+        
+        if level.id == 11 { // MPT
+            outlineVC.navTitle = "MPT Outline"
         }
         
         

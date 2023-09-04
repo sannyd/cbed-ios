@@ -29,6 +29,8 @@ final class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTextfield.becomeFirstResponder()
+        searchTextfield.autocorrectionType = .no
+        searchTextfield.spellCheckingType = .no
         setupCollectionView()
         setupGradientView()
         bindViewModel()
@@ -46,7 +48,7 @@ final class SearchViewController: UIViewController {
             .text
             .orEmpty
             .filter { !$0.isEmpty }
-            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
         let input = SearchViewModel.Input(searchText: searchText,
                                           firstLoadTrigger: rxViewWillAppear,
