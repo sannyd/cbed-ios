@@ -112,34 +112,10 @@ struct SearchViewModel: LoadMoreViewModel {
     // Override
     func getNextPage(offset: Int,
                      searchText: String) -> Observable<SectionSearchResponseM> {
-        return Observable.zip(fetchCAEssay(),
-                       fetchMEEEssay())
-        .map { (caEssays, meeEssays) in
-            var results = caEssays.results + meeEssays.results
-            results = results.filter { $0.name?.lowercased().contains(searchText.lowercased()) ?? false }
-            
-            let response = SectionSearchResponseM(count: 0, next: nil, previous: nil, results: results)
-            
-            return response
-        }
-    }
-    
-    
-    func fetchMEEEssay() -> Observable<SectionSearchResponseM> {
         return self.useCase
-            .searchSection(request: .init(search: "",
+            .searchEssay(request: .init(search: searchText,
                                           level: "9",
-                                          limit: 100,
-                                          offset: offset))
-            .trackActivity(activityIndicator)
-            .trackError(errorTracker)
-    }
-    
-    func fetchCAEssay() -> Observable<SectionSearchResponseM> {
-        return self.useCase
-            .searchSection(request: .init(search: "",
-                                          level: "7",
-                                          limit: 100,
+                                          limit: self.offset,
                                           offset: offset))
             .trackActivity(activityIndicator)
             .trackError(errorTracker)
