@@ -58,7 +58,7 @@ final class LevelViewController: UIViewController {
         codeMenuAttributes.rowStyle = .value(height: 60, backgroundColor: .white, selectedColor: .white)
         codeMenuAttributes.roundCorners = .all(radius: 8)
         codeMenuAttributes.border = .value(color: .gray, width: 0.5)
-        codeMenuAttributes.placeHolderStyle = .value(text: "Select a level to search", textColor: .black)
+        codeMenuAttributes.placeHolderStyle = .value(text: "Select JX", textColor: .black)
         codeMenuAttributes.separatorStyle = .value(color: .black, isBlured: false, style: .singleLine)
         searchView.configure(with: codeMenuAttributes)
         
