@@ -114,9 +114,9 @@ struct SearchViewModel: LoadMoreViewModel {
                      searchText: String) -> Observable<SectionSearchResponseM> {
         return self.useCase
             .searchEssay(request: .init(search: searchText,
-                                          level: "9",
-                                          limit: self.offset,
-                                          offset: offset))
+                                        level: "\(level.id)",
+                                        limit: self.offset,
+                                        offset: offset))
             .trackActivity(activityIndicator)
             .trackError(errorTracker)
     }

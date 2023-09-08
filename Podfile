@@ -12,7 +12,7 @@ def rx_pods
 end
 
 def utility_pods
-   pod 'SnapKit'
+   pod 'SnapKit', '~> 5.0.1'
    pod 'SwiftLint'
    pod 'KeychainSwift'
    pod 'SwiftEntryKit'

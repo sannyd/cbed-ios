@@ -9,7 +9,7 @@ import UIKit
 
 protocol LevelNavigatorType {
     func pushToSectionsVC(level: LevelM)
-    func pushToSearchVC()
+    func pushToSearchVC(level: LevelM)
     func pushToInAppPurchaseVC()
 }
 
@@ -24,11 +24,11 @@ struct LevelNavigator: LevelNavigatorType {
         navigationController.pushViewController(sectionsVC, animated: true)
     }
     
-    func pushToSearchVC() {
+    func pushToSearchVC(level: LevelM) {
         let searchVC: SearchViewController = StoryboardManager.getVCFromHomeSB()
         searchVC.viewModel = .init(useCase: SearchUseCase(),
                                    navigator: SearchNavigator(navigationController: navigationController),
-                                   level: LevelM(id: 9, name: "Essay Drills & Videos", order: nil))
+                                   level: level)
         navigationController.pushViewController(searchVC, animated: true)
     }
     
