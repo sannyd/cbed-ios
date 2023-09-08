@@ -21,6 +21,7 @@ def utility_pods
    pod 'PhoneNumberKit'
    pod 'SwiftConfettiView'
    pod 'SwiftySound'
+   pod 'SwiftyMenu', '~> 1.0.1'
 end
 
 def sso_pods

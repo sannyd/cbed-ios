@@ -17,7 +17,7 @@ struct RegisterNavigator: RegisterNavigatorType {
     unowned let navigationController: UINavigationController
     
     func showRegisterSuccessAlert() {
-        UIAlertHelper.showAlertController(title: "Congratulation", message: "You have successfully create your account", cancel: "OK", others: nil) { _, index in
+        UIAlertHelper.showAlertController(title: "Congratulations", message: "Successful account creation", cancel: "OK", others: nil) { _, index in
             navigationController.popViewController(animated: true)
         }
     }

@@ -152,7 +152,7 @@ struct InAppPurchaseAlertViewModel: ViewModel {
                 }
                 
                 if rightData.isSelected {
-                    return leftData.type
+                    return rightData.type
                 }
                 
                 return nil

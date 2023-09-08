@@ -83,7 +83,7 @@ struct RegisterViewModel: ViewModel {
                 var formattedPhone = phone
                 
                 let phoneNumberKit = PhoneNumberKit()
-                if let phoneNumber = try? phoneNumberKit.parse(phone) {
+                if let phoneNumber = try? phoneNumberKit.parse(phone, withRegion: "US") {
                     formattedPhone = phoneNumberKit.format(phoneNumber, toType: .international)
                 }
                 
