@@ -10,5 +10,4 @@ import Foundation
 struct LevelM: Decodable {
     let id: Int
     let name: String?
-    let order: Int?
 }

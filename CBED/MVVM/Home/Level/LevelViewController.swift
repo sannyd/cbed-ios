@@ -41,8 +41,9 @@ final class LevelViewController: UIViewController {
     var viewModel: LevelViewModel!
     var disposeBag = DisposeBag()
     private let dropDownOptionsDataSource = [
-        SearchSection(level: LevelM(id: 9, name: "CA Essay Drills & Videos", order: 7)),
-        SearchSection(level: LevelM(id: 7, name: "MEE Drills & Videos", order: 9)),
+        SearchSection(level: LevelM(id: 9, name: "CA Essay Drills & Videos")),
+        SearchSection(level: LevelM(id: 7, name: "MEE Drills & Videos")),
+        SearchSection(level: LevelM(id: 4, name: "FL MCQ Drills")),
     ]
     
     private var collectionView: CommonCollectionView<CommonCollectionViewSection<LevelM>, LevelCell>!

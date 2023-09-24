@@ -159,7 +159,7 @@ struct ExamViewModel: ViewModel {
                 
                 switch questionAlertType {
                 case .correct:
-                    if level.id == 5 {
+                    if level.id == 5 || level.id == 4 {
                         if previousIncorrectAnswerIndex != currentQuestionIndex.value {
                             correctAnswers += 1
                         }
@@ -184,7 +184,7 @@ struct ExamViewModel: ViewModel {
                         scrollToTopInvoked.onNext(())
                     }
                 case .wrong:
-                    if level.id == 5 {
+                    if level.id == 5 || level.id == 4 {
                         previousIncorrectAnswerIndex = currentQuestionIndex.value
                     } else {
                         if currentQuestionIndex.value >= questions.count - 1 {
