@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -198,6 +198,22 @@
                                 <rect key="frame" x="215.5" y="319.5" width="51" height="31"/>
                                 <color key="onTintColor" name="Primary Blue"/>
                             </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exam location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NhD-vw-fMl">
+                                <rect key="frame" x="20" y="385.5" width="111" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzG-45-Xwk" customClass="SwiftyMenu" customModule="SwiftyMenu">
+                                <rect key="frame" x="144" y="373.5" width="250" height="44"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Rgg-nl-tx6"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="heightConstraint" destination="Rgg-nl-tx6" id="YD0-HO-nc2"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" name="Background"/>
@@ -210,14 +226,19 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="6cw-x4-2bm" secondAttribute="bottom" constant="40" id="MBU-fd-oVV"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ejP-2Q-SFL" secondAttribute="trailing" constant="16" id="NXl-iP-gTC"/>
                             <constraint firstItem="ejP-2Q-SFL" firstAttribute="top" secondItem="rFo-wH-AEH" secondAttribute="bottom" constant="8" id="Os4-Xl-qLi"/>
+                            <constraint firstItem="kzG-45-Xwk" firstAttribute="centerY" secondItem="NhD-vw-fMl" secondAttribute="centerY" id="QRd-iB-pQs"/>
                             <constraint firstItem="4qW-Sw-spP" firstAttribute="centerY" secondItem="Za4-9K-I2q" secondAttribute="centerY" id="Tt2-QG-cQD"/>
                             <constraint firstItem="rFo-wH-AEH" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="W7V-z1-TAL"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Sa7-bP-UYm" secondAttribute="trailing" constant="40" id="XTz-Aj-99Z"/>
+                            <constraint firstItem="kzG-45-Xwk" firstAttribute="leading" secondItem="NhD-vw-fMl" secondAttribute="trailing" constant="13" id="eU4-eC-at0"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="6cw-x4-2bm" secondAttribute="trailing" constant="30" id="hs3-dV-zWu"/>
                             <constraint firstItem="Za4-9K-I2q" firstAttribute="leading" secondItem="4qW-Sw-spP" secondAttribute="trailing" constant="12" id="m7Y-j3-Vbz"/>
                             <constraint firstItem="l59-TT-hgF" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="mQF-ZI-PJo"/>
                             <constraint firstItem="l59-TT-hgF" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="mS7-d4-xoj"/>
                             <constraint firstItem="ejP-2Q-SFL" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="rwh-Zi-WGq"/>
+                            <constraint firstItem="NhD-vw-fMl" firstAttribute="top" secondItem="4qW-Sw-spP" secondAttribute="bottom" constant="40" id="uIB-2e-p3Z"/>
+                            <constraint firstItem="NhD-vw-fMl" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="usa-nJ-58r"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="kzG-45-Xwk" secondAttribute="trailing" constant="20" id="w5r-k6-DVK"/>
                         </constraints>
                     </view>
                     <connections>
@@ -225,6 +246,7 @@
                         <outlet property="buttonEdit" destination="Sa7-bP-UYm" id="T54-88-5di"/>
                         <outlet property="buttonLogout" destination="w5S-nM-Mvs" id="PfQ-9B-rsX"/>
                         <outlet property="buttonRestorePurchase" destination="7YK-lT-S6H" id="xcn-pC-Sz0"/>
+                        <outlet property="examLocationMenu" destination="kzG-45-Xwk" id="XPv-PU-XwT"/>
                         <outlet property="faceIDSwitch" destination="Za4-9K-I2q" id="qsj-LO-uX0"/>
                         <outlet property="labelEmail" destination="7or-cV-bYw" id="ssh-R5-epQ"/>
                         <outlet property="labelMembership" destination="P72-nk-1KI" id="ich-gI-SJh"/>
@@ -483,8 +505,11 @@
         <namedColor name="Separator Line">
             <color red="0.86299997568130493" green="0.89800000190734863" blue="0.93300002813339233" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

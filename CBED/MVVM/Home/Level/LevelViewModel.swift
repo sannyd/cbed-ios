@@ -57,11 +57,15 @@ struct LevelViewModel: ViewModel {
                     return items
                 }
             }
-            .map { [CommonCollectionViewSection(items: $0)] }
         
         let userProfile = input
             .viewWillAppear
             .map { _ in Storage.profileInfo }
+        
+        let filterLevel = input
+            .viewWillAppear
+            .withLatestFrom(levels)
+            .map { $0.filter { Storage.examLocation.allowLevelIDs.contains($0.id) } }
         
         input
             .levelTapped
@@ -81,7 +85,10 @@ struct LevelViewModel: ViewModel {
             .drive(onNext: navigator.pushToInAppPurchaseVC)
             .disposed(by: disposeBag)
         
-        return Output(levels: levels.asDriver(onErrorJustReturn: []),
+        let levelsOutput = Driver.merge(levels.map { $0.filter { Storage.examLocation.allowLevelIDs.contains($0.id) } }.asDriver(onErrorJustReturn: []),
+                                        filterLevel.asDriver(onErrorJustReturn: []))
+            .map { [CommonCollectionViewSection(items: $0)] }
+        return Output(levels: levelsOutput,
                       userProfile: userProfile,
                       isReloading: activityIndicator.asDriver(),
                       isLoading: loadindIndicator.asDriver(),

@@ -14,6 +14,7 @@ enum StorageKey: String {
     case profileInfo
     case isEnableFaceID
     case faceIDExpireDate
+    case examLocation
 }
 
 enum StorageType {

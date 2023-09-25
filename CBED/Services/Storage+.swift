@@ -62,6 +62,23 @@ extension Storage {
         }
     }
     
+    static var examLocation: ExamLocation {
+        get {
+            guard let data = Storage.get(key: StorageKey.examLocation.rawValue, storageType: .userDefault),
+                  let valueString = String(data: data, encoding: .utf8),
+                  let location = ExamLocation(rawValue: valueString) else {
+                return .ube
+            }
+            return location
+        }
+        set {
+            guard let data = newValue.rawValue.data(using: .utf8, allowLossyConversion: false) else {
+                return
+            }
+            Storage.set(value: data, forKey: StorageKey.examLocation.rawValue, storageType: .userDefault)
+        }
+    }
+    
     static var profileInfo: ProfileInfoM? {
         get {
             let userDefaults = UserDefaults.standard

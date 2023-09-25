@@ -9,21 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
-import SwiftyMenu
-
-struct SearchSection {
-    let level: LevelM
-}
-
-extension SearchSection: SwiftyMenuDisplayable {
-    public var displayableValue: String {
-        return self.level.name ?? ""
-    }
-
-    public var retrievableValue: Any {
-        return self.level
-    }
-}
 
 final class LevelViewController: UIViewController {
     
@@ -31,20 +16,13 @@ final class LevelViewController: UIViewController {
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var gradientViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var searchView: SwiftyMenu!
+    @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var unlockView: UIView!
-    private var codeMenuAttributes = SwiftyMenuAttributes()
-    let selectSearchSection = PublishSubject<LevelM>()
     
     // MARK: - Properties
     
     var viewModel: LevelViewModel!
     var disposeBag = DisposeBag()
-    private let dropDownOptionsDataSource = [
-        SearchSection(level: LevelM(id: 9, name: "CA Essay Drills & Videos")),
-        SearchSection(level: LevelM(id: 7, name: "MEE Drills & Videos")),
-        SearchSection(level: LevelM(id: 4, name: "FL MCQ Drills")),
-    ]
     
     private var collectionView: CommonCollectionView<CommonCollectionViewSection<LevelM>, LevelCell>!
     
@@ -53,34 +31,12 @@ final class LevelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchView.isUserInteractionEnabled = true
-        searchView.items = dropDownOptionsDataSource
-        codeMenuAttributes.multiSelect = .disabled
-        codeMenuAttributes.hideOptionsWhenSelect = .enabled
-        codeMenuAttributes.rowStyle = .value(height: 60, backgroundColor: .white, selectedColor: .white)
-        codeMenuAttributes.roundCorners = .all(radius: 8)
-        codeMenuAttributes.border = .value(color: .gray, width: 0.5)
-        codeMenuAttributes.placeHolderStyle = .value(text: "Select JX", textColor: .black)
-        codeMenuAttributes.separatorStyle = .value(color: .black, isBlured: false, style: .singleLine)
-        searchView.configure(with: codeMenuAttributes)
-        
-        searchView.didSelectItem = { [weak self] menu, item, index in
-            guard let self else { return }
-            print("Selected \(item) at index: \(index)")
-            if let level = item.retrievableValue as? LevelM {
-                self.selectSearchSection.onNext(level)
-                self.searchView.selectedIndex = nil
-            }
-        }
-        searchView.willExpand = { [weak self] in
-            self?.collectionView.isUserInteractionEnabled = false
-        }
-        searchView.willCollapse = { [weak self] in
-            self?.collectionView.isUserInteractionEnabled = true
-        }
 
         setupCollectionView()
         setupGradientView()
         bindViewModel()
+        
+        searchView.setCornerRadius(radius: 20)
     }
     
     override func viewDidLayoutSubviews() {
@@ -136,7 +92,7 @@ final class LevelViewController: UIViewController {
                                                                             rxViewWillAppear),
                                          viewWillAppear: viewWillAppear,
                                          levelTapped: collectionView.rxModelSelected(),
-                                         searchViewTapped: selectSearchSection.asObservable(),
+                                         searchViewTapped: searchView.rxGestureTapped.map { LevelM(id: Storage.examLocation.searchLevelID, name: nil) },
                                          unlockViewTapped: unlockView.rxGestureTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         

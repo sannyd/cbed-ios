@@ -9,6 +9,45 @@ import UIKit
 import RxSwift
 import RxCocoa
 import LocalAuthentication
+import SwiftyMenu
+
+enum ExamLocation: String {
+    case ube = "UBE JX"
+    case florida = "Florida"
+    case california = "California"
+    
+    var searchLevelID: Int {
+        switch self {
+        case .ube:
+            return 7
+        case .florida:
+            return 13
+        case .california:
+            return 9
+        }
+    }
+    
+    var allowLevelIDs: [Int] {
+        switch self {
+        case .ube:
+            return [5, 7, 11, 8]
+        case .florida:
+            return [5, 4, 13, 8]
+        case .california:
+            return [5, 9, 10, 8]
+        }
+    }
+}
+
+extension ExamLocation: SwiftyMenuDisplayable {
+    public var displayableValue: String {
+        return self.rawValue
+    }
+
+    public var retrievableValue: Any {
+        return self
+    }
+}
 
 final class SettingViewController: UIViewController {
     
@@ -22,11 +61,17 @@ final class SettingViewController: UIViewController {
     @IBOutlet weak var buttonRestorePurchase: CustomBorderButton!
     @IBOutlet weak var buttonEdit: UIButton!
     @IBOutlet weak var faceIDSwitch: UISwitch!
-    
+    @IBOutlet weak var examLocationMenu: SwiftyMenu!
     // MARK: - Properties
     
     var viewModel: SettingViewModel!
     var disposeBag = DisposeBag()
+    private var codeMenuAttributes = SwiftyMenuAttributes()
+    private let dropDownOptionsDataSource = [
+        ExamLocation.ube,
+        ExamLocation.florida,
+        ExamLocation.california,
+    ]
     
     // MARK: - Life Cycle
     
@@ -35,6 +80,7 @@ final class SettingViewController: UIViewController {
         profileImageView.setRoundShape()
         bindViewModel()
         buttonDeactivate.isHidden = !IsEnableDeleteAccount
+        setupSwiftDrawer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,6 +94,27 @@ final class SettingViewController: UIViewController {
         }
         
         checkFaceID()
+    }
+    
+    private func setupSwiftDrawer() {
+        examLocationMenu.isUserInteractionEnabled = true
+        examLocationMenu.items = dropDownOptionsDataSource
+        codeMenuAttributes.multiSelect = .disabled
+        codeMenuAttributes.hideOptionsWhenSelect = .enabled
+        codeMenuAttributes.rowStyle = .value(height: 44, backgroundColor: .white, selectedColor: .white)
+        codeMenuAttributes.roundCorners = .all(radius: 8)
+        codeMenuAttributes.border = .value(color: .gray, width: 0.5)
+        codeMenuAttributes.placeHolderStyle = .value(text: Storage.examLocation.rawValue, textColor: .black)
+        codeMenuAttributes.separatorStyle = .value(color: .black, isBlured: true, style: .singleLine)
+        codeMenuAttributes.headerStyle = .value(backgroundColor: .lightGray, height: 44)
+        examLocationMenu.configure(with: codeMenuAttributes)
+        
+        examLocationMenu.didSelectItem = { [weak self] menu, item, index in
+            guard let self else { return }
+            if let examLocation = item.retrievableValue as? ExamLocation {
+                Storage.examLocation = examLocation
+            }
+        }
     }
     
     private func checkFaceID() {
