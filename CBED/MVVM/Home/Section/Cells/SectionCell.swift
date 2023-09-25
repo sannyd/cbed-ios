@@ -8,6 +8,7 @@
 import UIKit
 
 class SectionCell: UICollectionViewCell, CellType {
+    @IBOutlet weak var mainView: CustomBorderView!
     @IBOutlet weak var sectionImageView: UIImageView!
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var labelSubtitle: UILabel!
@@ -31,7 +32,11 @@ class SectionCell: UICollectionViewCell, CellType {
             sectionImageView.image = #imageLiteral(resourceName: "img_drill")
         }
         
-        
+        if data.isAvailable ?? true {
+            mainView.alpha = 1
+        } else {
+            mainView.alpha = 0.5
+        }
     }
     
     override func layoutSubviews() {
