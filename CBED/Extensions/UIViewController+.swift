@@ -39,8 +39,13 @@ extension UIViewController {
     var errorBinding: Binder<Error> {
         return Binder(self, binding: { (vc, error) in
             if let serverError = error as? ServerError {
-                vc.showPopup(withTitle: "Error",
-                             message: serverError.detail)
+                if serverError.detail.lowercased().contains("not found") {
+                    vc.showPopup(withTitle: "Sorry",
+                                 message: "Current Membership required.")
+                } else {
+                    vc.showPopup(withTitle: "Error",
+                                 message: serverError.detail)
+                }
             } else if let customError = error as? CustomError {
                 vc.showPopup(withTitle: "Error",
                              message: customError.errorString)
