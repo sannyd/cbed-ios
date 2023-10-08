@@ -8,6 +8,8 @@
 import RxSwift
 import RxCocoa
 import SwiftyStoreKit
+import WidgetKit
+
 extension ObservableType {
     func filterErrors() -> Observable<Element> {
         return materialize()
@@ -126,6 +128,8 @@ struct InAppPurchaseViewModel: ViewModel {
             }
             .do(onNext: { profile in
                 Storage.profileInfo = profile
+                Storage.currentLevel = profile.lastSectionName
+                WidgetCenter.shared.reloadAllTimelines()
                 NotificationCenter.default.post(.init(name: .PurchaseSuccessful))
                 isShowingIAPBlockerView.accept((false, false))
             })
@@ -154,6 +158,8 @@ struct InAppPurchaseViewModel: ViewModel {
             }
             .do(onNext: { profile in
                 Storage.profileInfo = profile
+                Storage.currentLevel = profile.lastSectionName
+                WidgetCenter.shared.reloadAllTimelines()
             })
             .mapToVoid()
             .do(onNext: navigator.presentRestorePurchaseSuccessAlert)

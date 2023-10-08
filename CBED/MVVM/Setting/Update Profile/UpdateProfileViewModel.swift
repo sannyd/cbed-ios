@@ -10,6 +10,7 @@ import RxCocoa
 import RxNuke
 import Nuke
 import PhoneNumberKit
+import WidgetKit
 
 // MARK: Input + Output
 extension UpdateProfileViewModel {
@@ -105,6 +106,8 @@ struct UpdateProfileViewModel: ViewModel {
             .flatMapLatest(updateProfileInfo(request:image:))
             .do(onNext: { updatedProfile in
                 Storage.profileInfo = updatedProfile
+                Storage.currentLevel = updatedProfile.lastSectionName
+                WidgetCenter.shared.reloadAllTimelines()
             })
             .mapToVoid()
             .asDriverOnErrorJustComplete()

@@ -11,9 +11,11 @@ protocol ExamUseCaseType {
     func saveSectionResult(id: Int,
                            correct: Int,
                            total: Int) -> Single<SaveResultResponseM>
+    func getProfileInfo() -> Single<ProfileInfoM>
 }
 
 struct ExamUseCase: ExamUseCaseType,
-                    SectionAPIUseCase {
+                    SectionAPIUseCase,
+                    ProfileUseCase {
     
 }

@@ -46,6 +46,22 @@ extension Storage {
         }
     }
     
+    static var currentLevel: String? {
+        get {
+            guard let data = UserDefaults(suiteName: "group.com.cbed.share")?.data(forKey: StorageKey.currentLevel.rawValue),
+                  let valueString = String(data: data, encoding: .utf8) else {
+                return nil
+            }
+            return valueString
+        }
+        set {
+            guard let data = newValue?.data(using: .utf8, allowLossyConversion: false) else {
+                return
+            }
+            UserDefaults(suiteName: "group.com.cbed.share")?.set(data, forKey: StorageKey.currentLevel.rawValue)
+        }
+    }
+    
     static var refreshToken: String? {
         get {
             guard let data = Storage.get(key: StorageKey.refreshToken.rawValue, storageType: .userDefault),

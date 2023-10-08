@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 import SwiftEntryKit
 import SwiftySound
+import WidgetKit
 
 // MARK: Input + Output
 extension ExamViewModel {
@@ -245,6 +246,15 @@ struct ExamViewModel: ViewModel {
         saveResultTrigger
             .map { (correctAnswers, questions.count) }
             .flatMapLatest(saveResult(correct:totalQuestion:))
+            .flatMapLatest { saveResultResponse in
+                self.getProfile()
+                    .do { profile in
+                        Storage.profileInfo = profile
+                        Storage.currentLevel = profile.lastSectionName
+                        WidgetCenter.shared.reloadAllTimelines()
+                    }
+                    .map { _ in saveResultResponse }
+            }
             .asDriverOnErrorJustComplete()
             .do(onNext: { _ in
                 removeAllSavedSectionData()
@@ -378,6 +388,16 @@ struct ExamViewModel: ViewModel {
                             totalQuestion: Int) -> Observable<SaveResultResponseM> {
         return self.useCase
             .saveSectionResult(id: sectionDetail.id, correct: correct <= totalQuestion ? correct : totalQuestion, total: totalQuestion)
+            .trackError(errorTracker)
+            .trackActivity(activityIndicator)
+            .catch { _ in
+                return .never()
+            }
+    }
+    
+    private func getProfile() -> Observable<ProfileInfoM> {
+        return useCase
+            .getProfileInfo()
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
             .catch { _ in

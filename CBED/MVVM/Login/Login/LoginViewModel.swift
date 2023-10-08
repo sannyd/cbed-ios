@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 import FBSDKLoginKit
 import GoogleSignIn
+import WidgetKit
 
 // MARK: Input + Output
 extension LoginViewModel {
@@ -102,6 +103,8 @@ struct LoginViewModel: ViewModel {
             .flatMapLatest(fetchProfileInfo)
             .do(onNext: { profile in
                 Storage.profileInfo = profile
+                Storage.currentLevel = profile.lastSectionName
+                WidgetCenter.shared.reloadAllTimelines()
             })
             .mapToVoid()
             .subscribe(onNext: navigator.pushToLevelVC)

@@ -7,6 +7,7 @@
 
 import RxSwift
 import RxCocoa
+import WidgetKit
 
 // MARK: Input + Output
 extension AppViewModel {
@@ -36,6 +37,8 @@ struct AppViewModel: ViewModel {
             .flatMapLatest(fetchProfileInfo)
             .subscribe { profile in
                 Storage.profileInfo = profile
+                Storage.currentLevel = profile.lastSectionName
+                WidgetCenter.shared.reloadAllTimelines()
                 loadAppTrigger.onNext(true)
             } onError: { error in
                 loadAppTrigger.onNext(false)

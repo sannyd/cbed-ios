@@ -7,6 +7,7 @@
 
 import RxSwift
 import RxCocoa
+import WidgetKit
 
 // MARK: Input + Output
 extension SettingViewModel {
@@ -52,6 +53,8 @@ struct SettingViewModel: ViewModel {
             }
             .do(onNext: { profile in
                 Storage.profileInfo = profile
+                Storage.currentLevel = profile.lastSectionName
+                WidgetCenter.shared.reloadAllTimelines()
                 NotificationCenter.default.post(.init(name: .PurchaseSuccessful))
             })
             .mapToVoid()

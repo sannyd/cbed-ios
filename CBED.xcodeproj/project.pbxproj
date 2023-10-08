@@ -157,6 +157,12 @@
 		18DA979D26B31621003144ED /* PurchaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979C26B31621003144ED /* PurchaseUseCase.swift */; };
 		18DA979F26B3165D003144ED /* PurchaseMembershipRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979E26B3165D003144ED /* PurchaseMembershipRequestM.swift */; };
 		1B7B484329CEEC08004D3EB4 /* OutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7B484229CEEC08004D3EB4 /* OutlineViewController.swift */; };
+		1BDC15FB2AD267DA00F46FF4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDC15FA2AD267DA00F46FF4 /* WidgetKit.framework */; };
+		1BDC15FD2AD267DA00F46FF4 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDC15FC2AD267DA00F46FF4 /* SwiftUI.framework */; };
+		1BDC16002AD267DA00F46FF4 /* CBED_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC15FF2AD267DA00F46FF4 /* CBED_WidgetBundle.swift */; };
+		1BDC16022AD267DA00F46FF4 /* CBED_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC16012AD267DA00F46FF4 /* CBED_Widget.swift */; };
+		1BDC16042AD267DC00F46FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC16032AD267DC00F46FF4 /* Assets.xcassets */; };
+		1BDC16082AD267DC00F46FF4 /* CBED WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1BDC15F92AD267DA00F46FF4 /* CBED WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
 		FF0A916E26D2353E007DB4A8 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */; };
 		FF0A917026D23ECF007DB4A8 /* ReceiptM.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */; };
@@ -204,6 +210,30 @@
 		FFE4D16E26AD7AA100594323 /* ScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE4D16C26AD7AA100594323 /* ScoreCell.swift */; };
 		FFE4D16F26AD7AA100594323 /* ScoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFE4D16D26AD7AA100594323 /* ScoreCell.xib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1BDC16062AD267DC00F46FF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 185F8754266CC84800A63898 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BDC15F82AD267DA00F46FF4;
+			remoteInfo = "CBED WidgetExtension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1BDC16092AD267DC00F46FF4 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1BDC16082AD267DC00F46FF4 /* CBED WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		180C44C92695F5E700416335 /* InAppPurchaseNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseNavigator.swift; sourceTree = "<group>"; };
@@ -359,6 +389,15 @@
 		18DA979C26B31621003144ED /* PurchaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseUseCase.swift; sourceTree = "<group>"; };
 		18DA979E26B3165D003144ED /* PurchaseMembershipRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseMembershipRequestM.swift; sourceTree = "<group>"; };
 		1B7B484229CEEC08004D3EB4 /* OutlineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineViewController.swift; sourceTree = "<group>"; };
+		1BDC15F92AD267DA00F46FF4 /* CBED WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CBED WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BDC15FA2AD267DA00F46FF4 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		1BDC15FC2AD267DA00F46FF4 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		1BDC15FF2AD267DA00F46FF4 /* CBED_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBED_WidgetBundle.swift; sourceTree = "<group>"; };
+		1BDC16012AD267DA00F46FF4 /* CBED_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBED_Widget.swift; sourceTree = "<group>"; };
+		1BDC16032AD267DC00F46FF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1BDC16052AD267DC00F46FF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1BDC160D2AD2718400F46FF4 /* CBED.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CBED.entitlements; sourceTree = "<group>"; };
+		1BDC160E2AD271B500F46FF4 /* CBED WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CBED WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -416,6 +455,15 @@
 			files = (
 				C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */,
 				182DD55C268B6E4D00172927 /* StoreKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1BDC15F62AD267DA00F46FF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BDC15FD2AD267DA00F46FF4 /* SwiftUI.framework in Frameworks */,
+				1BDC15FB2AD267DA00F46FF4 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,7 +731,9 @@
 		185F8753266CC84800A63898 = {
 			isa = PBXGroup;
 			children = (
+				1BDC160E2AD271B500F46FF4 /* CBED WidgetExtension.entitlements */,
 				185F875E266CC84800A63898 /* CBED */,
+				1BDC15FE2AD267DA00F46FF4 /* CBED Widget */,
 				185F875D266CC84800A63898 /* Products */,
 				27F01E22D8F24CAB2D7E3AF8 /* Pods */,
 				4C4DCC80E331F8F6FC7E3F75 /* Frameworks */,
@@ -694,6 +744,7 @@
 			isa = PBXGroup;
 			children = (
 				185F875C266CC84800A63898 /* CBED.app */,
+				1BDC15F92AD267DA00F46FF4 /* CBED WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -701,6 +752,7 @@
 		185F875E266CC84800A63898 /* CBED */ = {
 			isa = PBXGroup;
 			children = (
+				1BDC160D2AD2718400F46FF4 /* CBED.entitlements */,
 				FF1E61E1268C625600CF96B5 /* Third Parties */,
 				185B060B26761F2D00A17664 /* CommonViews */,
 				FFD5770B2673703F00CC9CF1 /* Extensions */,
@@ -845,6 +897,17 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		1BDC15FE2AD267DA00F46FF4 /* CBED Widget */ = {
+			isa = PBXGroup;
+			children = (
+				1BDC15FF2AD267DA00F46FF4 /* CBED_WidgetBundle.swift */,
+				1BDC16012AD267DA00F46FF4 /* CBED_Widget.swift */,
+				1BDC16032AD267DC00F46FF4 /* Assets.xcassets */,
+				1BDC16052AD267DC00F46FF4 /* Info.plist */,
+			);
+			path = "CBED Widget";
+			sourceTree = "<group>";
+		};
 		27F01E22D8F24CAB2D7E3AF8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -859,6 +922,8 @@
 			children = (
 				182DD55B268B6E4D00172927 /* StoreKit.framework */,
 				F6F7B6C86563B475702601A8 /* Pods_CBED.framework */,
+				1BDC15FA2AD267DA00F46FF4 /* WidgetKit.framework */,
+				1BDC15FC2AD267DA00F46FF4 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1020,6 +1085,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 185F8770266CC84A00A63898 /* Build configuration list for PBXNativeTarget "CBED" */;
 			buildPhases = (
+				1BDC16092AD267DC00F46FF4 /* Embed Foundation Extensions */,
 				3F6E55132546EC3FABDFBD66 /* [CP] Check Pods Manifest.lock */,
 				185F8758266CC84800A63898 /* Sources */,
 				185F8759266CC84800A63898 /* Frameworks */,
@@ -1030,11 +1096,29 @@
 			buildRules = (
 			);
 			dependencies = (
+				1BDC16072AD267DC00F46FF4 /* PBXTargetDependency */,
 			);
 			name = CBED;
 			productName = CBED;
 			productReference = 185F875C266CC84800A63898 /* CBED.app */;
 			productType = "com.apple.product-type.application";
+		};
+		1BDC15F82AD267DA00F46FF4 /* CBED WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1BDC160C2AD267DC00F46FF4 /* Build configuration list for PBXNativeTarget "CBED WidgetExtension" */;
+			buildPhases = (
+				1BDC15F52AD267DA00F46FF4 /* Sources */,
+				1BDC15F62AD267DA00F46FF4 /* Frameworks */,
+				1BDC15F72AD267DA00F46FF4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CBED WidgetExtension";
+			productName = "CBED WidgetExtension";
+			productReference = 1BDC15F92AD267DA00F46FF4 /* CBED WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -1042,11 +1126,14 @@
 		185F8754266CC84800A63898 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					185F875B266CC84800A63898 = {
 						CreatedOnToolsVersion = 12.5;
+					};
+					1BDC15F82AD267DA00F46FF4 = {
+						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
@@ -1064,6 +1151,7 @@
 			projectRoot = "";
 			targets = (
 				185F875B266CC84800A63898 /* CBED */,
+				1BDC15F82AD267DA00F46FF4 /* CBED WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -1103,6 +1191,14 @@
 				185F87912672764800A63898 /* Lato-Light.ttf in Resources */,
 				189039D026975D5C00C1EE37 /* GoogleService-Info.plist in Resources */,
 				185B06342677C2FE00A17664 /* SectionCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1BDC15F72AD267DA00F46FF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BDC16042AD267DC00F46FF4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1342,7 +1438,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1BDC15F52AD267DA00F46FF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BDC16002AD267DA00F46FF4 /* CBED_WidgetBundle.swift in Sources */,
+				1BDC16022AD267DA00F46FF4 /* CBED_Widget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1BDC16072AD267DC00F46FF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1BDC15F82AD267DA00F46FF4 /* CBED WidgetExtension */;
+			targetProxy = 1BDC16062AD267DC00F46FF4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		185F876A266CC84A00A63898 /* LaunchScreen.storyboard */ = {
@@ -1408,7 +1521,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1464,7 +1577,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1478,18 +1591,20 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				INFOPLIST_FILE = CBED/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.4;
+				MARKETING_VERSION = 3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1501,20 +1616,91 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				INFOPLIST_FILE = CBED/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.4;
+				MARKETING_VERSION = 3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		1BDC160A2AD267DC00F46FF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "CBED WidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5KQUA2VRMH;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CBED Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "CBED Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barexamdrills.app.CBED-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1BDC160B2AD267DC00F46FF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "CBED WidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5KQUA2VRMH;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CBED Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "CBED Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barexamdrills.app.CBED-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1537,6 +1723,15 @@
 			buildConfigurations = (
 				185F8771266CC84A00A63898 /* Debug */,
 				185F8772266CC84A00A63898 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1BDC160C2AD267DC00F46FF4 /* Build configuration list for PBXNativeTarget "CBED WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1BDC160A2AD267DC00F46FF4 /* Debug */,
+				1BDC160B2AD267DC00F46FF4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
