@@ -39,17 +39,17 @@ struct SectionsNavigator: SectionsNavigatorType {
     }
     
     func showBlockSectionAlert(sectionID: Int) {
-        var message = "You have to pass previous section in order to access this section"
+        var message = "You need to have mastered the previous level to 90% before accessing this level"
         switch sectionID {
         case 5:
-            message = "You need to have passed the previous MBE Level to access this level"
+            message = "You need to have mastered the previous level to 90% before accessing this level"
         case 10, 9:
             message = "You have to have be on Level 4 MBEs to access this section"
         default:
             break
         }
         
-        let alertView = UIAlertHelper.showAlertController(title: "Oops",
+        let alertView = UIAlertHelper.showAlertController(title: "Sorry",
                                                       message: message,
                                                       cancel: "OK",
                                                       others: nil,
