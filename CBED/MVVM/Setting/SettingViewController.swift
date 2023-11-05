@@ -11,10 +11,11 @@ import RxCocoa
 import LocalAuthentication
 import SwiftyMenu
 
-enum ExamLocation: String {
+enum ExamLocation: String, CaseIterable {
     case ube = "UBE JX"
     case florida = "Florida"
     case california = "California"
+    case georgia = "Georgia"
     
     var searchLevelID: Int {
         switch self {
@@ -24,6 +25,8 @@ enum ExamLocation: String {
             return 13
         case .california:
             return 9
+        case .georgia:
+            return 14
         }
     }
     
@@ -35,6 +38,8 @@ enum ExamLocation: String {
             return [5, 4, 13, 8]
         case .california:
             return [5, 9, 10, 8]
+        case .georgia:
+            return [5, 14, 11, 8]
         }
     }
 }
@@ -67,11 +72,7 @@ final class SettingViewController: UIViewController {
     var viewModel: SettingViewModel!
     var disposeBag = DisposeBag()
     private var codeMenuAttributes = SwiftyMenuAttributes()
-    private let dropDownOptionsDataSource = [
-        ExamLocation.ube,
-        ExamLocation.florida,
-        ExamLocation.california,
-    ]
+    private let dropDownOptionsDataSource = ExamLocation.allCases
     
     // MARK: - Life Cycle
     

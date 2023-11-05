@@ -37,11 +37,15 @@ final class SectionDetailViewController: UIViewController {
             labelDisclaimer.isHidden = true
         }
         
-        if viewModel.level.id == 9 || viewModel.level.id == 7 || viewModel.level.id == 8 || viewModel.level.id == 10 || viewModel.level.id == 11 || viewModel.level.id == 13 { // PT or Essay or Free or MEE or MPT or FL Essay Drills
+        if viewModel.level.id == 9 || viewModel.level.id == 7 || viewModel.level.id == 8 || viewModel.level.id == 10 || viewModel.level.id == 11 || viewModel.level.id == 13 || viewModel.level.id == 14 { // PT or Essay or Free or MEE or MPT or FL Essay Drills
             buttonOutline.isHidden = false
         }
         
         if viewModel.level.id == 7 { // MEE
+            buttonOutline.setTitle("Essay Outline", for: .normal)
+        }
+        
+        if viewModel.level.id == 14 { // GA Essay Drills
             buttonOutline.setTitle("Essay Outline", for: .normal)
         }
         
