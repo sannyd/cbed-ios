@@ -9,16 +9,62 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class CustomTextView: UITextView {
-    let maxHeight: CGFloat = 400
-    override var contentSize: CGSize {
+class SelfSizingTextView: UITextView {
+    var runOnce = false
+    
+    private var preferredMaxLayoutWidth: CGFloat? {
         didSet {
-              let height = text.height(withConstrainedWidth: UIScreen.main.bounds.width - 20 - 20 - 22 - 22,
-                        font: UIFont(name: Constants.Font.LatoRegular, size: 14 )!)
-            if contentSize.height < height && contentSize.height > 92 {
-                isScrollEnabled = true
-            }
+            guard preferredMaxLayoutWidth != oldValue else { return }
+            invalidateIntrinsicContentSize()
         }
+    }
+    
+    override var text: String! {
+        didSet {
+            invalidateIntrinsicContentSize()
+        }
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        guard let width = preferredMaxLayoutWidth else {
+            return super.intrinsicContentSize
+        }
+        
+        let height = textHeightForWidth(width)
+        return CGSize(width: width, height: height > 200 ? 200 : height)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        preferredMaxLayoutWidth = bounds.width
+        
+        guard !runOnce else {
+            return
+        }
+        runOnce = true
+        contentOffset = .zero
+    }
+}
+
+private extension UIEdgeInsets {
+    var horizontal: CGFloat { return left + right }
+    var vertical: CGFloat { return top + bottom }
+}
+
+private extension UITextView {
+    func textHeightForWidth(_ width: CGFloat) -> CGFloat {
+        let storage = NSTextStorage(attributedString: attributedText)
+        let width = bounds.width - textContainerInset.horizontal
+        let containerSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let container = NSTextContainer(size: containerSize)
+        let manager = NSLayoutManager()
+        manager.addTextContainer(container)
+        storage.addLayoutManager(manager)
+        container.lineFragmentPadding = textContainer.lineFragmentPadding
+        container.lineBreakMode = textContainer.lineBreakMode
+        _ = manager.glyphRange(for: container)
+        let usedHeight = manager.usedRect(for: container).height
+        return ceil(usedHeight + textContainerInset.vertical)
     }
 }
 
@@ -29,7 +75,7 @@ enum CustomAlertViewPublisher {
 }
 class CustomAlertView: BaseNibView {
     @IBOutlet weak var labelTitle: UILabel!
-    @IBOutlet weak var textViewDescription: CustomTextView!
+    @IBOutlet weak var textViewDescription: SelfSizingTextView!
     @IBOutlet weak var buttonYes: UIButton!
     @IBOutlet weak var buttonNo: UIButton!
     @IBOutlet weak var buttonStackView: UIStackView!
@@ -69,6 +115,7 @@ class CustomAlertView: BaseNibView {
                         explainationLink: String?) {
         self.type = type
         labelTitle.text = title
+        textViewDescription.isScrollEnabled = true
         textViewDescription.text = description
         buttonYes.setTitle(leftButtonTitle, for: .normal)
         labelTitle.textColor = type.color

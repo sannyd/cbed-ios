@@ -136,14 +136,14 @@ struct CBED_Widget: Widget {
     }
 }
 
-#Preview(as: .systemMedium) {
-    CBED_Widget()
-} timeline: {
-    SimpleEntry(date: .now, level: "Level 2 Contracts")
-}
-
-#Preview(as: .systemSmall) {
-    CBED_Widget()
-} timeline: {
-    SimpleEntry(date: .now, level: "Level 2 Contracts")
-}
+//#Preview(as: .systemMedium) {
+//    CBED_Widget()
+//} timeline: {
+//    SimpleEntry(date: .now, level: "Level 2 Contracts")
+//}
+//
+//#Preview(as: .systemSmall) {
+//    CBED_Widget()
+//} timeline: {
+//    SimpleEntry(date: .now, level: "Level 2 Contracts")
+//}
