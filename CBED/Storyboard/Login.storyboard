@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -196,14 +196,12 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="60" id="1nw-nb-LS5"/>
+                                                            <constraint firstAttribute="width" secondItem="Br7-ra-cDx" secondAttribute="height" multiplier="1:1" id="fLB-fI-MNZ"/>
                                                         </constraints>
                                                     </imageView>
                                                 </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="Br7-ra-cDx" firstAttribute="width" secondItem="Br7-ra-cDx" secondAttribute="height" multiplier="1:1" id="fLB-fI-MNZ"/>
-                                                </constraints>
                                             </stackView>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_logo" translatesAutoresizingMaskIntoConstraints="NO" id="iX5-2j-4lZ">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="brand" translatesAutoresizingMaskIntoConstraints="NO" id="iX5-2j-4lZ">
                                                 <rect key="frame" x="20" y="0.0" width="374" height="250"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="250" id="Jy9-eH-6pc"/>
@@ -737,12 +735,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="brand" width="3000" height="1039"/>
         <image name="img_at_gray" width="22" height="22"/>
         <image name="img_back_black" width="18.5" height="15.5"/>
         <image name="img_globe_gray" width="19.5" height="20.5"/>
         <image name="img_lock_gray" width="22" height="22"/>
         <image name="img_login_google" width="84" height="84"/>
-        <image name="img_logo" width="1284" height="656"/>
         <image name="img_phone" width="79" height="79"/>
         <image name="img_user_gray" width="19" height="22"/>
         <image name="img_user_placeholder" width="196" height="196"/>

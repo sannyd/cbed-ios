@@ -37,7 +37,7 @@ enum ExamLocation: String, CaseIterable {
         case .florida:
             return [5, 4, 13, 8]
         case .california:
-            return [5, 9, 10, 8]
+            return [5, 9, 10, 15, 8]
         case .georgia:
             return [5, 14, 11, 8]
         }
