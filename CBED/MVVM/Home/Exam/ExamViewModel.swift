@@ -263,7 +263,7 @@ struct ExamViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         let numberOfQuestions = sharedCurrentQuestionIndex
-            .map { "Questions \($0 + 1)/\(questions.count)" }
+            .map { "Question \($0 + 1)/\(questions.count)" }
         
         input
             .answerTapped
