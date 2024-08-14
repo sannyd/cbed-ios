@@ -77,34 +77,6 @@ struct InAppPurchaseViewModel: ViewModel {
             .do(onNext: { _ in
                 isShowingIAPBlockerView.accept((true, false))
             })
-//            .flatMapLatest{ purchaseID -> Observable<(String, Bool)> in
-//                let remoteConfigData = remoteConfig.configValue(forKey: "remote_configs").dataValue
-//
-//                if let remoteConfigs = try? JSONSerialization.jsonObject(with: remoteConfigData,
-//                                                                            options: .mutableContainers) as? [String: Any],
-//                      let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool,
-//                      !isEnableLogin {
-//                    return previouslyPurchasedItems(purchaseID: purchaseID)
-//                        .do(onNext: { purchaseID, isContinue in
-//                            if !isContinue {
-//                                navigator.presentRestorePurchaseSuccessAlert()
-//                            }
-//                        })
-//                        .catch { _ in
-//                            self.isShowingIAPBlockerView.accept(false)
-//                            return .never()
-//                        }
-//                } else {
-//                    return .just((purchaseID, true))
-//                }
-//            }
-//            .flatMapLatest{ purchaseID, isContinue in
-//                return handleIAP(purchaseID: purchaseID, isContinue: isContinue)
-//                    .catch { _ in
-//                        self.isShowingIAPBlockerView.accept(false)
-//                        return .never()
-//                    }
-//            }
             .flatMapLatest{ purchaseID in
                 return handleIAP(purchaseID: purchaseID)
                     .catch { _ in
@@ -172,48 +144,7 @@ struct InAppPurchaseViewModel: ViewModel {
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
     }
-    
-//    private func handleIAP(purchaseID: String, isContinue: Bool = true) -> Observable<PurchaseDetails> {
-//        Observable<PurchaseDetails>.create { observer in
-//            if isContinue {
-//                SwiftyStoreKit.purchaseProduct(purchaseID, quantity: 1, atomically: true) { result in
-//                    switch result {
-//                    case .success(let product):
-//                        Log.d(product)
-//                        // fetch content from your server, then:
-//    //                    observer(.success(product))
-//                        observer.onNext(product)
-//                        if product.needsFinishTransaction {
-//                            SwiftyStoreKit.finishTransaction(product.transaction)
-//                        }
-//                        print("Purchase Success: \(product.productId)")
-//                    case .error(let error):
-//                        switch error.code {
-//                        case .unknown: print("Unknown error. Please contact support")
-//                        case .clientInvalid: print("Not allowed to make the payment")
-//                        case .paymentCancelled: break
-//                        case .paymentInvalid: print("The purchase identifier was invalid")
-//                        case .paymentNotAllowed: print("The device is not allowed to make the payment")
-//                        case .storeProductNotAvailable: print("The product is not available in the current storefront")
-//                        case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-//                        case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-//                        case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-//                        default: print((error as NSError).localizedDescription)
-//                        }
-//                        observer.onError(error)
-//    //                    observer(.failure(error))
-//                    }
-//                }
-//            } else {
-//                CurrentMembershipType = InAppPurchaseMonth(rawValue: purchaseID)
-//                previouslyPurchasedTrigger.accept(())
-//                observer.onCompleted()
-//            }
-//
-//
-//            return Disposables.create()
-//        }
-//    }
+
     
     private func handleIAP(purchaseID: String) -> Observable<PurchaseDetails> {
         Observable<PurchaseDetails>.create { observer in

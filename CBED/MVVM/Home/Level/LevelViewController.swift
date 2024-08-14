@@ -50,11 +50,7 @@ final class LevelViewController: UIViewController {
         searchView.isHidden = !IsEnableLogin
         
         if !IsEnableLogin {
-            if CurrentMembershipType == nil {
-                unlockView.isHidden = false
-            } else {
-                unlockView.isHidden = true
-            }
+            unlockView.isHidden = true
         } else {
             if let userProfile = Storage.profileInfo {
                 if userProfile.memberPlan == .free {
