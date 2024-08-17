@@ -1085,8 +1085,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 185F8770266CC84A00A63898 /* Build configuration list for PBXNativeTarget "CBED" */;
 			buildPhases = (
-				1BDC16092AD267DC00F46FF4 /* Embed Foundation Extensions */,
 				3F6E55132546EC3FABDFBD66 /* [CP] Check Pods Manifest.lock */,
+				1BDC16092AD267DC00F46FF4 /* Embed Foundation Extensions */,
 				185F8758266CC84800A63898 /* Sources */,
 				185F8759266CC84800A63898 /* Frameworks */,
 				185F875A266CC84800A63898 /* Resources */,

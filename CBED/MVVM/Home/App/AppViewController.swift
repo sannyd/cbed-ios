@@ -42,7 +42,10 @@ final class AppViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { isProfileInfoLoaded in
                 if isProfileInfoLoaded {
+                    print("[Remote Config] Start fetching")
                     remoteConfig.fetch(withExpirationDuration: 0) { [unowned self] (status, error) in
+                        print("[Remote Config] Fetched")
+                        
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         
                         guard error == nil else {
@@ -60,6 +63,8 @@ final class AppViewController: UIViewController {
                               let isEnableDeleteAccount = remoteConfigs["is_enable_delete_account"] as? Bool else {
                             return
                         }
+                        
+                        print("[Remote Config] \(remoteConfigs)")
                         IsEnableDeleteAccount = isEnableDeleteAccount
                         
                         if Storage.accessToken == nil {
@@ -80,9 +85,17 @@ final class AppViewController: UIViewController {
                                 if Storage.accessToken == self.staticToken {
                                     IsEnableLogin = isEnableLogin
                                     IsEnableDeleteAccount = isEnableDeleteAccount
+                                    
+                                    print("[Remote Config] getLastReceipt start")
                                     StoreKitService.shared.getLastReceipt { receipt in
+                                        
+                                        print("[Remote Config] getLastReceipt finish")
                                         if let receipt = receipt {
+                                            
+                                            print("[Remote Config] verifyReceipt start")
                                             StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
+                                                
+                                                print("[Remote Config] verifyReceipt finish")
                                                 CurrentMembershipType = monthType
                                                 
                                                 let tabbarVC = StoryboardManager.instanceTabBarVC()
