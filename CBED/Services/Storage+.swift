@@ -83,7 +83,7 @@ extension Storage {
             guard let data = Storage.get(key: StorageKey.examLocation.rawValue, storageType: .userDefault),
                   let valueString = String(data: data, encoding: .utf8),
                   let location = ExamLocation(rawValue: valueString) else {
-                return .ube
+                return .mpre
             }
             return location
         }
