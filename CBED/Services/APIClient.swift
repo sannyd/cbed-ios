@@ -40,12 +40,14 @@ class NetworkLogger: EventMonitor {
 final class APIClient: SessionDelegate {
     static let shared = APIClient()
     var sessionManager: Session?
+    var nonBearer: Session?
     
     init() {
         let monitor = NetworkLogger()
         let interceptor = JWTAccessTokenAdapter()
         sessionManager = Session(interceptor: interceptor,
                                  eventMonitors: [monitor])
+        nonBearer = Session(eventMonitors: [monitor])
     }
     
     func request<T: Decodable>(_ urlConvertible: URLRequestConvertible,
@@ -65,6 +67,27 @@ final class APIClient: SessionDelegate {
                         self.handleError(error: error,
                                          responseData: response.data,
                                          single: single)
+                    }
+                }
+            
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+    
+    func requestAsDict(_ urlConvertible: URLRequestConvertible) -> Single<[String: Any]> {
+        return Single<[String: Any]>.create { single in
+            let request = self.nonBearer!.request(urlConvertible)
+                .validate()
+                .validate(statusCode: 200..<300)
+                .responseData { response in
+                    if let data = response.data,
+                       let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                        
+                        single(.success(dict))
+                    } else {
+                        single(.failure(CustomError.CannotGetParams))
                     }
                 }
             

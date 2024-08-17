@@ -179,13 +179,7 @@ struct InAppPurchaseViewModel: ViewModel {
     }
     
     private func verifyIAP(purchaseDetails: PurchaseDetails) -> Observable<Void> {
-        let remoteConfigData = remoteConfig.configValue(forKey: "remote_configs").dataValue
-    
-        if let remoteConfigs = try? JSONSerialization.jsonObject(with: remoteConfigData,
-                                                                    options: .mutableContainers) as? [String: Any],
-              let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool,
-              !isEnableLogin {
-            
+        if !IsEnableLogin {
             return verifyIAPLocally()
         } else {
             if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,

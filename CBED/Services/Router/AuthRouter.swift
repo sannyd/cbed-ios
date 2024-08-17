@@ -15,14 +15,23 @@ enum AuthRouter {
     case refreshToken(params: Parameters)
     case forgotPassword(params: Parameters)
     case deactivate
+    case config
 }
 
 // MARK: - TargetType: Moya compatible
 extension AuthRouter: URLRequestConvertible {
     var baseURL: URL {
-        let apiUrl = Environment.apiUrl + "/auth"
+        var apiUrl = ""
+        
+        switch self {
+        case .config:
+            apiUrl = Environment.apiUrl
+        default:
+            apiUrl = Environment.apiUrl + "/auth"
+        }
         
         guard let url = URL(string: apiUrl) else { fatalError("Cannot configure Base URL")}
+        
         return url
     }
     
@@ -40,11 +49,19 @@ extension AuthRouter: URLRequestConvertible {
             return "/request_reset_password"
         case .deactivate:
             return "/deactivate"
+        case .config:
+            return "/config"
+            
         }
     }
     
     var method: HTTPMethod {
-        return .post
+        switch self {
+        case .config:
+            return .get
+        default:
+            return .post
+        }
     }
     
     func asURLRequest() throws -> URLRequest {

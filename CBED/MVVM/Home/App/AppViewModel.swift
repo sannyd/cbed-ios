@@ -16,7 +16,7 @@ extension AppViewModel {
     }
     
     struct Output {
-        let loadAppTrigger: Observable<Bool>
+        let loadAppTrigger: Observable<(Bool, [String: Any]?)>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
     }
@@ -30,25 +30,46 @@ struct AppViewModel: ViewModel {
     let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
-        let loadAppTrigger = PublishSubject<Bool>()
+        let loadAppTrigger = PublishSubject<(Bool, [String: Any]?)>()
         
         input
             .firstLoadTrigger
             .flatMapLatest(fetchProfileInfo)
-            .subscribe { profile in
+            .do(onNext: { profile in
                 Storage.profileInfo = profile
                 Storage.currentLevel = profile.lastSectionName
                 WidgetCenter.shared.reloadAllTimelines()
-                loadAppTrigger.onNext(true)
+            }, onError: { error in
+                loadAppTrigger.onNext((false, nil))
+            })
+            .mapToVoid()
+            .flatMapLatest(fetchConfigs)
+            .subscribe { configs in
+                loadAppTrigger.onNext((true, configs))
             } onError: { error in
-                loadAppTrigger.onNext(false)
+                loadAppTrigger.onNext((false, nil))
             }
             .disposed(by: disposeBag)
+        
+        
         
         return Output(loadAppTrigger: loadAppTrigger.asObservable(),
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
         
+    }
+    
+    
+    private func fetchConfigs() -> Observable<[String: Any]> {
+        print("[Remote Config] Start fetching")
+        return APIClient
+            .shared
+            .requestAsDict(AuthRouter.config)
+            .trackActivity(self.activityIndicator)
+            .trackError(self.errorTracker)
+            .catch({ (error) -> Observable<[String: Any]> in
+                return .error(error)
+            })
     }
     
     private func fetchProfileInfo() -> Observable<ProfileInfoM> {
