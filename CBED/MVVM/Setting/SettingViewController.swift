@@ -13,7 +13,7 @@ import SwiftyMenu
 
 enum ExamLocation: String, CaseIterable {
     case ube = "UBE JX"
-    case mpre = "MPRE JX"
+    case mpre = "MPRE"
     case florida = "Florida"
     case california = "California"
     case georgia = "Georgia"
@@ -38,7 +38,7 @@ enum ExamLocation: String, CaseIterable {
         case .ube:
             return [5, 7, 11, 8]
         case .mpre:
-            return [5, 17]
+            return [8, 17]
         case .florida:
             return [5, 4, 13, 8]
         case .california:
