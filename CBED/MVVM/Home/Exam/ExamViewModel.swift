@@ -160,7 +160,8 @@ struct ExamViewModel: ViewModel {
                 
                 switch questionAlertType {
                 case .correct:
-                    if level.id == 5 || level.id == 4 {
+                    // 90% correct then advance to next question
+                    if isLevelNeedToHaveMoreThan90(level.id) {
                         if previousIncorrectAnswerIndex != currentQuestionIndex.value {
                             correctAnswers += 1
                         }
@@ -185,7 +186,8 @@ struct ExamViewModel: ViewModel {
                         scrollToTopInvoked.onNext(())
                     }
                 case .wrong:
-                    if level.id == 5 || level.id == 4 {
+                    // 90% correct then advance to next question
+                    if isLevelNeedToHaveMoreThan90(level.id) {
                         previousIncorrectAnswerIndex = currentQuestionIndex.value
                     } else {
                         if currentQuestionIndex.value >= questions.count - 1 {
@@ -382,6 +384,18 @@ struct ExamViewModel: ViewModel {
                       eliminateButtonTitle: eliminateButtonTitle.asObservable(),
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
+    }
+    
+    private func isLevelNeedToHaveMoreThan90(_ level: Int) -> Bool {
+        if
+            level == 5 // MBE Level Drills
+                || level == 4 // FL MCQ Drills
+                || level == 15 // CA MCQ Drills
+                || level == 17 // MPRE Drills
+        {
+            return true
+        }
+        return false
     }
     
     private func saveResult(correct: Int,
