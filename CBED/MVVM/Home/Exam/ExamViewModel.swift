@@ -388,9 +388,16 @@ struct ExamViewModel: ViewModel {
     
     private func isLevelNeedToHaveMoreThan90(_ level: Int) -> Bool {
         if
-            level == 5 // MBE Level Drills
-                || level == 4 // FL MCQ Drills
+            level == 8 // Free Essay Drill Sample
+                || level == 5 // MBE Level Drills
                 || level == 15 // CA MCQ Drills
+                || level == 4 // FL MCQ Drills
+                || level == 9 // CA Essay Drills & Videos
+                || level == 7 // MEE Drills & Videos
+                || level == 13 // FL Essay Drills
+                || level == 14 // GA Essay Drills
+                || level == 10 // CPT Essay Drills
+                || level == 11 // MPT Essay Drills
                 || level == 17 // MPRE Drills
         {
             return true
