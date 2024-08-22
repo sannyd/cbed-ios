@@ -29,25 +29,27 @@ struct AppViewModel: ViewModel {
     let errorTracker = ErrorTracker()
     let activityIndicator = ActivityIndicator()
     
+    
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let loadAppTrigger = PublishSubject<(Bool, [String: Any]?)>()
-        
+        var isProfileLoaded = false
         input
             .firstLoadTrigger
             .flatMapLatest(fetchProfileInfo)
             .do(onNext: { profile in
-                Storage.profileInfo = profile
-                Storage.currentLevel = profile.lastSectionName
-                WidgetCenter.shared.reloadAllTimelines()
-            }, onError: { error in
-                loadAppTrigger.onNext((false, nil))
+                if !profile.email.isEmpty {
+                    Storage.profileInfo = profile
+                    Storage.currentLevel = profile.lastSectionName
+                    WidgetCenter.shared.reloadAllTimelines()
+                    isProfileLoaded = true
+                }
             })
             .mapToVoid()
             .flatMapLatest(fetchConfigs)
             .subscribe { configs in
-                loadAppTrigger.onNext((true, configs))
+                loadAppTrigger.onNext((isProfileLoaded, configs))
             } onError: { error in
-                loadAppTrigger.onNext((false, nil))
+                loadAppTrigger.onNext((isProfileLoaded, nil))
             }
             .disposed(by: disposeBag)
         
@@ -75,10 +77,7 @@ struct AppViewModel: ViewModel {
     private func fetchProfileInfo() -> Observable<ProfileInfoM> {
         return self.useCase
             .getProfileInfo()
-            .trackActivity(self.activityIndicator)
-            .trackError(self.errorTracker)
-            .catch({ (error) -> Observable<ProfileInfoM> in
-                return .error(error)
-            })
+            .asDriver(onErrorJustReturn: ProfileInfoM.init(email: "", avatar: "", name: "", state: "", memberPlan: .babybarJun, memberPlanSimple: 0, membership: "", lastSectionName: "", points: 0, phone: ""))
+            .asObservable()
     }
 }
