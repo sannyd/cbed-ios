@@ -156,6 +156,9 @@
 		18DA979B26B3158A003144ED /* PurchaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979A26B3158A003144ED /* PurchaseRouter.swift */; };
 		18DA979D26B31621003144ED /* PurchaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979C26B31621003144ED /* PurchaseUseCase.swift */; };
 		18DA979F26B3165D003144ED /* PurchaseMembershipRequestM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA979E26B3165D003144ED /* PurchaseMembershipRequestM.swift */; };
+		1B74F9E22C931155001149C1 /* NestedLevelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B74F9E12C931155001149C1 /* NestedLevelViewModel.swift */; };
+		1B74F9E42C931290001149C1 /* NestedLevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B74F9E32C931290001149C1 /* NestedLevelViewController.swift */; };
+		1B74F9E62C931364001149C1 /* NestedLevelNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B74F9E52C931364001149C1 /* NestedLevelNavigator.swift */; };
 		1B7B484329CEEC08004D3EB4 /* OutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7B484229CEEC08004D3EB4 /* OutlineViewController.swift */; };
 		1BDC15FB2AD267DA00F46FF4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDC15FA2AD267DA00F46FF4 /* WidgetKit.framework */; };
 		1BDC15FD2AD267DA00F46FF4 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDC15FC2AD267DA00F46FF4 /* SwiftUI.framework */; };
@@ -388,6 +391,9 @@
 		18DA979A26B3158A003144ED /* PurchaseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseRouter.swift; sourceTree = "<group>"; };
 		18DA979C26B31621003144ED /* PurchaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseUseCase.swift; sourceTree = "<group>"; };
 		18DA979E26B3165D003144ED /* PurchaseMembershipRequestM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseMembershipRequestM.swift; sourceTree = "<group>"; };
+		1B74F9E12C931155001149C1 /* NestedLevelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedLevelViewModel.swift; sourceTree = "<group>"; };
+		1B74F9E32C931290001149C1 /* NestedLevelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedLevelViewController.swift; sourceTree = "<group>"; };
+		1B74F9E52C931364001149C1 /* NestedLevelNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedLevelNavigator.swift; sourceTree = "<group>"; };
 		1B7B484229CEEC08004D3EB4 /* OutlineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineViewController.swift; sourceTree = "<group>"; };
 		1BDC15F92AD267DA00F46FF4 /* CBED WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CBED WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BDC15FA2AD267DA00F46FF4 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -572,6 +578,7 @@
 		185B05E12676113C00A17664 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				1B74F9E02C930DD5001149C1 /* NestedLevel */,
 				FFB19239268F22230000B256 /* Search */,
 				184ABC14268395C0004048A5 /* App */,
 				185B062D2677C2A000A17664 /* Level */,
@@ -895,6 +902,16 @@
 				185F87A12674743C00A63898 /* LoginUseCase.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		1B74F9E02C930DD5001149C1 /* NestedLevel */ = {
+			isa = PBXGroup;
+			children = (
+				1B74F9E12C931155001149C1 /* NestedLevelViewModel.swift */,
+				1B74F9E32C931290001149C1 /* NestedLevelViewController.swift */,
+				1B74F9E52C931364001149C1 /* NestedLevelNavigator.swift */,
+			);
+			path = NestedLevel;
 			sourceTree = "<group>";
 		};
 		1BDC15FE2AD267DA00F46FF4 /* CBED Widget */ = {
@@ -1351,6 +1368,7 @@
 				185B063F267A516F00A17664 /* SectionDetailViewController.swift in Sources */,
 				FFD57719267371A300CC9CF1 /* ObservableType+.swift in Sources */,
 				185B0657267BAB8A00A17664 /* ExamNavigator.swift in Sources */,
+				1B74F9E42C931290001149C1 /* NestedLevelViewController.swift in Sources */,
 				FF21141926DBDE350044E0AC /* UpdateProfileViewController.swift in Sources */,
 				185F87AF2674A0A300A63898 /* StoryboardManager.swift in Sources */,
 				184ABC1A268395CD004048A5 /* AppUseCase.swift in Sources */,
@@ -1365,6 +1383,7 @@
 				184ABC2E26878D22004048A5 /* ColorContext.swift in Sources */,
 				FFB19241268F22300000B256 /* SearchViewModel.swift in Sources */,
 				185B061826762F5E00A17664 /* ScoreboardUseCase.swift in Sources */,
+				1B74F9E22C931155001149C1 /* NestedLevelViewModel.swift in Sources */,
 				180C44D72695F71900416335 /* InAppPurchaseM.swift in Sources */,
 				185B05EB267615A600A17664 /* LevelUseCase.swift in Sources */,
 				185B062A2677C29500A17664 /* SectionsUseCase.swift in Sources */,
@@ -1426,6 +1445,7 @@
 				184ABC202684E576004048A5 /* SaveResultResponseM.swift in Sources */,
 				185B0667267E0DCD00A17664 /* String+.swift in Sources */,
 				185F87982673C29C00A63898 /* Google+Reactive.swift in Sources */,
+				1B74F9E62C931364001149C1 /* NestedLevelNavigator.swift in Sources */,
 				185F8760266CC84800A63898 /* AppDelegate.swift in Sources */,
 				18812AC226B1B0BD003A7CEF /* ScoreboardRouter.swift in Sources */,
 				184ABC1B268395CD004048A5 /* AppViewController.swift in Sources */,
@@ -1596,7 +1616,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1604,7 +1624,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 9.1;
+				MARKETING_VERSION = 9.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1621,7 +1641,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1629,7 +1649,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 9.1;
+				MARKETING_VERSION = 9.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

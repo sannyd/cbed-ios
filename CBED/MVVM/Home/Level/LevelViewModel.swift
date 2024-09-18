@@ -66,11 +66,18 @@ struct LevelViewModel: ViewModel {
             .viewWillAppear
             .withLatestFrom(levels)
             .map { $0.filter { Storage.examLocation.allowLevelIDs.contains($0.id) } }
-        
+
         input
             .levelTapped
+            .withLatestFrom(Observable.combineLatest(input.levelTapped, levels))
             .asDriverOnErrorJustComplete()
-            .drive(onNext: navigator.pushToSectionsVC(level:))
+            .drive(onNext: { level, levels in
+                if level.id == 19 { // MEE MCQ Drill Nested Level
+                    navigator.pushToNestedLevel(levels: filterNestedLevels(levels), parentLevel: level)
+                } else {
+                    navigator.pushToSectionsVC(level: level)
+                }
+            })
             .disposed(by: disposeBag)
         
         input
@@ -103,6 +110,11 @@ struct LevelViewModel: ViewModel {
             .catch { _ in
                 return .never()
             }
+    }
+    
+    private func filterNestedLevels(_ levels: [LevelM]) -> [LevelM] {
+        let ids = [21, 22, 23, 24, 25, 26, 27, 28] // Agency Partnerships Corps Conflicts Fam-Law Trusts Wills Sec-Trans
+        return levels.filter { ids.contains($0.id) }
     }
     
     private func fetchSectionDetailByID(id: Int) -> Observable<SectionDetailM> {

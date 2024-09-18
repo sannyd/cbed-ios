@@ -10,6 +10,7 @@ import UIKit
 protocol LevelNavigatorType {
     func pushToSectionsVC(level: LevelM)
     func pushToSearchVC(level: LevelM)
+    func pushToNestedLevel(levels: [LevelM], parentLevel: LevelM)
     func pushToInAppPurchaseVC()
 }
 
@@ -37,5 +38,11 @@ struct LevelNavigator: LevelNavigatorType {
         inappPurchaseVC.viewModel = .init(useCase: InAppPurchaseUseCase(),
                                           navigator: InAppPurchaseNavigator(navigationController: navigationController))
         navigationController.pushViewController(inappPurchaseVC, animated: true)
+    }
+    
+    func pushToNestedLevel(levels: [LevelM], parentLevel: LevelM) {
+        let nestedLevelVC: NestedLevelViewController = StoryboardManager.getVCFromHomeSB()
+        nestedLevelVC.viewModel = .init(useCase: LevelUseCase(), navigator: NestedLevelNavigator(navigationController: navigationController), nestedLevels: levels, title: parentLevel.name ?? "")
+        navigationController.pushViewController(nestedLevelVC, animated: true)
     }
 }

@@ -36,7 +36,7 @@ enum ExamLocation: String, CaseIterable {
     var allowLevelIDs: [Int] {
         switch self {
         case .ube:
-            return [5, 7, 11, 8]
+            return [5, 7, 11, 19, 8]
         case .mpre:
             return [8, 17]
         case .florida:

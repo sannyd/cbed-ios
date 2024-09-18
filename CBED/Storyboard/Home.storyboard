@@ -1537,6 +1537,82 @@
             </objects>
             <point key="canvasLocation" x="1476.8115942028987" y="-626.11607142857144"/>
         </scene>
+        <!--Nested Level View Controller-->
+        <scene sceneID="FjN-Y7-9OX">
+            <objects>
+                <viewController storyboardIdentifier="NestedLevelViewController" hidesBottomBarWhenPushed="YES" id="n92-tt-l6J" customClass="NestedLevelViewController" customModule="CBED" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4np-Kb-eP0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AEV-aB-2oY">
+                                <rect key="frame" x="0.0" y="128" width="414" height="734"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L8Z-E1-kW1" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="48" width="414" height="80"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MFe-LJ-FG0">
+                                        <rect key="frame" x="0.0" y="15" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="O7v-Vi-IfF"/>
+                                            <constraint firstAttribute="height" constant="50" id="P5o-5c-AX0"/>
+                                        </constraints>
+                                        <state key="normal" image="img_back_black"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TWQ-8q-Ynt">
+                                        <rect key="frame" x="185.5" y="29" width="43.5" height="22"/>
+                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
+                                        <color key="textColor" name="Primary Text"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" name="Background"/>
+                                <constraints>
+                                    <constraint firstItem="TWQ-8q-Ynt" firstAttribute="centerY" secondItem="L8Z-E1-kW1" secondAttribute="centerY" id="0GX-Jh-ZkA"/>
+                                    <constraint firstAttribute="height" constant="80" id="EsU-s8-2XX"/>
+                                    <constraint firstItem="MFe-LJ-FG0" firstAttribute="leading" secondItem="L8Z-E1-kW1" secondAttribute="leading" id="ilx-CT-7lu"/>
+                                    <constraint firstItem="TWQ-8q-Ynt" firstAttribute="centerX" secondItem="L8Z-E1-kW1" secondAttribute="centerX" id="seC-UR-hoC"/>
+                                    <constraint firstItem="MFe-LJ-FG0" firstAttribute="centerY" secondItem="L8Z-E1-kW1" secondAttribute="centerY" id="weN-oU-Vzk"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.080000000000000002"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="xlo-8M-9je"/>
+                        <color key="backgroundColor" name="Background"/>
+                        <constraints>
+                            <constraint firstItem="AEV-aB-2oY" firstAttribute="top" secondItem="L8Z-E1-kW1" secondAttribute="bottom" id="1El-RI-O2x"/>
+                            <constraint firstItem="L8Z-E1-kW1" firstAttribute="top" secondItem="xlo-8M-9je" secondAttribute="top" id="44k-8U-Bvy"/>
+                            <constraint firstItem="xlo-8M-9je" firstAttribute="bottom" secondItem="AEV-aB-2oY" secondAttribute="bottom" id="TPo-JT-8XM"/>
+                            <constraint firstItem="AEV-aB-2oY" firstAttribute="trailing" secondItem="xlo-8M-9je" secondAttribute="trailing" id="dap-ed-sxS"/>
+                            <constraint firstItem="AEV-aB-2oY" firstAttribute="leading" secondItem="xlo-8M-9je" secondAttribute="leading" id="gT0-MS-6B1"/>
+                            <constraint firstItem="xlo-8M-9je" firstAttribute="trailing" secondItem="L8Z-E1-kW1" secondAttribute="trailing" id="iGA-Wm-zLN"/>
+                            <constraint firstItem="L8Z-E1-kW1" firstAttribute="leading" secondItem="4np-Kb-eP0" secondAttribute="leading" id="v7l-Ba-2Wj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="buttonBack" destination="MFe-LJ-FG0" id="UKv-mi-2nj"/>
+                        <outlet property="containerView" destination="AEV-aB-2oY" id="Kpb-Ec-vaM"/>
+                        <outlet property="labelTitle" destination="TWQ-8q-Ynt" id="AAd-q9-pSh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wXe-OC-r7u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1536.2318840579712" y="776.78571428571422"/>
+        </scene>
     </scenes>
     <resources>
         <image name="chevron.down" catalog="system" width="128" height="70"/>

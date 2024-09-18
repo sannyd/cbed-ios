@@ -41,9 +41,9 @@ enum InAppPurchaseType {
     var realPrice: Double {
         switch self {
         case .ProBar:
-            return 999.99
+            return 699.99
         case .BabyBar:
-            return 399.99
+            return 99.99
         }
     }
     

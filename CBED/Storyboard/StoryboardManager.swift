@@ -20,6 +20,10 @@ struct StoryboardManager {
         return HomeSB.instantiateViewController(withIdentifier: LevelViewController.getClassName()) as! LevelViewController
     }
     
+    static func instanceNestedLevelVC() -> NestedLevelViewController {
+        return HomeSB.instantiateViewController(withIdentifier: NestedLevelViewController.getClassName()) as! NestedLevelViewController
+    }
+    
     static func instanceSectionsVC() -> SectionsViewController {
         return HomeSB.instantiateViewController(withIdentifier: SectionsViewController.getClassName()) as! SectionsViewController
     }

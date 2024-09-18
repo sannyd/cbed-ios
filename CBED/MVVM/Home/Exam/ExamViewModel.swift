@@ -387,19 +387,29 @@ struct ExamViewModel: ViewModel {
     }
     
     private func isLevelNeedToHaveMoreThan90(_ level: Int) -> Bool {
-        if
-            level == 8 // Free Essay Drill Sample
-                || level == 5 // MBE Level Drills
-                || level == 15 // CA MCQ Drills
-                || level == 4 // FL MCQ Drills
-                || level == 9 // CA Essay Drills & Videos
-                || level == 7 // MEE Drills & Videos
-                || level == 13 // FL Essay Drills
-                || level == 14 // GA Essay Drills
-                || level == 10 // CPT Essay Drills
-                || level == 11 // MPT Essay Drills
-                || level == 17 // MPRE Drills
-        {
+        let ids = [
+            8, // Free Essay Drill Sample
+            5, // MBE Level Drills
+            15, // CA MCQ Drills
+            4, // FL MCQ Drills
+            9, // CA Essay Drills & Videos
+            7, // MEE Drills & Videos
+            13, // FL Essay Drills
+            14, // GA Essay Drills
+            10, // CPT Essay Drills
+            11, // MPT Essay Drills
+            17, // MPRE Drills
+            21, // Agency
+            22, // Partnerships
+            23, // Corps
+            24, // Conflicts
+            25, // Fam-Law
+            26, // Trusts
+            27, // Wills
+            28 // Sec-Trans
+        ]
+        
+        if ids.contains(level) {
             return true
         }
         return false
