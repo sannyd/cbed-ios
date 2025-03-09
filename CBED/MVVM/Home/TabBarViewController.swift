@@ -7,7 +7,54 @@
 
 import UIKit
 
+enum Swizzler {
+    
+    static func swizzleSelector(classToSwizzle: AnyClass,
+                                originalSelector: Selector,
+                                swizzledSelector: Selector) {
+        guard let originalMethod = class_getInstanceMethod(classToSwizzle, originalSelector),
+              let swizzledMethod = class_getInstanceMethod(classToSwizzle, swizzledSelector) else {
+            return
+        }
+        
+        let didAddMethod = class_addMethod(classToSwizzle,
+                                           originalSelector,
+                                           method_getImplementation(swizzledMethod),
+                                           method_getTypeEncoding(swizzledMethod))
+        
+        if (didAddMethod) {
+            class_replaceMethod(classToSwizzle,
+                                swizzledSelector,
+                                method_getImplementation(originalMethod),
+                                method_getTypeEncoding(originalMethod));
+        } else {
+            method_exchangeImplementations(originalMethod, swizzledMethod);
+        }
+        
+    }
+}
+
 class TabBarViewController: UITabBarController {
+    init() {
+        if #available(iOS 18.0, *) {
+            Swizzler.swizzleSelector(classToSwizzle: TabBarViewController.self,
+                                     originalSelector: NSSelectorFromString("_updateVisualStyleForTraitCollection:"),
+                                     swizzledSelector: #selector(swizzeled__updateVisualStyleForTraitCollection(traitCollection:)))
+        }
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        if #available(iOS 18.0, *) {
+            Swizzler.swizzleSelector(classToSwizzle: TabBarViewController.self,
+                                     originalSelector: NSSelectorFromString("_updateVisualStyleForTraitCollection:"),
+                                     swizzledSelector: #selector(swizzeled__updateVisualStyleForTraitCollection(traitCollection:)))
+        }
+        
+        super.init(coder: coder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -85,40 +132,24 @@ class TabBarViewController: UITabBarController {
                                                       right: 0)
             settingNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
         }
-        
-        if #available(iOS 11.0, *) {
-//            let topBottom = window.safeAreaInsets.bottom == 0 ? window.safeAreaInsets.bottom : window.safeAreaInsets.bottom / 2.5
-//            levelNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom,
-//                                                    left: 0,
-//                                                    bottom: UIDevice.current.userInterfaceIdiom == .pad ? -35 : -topBottom,
-//                                                    right: 0)
-//            levelNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
-//            scoreboardNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom,
-//                                                         left: 0,
-//                                                         bottom: UIDevice.current.userInterfaceIdiom == .pad ? -35 : -topBottom,
-//                                                         right: 0)
-//            scoreboardNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
-//            settingNav.tabBarItem.imageInsets = .init(top: UIDevice.current.userInterfaceIdiom == .pad ? 0 : topBottom,
-//                                                      left: 0,
-//                                                      bottom: UIDevice.current.userInterfaceIdiom == .pad ? -35 : -topBottom,
-//                                                      right: 0)
-//            settingNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
-        } else {
-//            levelNav.tabBarItem.imageInsets = .init(top: 0, left: -30, bottom: 0, right: 30)
-//            scoreboardNav.tabBarItem.imageInsets = .init(top: 0, left: 30, bottom: 0, right: -30)
+    }
+    
+    @available(iOS 18.0, *)
+    @objc dynamic
+    func swizzeled__updateVisualStyleForTraitCollection(traitCollection: UITraitCollection) {
+        guard traitCollection.userInterfaceIdiom == .pad else {
+            // call super
+            self.swizzeled__updateVisualStyleForTraitCollection(traitCollection: traitCollection)
+            return
         }
         
-              
+        let phoneIdiomTraitCollection = traitCollection.modifyingTraits { mutableTraits in
+            mutableTraits.userInterfaceIdiom = .phone
+        }
         
-//        if #available(iOS 13.0, *) {
-//            let appearance = self.tabBar.standardAppearance
-//            appearance.shadowImage = nil
-//            appearance.shadowColor = nil
-//            self.tabBar.standardAppearance = appearance
-//        } else {
-//            self.tabBar.shadowImage = UIImage()
-//            self.tabBar.backgroundImage = UIImage()
-//        }
+        // call super with modified trait collection
+        
+        self.swizzeled__updateVisualStyleForTraitCollection(traitCollection: phoneIdiomTraitCollection)
     }
 }
 

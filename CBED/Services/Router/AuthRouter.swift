@@ -50,7 +50,7 @@ extension AuthRouter: URLRequestConvertible {
         case .deactivate:
             return "/deactivate"
         case .config:
-            return "/config"
+            return "/all-config"
             
         }
     }

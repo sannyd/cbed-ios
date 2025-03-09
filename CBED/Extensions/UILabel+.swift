@@ -14,3 +14,11 @@ extension UILabel {
         self.adjustsFontForContentSizeCategory = true
     }
 }
+
+extension UITextView {
+    func scaledFont(style: UIFont.TextStyle) {
+        let scaledFont = ScaledFont(fontName: "Lato")
+        self.font = scaledFont.font(forTextStyle: style)
+        self.adjustsFontForContentSizeCategory = true
+    }
+}

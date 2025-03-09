@@ -114,6 +114,7 @@ class CustomAlertView: BaseNibView {
                         rightButtonTitle: String?,
                         explainationLink: String?) {
         self.type = type
+        textViewDescription.scaledFont(style: .body)
         labelTitle.text = title
         textViewDescription.isScrollEnabled = true
         textViewDescription.text = description

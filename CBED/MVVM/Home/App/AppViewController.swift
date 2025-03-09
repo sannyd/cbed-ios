@@ -37,6 +37,9 @@ final class AppViewController: UIViewController {
         let input = AppViewModel.Input(firstLoadTrigger: rxViewWillAppear)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
+        // Change config here Sanny
+        let configName = "alternative config"
+        
         [output
             .loadAppTrigger
             .asDriverOnErrorJustComplete()
@@ -48,7 +51,7 @@ final class AppViewController: UIViewController {
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     
-                    guard let remoteConfigs else {
+                    guard let remoteConfigs = remoteConfigs?.first(where: { $0["name"] as? String == configName }) else {
                         let tabbarVC = StoryboardManager.instanceTabBarVC()
                         appDelegate.window?.rootViewController = tabbarVC
                         return
@@ -108,7 +111,7 @@ final class AppViewController: UIViewController {
                 } else {
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     
-                    guard let remoteConfigs else {
+                    guard let remoteConfigs = remoteConfigs?.first(where: { $0["name"] as? String == configName }) else {
                         let tabbarVC = StoryboardManager.instanceTabBarVC()
                         appDelegate.window?.rootViewController = tabbarVC
                         return

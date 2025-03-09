@@ -16,7 +16,7 @@ extension AppViewModel {
     }
     
     struct Output {
-        let loadAppTrigger: Observable<(Bool, [String: Any]?)>
+        let loadAppTrigger: Observable<(Bool, [[String: Any]]?)>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
     }
@@ -31,7 +31,7 @@ struct AppViewModel: ViewModel {
     
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
-        let loadAppTrigger = PublishSubject<(Bool, [String: Any]?)>()
+        let loadAppTrigger = PublishSubject<(Bool, [[String: Any]]?)>()
         var isProfileLoaded = false
         input
             .firstLoadTrigger
@@ -62,14 +62,14 @@ struct AppViewModel: ViewModel {
     }
     
     
-    private func fetchConfigs() -> Observable<[String: Any]> {
+    private func fetchConfigs() -> Observable<[[String: Any]]> {
         print("[Remote Config] Start fetching")
         return APIClient
             .shared
             .requestAsDict(AuthRouter.config)
             .trackActivity(self.activityIndicator)
             .trackError(self.errorTracker)
-            .catch({ (error) -> Observable<[String: Any]> in
+            .catch({ (error) -> Observable<[[String: Any]]> in
                 return .error(error)
             })
     }
