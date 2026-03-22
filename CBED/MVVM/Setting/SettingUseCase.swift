@@ -10,6 +10,8 @@ import RxSwift
 protocol SettingUseCaseType {
     func getProfileInfo() -> Single<ProfileInfoM>
     func deactivate() -> Single<Any>
+    func updateProfileInfo(request: UpdateProfileRequestM,
+                           imageData: Data?) -> Single<ProfileInfoM>
 }
 
 struct SettingUseCase: SettingUseCaseType,

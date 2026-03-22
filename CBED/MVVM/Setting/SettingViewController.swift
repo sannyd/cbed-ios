@@ -53,7 +53,7 @@ extension ExamLocation: SwiftyMenuDisplayable {
     public var displayableValue: String {
         return self.rawValue
     }
-
+    
     public var retrievableValue: Any {
         return self
     }
@@ -71,7 +71,17 @@ final class SettingViewController: UIViewController {
     @IBOutlet weak var buttonRestorePurchase: CustomBorderButton!
     @IBOutlet weak var buttonEdit: UIButton!
     @IBOutlet weak var faceIDSwitch: UISwitch!
+    @IBOutlet weak var notificationTestSwitch: UISwitch!
+    @IBOutlet weak var appIconTestSwitch: UISwitch!
+    @IBOutlet weak var appearanceSegmentedControl: UISegmentedControl!
     @IBOutlet weak var examLocationMenu: SwiftyMenu!
+    
+    @IBOutlet weak var essayTextfield: UITextField!
+    @IBOutlet weak var mptTextfield: UITextField!
+    @IBOutlet weak var buttonSave: UIButton!
+    @IBOutlet weak var countContainerView: UIView!
+    
+    
     // MARK: - Properties
     
     var viewModel: SettingViewModel!
@@ -79,11 +89,19 @@ final class SettingViewController: UIViewController {
     private var codeMenuAttributes = SwiftyMenuAttributes()
     private let dropDownOptionsDataSource = ExamLocation.allCases
     
+    private let essayPickerView = UIPickerView()
+    private let mptPickerView = UIPickerView()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        essayTextfield.inputView = essayPickerView
+        mptTextfield.inputView = mptPickerView
         profileImageView.setRoundShape()
+        notificationTestSwitch.isOn = Storage.isNotificationTestingEnabled
+        appIconTestSwitch.isOn = Storage.isAppIconTestingEnabled
+        appearanceSegmentedControl.selectedSegmentIndex = Storage.appTheme.rawValue
         bindViewModel()
         buttonDeactivate.isHidden = !IsEnableDeleteAccount
         setupSwiftDrawer()
@@ -107,12 +125,17 @@ final class SettingViewController: UIViewController {
         examLocationMenu.items = dropDownOptionsDataSource
         codeMenuAttributes.multiSelect = .disabled
         codeMenuAttributes.hideOptionsWhenSelect = .enabled
-        codeMenuAttributes.rowStyle = .value(height: 44, backgroundColor: .white, selectedColor: .white)
+        codeMenuAttributes.rowStyle = .value(height: 44,
+                                             backgroundColor: .secondarySystemBackground,
+                                             selectedColor: .secondarySystemBackground)
         codeMenuAttributes.roundCorners = .all(radius: 8)
-        codeMenuAttributes.border = .value(color: .gray, width: 0.5)
-        codeMenuAttributes.placeHolderStyle = .value(text: Storage.examLocation.rawValue, textColor: .black)
-        codeMenuAttributes.separatorStyle = .value(color: .black, isBlured: true, style: .singleLine)
-        codeMenuAttributes.headerStyle = .value(backgroundColor: .lightGray, height: 44)
+        codeMenuAttributes.border = .value(color: .separator, width: 0.5)
+        codeMenuAttributes.textStyle = .value(color: .label,
+                                              separator: ", ",
+                                              font: UIFont(name: Constants.Font.LatoRegular, size: 14))
+        codeMenuAttributes.placeHolderStyle = .value(text: Storage.examLocation.rawValue, textColor: .label)
+        codeMenuAttributes.separatorStyle = .value(color: .separator, isBlured: true, style: .singleLine)
+        codeMenuAttributes.headerStyle = .value(backgroundColor: .secondarySystemBackground, height: 44)
         examLocationMenu.configure(with: codeMenuAttributes)
         
         examLocationMenu.didSelectItem = { [weak self] menu, item, index in
@@ -122,7 +145,7 @@ final class SettingViewController: UIViewController {
             }
         }
     }
-    
+
     private func checkFaceID() {
         let context = LAContext()
         
@@ -146,37 +169,62 @@ final class SettingViewController: UIViewController {
     // MARK: - Methods
     
     func bindViewModel() {
+        let essayStart = BehaviorSubject<Int>(value: 0)
+        let mptStart = PublishSubject<Int>()
+        
         let viewWillAppear = rx
             .sentMessage(#selector(UIViewController.viewWillAppear))
             .mapToVoid()
         
+        let essayCount = Observable.merge(essayPickerView.rx.modelSelected(Int.self).map { $0.first ?? 0}.asObservable(),
+                                          essayStart.asObservable())
+            .do(onNext: { [weak self] number in
+                self?.essayTextfield.text = "\(number)"
+            })
+        
+            .asObservable()
+        let mptcount = Observable.merge(mptPickerView.rx.modelSelected(Int.self).map { $0.first ?? 0}.asObservable(),
+                                        mptStart.asObservable())
+            .do(onNext: { [weak self] number in
+                self?.mptTextfield.text = "\(number)"
+            })
+            .asObservable()
+        let buttonSaveTrigger = buttonSave.rxButtonTapped
+            .withLatestFrom(Observable.combineLatest(essayCount, mptcount))
+        //            .map { [weak self] _ in (Int(self?.essayTextfield.text ?? "0") ?? 0, Int(self?.mptTextfield.text ?? "0") ?? 0) }
+        
         let input = SettingViewModel.Input(viewWillAppear: viewWillAppear,
                                            buttonRestorePurchaseTrigger: buttonRestorePurchase.rxButtonTapped,
                                            buttonEditTrigger: buttonEdit.rxButtonTapped,
-                                           buttonDeactivateTrigger: buttonDeactivate.rxButtonTapped)
+                                           buttonDeactivateTrigger: buttonDeactivate.rxButtonTapped,
+                                           buttonSaveTrigger: buttonSaveTrigger
+        )
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
         [output
             .profileInfo
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] profileInfo in
-            let name = IsEnableLogin ? profileInfo.name : "Newcomer"
-            self?.labelName.text = "Name: \(name)"
-            let email = IsEnableLogin ? profileInfo.email : "N/A"
-            self?.labelEmail.text = "Email: \(email)"
-            self?.labelEmail.isHidden = !IsEnableLogin
-            let membership = IsEnableLogin ? profileInfo.memberPlan.stringValue : (CurrentMembershipType?.name ?? "")
-            self?.labelMembership.text = "Membership: \(membership)"
-            self?.profileImageView.loadImage(with: profileInfo.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
-        }),
+                let name = IsEnableLogin ? profileInfo.name : "Newcomer"
+                self?.labelName.text = "Name: \(name)"
+                let email = IsEnableLogin ? profileInfo.email : "N/A"
+                self?.labelEmail.text = "Email: \(email)"
+                self?.labelEmail.isHidden = !IsEnableLogin
+                let membership = IsEnableLogin ? profileInfo.memberPlan.stringValue : (CurrentMembershipType?.name ?? "")
+                self?.labelMembership.text = "Membership: \(membership)"
+                self?.profileImageView.loadImage(with: profileInfo.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
+                essayStart.onNext(profileInfo.essayCount)
+                mptStart.onNext(profileInfo.mptCount)
+                self?.countContainerView.isHidden = !profileInfo.isTutor
+            }),
          output
             .restorePurchaseSuccess
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] _ in
-            if !IsEnableLogin {
-                self?.updateProfileForLoginDisable()
-            }
-        }),
+                if !IsEnableLogin {
+                    self?.updateProfileForLoginDisable()
+                }
+            }),
          output
             .deactivateSuccess
             .asDriverOnErrorJustComplete()
@@ -192,19 +240,57 @@ final class SettingViewController: UIViewController {
             .error
             .asDriverOnErrorJustComplete()
             .drive(errorBinding),
+         output
+            .essaysPickerData
+            .asDriverOnErrorJustComplete()
+            .drive(essayPickerView.rx.itemTitles){ _, item in
+                return "\(item)"
+            },
+         output
+            .mptPickerData
+            .asDriverOnErrorJustComplete()
+            .drive(mptPickerView.rx.itemTitles){ _, item in
+                return "\(item)"
+            },
          buttonLogout
             .rxButtonTapped
             .subscribe(onNext: { _ in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.logout()
-        }),
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.logout()
+            }),
          faceIDSwitch
             .rx
             .isOn
             .skip(1)
             .subscribe(onNext: { isEnableFaceID in
-            Storage.isEnableFaceID = isEnableFaceID
-        })]
+                Storage.isEnableFaceID = isEnableFaceID
+            }),
+         notificationTestSwitch
+            .rx
+            .isOn
+            .skip(1)
+            .subscribe(onNext: { isEnabled in
+                Storage.isNotificationTestingEnabled = isEnabled
+                NotificationScheduler.shared.applyTestingMode(isEnabled: isEnabled)
+            }),
+         appIconTestSwitch
+            .rx
+            .isOn
+            .skip(1)
+            .subscribe(onNext: { isEnabled in
+                Storage.isAppIconTestingEnabled = isEnabled
+                AppIconManager.shared.applyTestingMode(isEnabled: isEnabled)
+            }),
+         appearanceSegmentedControl
+            .rx
+            .selectedSegmentIndex
+            .skip(1)
+            .compactMap(AppTheme.init(rawValue:))
+            .subscribe(onNext: { theme in
+                Storage.appTheme = theme
+                let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                appDelegate?.applyAppTheme()
+            })]
             .forEach { $0.disposed(by: disposeBag) }
     }
     

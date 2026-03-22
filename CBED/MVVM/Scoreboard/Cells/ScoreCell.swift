@@ -35,7 +35,15 @@ class ScoreCell: UICollectionViewCell, CellType {
         }
         
         labelUserID.text = "ID - \(data.id)"
-        labelUserPosition.text = "\(data.lastSectionName ?? "N/A")"
+        
+        if data.isEssay {
+            labelUserPosition.text = "\(data.essaysCount)"
+        } else if data.isMpt {
+            labelUserPosition.text = "\(data.mptCount)"
+        } else {
+            labelUserPosition.text = "\(data.lastSectionName ?? "N/A")"
+        }
+        
     }
     
     override func layoutSubviews() {

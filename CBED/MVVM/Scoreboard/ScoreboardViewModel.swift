@@ -1,24 +1,37 @@
-//
-//  ScoreboardViewModel.swift
-//  CBED
-//
-//  Created by Jimmy Hoang on 13/06/2021.
-//
-
 import RxSwift
 import RxCocoa
+
+enum ScoreboardSection {
+    case barExamFeb
+    case barExamJuly
+    case babyBar(BabyBarSection)
+    case zoomEmail(ZoomEmailSection)
+}
+
+enum BabyBarSection {
+    case june
+    case october
+}
+
+enum ZoomEmailSection {
+    case essays
+    case mpt
+    case mbe
+}
+
+
 
 // MARK: Input + Output
 extension ScoreboardViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
         let viewWillAppear: Observable<Void>
-        let filterTrigger: Observable<InAppPurchaseMonth>
+        let filterTrigger: Observable<ScoreboardSection>
     }
     
     struct Output {
         let data: Observable<[CommonCollectionViewSection<ScoreM>]>
-        let filterInvoked: Observable<InAppPurchaseMonth>
+        let filterInvoked: Observable<ScoreboardSection>
         let userProfile: Observable<ProfileInfoM?>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
@@ -37,8 +50,11 @@ struct ScoreboardViewModel: ViewModel {
         var proBarJulData: [ScoreM] = []
         var babyBarJunData: [ScoreM] = []
         var babyBarOctData: [ScoreM] = []
+        var essaysData: [ScoreM] = []
+        var mptData: [ScoreM] = []
+        var mbeData: [ScoreM] = []
         let data = BehaviorRelay<[ScoreM]>(value: [])
-        let filterTrigger = BehaviorRelay<InAppPurchaseMonth>(value: .ProBarFeb)
+        let filterTrigger = BehaviorRelay<ScoreboardSection>(value: .barExamFeb)
         
         let sharedFilterTrigger = input.filterTrigger.share(replay: 1)
         sharedFilterTrigger
@@ -68,32 +84,80 @@ struct ScoreboardViewModel: ViewModel {
                     .sorted(by: { score1, score2 in
                         score1.lastSectionName != nil && score2.lastSectionName == nil
                     })
-                
+                mbeData = response.tutor
+                    .sorted(by: { score1, score2 in
+                        score1.lastSectionName != nil && score2.lastSectionName == nil
+                    })
+                essaysData = response.tutor
+                    .map { item in
+                        var temp = item
+                        temp.isEssay = true
+                        
+                        return temp
+                    }
+                    .sorted(by: { score1, score2 in
+                        score1.essaysCount > score2.essaysCount
+                    })
+                mptData = response.tutor
+                    .map { item in
+                        var temp = item
+                        temp.isMpt = true
+                        
+                        return temp
+                    }
+                    .sorted(by: { score1, score2 in
+                        score1.mptCount > score2.mptCount
+                    })
+
                 switch filterTrigger.value {
-                case .ProBarFeb:
+                case .barExamFeb:
                     data.accept(proBarFebData)
-                case .ProBarJul:
+                case .barExamJuly:
                     data.accept(proBarJulData)
-                case .BabyBarJun:
-                    data.accept(babyBarJunData)
-                case .BabyBarOct:
-                    data.accept(babyBarOctData)
+                case .babyBar(let babyBarSection):
+                    switch babyBarSection {
+                    case .june:
+                        data.accept(babyBarJunData)
+                    case .october:
+                        data.accept(babyBarOctData)
+                    }
+                case .zoomEmail(let zoomEmailSection):
+                    switch zoomEmailSection {
+                    case .essays:
+                        data.accept(essaysData)
+                    case .mpt:
+                        data.accept(mptData)
+                    case .mbe:
+                        data.accept(mbeData)
+                    }
                 }
                 
             })
             .disposed(by: disposeBag)
-        
+
         sharedFilterTrigger
-            .map { filterType in
-                switch filterType {
-                case .ProBarFeb:
+            .map { section in
+                switch section {
+                case .barExamFeb:
                     return proBarFebData
-                case .ProBarJul:
+                case .barExamJuly:
                     return proBarJulData
-                case .BabyBarJun:
-                    return babyBarJunData
-                case .BabyBarOct:
-                    return babyBarOctData
+                case .babyBar(let babyBarSection):
+                    switch babyBarSection {
+                    case .june:
+                        return babyBarJunData
+                    case .october:
+                        return babyBarOctData
+                    }
+                case .zoomEmail(let zoomEmailSection):
+                    switch zoomEmailSection {
+                    case .essays:
+                        return essaysData
+                    case .mpt:
+                        return mptData
+                    case .mbe:
+                        return mbeData
+                    }
                 }
             }
             .bind(to: data)

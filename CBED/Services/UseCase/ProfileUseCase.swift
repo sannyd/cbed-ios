@@ -34,7 +34,11 @@ extension ProfileUseCase {
         }
         
         for (key, value) in params {
-            multipartFormData.append((value as! String).data(using: .utf8)!, withName: key)
+            if value is Int {
+                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+            } else {
+                multipartFormData.append((value as! String).data(using: .utf8)!, withName: key)
+            }
         }
         
         return APIClient

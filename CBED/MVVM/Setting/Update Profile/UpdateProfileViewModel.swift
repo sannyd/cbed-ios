@@ -1,10 +1,3 @@
-//
-//  UpdateProfileViewModel.swift
-//  CBED
-//
-//  Created by Jimmy Hoang on 8/29/21.
-//
-
 import RxSwift
 import RxCocoa
 import RxNuke

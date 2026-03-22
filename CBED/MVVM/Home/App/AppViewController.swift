@@ -32,6 +32,53 @@ final class AppViewController: UIViewController {
     }
     
     // MARK: - Methods
+
+    private func parseRemoteBool(_ value: Any?) -> Bool? {
+        switch value {
+        case let bool as Bool:
+            return bool
+        case let number as NSNumber:
+            return number.boolValue
+        case let string as String:
+            switch string.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+            case "true", "t", "1", "yes", "y":
+                return true
+            case "false", "f", "0", "no", "n":
+                return false
+            default:
+                return nil
+            }
+        default:
+            return nil
+        }
+    }
+
+    private func showMainApp(using appDelegate: AppDelegate) {
+        let tabbarVC = StoryboardManager.instanceTabBarVC()
+        appDelegate.window?.rootViewController = tabbarVC
+    }
+
+    private func loadMembershipIfNeeded(using appDelegate: AppDelegate) {
+#if targetEnvironment(simulator)
+        print("[Remote Config] Skipping StoreKit receipt check on simulator")
+        showMainApp(using: appDelegate)
+#else
+        print("[Remote Config] getLastReceipt start")
+        StoreKitService.shared.getLastReceipt { receipt in
+            print("[Remote Config] getLastReceipt finish")
+            if let receipt = receipt {
+                print("[Remote Config] verifyReceipt start")
+                StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
+                    print("[Remote Config] verifyReceipt finish")
+                    CurrentMembershipType = monthType
+                    self.showMainApp(using: appDelegate)
+                })
+            } else {
+                self.showMainApp(using: appDelegate)
+            }
+        }
+#endif
+    }
     
     func bindViewModel() {
         let input = AppViewModel.Input(firstLoadTrigger: rxViewWillAppear)
@@ -52,15 +99,19 @@ final class AppViewController: UIViewController {
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     
                     guard let remoteConfigs = remoteConfigs?.first(where: { $0["name"] as? String == configName }) else {
+                        print("[Remote Config] Missing config named: \(configName)")
                         let tabbarVC = StoryboardManager.instanceTabBarVC()
                         appDelegate.window?.rootViewController = tabbarVC
                         return
                     }
+                    print("[Remote Config] Using config: \(remoteConfigs)")
                 
-                    guard let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool,
-                          let isEnableDeleteAccount = remoteConfigs["is_enable_delete_account"] as? Bool else {
+                    guard let isEnableLogin = self.parseRemoteBool(remoteConfigs["is_enable_login"]),
+                          let isEnableDeleteAccount = self.parseRemoteBool(remoteConfigs["is_enable_delete_account"]) else {
+                        print("[Remote Config] Invalid flags for config: \(configName), raw is_enable_login=\(String(describing: remoteConfigs["is_enable_login"])), raw is_enable_delete_account=\(String(describing: remoteConfigs["is_enable_delete_account"]))")
                         return
                     }
+                    print("[Remote Config] is_enable_login=\(isEnableLogin), is_enable_delete_account=\(isEnableDeleteAccount)")
                     IsEnableDeleteAccount = isEnableDeleteAccount
                     
                     if Storage.accessToken == nil {
@@ -70,41 +121,18 @@ final class AppViewController: UIViewController {
                         } else {
                             IsEnableLogin = isEnableLogin
                             IsEnableDeleteAccount = isEnableDeleteAccount
-                            let tabbarVC = StoryboardManager.instanceTabBarVC()
-                            appDelegate.window?.rootViewController = tabbarVC
+                            self.showMainApp(using: appDelegate)
                         }
                     } else {
                         if isEnableLogin {
-                            let tabbarVC = StoryboardManager.instanceTabBarVC()
-                            appDelegate.window?.rootViewController = tabbarVC
+                            self.showMainApp(using: appDelegate)
                         } else {
                             if Storage.accessToken == self.staticToken {
                                 IsEnableLogin = isEnableLogin
                                 IsEnableDeleteAccount = isEnableDeleteAccount
-                                
-                                print("[Remote Config] getLastReceipt start")
-                                StoreKitService.shared.getLastReceipt { receipt in
-                                    
-                                    print("[Remote Config] getLastReceipt finish")
-                                    if let receipt = receipt {
-                                        
-                                        print("[Remote Config] verifyReceipt start")
-                                        StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
-                                            
-                                            print("[Remote Config] verifyReceipt finish")
-                                            CurrentMembershipType = monthType
-                                            
-                                            let tabbarVC = StoryboardManager.instanceTabBarVC()
-                                            appDelegate.window?.rootViewController = tabbarVC
-                                        })
-                                    } else {
-                                        let tabbarVC = StoryboardManager.instanceTabBarVC()
-                                        appDelegate.window?.rootViewController = tabbarVC
-                                    }
-                                }
+                                self.loadMembershipIfNeeded(using: appDelegate)
                             } else {
-                                let tabbarVC = StoryboardManager.instanceTabBarVC()
-                                appDelegate.window?.rootViewController = tabbarVC
+                                self.showMainApp(using: appDelegate)
                             }
                         }
                     }
@@ -112,17 +140,21 @@ final class AppViewController: UIViewController {
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     
                     guard let remoteConfigs = remoteConfigs?.first(where: { $0["name"] as? String == configName }) else {
+                        print("[Remote Config] Missing config named: \(configName)")
                         let tabbarVC = StoryboardManager.instanceTabBarVC()
                         appDelegate.window?.rootViewController = tabbarVC
                         return
                     }
+                    print("[Remote Config] Using config: \(remoteConfigs)")
                 
-                    guard let isEnableLogin = remoteConfigs["is_enable_login"] as? Bool,
-                          let isEnableDeleteAccount = remoteConfigs["is_enable_delete_account"] as? Bool else {
+                    guard let isEnableLogin = self.parseRemoteBool(remoteConfigs["is_enable_login"]),
+                          let isEnableDeleteAccount = self.parseRemoteBool(remoteConfigs["is_enable_delete_account"]) else {
+                              print("[Remote Config] Invalid flags for config: \(configName), raw is_enable_login=\(String(describing: remoteConfigs["is_enable_login"])), raw is_enable_delete_account=\(String(describing: remoteConfigs["is_enable_delete_account"]))")
                               Storage.removeAll()
                               self.goToLogin()
                               return
                     }
+                    print("[Remote Config] is_enable_login=\(isEnableLogin), is_enable_delete_account=\(isEnableDeleteAccount)")
                     IsEnableLogin = isEnableLogin
                     IsEnableDeleteAccount = isEnableDeleteAccount
                     if isEnableLogin {
@@ -130,21 +162,7 @@ final class AppViewController: UIViewController {
                         self.goToLogin()
                     } else {
                         Storage.accessToken = self.staticToken
-                        
-                        StoreKitService.shared.getLastReceipt { receipt in
-                            if let receipt = receipt {
-                                StoreKitService.shared.verifyReceipt(receipt, completion: { isPurchased, monthType in
-                                    CurrentMembershipType = monthType
-                                    
-                                    let tabbarVC = StoryboardManager.instanceTabBarVC()
-                                    appDelegate.window?.rootViewController = tabbarVC
-                                    
-                                })
-                            } else {
-                                let tabbarVC = StoryboardManager.instanceTabBarVC()
-                                appDelegate.window?.rootViewController = tabbarVC
-                            }
-                        }
+                        self.loadMembershipIfNeeded(using: appDelegate)
                     }
                 }
             }),

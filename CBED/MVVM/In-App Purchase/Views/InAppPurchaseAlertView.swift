@@ -63,14 +63,16 @@ class InAppPurchaseAlertView: BaseNibView {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] data in
                 self?.labelLeft.text = data.type.monthString
-                self?.leftView.backgroundColor = data.isSelected ? Constants.PrimaryBlue :  Constants.primaryTextfieldColor
+                self?.leftView.backgroundColor = data.isSelected ? Constants.PrimaryBlue : Constants.SecondarySurfaceColor
+                self?.labelLeft.textColor = data.isSelected ? .white : Constants.PrimaryTextColor
             }),
          output
             .rightData
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] data in
                 self?.rightLabel.text = data.type.monthString
-                self?.rightView.backgroundColor = data.isSelected ? Constants.PrimaryBlue : Constants.primaryTextfieldColor
+                self?.rightView.backgroundColor = data.isSelected ? Constants.PrimaryBlue : Constants.SecondarySurfaceColor
+                self?.rightLabel.textColor = data.isSelected ? .white : Constants.PrimaryTextColor
             }),
          output
             .isButtonProceedValid

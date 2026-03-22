@@ -1,15 +1,9 @@
-//
-//  PurchaseUseCase.swift
-//  CBED
-//
-//  Created by Jimmy Hoang on 30/07/2021.
-//
-
 import Foundation
 import RxSwift
 
 protocol PurchaseAPIUseCase {
     func purchaseMembership(request: PurchaseMembershipRequestM) -> Single<Any>
+    func getSubscriptionPlan() -> Single<[SubscriptionPlanM]>
 }
 
 extension PurchaseAPIUseCase {
@@ -22,5 +16,11 @@ extension PurchaseAPIUseCase {
             .shared
             .request(PurchaseRouter.purchaseMembership(params: params))
             .map { _ in }
+    }
+    
+    func getSubscriptionPlan() -> Single<[SubscriptionPlanM]> {
+        return APIClient
+            .shared
+            .requestWithoutValidation(PurchaseRouter.getSubscriptionPlans)
     }
 }

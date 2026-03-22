@@ -23,12 +23,33 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyScreenStyling()
         bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        applyScreenStyling()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle else {
+            return
+        }
+        applyScreenStyling()
+    }
+    
+    private func applyScreenStyling() {
+        let screenColor: UIColor = traitCollection.userInterfaceStyle == .dark ? .black : .white
+        view.backgroundColor = screenColor
+        view.subviews.forEach { subview in
+            if let scrollView = subview as? UIScrollView {
+                scrollView.backgroundColor = screenColor
+                scrollView.subviews.forEach { $0.backgroundColor = screenColor }
+            }
+        }
     }
     
     private func bindViewModel() {
@@ -72,4 +93,3 @@ extension LoginViewController: UITextFieldDelegate {
         return true
     }
 }
-

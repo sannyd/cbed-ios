@@ -24,12 +24,12 @@ extension ObservableType {
 extension InAppPurchaseViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
-        let inAppPurchaseItemTrigger: Observable<InAppPurchaseType>
+        let inAppPurchaseItemTrigger: Observable<SubscriptionPlanM>
         let buttonRestorePurchaseTrigger: Observable<Void>
     }
     
     struct Output {
-        let data: Observable<[CommonCollectionViewSection<InAppPurchaseType>]>
+        let data: Observable<[CommonCollectionViewSection<SubscriptionPlanM>]>
         let purchaseSuccessInvoked: Observable<Void>
         let isShowingIAPBlockerView: Observable<(Bool, Bool)>
         let previouslyPurchasedInvoked: Observable<Void>
@@ -53,27 +53,14 @@ struct InAppPurchaseViewModel: ViewModel {
         
         let data = input
             .firstLoadTrigger
-            .map { _ in
-                return [CommonCollectionViewSection(items: [InAppPurchaseType.ProBar,
-                                                            InAppPurchaseType.BabyBar])]
+            .flatMapLatest { self.getSubscriptionPlans() }
+            .map {
+                return [CommonCollectionViewSection(items: $0)]
             }
-        input
-            .inAppPurchaseItemTrigger
-            .map { $0.months }
-            .asDriverOnErrorJustComplete()
-            .drive(onNext: navigator.showMonthAlertView(leftData:rightData:))
-            .disposed(by: disposeBag)
         
-        let purchaseSuccessInvoked = navigator
-            .alertViewPublisher
-            .map { events -> InAppPurchaseMonth? in
-                switch events {
-                case .didTapProceed(let month):
-                    return month
-                }
-            }
-            .unwrap()
-            .map { $0.purchaseID }
+        let purchaseSuccessInvoked = input
+            .inAppPurchaseItemTrigger
+            .map { $0.name.inAppPurchaseMonth.purchaseID }
             .do(onNext: { _ in
                 isShowingIAPBlockerView.accept((true, false))
             })
@@ -248,6 +235,16 @@ struct InAppPurchaseViewModel: ViewModel {
     private func getProfile() -> Observable<ProfileInfoM> {
         return useCase
             .getProfileInfo()
+            .trackError(errorTracker)
+            .trackActivity(activityIndicator)
+            .catch { _ in
+                return .never()
+            }
+    }
+    
+    private func getSubscriptionPlans() -> Observable<[SubscriptionPlanM]> {
+        return useCase
+            .getSubscriptionPlan()
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
             .catch { _ in

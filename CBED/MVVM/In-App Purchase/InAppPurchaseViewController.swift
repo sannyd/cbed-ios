@@ -1,10 +1,3 @@
-//
-//  InAppPurchaseViewController.swift
-//  CBED
-//
-//  Created by Jimmy Hoang on 07/07/2021.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
@@ -20,7 +13,7 @@ final class InAppPurchaseViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var collectionView: CommonCollectionView<CommonCollectionViewSection<InAppPurchaseType>, InAppPurchaseCell>!
+    private var collectionView: CommonCollectionView<CommonCollectionViewSection<SubscriptionPlanM>, InAppPurchaseCell>!
     
     var viewModel: InAppPurchaseViewModel!
     var disposeBag = DisposeBag()
@@ -109,7 +102,7 @@ final class InAppPurchaseViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        collectionView = CommonCollectionView<CommonCollectionViewSection<InAppPurchaseType>, InAppPurchaseCell>(lineSpacing: 20)
+        collectionView = CommonCollectionView<CommonCollectionViewSection<SubscriptionPlanM>, InAppPurchaseCell>(lineSpacing: 20)
         collectionView.isScrollEnabled = false
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }

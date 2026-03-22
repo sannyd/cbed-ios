@@ -10,6 +10,7 @@ import Alamofire
 
 enum PurchaseRouter {
     case purchaseMembership(params: Parameters)
+    case getSubscriptionPlans
 }
 
 // MARK: - TargetType: Moya compatible
@@ -25,11 +26,18 @@ extension PurchaseRouter: URLRequestConvertible {
         switch self {
         case .purchaseMembership:
             return "/purchase"
+        case .getSubscriptionPlans:
+            return "/subscription-plans/"
         }
     }
     
     var method: HTTPMethod {
-        return .post
+        switch self {
+        case .purchaseMembership:
+            return .post
+        case .getSubscriptionPlans:
+            return .get
+        }
     }
     
     func asURLRequest() throws -> URLRequest {
@@ -41,6 +49,8 @@ extension PurchaseRouter: URLRequestConvertible {
         case .purchaseMembership(let params):
             let encoding = Alamofire.JSONEncoding.default
             request = try encoding.encode(request, with: params)
+        default:
+            break
         }
         
         return request

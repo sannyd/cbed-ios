@@ -15,6 +15,9 @@ class NetworkLogger: EventMonitor {
     //2
     func requestDidFinish(_ request: Request) {
         Log.networkRequest(request.description)
+        if let headers = request.request?.headers {
+            Log.networkRequest(headers)
+        }
     }
     
     func request<Value>(
@@ -204,3 +207,4 @@ final class APIClient: SessionDelegate {
         }
     }
 }
+

@@ -64,6 +64,14 @@ enum InAppPurchaseMonth: String, CaseIterable {
     }
 }
 
+enum ScoreboardType: String {
+    case ProBarFeb
+    case ProBarJul
+    case BabyBarJun
+    case BabyBarOct
+    case emailZoom
+}
+
 struct Constants {
     static let states = ["Alaska",
                       "Alabama",
@@ -171,6 +179,24 @@ struct Constants {
             return .white
         case .dark:
             return #colorLiteral(red: 0.2235294118, green: 0.2078431373, blue: 0.4470588235, alpha: 1)
+        }
+    }
+    
+    static let SecondarySurfaceColor = UIColor.dynamicColor { context in
+        switch context.mode {
+        case .light:
+            return #colorLiteral(red: 0.9490196078, green: 0.9568627451, blue: 0.9764705882, alpha: 1)
+        case .dark:
+            return #colorLiteral(red: 0.2705882353, green: 0.2509803922, blue: 0.5098039216, alpha: 1)
+        }
+    }
+    
+    static let CardShadowColor = UIColor.dynamicColor { context in
+        switch context.mode {
+        case .light:
+            return UIColor.black.withAlphaComponent(0.12)
+        case .dark:
+            return UIColor.black.withAlphaComponent(0.35)
         }
     }
     

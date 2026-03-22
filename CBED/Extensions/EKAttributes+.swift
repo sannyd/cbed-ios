@@ -12,7 +12,7 @@ extension EKAttributes {
         var attributes = EKAttributes()
         attributes.position = .center
         attributes.displayDuration = .infinity
-        attributes.entryBackground = .color(color: .white)
+        attributes.entryBackground = .color(color: EKColor(Constants.CellColor))
         attributes.screenBackground = .color(color: EKColor(UIColor.black.withAlphaComponent(0.5)))
         attributes.screenInteraction = .absorbTouches
         attributes.entryInteraction = .absorbTouches
@@ -25,7 +25,7 @@ extension EKAttributes {
         attributes.positionConstraints.maxSize = .init(width: .constant(value: UIScreen.main.bounds.width),
                                                        height: .offset(value: 200))
         attributes.roundCorners = .all(radius: 10)
-        attributes.shadow = .active(with: .init(color: .black,
+        attributes.shadow = .active(with: .init(color: EKColor(Constants.CardShadowColor),
                                                 opacity: 0.1,
                                                 radius: 6,
                                                 offset: .init(width: 0, height: 1)))

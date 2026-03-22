@@ -40,7 +40,7 @@ class LoadingIndicatorView: NSObject {
     
     static func show(_ overlayTarget: UIView,
                      loadingText: String?,
-                     color: UIColor = #colorLiteral(red: 0.1607843137, green: 0.3568627451, blue: 0.8784313725, alpha: 1)) {
+                     color: UIColor = Constants.PrimaryBlue) {
         // Clear it first in case it was already shown
         hide()
         
@@ -71,7 +71,7 @@ class LoadingIndicatorView: NSObject {
         if let textString = loadingText {
             let label = UILabel()
             label.text = textString
-            label.textColor = UIColor.white
+            label.textColor = .label
             overlay.addSubview(label)
             label.translatesAutoresizingMaskIntoConstraints = false
             label.topAnchor.constraint(equalTo: indicator.bottomAnchor, constant: 16).isActive = true
@@ -189,7 +189,7 @@ extension MaterialActivityIndicatorAnimator {
 }
 
 class MaterialActivityIndicatorView: UIView {
-    var color: UIColor = #colorLiteral(red: 0.1607843137, green: 0.3568627451, blue: 0.8784313725, alpha: 1) {
+    var color: UIColor = Constants.PrimaryBlue {
         didSet {
             indicator.strokeColor = color.cgColor
         }

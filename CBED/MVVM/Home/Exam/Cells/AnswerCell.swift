@@ -48,21 +48,22 @@ class AnswerCell: UICollectionViewCell,
     }
     
     func populateData(_ data: SelectableAnswer) {
+        let eliminatedColor = UIColor.systemGray
         if data.isSelected {
             if data.isCheck {
-                backgroundContainerView.backgroundColor = data.isEliminated ? .gray : Constants.ColorE0293F
+                backgroundContainerView.backgroundColor = data.isEliminated ? eliminatedColor : Constants.ColorE0293F
                 backgroundContainerView.shadowColor = Constants.ColorE0293F
-                labelText.textColor = Constants.PrimaryTextColor
+                labelText.textColor = .white
                 radioImageView.image = #imageLiteral(resourceName: "img_answer_unselected")
             } else {
-                backgroundContainerView.backgroundColor = data.isEliminated ? .gray : Constants.PrimaryBlue
+                backgroundContainerView.backgroundColor = data.isEliminated ? eliminatedColor : Constants.PrimaryBlue
                 backgroundContainerView.shadowColor = Constants.PrimaryBlue
                 labelText.textColor = .white
                 radioImageView.image = #imageLiteral(resourceName: "img_answer_selected")
             }
         } else {
-            backgroundContainerView.backgroundColor = data.isEliminated ? .gray : Constants.CellColor
-            backgroundContainerView.shadowColor = .black
+            backgroundContainerView.backgroundColor = data.isEliminated ? eliminatedColor : Constants.CellColor
+            backgroundContainerView.shadowColor = Constants.CardShadowColor
             labelText.textColor = Constants.PrimaryTextColor
             radioImageView.image = #imageLiteral(resourceName: "img_answer_unselected")
         }

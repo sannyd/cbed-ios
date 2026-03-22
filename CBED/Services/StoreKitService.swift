@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftyStoreKit
+import StoreKit
 
 class StoreKitService {
     // Singleton

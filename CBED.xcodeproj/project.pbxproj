@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F0996392E0ADE3800D04485 /* SubscriptionPlanM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0996382E0ADE3100D04485 /* SubscriptionPlanM.swift */; };
 		180C44CD2695F5E700416335 /* InAppPurchaseNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C44C92695F5E700416335 /* InAppPurchaseNavigator.swift */; };
 		180C44CE2695F5E700416335 /* InAppPurchaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C44CA2695F5E700416335 /* InAppPurchaseUseCase.swift */; };
 		180C44CF2695F5E700416335 /* InAppPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C44CB2695F5E700416335 /* InAppPurchaseViewController.swift */; };
@@ -166,6 +167,20 @@
 		1BDC16022AD267DA00F46FF4 /* CBED_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC16012AD267DA00F46FF4 /* CBED_Widget.swift */; };
 		1BDC16042AD267DC00F46FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC16032AD267DC00F46FF4 /* Assets.xcassets */; };
 		1BDC16082AD267DC00F46FF4 /* CBED WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1BDC15F92AD267DA00F46FF4 /* CBED WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2D38B6882FBDC2B800D91A10 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D38B6872FBDC2B800D91A10 /* NotificationScheduler.swift */; };
+		4B0D5B162FBDF8E800026F55 /* AppIconInactive1-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B102FBDF8E800026F55 /* AppIconInactive1-120.png */; };
+		4B0D5B172FBDF8E800026F55 /* AppIconInactive1-180.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B112FBDF8E800026F55 /* AppIconInactive1-180.png */; };
+		4B0D5B182FBDF8E800026F55 /* AppIconInactive3-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B122FBDF8E800026F55 /* AppIconInactive3-120.png */; };
+		4B0D5B192FBDF8E800026F55 /* AppIconInactive3-180.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B132FBDF8E800026F55 /* AppIconInactive3-180.png */; };
+		4B0D5B1A2FBDF8E800026F55 /* AppIconInactive7-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B142FBDF8E800026F55 /* AppIconInactive7-120.png */; };
+		4B0D5B1B2FBDF8E800026F55 /* AppIconInactive7-180.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B152FBDF8E800026F55 /* AppIconInactive7-180.png */; };
+		4B0D5B1C2FBE1E8A00026F55 /* AppIconInactive1-152.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B1D2FBE1E8A00026F55 /* AppIconInactive1-152.png */; };
+		4B0D5B1E2FBE1E8A00026F55 /* AppIconInactive1-167.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B1F2FBE1E8A00026F55 /* AppIconInactive1-167.png */; };
+		4B0D5B202FBE1E8A00026F55 /* AppIconInactive3-152.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B212FBE1E8A00026F55 /* AppIconInactive3-152.png */; };
+		4B0D5B222FBE1E8A00026F55 /* AppIconInactive3-167.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B232FBE1E8A00026F55 /* AppIconInactive3-167.png */; };
+		4B0D5B242FBE1E8A00026F55 /* AppIconInactive7-152.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B252FBE1E8A00026F55 /* AppIconInactive7-152.png */; };
+		4B0D5B262FBE1E8A00026F55 /* AppIconInactive7-167.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B272FBE1E8A00026F55 /* AppIconInactive7-167.png */; };
+		5E71917D2FBDDE3C00F6A342 /* AppIconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E71917C2FBDDE3C00F6A342 /* AppIconManager.swift */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
 		FF0A916E26D2353E007DB4A8 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */; };
 		FF0A917026D23ECF007DB4A8 /* ReceiptM.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */; };
@@ -239,6 +254,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0F0996382E0ADE3100D04485 /* SubscriptionPlanM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanM.swift; sourceTree = "<group>"; };
 		180C44C92695F5E700416335 /* InAppPurchaseNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseNavigator.swift; sourceTree = "<group>"; };
 		180C44CA2695F5E700416335 /* InAppPurchaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseUseCase.swift; sourceTree = "<group>"; };
 		180C44CB2695F5E700416335 /* InAppPurchaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseViewController.swift; sourceTree = "<group>"; };
@@ -404,7 +420,21 @@
 		1BDC16052AD267DC00F46FF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BDC160D2AD2718400F46FF4 /* CBED.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CBED.entitlements; sourceTree = "<group>"; };
 		1BDC160E2AD271B500F46FF4 /* CBED WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CBED WidgetExtension.entitlements"; sourceTree = "<group>"; };
+		2D38B6872FBDC2B800D91A10 /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
+		4B0D5B102FBDF8E800026F55 /* AppIconInactive1-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive1-120.png"; sourceTree = "<group>"; };
+		4B0D5B112FBDF8E800026F55 /* AppIconInactive1-180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive1-180.png"; sourceTree = "<group>"; };
+		4B0D5B122FBDF8E800026F55 /* AppIconInactive3-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive3-120.png"; sourceTree = "<group>"; };
+		4B0D5B132FBDF8E800026F55 /* AppIconInactive3-180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive3-180.png"; sourceTree = "<group>"; };
+		4B0D5B142FBDF8E800026F55 /* AppIconInactive7-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive7-120.png"; sourceTree = "<group>"; };
+		4B0D5B152FBDF8E800026F55 /* AppIconInactive7-180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive7-180.png"; sourceTree = "<group>"; };
+		4B0D5B1D2FBE1E8A00026F55 /* AppIconInactive1-152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive1-152.png"; sourceTree = "<group>"; };
+		4B0D5B1F2FBE1E8A00026F55 /* AppIconInactive1-167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive1-167.png"; sourceTree = "<group>"; };
+		4B0D5B212FBE1E8A00026F55 /* AppIconInactive3-152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive3-152.png"; sourceTree = "<group>"; };
+		4B0D5B232FBE1E8A00026F55 /* AppIconInactive3-167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive3-167.png"; sourceTree = "<group>"; };
+		4B0D5B252FBE1E8A00026F55 /* AppIconInactive7-152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive7-152.png"; sourceTree = "<group>"; };
+		4B0D5B272FBE1E8A00026F55 /* AppIconInactive7-167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive7-167.png"; sourceTree = "<group>"; };
+		5E71917C2FBDDE3C00F6A342 /* AppIconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconManager.swift; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitService.swift; sourceTree = "<group>"; };
@@ -618,8 +648,8 @@
 			isa = PBXGroup;
 			children = (
 				FFE4D16B26AD7A8D00594323 /* Cells */,
-				185B061326762F5E00A17664 /* ScoreboardNavigator.swift */,
 				185B061426762F5E00A17664 /* ScoreboardUseCase.swift */,
+				185B061326762F5E00A17664 /* ScoreboardNavigator.swift */,
 				185B061526762F5E00A17664 /* ScoreboardViewController.swift */,
 				185B061626762F5E00A17664 /* ScoreboardViewModel.swift */,
 			);
@@ -790,6 +820,7 @@
 		185F8777266D29CE00A63898 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4B0D5B0F2FBDF8E800026F55 /* Alt Icons */,
 				FF0A917926D4AB48007DB4A8 /* DING.mp3 */,
 				FF0A917726D4AAC2007DB4A8 /* KICK.mp3 */,
 				FF0A917526D4AA86007DB4A8 /* FAIL.mp3 */,
@@ -852,6 +883,7 @@
 		185F879C2674546C00A63898 /* Response Models */ = {
 			isa = PBXGroup;
 			children = (
+				0F0996382E0ADE3100D04485 /* SubscriptionPlanM.swift */,
 				185F879D2674547800A63898 /* RegisterResponseM.swift */,
 				185F879F267454D900A63898 /* SignInResponseM.swift */,
 				185F87A326747BB100A63898 /* SingleSignOnResponseM.swift */,
@@ -932,6 +964,25 @@
 				395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		4B0D5B0F2FBDF8E800026F55 /* Alt Icons */ = {
+			isa = PBXGroup;
+			children = (
+				4B0D5B102FBDF8E800026F55 /* AppIconInactive1-120.png */,
+				4B0D5B112FBDF8E800026F55 /* AppIconInactive1-180.png */,
+				4B0D5B1D2FBE1E8A00026F55 /* AppIconInactive1-152.png */,
+				4B0D5B1F2FBE1E8A00026F55 /* AppIconInactive1-167.png */,
+				4B0D5B122FBDF8E800026F55 /* AppIconInactive3-120.png */,
+				4B0D5B132FBDF8E800026F55 /* AppIconInactive3-180.png */,
+				4B0D5B212FBE1E8A00026F55 /* AppIconInactive3-152.png */,
+				4B0D5B232FBE1E8A00026F55 /* AppIconInactive3-167.png */,
+				4B0D5B142FBDF8E800026F55 /* AppIconInactive7-120.png */,
+				4B0D5B152FBDF8E800026F55 /* AppIconInactive7-180.png */,
+				4B0D5B252FBE1E8A00026F55 /* AppIconInactive7-152.png */,
+				4B0D5B272FBE1E8A00026F55 /* AppIconInactive7-167.png */,
+			);
+			path = "Alt Icons";
 			sourceTree = "<group>";
 		};
 		4C4DCC80E331F8F6FC7E3F75 /* Frameworks */ = {
@@ -1037,6 +1088,8 @@
 				FFD577072673700A00CC9CF1 /* Storage+.swift */,
 				FFD5770126736FDC00CC9CF1 /* APIClient.swift */,
 				FFD5770326736FEA00CC9CF1 /* TokenAdapter.swift */,
+				5E71917C2FBDDE3C00F6A342 /* AppIconManager.swift */,
+				2D38B6872FBDC2B800D91A10 /* NotificationScheduler.swift */,
 				FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */,
 				FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */,
 				182DD564268CC2D700172927 /* CustomError.swift */,
@@ -1143,8 +1196,9 @@
 		185F8754266CC84800A63898 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					185F875B266CC84800A63898 = {
 						CreatedOnToolsVersion = 12.5;
@@ -1183,6 +1237,18 @@
 				185B0646267A582300A17664 /* UsefulLinkCell.xib in Resources */,
 				FF0A917426D4AA4E007DB4A8 /* VICTORY.mp3 in Resources */,
 				185F87892672764800A63898 /* Lato-LightItalic.ttf in Resources */,
+				4B0D5B162FBDF8E800026F55 /* AppIconInactive1-120.png in Resources */,
+				4B0D5B172FBDF8E800026F55 /* AppIconInactive1-180.png in Resources */,
+				4B0D5B1C2FBE1E8A00026F55 /* AppIconInactive1-152.png in Resources */,
+				4B0D5B1E2FBE1E8A00026F55 /* AppIconInactive1-167.png in Resources */,
+				4B0D5B182FBDF8E800026F55 /* AppIconInactive3-120.png in Resources */,
+				4B0D5B192FBDF8E800026F55 /* AppIconInactive3-180.png in Resources */,
+				4B0D5B202FBE1E8A00026F55 /* AppIconInactive3-152.png in Resources */,
+				4B0D5B222FBE1E8A00026F55 /* AppIconInactive3-167.png in Resources */,
+				4B0D5B1A2FBDF8E800026F55 /* AppIconInactive7-120.png in Resources */,
+				4B0D5B1B2FBDF8E800026F55 /* AppIconInactive7-180.png in Resources */,
+				4B0D5B242FBE1E8A00026F55 /* AppIconInactive7-152.png in Resources */,
+				4B0D5B262FBE1E8A00026F55 /* AppIconInactive7-167.png in Resources */,
 				185F878A2672764800A63898 /* Lato-Thin.ttf in Resources */,
 				185B065D267BB6AE00A17664 /* CustomAlertView.xib in Resources */,
 				185B060A26761ECD00A17664 /* Home.storyboard in Resources */,
@@ -1272,9 +1338,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CBED/Pods-CBED-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CBED/Pods-CBED-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1367,6 +1437,7 @@
 				FFD5770226736FDC00CC9CF1 /* APIClient.swift in Sources */,
 				185B063F267A516F00A17664 /* SectionDetailViewController.swift in Sources */,
 				FFD57719267371A300CC9CF1 /* ObservableType+.swift in Sources */,
+				0F0996392E0ADE3800D04485 /* SubscriptionPlanM.swift in Sources */,
 				185B0657267BAB8A00A17664 /* ExamNavigator.swift in Sources */,
 				1B74F9E42C931290001149C1 /* NestedLevelViewController.swift in Sources */,
 				FF21141926DBDE350044E0AC /* UpdateProfileViewController.swift in Sources */,
@@ -1453,6 +1524,8 @@
 				185B0645267A582300A17664 /* UsefulLinkCell.swift in Sources */,
 				FFD577062673700300CC9CF1 /* Storage.swift in Sources */,
 				FFD577082673700A00CC9CF1 /* Storage+.swift in Sources */,
+				5E71917D2FBDDE3C00F6A342 /* AppIconManager.swift in Sources */,
+				2D38B6882FBDC2B800D91A10 /* NotificationScheduler.swift in Sources */,
 				185B05FD2676192500A17664 /* AnswerM.swift in Sources */,
 				FFD5770F267370FC00CC9CF1 /* ActivityIndicator.swift in Sources */,
 			);
@@ -1525,6 +1598,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1546,6 +1620,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1587,6 +1662,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1601,6 +1677,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -1611,20 +1688,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 9.3;
+				MARKETING_VERSION = 10.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1637,20 +1712,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = 5KQUA2VRMH;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 9.3;
+				MARKETING_VERSION = 10.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1667,8 +1740,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = "CBED WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5KQUA2VRMH;
+				CURRENT_PROJECT_VERSION = 3;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1702,8 +1774,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = "CBED WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5KQUA2VRMH;
+				CURRENT_PROJECT_VERSION = 3;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;

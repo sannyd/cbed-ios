@@ -13,9 +13,14 @@ enum StorageKey: String {
     case refreshToken
     case profileInfo
     case isEnableFaceID
+    case isNotificationTestingEnabled
+    case isAppIconTestingEnabled
     case faceIDExpireDate
     case examLocation
     case currentLevel
+    case appTheme
+    case lastOpenedAt
+    case notificationSchedule
 }
 
 enum StorageType {
@@ -62,9 +67,11 @@ struct Storage: StorageProtocol {
     }
     
     static func removeAll() {
+        let savedTheme = Storage.appTheme
         let dictionary = UserDefaults.standard.dictionaryRepresentation()
         dictionary.keys.forEach { key in
             UserDefaults.standard.removeObject(forKey: key)
         }
+        Storage.appTheme = savedTheme
     }
 }

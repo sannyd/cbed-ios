@@ -1,10 +1,3 @@
-//
-//  ScoreboardViewController.swift
-//  CBED
-//
-//  Created by Jimmy Hoang on 13/06/2021.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
@@ -17,11 +10,26 @@ final class ScoreboardViewController: UIViewController {
     @IBOutlet weak var labelUserPosition: UILabel!
     @IBOutlet weak var labelProBarFeb: UILabel!
     @IBOutlet weak var labelProBarJuly: UILabel!
-    @IBOutlet weak var labelBabyBarJun: UILabel!
-    @IBOutlet weak var labelBabyBarOct: UILabel!
+    
     @IBOutlet weak var collectionContainerView: UIView!
     @IBOutlet weak var highlightView: CustomBorderView!
     @IBOutlet weak var highlightViewLeading: NSLayoutConstraint!
+    @IBOutlet weak var labelBabyBarSection: UILabel!
+    @IBOutlet weak var labelZoomEmailSection: UILabel!
+    
+    
+    @IBOutlet weak var zoomEmailContainerView: CustomBorderView!
+    @IBOutlet weak var zoomEmailHighlightView: CustomBorderView!
+    @IBOutlet weak var zoomEmailHighlightViewLeading: NSLayoutConstraint!
+    @IBOutlet weak var labelEssays: UILabel!
+    @IBOutlet weak var labelMPT: UILabel!
+    @IBOutlet weak var labelMBE: UILabel!
+    
+    @IBOutlet weak var babyBarContainerView: CustomBorderView!
+    @IBOutlet weak var babyBarHighlightView: CustomBorderView!
+    @IBOutlet weak var babyBarHighlightViewLeading: NSLayoutConstraint!
+    @IBOutlet weak var labelBabyBarJun: UILabel!
+    @IBOutlet weak var labelBabyBarOct: UILabel!
     
     // MARK: - Properties
     
@@ -58,19 +66,39 @@ final class ScoreboardViewController: UIViewController {
     func bindViewModel() {
         let proBarFebTrigger = labelProBarFeb
             .rxGestureTapped
-            .map { _ in InAppPurchaseMonth.ProBarFeb }
+            .map { _ in ScoreboardSection.barExamFeb }
         
         let proBarJulTrigger = labelProBarJuly
             .rxGestureTapped
-            .map { _ in InAppPurchaseMonth.ProBarJul }
+            .map { _ in ScoreboardSection.barExamJuly }
+        
+        let babyBarSectionTrigger = labelBabyBarSection
+            .rxGestureTapped
+            .map { _ in ScoreboardSection.babyBar(.june) }
         
         let babyBarJuneTrigger = labelBabyBarJun
             .rxGestureTapped
-            .map { _ in InAppPurchaseMonth.BabyBarJun }
+            .map { _ in ScoreboardSection.babyBar(.june) }
         
         let babyBarOctTrigger = labelBabyBarOct
             .rxGestureTapped
-            .map { _ in InAppPurchaseMonth.BabyBarOct }
+            .map { _ in ScoreboardSection.babyBar(.october) }
+        
+        let zoomSectionTrigger = labelZoomEmailSection
+            .rxGestureTapped
+            .map { _ in ScoreboardSection.zoomEmail(.mbe) }
+        
+        let essaysTrigger = labelEssays
+            .rxGestureTapped
+            .map { _ in ScoreboardSection.zoomEmail(.essays) }
+        
+        let mptTrigger = labelMPT
+            .rxGestureTapped
+            .map { _ in ScoreboardSection.zoomEmail(.mpt) }
+        
+        let mbeTrigger = labelMBE
+            .rxGestureTapped
+            .map { _ in ScoreboardSection.zoomEmail(.mbe) }
         
         let viewWillAppear = rx
             .sentMessage(#selector(UIViewController.viewWillAppear))
@@ -85,10 +113,17 @@ final class ScoreboardViewController: UIViewController {
         let input = ScoreboardViewModel.Input(firstLoadTrigger: Observable.merge(pullToRefreshTrigger,
                                                                                  rxViewWillAppear),
                                               viewWillAppear: viewWillAppear,
-                                              filterTrigger: Observable.merge(proBarFebTrigger,
-                                                                              proBarJulTrigger,
-                                                                              babyBarJuneTrigger,
-                                                                              babyBarOctTrigger))
+                                              filterTrigger: Observable.merge(
+                                                proBarFebTrigger,
+                                                proBarJulTrigger,
+                                                babyBarSectionTrigger,
+                                                babyBarJuneTrigger,
+                                                babyBarOctTrigger,
+                                                zoomSectionTrigger,
+                                                essaysTrigger,
+                                                mptTrigger,
+                                                mbeTrigger
+                                              ))
         
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
@@ -100,26 +135,58 @@ final class ScoreboardViewController: UIViewController {
             .filterInvoked
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [unowned self] filterType in
-                labelProBarFeb.textColor = .black
-                labelProBarJuly.textColor = .black
-                labelBabyBarJun.textColor = .black
-                labelBabyBarOct.textColor = .black
+                labelMBE.textColor = Constants.PrimaryTextColor
+                labelMPT.textColor = Constants.PrimaryTextColor
+                labelEssays.textColor = Constants.PrimaryTextColor
+                labelBabyBarJun.textColor = Constants.PrimaryTextColor
+                labelBabyBarOct.textColor = Constants.PrimaryTextColor
+                labelProBarFeb.textColor = Constants.PrimaryTextColor
+                labelProBarJuly.textColor = Constants.PrimaryTextColor
+                labelBabyBarSection.textColor = Constants.PrimaryTextColor
+                labelZoomEmailSection.textColor = Constants.PrimaryTextColor
                 
                 switch filterType {
-                case .ProBarFeb:
+                case .barExamFeb:
+                    zoomEmailContainerView.isHidden = true
+                    babyBarContainerView.isHidden = true
                     labelProBarFeb.textColor = .white
                     highlightViewLeading.constant = 8
-                case .ProBarJul:
+                case .barExamJuly:
+                    zoomEmailContainerView.isHidden = true
+                    babyBarContainerView.isHidden = true
                     labelProBarJuly.textColor = .white
                     highlightViewLeading.constant = highlightView.bounds.width + 8
-                case .BabyBarJun:
-                    labelBabyBarJun.textColor = .white
+                case .babyBar(let item):
+                    babyBarContainerView.isHidden = false
+                    zoomEmailContainerView.isHidden = true
+                    labelBabyBarSection.textColor = .white
                     highlightViewLeading.constant = highlightView.bounds.width * 2 + 8
-                case .BabyBarOct:
-                    labelBabyBarOct.textColor = .white
+                    switch item {
+                    case .june:
+                        labelBabyBarJun.textColor = .white
+                        babyBarHighlightViewLeading.constant = 8
+                    case .october:
+                        labelBabyBarOct.textColor = .white
+                        babyBarHighlightViewLeading.constant = babyBarHighlightView.bounds.width + 8
+                    }
+                case .zoomEmail(let item):
+                    zoomEmailContainerView.isHidden = false
+                    babyBarContainerView.isHidden = true
+                    labelZoomEmailSection.textColor = .white
                     highlightViewLeading.constant = highlightView.bounds.width * 3 + 8
+                    switch item {
+                    case .mbe:
+                        labelMBE.textColor = .white
+                        zoomEmailHighlightViewLeading.constant = 8
+                    case .essays:
+                        labelEssays.textColor = .white
+                        zoomEmailHighlightViewLeading.constant = zoomEmailHighlightView.bounds.width + 8
+                    case .mpt:
+                        labelMPT.textColor = .white
+                        zoomEmailHighlightViewLeading.constant = zoomEmailHighlightView.bounds.width * 2 + 8
+                    }
                 }
-                UIView.animate(withDuration: 0.35) {
+                UIView.animate(withDuration: 0.3) {
                     self.view.layoutIfNeeded()
                 }
             }),
@@ -129,7 +196,7 @@ final class ScoreboardViewController: UIViewController {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] profile in
                 self?.labelUserName.text = IsEnableLogin ? profile.email : "Newcomer"
-                self?.labelUserPosition.text = IsEnableLogin ? "👑 \(profile.lastSectionName ?? "N/A")" : ""
+                self?.labelUserPosition.text = IsEnableLogin ? (profile.lastSectionName ?? "N/A") : ""
                 if IsEnableLogin {
                     self?.profileImageView.loadImage(with: profile.avatar,
                                                      placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
@@ -160,6 +227,7 @@ final class ScoreboardViewController: UIViewController {
                                             left: 0,
                                             bottom: 30,
                                             right: 0)
+        collectionContainerView.backgroundColor = Constants.BackgroundColor
         collectionContainerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(collectionContainerView.snp.edges) }
     }

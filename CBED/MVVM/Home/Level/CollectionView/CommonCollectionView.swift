@@ -71,7 +71,7 @@ class CommonAnimatableCollectionView<T: AnimatableSectionModelType, C: CellType>
     
     private func setupRefreshControl() {
         let indicator = UIRefreshControl()
-        indicator.tintColor = .lightGray
+        indicator.tintColor = .secondaryLabel
         refreshControl = indicator
     }
     
@@ -141,7 +141,7 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     
     private func setupRefreshControl() {
         let indicator = UIRefreshControl()
-        indicator.tintColor = .lightGray
+        indicator.tintColor = .secondaryLabel
         refreshControl = indicator
     }
     

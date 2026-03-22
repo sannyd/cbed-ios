@@ -32,7 +32,7 @@ open class RxImagePickerDelegateProxy
 #endif
 
 var IsEnableLogin = true
-var IsEnableDeleteAccount = true
+var IsEnableDeleteAccount = false
 var CurrentMembershipType: InAppPurchaseMonth?
 
 @main
@@ -71,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
+        applyAppTheme()
         
         let appVC: AppViewController = StoryboardManager.getVCFromHomeSB()
         appVC.viewModel = .init(useCase: AppUseCase(), navigator: AppNavigator())
@@ -129,6 +130,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance.handle(url)
     }
     
+    func applyAppTheme() {
+        window?.overrideUserInterfaceStyle = Storage.appTheme.interfaceStyle
+    }
+    
     func logout() {
         guard let window = window else {
             return
@@ -145,4 +150,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.makeKeyAndVisible()
     }
 }
-

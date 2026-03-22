@@ -6,8 +6,39 @@
 //
 
 import Foundation
+import UIKit
+
+enum AppTheme: Int, CaseIterable {
+    case system
+    case light
+    case dark
+    
+    var interfaceStyle: UIUserInterfaceStyle {
+        switch self {
+        case .system:
+            return .unspecified
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        }
+    }
+}
 
 extension Storage {
+    static var appTheme: AppTheme {
+        get {
+            guard let rawValue = UserDefaults.standard.object(forKey: StorageKey.appTheme.rawValue) as? Int,
+                  let theme = AppTheme(rawValue: rawValue) else {
+                return .system
+            }
+            return theme
+        }
+        set {
+            UserDefaults.standard.setValue(newValue.rawValue, forKey: StorageKey.appTheme.rawValue)
+        }
+    }
+    
     static var isEnableFaceID: Bool {
         get {
             if UserDefaults.standard.object(forKey: StorageKey.isEnableFaceID.rawValue) == nil {
@@ -20,13 +51,40 @@ extension Storage {
             UserDefaults.standard.setValue(newValue, forKey: StorageKey.isEnableFaceID.rawValue)
         }
     }
-    
+
+    static var isNotificationTestingEnabled: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: StorageKey.isNotificationTestingEnabled.rawValue)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: StorageKey.isNotificationTestingEnabled.rawValue)
+        }
+    }
+
+    static var isAppIconTestingEnabled: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: StorageKey.isAppIconTestingEnabled.rawValue)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: StorageKey.isAppIconTestingEnabled.rawValue)
+        }
+    }
+
     static var faceIDExpireDate: Date? {
         get {
             return UserDefaults.standard.object(forKey: StorageKey.faceIDExpireDate.rawValue) as? Date
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: StorageKey.faceIDExpireDate.rawValue)
+        }
+    }
+
+    static var lastOpenedAt: Date? {
+        get {
+            return UserDefaults.standard.object(forKey: StorageKey.lastOpenedAt.rawValue) as? Date
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: StorageKey.lastOpenedAt.rawValue)
         }
     }
     
@@ -110,6 +168,26 @@ extension Storage {
             let userDefaults = UserDefaults.standard
             do {
                 try userDefaults.setObject(newValue, forKey: StorageKey.profileInfo.rawValue)
+            } catch {
+                Log.e(error.localizedDescription)
+            }
+        }
+    }
+
+    static var notificationSchedule: NotificationScheduler.ScheduleSettings? {
+        get {
+            let userDefaults = UserDefaults.standard
+            do {
+                return try userDefaults.getObject(forKey: StorageKey.notificationSchedule.rawValue,
+                                                  castTo: NotificationScheduler.ScheduleSettings.self)
+            } catch {
+                return nil
+            }
+        }
+        set {
+            let userDefaults = UserDefaults.standard
+            do {
+                try userDefaults.setObject(newValue, forKey: StorageKey.notificationSchedule.rawValue)
             } catch {
                 Log.e(error.localizedDescription)
             }

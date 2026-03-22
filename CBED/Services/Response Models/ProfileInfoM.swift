@@ -41,6 +41,9 @@ struct ProfileInfoM: Codable {
     let lastSectionName: String?
     let points: Int
     let phone: String?
+    let essayCount: Int
+    let mptCount: Int
+    let isTutor: Bool
     
     enum CodingKeys: String, CodingKey {
         case email = "email"
@@ -53,5 +56,8 @@ struct ProfileInfoM: Codable {
         case lastSectionName = "last_section_name"
         case points = "points"
         case phone = "phone_number"
+        case essayCount = "essay_count"
+        case mptCount = "mpt_count"
+        case isTutor = "is_tutor"
     }
 }
