@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SwiftConfettiView
-import SwiftySound
 import SwiftEntryKit
 
 final class ResultViewController: UIViewController {
@@ -72,16 +71,12 @@ final class ResultViewController: UIViewController {
                 self?.labelTitle.text = type.title
                 switch type {
                 case .pass:
-                    if let url = Bundle.main.url(forResource: "VICTORY", withExtension: "mp3") {
-                        Sound.play(url: url)
-                    }
+                    AudioFeedbackManager.shared.playIfEnabled(.pass)
                     self?.confettiView.startConfetti()
                     self?.buttonTakeNewTest.isHidden = false
                     self?.buttonTryAgain.isHidden = true
                 case .fail:
-                    if let url = Bundle.main.url(forResource: "FAIL", withExtension: "mp3") {
-                        Sound.play(url: url)
-                    }
+                    AudioFeedbackManager.shared.playIfEnabled(.fail)
                     self?.buttonTakeNewTest.isHidden = true
                     self?.buttonShare.isHidden = true
                     self?.labelReason.isHidden = false

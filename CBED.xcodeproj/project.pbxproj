@@ -181,6 +181,7 @@
 		4B0D5B242FBE1E8A00026F55 /* AppIconInactive7-152.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B252FBE1E8A00026F55 /* AppIconInactive7-152.png */; };
 		4B0D5B262FBE1E8A00026F55 /* AppIconInactive7-167.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B272FBE1E8A00026F55 /* AppIconInactive7-167.png */; };
 		5E71917D2FBDDE3C00F6A342 /* AppIconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E71917C2FBDDE3C00F6A342 /* AppIconManager.swift */; };
+		7A1C0A9A2FC0011100C0DE01 /* AudioFeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1C0A992FC0011100C0DE01 /* AudioFeedbackManager.swift */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
 		FF0A916E26D2353E007DB4A8 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */; };
 		FF0A917026D23ECF007DB4A8 /* ReceiptM.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */; };
@@ -435,6 +436,7 @@
 		4B0D5B252FBE1E8A00026F55 /* AppIconInactive7-152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive7-152.png"; sourceTree = "<group>"; };
 		4B0D5B272FBE1E8A00026F55 /* AppIconInactive7-167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive7-167.png"; sourceTree = "<group>"; };
 		5E71917C2FBDDE3C00F6A342 /* AppIconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconManager.swift; sourceTree = "<group>"; };
+		7A1C0A992FC0011100C0DE01 /* AudioFeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFeedbackManager.swift; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitService.swift; sourceTree = "<group>"; };
@@ -1088,6 +1090,7 @@
 				FFD577072673700A00CC9CF1 /* Storage+.swift */,
 				FFD5770126736FDC00CC9CF1 /* APIClient.swift */,
 				FFD5770326736FEA00CC9CF1 /* TokenAdapter.swift */,
+				7A1C0A992FC0011100C0DE01 /* AudioFeedbackManager.swift */,
 				5E71917C2FBDDE3C00F6A342 /* AppIconManager.swift */,
 				2D38B6872FBDC2B800D91A10 /* NotificationScheduler.swift */,
 				FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */,
@@ -1524,6 +1527,7 @@
 				185B0645267A582300A17664 /* UsefulLinkCell.swift in Sources */,
 				FFD577062673700300CC9CF1 /* Storage.swift in Sources */,
 				FFD577082673700A00CC9CF1 /* Storage+.swift in Sources */,
+				7A1C0A9A2FC0011100C0DE01 /* AudioFeedbackManager.swift in Sources */,
 				5E71917D2FBDDE3C00F6A342 /* AppIconManager.swift in Sources */,
 				2D38B6882FBDC2B800D91A10 /* NotificationScheduler.swift in Sources */,
 				185B05FD2676192500A17664 /* AnswerM.swift in Sources */,

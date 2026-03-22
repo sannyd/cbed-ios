@@ -52,6 +52,19 @@ extension Storage {
         }
     }
 
+    static var isButtonSoundEnabled: Bool {
+        get {
+            if UserDefaults.standard.object(forKey: StorageKey.isButtonSoundEnabled.rawValue) == nil {
+                return true
+            } else {
+                return UserDefaults.standard.bool(forKey: StorageKey.isButtonSoundEnabled.rawValue)
+            }
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: StorageKey.isButtonSoundEnabled.rawValue)
+        }
+    }
+
     static var isNotificationTestingEnabled: Bool {
         get {
             UserDefaults.standard.bool(forKey: StorageKey.isNotificationTestingEnabled.rawValue)

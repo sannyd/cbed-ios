@@ -8,7 +8,6 @@
 import RxSwift
 import RxCocoa
 import SwiftEntryKit
-import SwiftySound
 import WidgetKit
 
 // MARK: Input + Output
@@ -290,6 +289,7 @@ struct ExamViewModel: ViewModel {
             }
             .unwrap()
             .subscribe(onNext: { _, answerSection in
+                AudioFeedbackManager.shared.playButtonTapIfEnabled()
                 currentAnswers.accept([answerSection])
             })
             .disposed(by: disposeBag)
@@ -302,13 +302,9 @@ struct ExamViewModel: ViewModel {
                 if var answers = answerSections.first?.items {
                     var choosenAnswer = answers[indexPath.item]
                     if choosenAnswer.answer.isCorrect {
-                        if let url = Bundle.main.url(forResource: "DING", withExtension: "mp3") {
-                            Sound.play(url: url)
-                        }
+                        AudioFeedbackManager.shared.playIfEnabled(.correct)
                     } else {
-                        if let url = Bundle.main.url(forResource: "KICK", withExtension: "mp3") {
-                            Sound.play(url: url)
-                        }
+                        AudioFeedbackManager.shared.playIfEnabled(.incorrect)
                     }
                     
                     choosenAnswer.isSelected = true

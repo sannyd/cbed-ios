@@ -71,8 +71,7 @@ final class SettingViewController: UIViewController {
     @IBOutlet weak var buttonRestorePurchase: CustomBorderButton!
     @IBOutlet weak var buttonEdit: UIButton!
     @IBOutlet weak var faceIDSwitch: UISwitch!
-    @IBOutlet weak var notificationTestSwitch: UISwitch!
-    @IBOutlet weak var appIconTestSwitch: UISwitch!
+    @IBOutlet weak var soundEffectsSwitch: UISwitch!
     @IBOutlet weak var appearanceSegmentedControl: UISegmentedControl!
     @IBOutlet weak var examLocationMenu: SwiftyMenu!
     
@@ -99,8 +98,7 @@ final class SettingViewController: UIViewController {
         essayTextfield.inputView = essayPickerView
         mptTextfield.inputView = mptPickerView
         profileImageView.setRoundShape()
-        notificationTestSwitch.isOn = Storage.isNotificationTestingEnabled
-        appIconTestSwitch.isOn = Storage.isAppIconTestingEnabled
+        soundEffectsSwitch.isOn = Storage.isButtonSoundEnabled
         appearanceSegmentedControl.selectedSegmentIndex = Storage.appTheme.rawValue
         bindViewModel()
         buttonDeactivate.isHidden = !IsEnableDeleteAccount
@@ -265,21 +263,12 @@ final class SettingViewController: UIViewController {
             .subscribe(onNext: { isEnableFaceID in
                 Storage.isEnableFaceID = isEnableFaceID
             }),
-         notificationTestSwitch
+         soundEffectsSwitch
             .rx
             .isOn
             .skip(1)
             .subscribe(onNext: { isEnabled in
-                Storage.isNotificationTestingEnabled = isEnabled
-                NotificationScheduler.shared.applyTestingMode(isEnabled: isEnabled)
-            }),
-         appIconTestSwitch
-            .rx
-            .isOn
-            .skip(1)
-            .subscribe(onNext: { isEnabled in
-                Storage.isAppIconTestingEnabled = isEnabled
-                AppIconManager.shared.applyTestingMode(isEnabled: isEnabled)
+                Storage.isButtonSoundEnabled = isEnabled
             }),
          appearanceSegmentedControl
             .rx

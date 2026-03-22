@@ -44,6 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
  
         context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
+        UIButton.installTapFeedbackSwizzle()
+        AudioFeedbackManager.shared.prepare()
         
         RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) }
 
