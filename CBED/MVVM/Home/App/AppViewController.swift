@@ -58,6 +58,10 @@ final class AppViewController: UIViewController {
         appDelegate.window?.rootViewController = tabbarVC
     }
 
+    private func defaultRemoteConfig(from remoteConfigs: [[String: Any]]?) -> [String: Any]? {
+        remoteConfigs?.first(where: { parseRemoteBool($0["is_default"]) == true })
+    }
+
     private func loadMembershipIfNeeded(using appDelegate: AppDelegate) {
 #if targetEnvironment(simulator)
         print("[Remote Config] Skipping StoreKit receipt check on simulator")
@@ -84,9 +88,6 @@ final class AppViewController: UIViewController {
         let input = AppViewModel.Input(firstLoadTrigger: rxViewWillAppear)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
-        // Change config here Sanny
-        let configName = "alternative config"
-        
         [output
             .loadAppTrigger
             .asDriverOnErrorJustComplete()
@@ -98,8 +99,8 @@ final class AppViewController: UIViewController {
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     
-                    guard let remoteConfigs = remoteConfigs?.first(where: { $0["name"] as? String == configName }) else {
-                        print("[Remote Config] Missing config named: \(configName)")
+                    guard let remoteConfigs = self.defaultRemoteConfig(from: remoteConfigs) else {
+                        print("[Remote Config] Missing default config")
                         let tabbarVC = StoryboardManager.instanceTabBarVC()
                         appDelegate.window?.rootViewController = tabbarVC
                         return
@@ -108,7 +109,7 @@ final class AppViewController: UIViewController {
                 
                     guard let isEnableLogin = self.parseRemoteBool(remoteConfigs["is_enable_login"]),
                           let isEnableDeleteAccount = self.parseRemoteBool(remoteConfigs["is_enable_delete_account"]) else {
-                        print("[Remote Config] Invalid flags for config: \(configName), raw is_enable_login=\(String(describing: remoteConfigs["is_enable_login"])), raw is_enable_delete_account=\(String(describing: remoteConfigs["is_enable_delete_account"]))")
+                        print("[Remote Config] Invalid flags for default config, raw is_enable_login=\(String(describing: remoteConfigs["is_enable_login"])), raw is_enable_delete_account=\(String(describing: remoteConfigs["is_enable_delete_account"]))")
                         return
                     }
                     print("[Remote Config] is_enable_login=\(isEnableLogin), is_enable_delete_account=\(isEnableDeleteAccount)")
@@ -139,8 +140,8 @@ final class AppViewController: UIViewController {
                 } else {
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     
-                    guard let remoteConfigs = remoteConfigs?.first(where: { $0["name"] as? String == configName }) else {
-                        print("[Remote Config] Missing config named: \(configName)")
+                    guard let remoteConfigs = self.defaultRemoteConfig(from: remoteConfigs) else {
+                        print("[Remote Config] Missing default config")
                         let tabbarVC = StoryboardManager.instanceTabBarVC()
                         appDelegate.window?.rootViewController = tabbarVC
                         return
@@ -149,7 +150,7 @@ final class AppViewController: UIViewController {
                 
                     guard let isEnableLogin = self.parseRemoteBool(remoteConfigs["is_enable_login"]),
                           let isEnableDeleteAccount = self.parseRemoteBool(remoteConfigs["is_enable_delete_account"]) else {
-                              print("[Remote Config] Invalid flags for config: \(configName), raw is_enable_login=\(String(describing: remoteConfigs["is_enable_login"])), raw is_enable_delete_account=\(String(describing: remoteConfigs["is_enable_delete_account"]))")
+                              print("[Remote Config] Invalid flags for default config, raw is_enable_login=\(String(describing: remoteConfigs["is_enable_login"])), raw is_enable_delete_account=\(String(describing: remoteConfigs["is_enable_delete_account"]))")
                               Storage.removeAll()
                               self.goToLogin()
                               return

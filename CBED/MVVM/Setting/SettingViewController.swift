@@ -73,6 +73,7 @@ final class SettingViewController: UIViewController {
     @IBOutlet weak var faceIDSwitch: UISwitch!
     @IBOutlet weak var soundEffectsSwitch: UISwitch!
     @IBOutlet weak var appearanceSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var fontSizeTextfield: UITextField!
     @IBOutlet weak var examLocationMenu: SwiftyMenu!
     
     @IBOutlet weak var essayTextfield: UITextField!
@@ -90,16 +91,24 @@ final class SettingViewController: UIViewController {
     
     private let essayPickerView = UIPickerView()
     private let mptPickerView = UIPickerView()
+    private let fontSizePickerView = UIPickerView()
+    private let fontSizeOptionsDataSource = AppFontSize.allCases
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        essayTextfield.inputView = essayPickerView
-        mptTextfield.inputView = mptPickerView
+        configurePickerTextField(essayTextfield, inputView: essayPickerView)
+        configurePickerTextField(mptTextfield, inputView: mptPickerView)
+        configurePickerTextField(fontSizeTextfield, inputView: fontSizePickerView)
         profileImageView.setRoundShape()
         soundEffectsSwitch.isOn = Storage.isButtonSoundEnabled
         appearanceSegmentedControl.selectedSegmentIndex = Storage.appTheme.rawValue
+        fontSizeTextfield.text = Storage.appFontSize.title
+        fontSizeTextfield.applyAppFontScaling()
+        if let selectedRow = fontSizeOptionsDataSource.firstIndex(of: Storage.appFontSize) {
+            fontSizePickerView.selectRow(selectedRow, inComponent: 0, animated: false)
+        }
         bindViewModel()
         buttonDeactivate.isHidden = !IsEnableDeleteAccount
         setupSwiftDrawer()
@@ -130,7 +139,7 @@ final class SettingViewController: UIViewController {
         codeMenuAttributes.border = .value(color: .separator, width: 0.5)
         codeMenuAttributes.textStyle = .value(color: .label,
                                               separator: ", ",
-                                              font: UIFont(name: Constants.Font.LatoRegular, size: 14))
+                                              font: UIFont.appFont(name: Constants.Font.LatoRegular, size: 14))
         codeMenuAttributes.placeHolderStyle = .value(text: Storage.examLocation.rawValue, textColor: .label)
         codeMenuAttributes.separatorStyle = .value(color: .separator, isBlured: true, style: .singleLine)
         codeMenuAttributes.headerStyle = .value(backgroundColor: .secondarySystemBackground, height: 44)
@@ -142,6 +151,28 @@ final class SettingViewController: UIViewController {
                 Storage.examLocation = examLocation
             }
         }
+    }
+    
+    private func configurePickerTextField(_ textField: UITextField, inputView: UIView) {
+        textField.inputView = inputView
+        textField.inputAccessoryView = pickerToolbar()
+        textField.tintColor = .clear
+        textField.inputAssistantItem.leadingBarButtonGroups = []
+        textField.inputAssistantItem.trailingBarButtonGroups = []
+    }
+    
+    private func pickerToolbar() -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        toolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissPicker))
+        ]
+        return toolbar
+    }
+    
+    @objc private func dismissPicker() {
+        view.endEditing(true)
     }
 
     private func checkFaceID() {
@@ -250,6 +281,11 @@ final class SettingViewController: UIViewController {
             .drive(mptPickerView.rx.itemTitles){ _, item in
                 return "\(item)"
             },
+         Observable
+            .just(fontSizeOptionsDataSource)
+            .bind(to: fontSizePickerView.rx.itemTitles) { _, item in
+                item.title
+            },
          buttonLogout
             .rxButtonTapped
             .subscribe(onNext: { _ in
@@ -279,8 +315,26 @@ final class SettingViewController: UIViewController {
                 Storage.appTheme = theme
                 let appDelegate = UIApplication.shared.delegate as? AppDelegate
                 appDelegate?.applyAppTheme()
+            }),
+         fontSizePickerView
+            .rx
+            .modelSelected(AppFontSize.self)
+            .compactMap { $0.first }
+            .subscribe(onNext: { [weak self] fontSize in
+                self?.applyFontSize(fontSize)
             })]
             .forEach { $0.disposed(by: disposeBag) }
+    }
+    
+    private func applyFontSize(_ fontSize: AppFontSize) {
+        fontSizeTextfield.text = fontSize.title
+        fontSizeTextfield.applyAppFontScaling()
+        guard Storage.appFontSize != fontSize else {
+            return
+        }
+        Storage.appFontSize = fontSize
+        setupSwiftDrawer()
+        NotificationCenter.default.post(name: .AppFontSizeDidChange, object: nil)
     }
     
     private func updateProfileForLoginDisable() {

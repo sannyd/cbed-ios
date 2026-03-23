@@ -25,7 +25,53 @@ enum AppTheme: Int, CaseIterable {
     }
 }
 
+enum AppFontSize: Int, CaseIterable {
+    case small
+    case medium
+    case large
+    case extraLarge
+    
+    var title: String {
+        switch self {
+        case .small:
+            return "Small"
+        case .medium:
+            return "Medium"
+        case .large:
+            return "Large"
+        case .extraLarge:
+            return "Extra Large"
+        }
+    }
+    
+    var scale: CGFloat {
+        switch self {
+        case .small:
+            return 0.9
+        case .medium:
+            return 1.0
+        case .large:
+            return 1.15
+        case .extraLarge:
+            return 1.3
+        }
+    }
+}
+
 extension Storage {
+    static var appFontSize: AppFontSize {
+        get {
+            guard let rawValue = UserDefaults.standard.object(forKey: StorageKey.appFontSize.rawValue) as? Int,
+                  let fontSize = AppFontSize(rawValue: rawValue) else {
+                return .medium
+            }
+            return fontSize
+        }
+        set {
+            UserDefaults.standard.setValue(newValue.rawValue, forKey: StorageKey.appFontSize.rawValue)
+        }
+    }
+    
     static var appTheme: AppTheme {
         get {
             guard let rawValue = UserDefaults.standard.object(forKey: StorageKey.appTheme.rawValue) as? Int,

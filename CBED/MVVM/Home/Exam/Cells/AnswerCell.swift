@@ -32,7 +32,6 @@ class AnswerCell: UICollectionViewCell,
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         labelText.scaledFont(style: .body)
     }
     

@@ -24,9 +24,8 @@ class UsefulLinkCell: UICollectionViewCell, CellType {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-//        labelName.scaledFont(style: .title3)
-//        labelLink.scaledFont(style: .title3)
+        labelName.applyAppFontScaling()
+        labelLink.applyAppFontScaling()
     }
     
     func populateData(_ data: UsefulLink) {

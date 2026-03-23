@@ -34,8 +34,14 @@ final class ResultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupFonts()
         setupConfettiView()
         bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupFonts()
     }
     
     deinit {
@@ -52,6 +58,11 @@ final class ResultViewController: UIViewController {
         confettiView.colors = [.red, .green, .blue]
         view.addSubview(confettiView)
         view.bringSubviewToFront(confettiView)
+    }
+    
+    private func setupFonts() {
+        labelTitle.applyAppFontScaling()
+        labelReason.applyAppFontScaling()
     }
     
     func bindViewModel() {

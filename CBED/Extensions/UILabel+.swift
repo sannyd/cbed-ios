@@ -6,19 +6,76 @@
 //
 
 import UIKit
+import ObjectiveC.runtime
+
+private var appBaseFontKey: UInt8 = 0
+
+private func storedBaseFont(for object: NSObject) -> UIFont? {
+    objc_getAssociatedObject(object, &appBaseFontKey) as? UIFont
+}
+
+private func setStoredBaseFont(_ font: UIFont, for object: NSObject) {
+    objc_setAssociatedObject(object, &appBaseFontKey, font, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+}
+
+private func appScaledFont(from baseFont: UIFont) -> UIFont {
+    baseFont.withSize(baseFont.pointSize * Storage.appFontSize.scale)
+}
+
+extension UIFont {
+    static func appFont(name: String, size: CGFloat) -> UIFont {
+        let baseFont = UIFont(name: name, size: size) ?? .systemFont(ofSize: size)
+        return appScaledFont(from: baseFont)
+    }
+}
 
 extension UILabel {
     func scaledFont(style: UIFont.TextStyle) {
         let scaledFont = ScaledFont(fontName: "Lato")
-        self.font = scaledFont.font(forTextStyle: style)
-        self.adjustsFontForContentSizeCategory = true
+        applyAppFontScaling(baseFont: scaledFont.font(forTextStyle: style), adjustsForContentSizeCategory: true)
+    }
+    
+    func applyAppFontScaling() {
+        applyAppFontScaling(baseFont: font, adjustsForContentSizeCategory: adjustsFontForContentSizeCategory)
+    }
+    
+    private func applyAppFontScaling(baseFont: UIFont, adjustsForContentSizeCategory: Bool) {
+        let originalFont = storedBaseFont(for: self) ?? baseFont
+        if storedBaseFont(for: self) == nil {
+            setStoredBaseFont(originalFont, for: self)
+        }
+        font = appScaledFont(from: originalFont)
+        self.adjustsFontForContentSizeCategory = adjustsForContentSizeCategory
     }
 }
 
 extension UITextView {
     func scaledFont(style: UIFont.TextStyle) {
         let scaledFont = ScaledFont(fontName: "Lato")
-        self.font = scaledFont.font(forTextStyle: style)
-        self.adjustsFontForContentSizeCategory = true
+        applyAppFontScaling(baseFont: scaledFont.font(forTextStyle: style), adjustsForContentSizeCategory: true)
+    }
+    
+    func applyAppFontScaling() {
+        applyAppFontScaling(baseFont: font ?? .systemFont(ofSize: 14), adjustsForContentSizeCategory: adjustsFontForContentSizeCategory)
+    }
+    
+    private func applyAppFontScaling(baseFont: UIFont, adjustsForContentSizeCategory: Bool) {
+        let originalFont = storedBaseFont(for: self) ?? baseFont
+        if storedBaseFont(for: self) == nil {
+            setStoredBaseFont(originalFont, for: self)
+        }
+        font = appScaledFont(from: originalFont)
+        self.adjustsFontForContentSizeCategory = adjustsForContentSizeCategory
+    }
+}
+
+extension UITextField {
+    func applyAppFontScaling() {
+        let baseFont = font ?? .systemFont(ofSize: 14)
+        let originalFont = storedBaseFont(for: self) ?? baseFont
+        if storedBaseFont(for: self) == nil {
+            setStoredBaseFont(originalFont, for: self)
+        }
+        font = appScaledFont(from: originalFont)
     }
 }

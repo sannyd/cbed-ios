@@ -31,6 +31,7 @@ final class SectionDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupFonts()
         setupCollectionView()
         bindViewModel()
         if viewModel.level.id != 5 {
@@ -68,6 +69,12 @@ final class SectionDetailViewController: UIViewController {
         if viewModel.level.id == 11 { // PT
             buttonOutline.setTitle("MPT Outline", for: .normal)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupFonts()
+        collectionView?.reloadData()
     }
     
     deinit {
@@ -117,5 +124,10 @@ final class SectionDetailViewController: UIViewController {
                                             right: 0)
         containerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(containerView.snp.edges) }
+    }
+    
+    private func setupFonts() {
+        labelSectionName.applyAppFontScaling()
+        labelDisclaimer.applyAppFontScaling()
     }
 }

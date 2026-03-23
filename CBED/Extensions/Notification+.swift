@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let PurchaseSuccessful = Notification.Name(rawValue: "PurchaseSuccessful")
+    static let AppFontSizeDidChange = Notification.Name(rawValue: "AppFontSizeDidChange")
 }

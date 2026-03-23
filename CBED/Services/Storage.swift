@@ -20,6 +20,7 @@ enum StorageKey: String {
     case examLocation
     case currentLevel
     case appTheme
+    case appFontSize
     case lastOpenedAt
     case notificationSchedule
 }
@@ -69,12 +70,14 @@ struct Storage: StorageProtocol {
     
     static func removeAll() {
         let savedTheme = Storage.appTheme
+        let savedFontSize = Storage.appFontSize
         let isButtonSoundEnabled = Storage.isButtonSoundEnabled
         let dictionary = UserDefaults.standard.dictionaryRepresentation()
         dictionary.keys.forEach { key in
             UserDefaults.standard.removeObject(forKey: key)
         }
         Storage.appTheme = savedTheme
+        Storage.appFontSize = savedFontSize
         Storage.isButtonSoundEnabled = isButtonSoundEnabled
     }
 }

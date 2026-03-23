@@ -33,9 +33,9 @@ enum ResultType {
     var score: NSMutableAttributedString {
         switch self {
         case .pass(let result):
-            let string1Attributes: [NSAttributedString.Key: Any] = [.font: UIFont(name: Constants.Font.LatoBold, size: 64)!,
+            let string1Attributes: [NSAttributedString.Key: Any] = [.font: UIFont.appFont(name: Constants.Font.LatoBold, size: 64),
                                                                     .foregroundColor: Constants.PrimaryBlue]
-            let string2Attributes: [NSAttributedString.Key: Any] = [.font: UIFont(name: Constants.Font.LatoBold, size: 64)!,
+            let string2Attributes: [NSAttributedString.Key: Any] = [.font: UIFont.appFont(name: Constants.Font.LatoBold, size: 64),
                                                                     .foregroundColor: Constants.PrimaryTextColor]
             let string1 = NSMutableAttributedString.init(string: "\(result.correct ?? 0) ", attributes: string1Attributes)
             let string2 = NSMutableAttributedString.init(string: "/ \(result.total ?? 0)", attributes: string2Attributes)
@@ -45,9 +45,9 @@ enum ResultType {
             
             return combination
         case .fail(let result):
-            let string1Attributes: [NSAttributedString.Key: Any] = [.font: UIFont(name: Constants.Font.LatoBold, size: 64)!,
+            let string1Attributes: [NSAttributedString.Key: Any] = [.font: UIFont.appFont(name: Constants.Font.LatoBold, size: 64),
                                                                     .foregroundColor: Constants.ColorE0293F]
-            let string2Attributes: [NSAttributedString.Key: Any] = [.font: UIFont(name: Constants.Font.LatoBold, size: 64)!,
+            let string2Attributes: [NSAttributedString.Key: Any] = [.font: UIFont.appFont(name: Constants.Font.LatoBold, size: 64),
                                                                     .foregroundColor: Constants.PrimaryTextColor]
             let string1 = NSMutableAttributedString.init(string: "\(result.correct ?? 0) ", attributes: string1Attributes)
             let string2 = NSMutableAttributedString.init(string: "/ \(result.total ?? 0)", attributes: string2Attributes)

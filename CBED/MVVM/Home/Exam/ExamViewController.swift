@@ -39,6 +39,12 @@ final class ExamViewController: UIViewController, UICollectionViewDelegateFlowLa
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupFont()
+        collectionView?.reloadData()
+    }
+    
     deinit {
         logDeinit()
     }
@@ -124,6 +130,9 @@ final class ExamViewController: UIViewController, UICollectionViewDelegateFlowLa
     }
     
     private func setupFont() {
+        labelTitle.applyAppFontScaling()
+        labelSubtitle.applyAppFontScaling()
+        labelTime.applyAppFontScaling()
         labelQuestion.scaledFont(style: .body)
     }
 }

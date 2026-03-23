@@ -17,13 +17,23 @@ final class OutlineViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupFonts()
         textView.text = outlineText
         navTitleLabel.text = navTitle
         buttonBack.addTarget(self, action: #selector(goBack), for: .touchUpInside)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupFonts()
+    }
+    
     @objc func goBack() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func setupFonts() {
+        navTitleLabel.applyAppFontScaling()
+        textView.applyAppFontScaling()
     }
 }
