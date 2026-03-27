@@ -116,7 +116,7 @@ struct LevelViewModel: ViewModel {
         let ids = [21, 22, 23, 24, 25, 26, 27, 28] // Agency Partnerships Corps Conflicts Fam-Law Trusts Wills Sec-Trans
         return levels.filter { ids.contains($0.id) }
     }
-    
+
     private func fetchSectionDetailByID(id: Int) -> Observable<SectionDetailM> {
         return self.useCase
             .getSectionByID(id: id)

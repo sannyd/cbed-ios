@@ -155,7 +155,8 @@ struct SectionsViewModel: LoadMoreViewModel {
         reload(reloadTrigger: input.firstLoadTrigger,
                searchText: .just(""),
                offset: offset)
-            .map { [CommonCollectionViewSection(items: $0.results)] }
+            .flatMapLatest(mapSectionsForDisplay)
+            .map { [CommonCollectionViewSection(items: $0)] }
             .observe(on: MainScheduler.instance)
             .bind(to: sections)
             .disposed(by: disposeBag)
@@ -163,10 +164,13 @@ struct SectionsViewModel: LoadMoreViewModel {
         getPage(nextPageRequest: input.loadMoreTrigger,
                 offset: offset,
                 searchText: .just(""))
-            .map { response in
+            .flatMapLatest { response in
+                mapSectionsForDisplay(response: response)
+            }
+            .map { updatedResults in
                 var temp = sections.value.first
                 var items = temp?.items ?? []
-                items += response.results
+                items += updatedResults
                 temp?.items = items
                 
                 return [temp].compactMap { $0 }
@@ -181,6 +185,11 @@ struct SectionsViewModel: LoadMoreViewModel {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { searchResult, sectionDetail in
                 if IsEnableLogin {
+                    if [29, 30].contains(level.id), !(searchResult.isAvailable ?? true) {
+                        navigator.showBlockSectionAlert(sectionID: level.id)
+                        return
+                    }
+                    
                     guard sectionDetail.isAvailable ?? true else {
                         navigator.showBlockSectionAlert(sectionID: level.id)
                         return
@@ -232,5 +241,24 @@ struct SectionsViewModel: LoadMoreViewModel {
                 return .never()
             }
             .map { (searchResult, $0) }
+    }
+    
+    private func mapSectionsForDisplay(response: SectionSearchResponseM) -> Observable<[SearchResultM]> {
+        guard [29, 30].contains(level.id) else {
+            return .just(response.results)
+        }
+        
+        let sortedResults = response.results.sorted {
+            let leftOrder = $0.order ?? .max
+            let rightOrder = $1.order ?? .max
+            
+            if leftOrder == rightOrder {
+                return ($0.id) < ($1.id)
+            }
+            
+            return leftOrder < rightOrder
+        }
+
+        return .just(sortedResults)
     }
 }

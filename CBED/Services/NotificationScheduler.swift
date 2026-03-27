@@ -27,7 +27,7 @@ final class NotificationScheduler {
 
     private let notificationCenter = UNUserNotificationCenter.current()
     private let calendar = Calendar.current
-    private let defaultConfigName = "main config"
+    private let defaultConfigName = "default config"
     private let defaultInactivityDays = 3
     private let defaultCountdownDays = [30, 14, 7, 3, 1]
     private let minimumReminderHour = 8
@@ -64,7 +64,7 @@ final class NotificationScheduler {
         scheduleFromCacheIfPossible()
     }
 
-    func update(using remoteConfigs: [[String: Any]]?, configName: String = "main config") {
+    func update(using remoteConfigs: [[String: Any]]?, configName: String = "default config") {
         let resolvedName = configName.isEmpty ? defaultConfigName : configName
         guard let config = remoteConfigs?.first(where: { ($0["name"] as? String) == resolvedName }) else {
             return

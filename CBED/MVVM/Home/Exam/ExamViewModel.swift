@@ -43,32 +43,137 @@ struct ExamViewModel: ViewModel {
     let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
+        let isTwoChoiceQuestion = level.id == 30
+        let pointsPerQuestion = isTwoChoiceQuestion ? 2 : 1
         let sectionKey = "section_\(sectionDetail.id)"
         let sectionStartTime = "section_start_time_\(sectionDetail.id)"
         let sectionEndTime = "section_end_time_\(sectionDetail.id)"
         let sectionResult = "section_result_\(sectionDetail.id)"
+        let sectionFirstAttemptScoresKey = "section_first_attempt_scores_\(sectionDetail.id)"
         
         func removeAllSavedSectionData() {
             UserDefaults.standard.removeObject(forKey: sectionKey)
             UserDefaults.standard.removeObject(forKey: sectionStartTime)
             UserDefaults.standard.removeObject(forKey: sectionEndTime)
             UserDefaults.standard.removeObject(forKey: sectionResult)
+            UserDefaults.standard.removeObject(forKey: sectionFirstAttemptScoresKey)
         }
         
         let questions = sectionDetail.questions ?? []
+        let maximumScore = questions.count * pointsPerQuestion
         var previousQuestionIndex = UserDefaults.standard.value(forKey: sectionKey) as? Int ?? 0
         let currentQuestionIndex = BehaviorRelay<Int>(value: previousQuestionIndex)
-        let currentSelectedAnswer = BehaviorRelay<IndexPath?>(value: nil)
+        let currentSelectedAnswers = BehaviorRelay<[IndexPath]>(value: [])
+        let currentFocusedAnswer = BehaviorRelay<IndexPath?>(value: nil)
         let sharedCurrentQuestionIndex = currentQuestionIndex.share(replay: 1)
         let currentAnswers = BehaviorRelay<[CommonCollectionViewSection<SelectableAnswer>]>(value: [])
         let saveResultTrigger = PublishRelay<Void>()
         let previousCorrectAnswers = UserDefaults.standard.value(forKey: sectionResult) as? Int ?? 0
-        var correctAnswers = previousCorrectAnswers <= questions.count ? previousCorrectAnswers : questions.count - 1
+        var correctAnswers = min(previousCorrectAnswers, maximumScore)
+        var firstAttemptScores = UserDefaults.standard.array(forKey: sectionFirstAttemptScoresKey) as? [Int] ?? Array(repeating: -1, count: questions.count)
+        if firstAttemptScores.count != questions.count {
+            firstAttemptScores = Array(repeating: -1, count: questions.count)
+        }
         let scrollToTopInvoked = PublishSubject<Void>()
         let timerTrigger = PublishSubject<String>()
         let resetSectionTrigger = PublishSubject<Void>()
         let isEliminateAnswerSelected = BehaviorRelay<Bool>(value: false)
         let eliminateButtonTitle = BehaviorRelay<String>(value: "Eliminate answer")
+        
+        func makeSelectableAnswers(for question: QuestionM, shouldShuffle: Bool = true) -> [SelectableAnswer] {
+            let answers = (question.answers ?? [])
+                .map { SelectableAnswer(isSelected: false,
+                                        isCheck: false,
+                                        isEliminated: false,
+                                        answer: $0) }
+            return shouldShuffle ? answers.shuffled() : answers
+        }
+        
+        func selectedIndexPaths(from answers: [SelectableAnswer]) -> [IndexPath] {
+            answers.enumerated().compactMap { index, answer in
+                answer.isSelected ? IndexPath(item: index, section: 0) : nil
+            }
+        }
+        
+        func resetSelectionState() {
+            currentSelectedAnswers.accept([])
+            currentFocusedAnswer.accept(nil)
+            eliminateButtonTitle.accept("Eliminate answer")
+        }
+        
+        func advanceToNextQuestionOrSaveResult() {
+            if currentQuestionIndex.value >= questions.count - 1 {
+                saveResultTrigger.accept(())
+            } else {
+                let nextQuestionIndex = currentQuestionIndex.value + 1
+                currentQuestionIndex.accept(nextQuestionIndex)
+                let answers = makeSelectableAnswers(for: questions[currentQuestionIndex.value])
+                currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                
+                UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
+                UserDefaults.standard.setValue(correctAnswers, forKey: sectionResult)
+                UserDefaults.standard.set(firstAttemptScores, forKey: sectionFirstAttemptScoresKey)
+                scrollToTopInvoked.onNext(())
+            }
+        }
+        
+        func explanationText(for answers: [SelectableAnswer], selectedAnswers: [SelectableAnswer], isTwoChoiceQuestion: Bool) -> String? {
+            let prioritizedAnswers = isTwoChoiceQuestion ? answers.filter { $0.answer.isCorrect } : selectedAnswers
+            let discussions = prioritizedAnswers
+                .compactMap { $0.answer.discussion?.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty }
+            
+            let uniqueDiscussions = discussions.reduce(into: [String]()) { partialResult, discussion in
+                if !partialResult.contains(discussion) {
+                    partialResult.append(discussion)
+                }
+            }
+            
+            if !uniqueDiscussions.isEmpty {
+                return uniqueDiscussions.joined(separator: "\n\n")
+            }
+            
+            return selectedAnswers
+                .compactMap { $0.answer.discussion?.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .first(where: { !$0.isEmpty })
+        }
+        
+        func evaluationResult(for answers: [SelectableAnswer]) -> QuestionEvaluationResult? {
+            let selectedAnswers = answers.filter(\.isSelected)
+            guard !selectedAnswers.isEmpty else {
+                return nil
+            }
+            
+            let awardedPoints: Int
+            let type: QuestionAlertType
+            
+            if isTwoChoiceQuestion {
+                let correctSelections = selectedAnswers.filter { $0.answer.isCorrect }.count
+                awardedPoints = min(correctSelections, 2)
+                
+                switch awardedPoints {
+                case 2:
+                    type = .correct(points: awardedPoints)
+                    AudioFeedbackManager.shared.playIfEnabled(.correct)
+                case 1:
+                    type = .partial(points: awardedPoints)
+                    AudioFeedbackManager.shared.playIfEnabled(.correct)
+                default:
+                    type = .wrong(points: 0)
+                    AudioFeedbackManager.shared.playIfEnabled(.incorrect)
+                }
+            } else {
+                let isCorrect = selectedAnswers.first?.answer.isCorrect ?? false
+                awardedPoints = isCorrect ? 1 : 0
+                type = isCorrect ? .correct(points: awardedPoints) : .wrong(points: 0)
+                AudioFeedbackManager.shared.playIfEnabled(isCorrect ? .correct : .incorrect)
+            }
+            
+            return QuestionEvaluationResult(type: type,
+                                            description: explanationText(for: answers,
+                                                                         selectedAnswers: selectedAnswers,
+                                                                         isTwoChoiceQuestion: isTwoChoiceQuestion))
+        }
         
         UserDefaults.standard.setValue(Date(), forKey: sectionStartTime)
         
@@ -110,19 +215,16 @@ struct ExamViewModel: ViewModel {
         
         input
             .answerTapped
-            .withLatestFrom(input.answerTapped)
-            .do(onNext: { index in
+            .subscribe(onNext: { index in
                 let answer = currentAnswers.value.first?.items ?? []
+                guard answer.indices.contains(index.item) else {
+                    return
+                }
                 
                 let item = answer[index.item]
-                
-                if item.isEliminated {
-                    eliminateButtonTitle.accept("Uneliminate answer")
-                } else {
-                    eliminateButtonTitle.accept("Eliminate answer")
-                }
+                eliminateButtonTitle.accept(item.isEliminated ? "Uneliminate answer" : "Eliminate answer")
+                currentFocusedAnswer.accept(index)
             })
-            .bind(to: currentSelectedAnswer)
             .disposed(by: disposeBag)
         
         sharedAlertPublisher
@@ -135,12 +237,14 @@ struct ExamViewModel: ViewModel {
             .unwrap()
             .subscribe(onNext: { question in
                 SwiftEntryKit.dismiss()
-                let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                    .map { SelectableAnswer(isSelected: false,
-                                            isCheck: true,
-                                            isEliminated: false,
-                                            answer: $0) }
-                currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
+                let answers = makeSelectableAnswers(for: questions[currentQuestionIndex.value])
+                    .map {
+                        var answer = $0
+                        answer.isCheck = true
+                        return answer
+                    }
+                currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                resetSelectionState()
             })
             .disposed(by: disposeBag)
         
@@ -158,54 +262,46 @@ struct ExamViewModel: ViewModel {
                 isEliminateAnswerSelected.accept(false)
                 
                 switch questionAlertType {
-                case .correct:
-                    // 90% correct then advance to next question
-                    if isLevelNeedToHaveMoreThan90(level.id) {
+                case .correct(let points),
+                     .partial(let points):
+                    if isTwoChoiceQuestion {
+                        if firstAttemptScores.indices.contains(currentQuestionIndex.value),
+                           firstAttemptScores[currentQuestionIndex.value] == -1 {
+                            firstAttemptScores[currentQuestionIndex.value] = points
+                            correctAnswers += points
+                            UserDefaults.standard.setValue(correctAnswers, forKey: sectionResult)
+                            UserDefaults.standard.set(firstAttemptScores, forKey: sectionFirstAttemptScoresKey)
+                        }
+                        
+                        if case .correct(_) = questionAlertType {
+                            advanceToNextQuestionOrSaveResult()
+                        }
+                    } else if isLevelNeedToHaveMoreThan90(level.id) {
                         if previousIncorrectAnswerIndex != currentQuestionIndex.value {
-                            correctAnswers += 1
+                            correctAnswers += points
                         }
                     } else {
-                        correctAnswers += 1
+                        correctAnswers += points
                     }
                     
-                    if currentQuestionIndex.value >= questions.count - 1 {
-                        saveResultTrigger.accept(())
-                    } else {
-                        let nextQuestionIndex = currentQuestionIndex.value + 1
-                        currentQuestionIndex.accept(nextQuestionIndex)
-                        let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                            .map { SelectableAnswer(isSelected: false,
-                                                    isCheck: false,
-                                                    isEliminated: false,
-                                                    answer: $0) }
-                        currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
-                        
-                        UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
-                        UserDefaults.standard.setValue(correctAnswers, forKey: sectionResult)
-                        scrollToTopInvoked.onNext(())
+                    if !isTwoChoiceQuestion {
+                        advanceToNextQuestionOrSaveResult()
                     }
                 case .wrong:
-                    // 90% correct then advance to next question
-                    if isLevelNeedToHaveMoreThan90(level.id) {
+                    if isTwoChoiceQuestion {
+                        if firstAttemptScores.indices.contains(currentQuestionIndex.value),
+                           firstAttemptScores[currentQuestionIndex.value] == -1 {
+                            firstAttemptScores[currentQuestionIndex.value] = 0
+                            UserDefaults.standard.set(firstAttemptScores, forKey: sectionFirstAttemptScoresKey)
+                        }
+                    } else if isLevelNeedToHaveMoreThan90(level.id) {
                         previousIncorrectAnswerIndex = currentQuestionIndex.value
                     } else {
-                        if currentQuestionIndex.value >= questions.count - 1 {
-                            saveResultTrigger.accept(())
-                        } else {
-                            let nextQuestionIndex = currentQuestionIndex.value + 1
-                            currentQuestionIndex.accept(nextQuestionIndex)
-                            let answers = (questions[currentQuestionIndex.value].answers ?? [])
-                                .map { SelectableAnswer(isSelected: false,
-                                                        isCheck: false,
-                                                        isEliminated: false,
-                                                        answer: $0) }
-                            currentAnswers.accept([CommonCollectionViewSection(items: answers)])
-                            
-                            UserDefaults.standard.setValue(nextQuestionIndex, forKey: sectionKey)
-                        }
+                        advanceToNextQuestionOrSaveResult()
                     }
                 }
                 
+                resetSelectionState()
                 SwiftEntryKit.dismiss()
             })
             .map { _ in questions[currentQuestionIndex.value] }
@@ -235,17 +331,14 @@ struct ExamViewModel: ViewModel {
             .merge(initialQuestion,
                    nextQuestion)
             .do(onNext: { question in
-                let answers = (question.answers ?? [])
-                    .map { SelectableAnswer(isSelected: false,
-                                            isCheck: false,
-                                            isEliminated: false,
-                                            answer: $0) }
-                currentAnswers.accept([CommonCollectionViewSection(items: answers.shuffled())])
+                let answers = makeSelectableAnswers(for: question)
+                currentAnswers.accept([CommonCollectionViewSection(items: answers)])
+                resetSelectionState()
             })
             .share(replay: 1)
         
         saveResultTrigger
-            .map { (correctAnswers, questions.count) }
+            .map { (correctAnswers, maximumScore) }
             .flatMapLatest(saveResult(correct:totalQuestion:))
             .flatMapLatest { saveResultResponse in
                 self.getProfile()
@@ -268,60 +361,70 @@ struct ExamViewModel: ViewModel {
         
         input
             .answerTapped
-            .withLatestFrom(Observable.combineLatest(input.answerTapped,
-                                                     currentAnswers))
-            .map { indexPath, answerSections -> (AnswerM, CommonCollectionViewSection<SelectableAnswer>)? in
-                if var answers = answerSections.first?.items {
-                    answers = answers.map({ answer in
-                        var answer = answer
+            .withLatestFrom(currentAnswers) { ($0, $1) }
+            .map { indexPath, answerSections -> [SelectableAnswer]? in
+                guard var answers = answerSections.first?.items,
+                      answers.indices.contains(indexPath.item) else {
+                    return nil
+                }
+                
+                if isTwoChoiceQuestion {
+                    var choosenAnswer = answers[indexPath.item]
+                    let selectedCount = answers.filter(\.isSelected).count
+                    
+                    if choosenAnswer.isSelected {
+                        choosenAnswer.isSelected = false
+                    } else {
+                        guard selectedCount < 2 else {
+                            return answers
+                        }
+                        choosenAnswer.isSelected = true
+                    }
+                    
+                    answers[indexPath.item] = choosenAnswer
+                } else {
+                    answers = answers.map {
+                        var answer = $0
                         answer.isSelected = false
-                        
                         return answer
-                    })
+                    }
                     
                     var choosenAnswer = answers[indexPath.item]
                     choosenAnswer.isSelected = true
                     answers[indexPath.item] = choosenAnswer
-                    
-                    return (choosenAnswer.answer, CommonCollectionViewSection<SelectableAnswer>(items: answers))
                 }
-                return nil
+                
+                return answers
             }
             .unwrap()
-            .subscribe(onNext: { _, answerSection in
+            .subscribe(onNext: { answers in
                 AudioFeedbackManager.shared.playButtonTapIfEnabled()
-                currentAnswers.accept([answerSection])
+                currentSelectedAnswers.accept(selectedIndexPaths(from: answers))
+                let focusedIndexPath = currentFocusedAnswer.value
+                let nextFocusedAnswer: IndexPath?
+                
+                if let focusedIndexPath,
+                   answers.indices.contains(focusedIndexPath.item),
+                   answers[focusedIndexPath.item].isSelected {
+                    nextFocusedAnswer = focusedIndexPath
+                } else {
+                    nextFocusedAnswer = selectedIndexPaths(from: answers).last
+                }
+                
+                currentFocusedAnswer.accept(nextFocusedAnswer)
+                currentAnswers.accept([CommonCollectionViewSection(items: answers)])
             })
             .disposed(by: disposeBag)
         
         input
             .checkAnswerTapped
-            .withLatestFrom(Observable.combineLatest(input.answerTapped,
-                                                     currentAnswers))
-            .map { indexPath, answerSections -> (AnswerM, CommonCollectionViewSection<SelectableAnswer>)? in
-                if var answers = answerSections.first?.items {
-                    var choosenAnswer = answers[indexPath.item]
-                    if choosenAnswer.answer.isCorrect {
-                        AudioFeedbackManager.shared.playIfEnabled(.correct)
-                    } else {
-                        AudioFeedbackManager.shared.playIfEnabled(.incorrect)
-                    }
-                    
-                    choosenAnswer.isSelected = true
-                    answers[indexPath.item] = choosenAnswer
-                    
-                    return (choosenAnswer.answer, CommonCollectionViewSection<SelectableAnswer>(items: answers))
-                }
-                return nil
-            }
-            .unwrap()
-            .map { ($0.0, level, questions[currentQuestionIndex.value].youtubeURL) }
-            .do(onNext: { _ in
-                currentSelectedAnswer.accept(nil)
-            })
+            .withLatestFrom(currentAnswers)
+            .compactMap { $0.first?.items }
+            .compactMap(evaluationResult(for:))
+            .map { ($0, level, questions[currentQuestionIndex.value].youtubeURL) }
             .asDriverOnErrorJustComplete()
             .delay(.milliseconds(100))
-            .drive(onNext: navigator.presentAnswerResult(answer:level:explainationLink:))
+            .drive(onNext: navigator.presentAnswerResult(result:level:explainationLink:))
             .disposed(by: disposeBag)
         
         navigator.resultViewPublisher
@@ -335,16 +438,18 @@ struct ExamViewModel: ViewModel {
                     previousQuestionIndex = 0
                     currentQuestionIndex.accept(previousQuestionIndex)
                     correctAnswers = 0
+                    firstAttemptScores = Array(repeating: -1, count: questions.count)
+                    resetSelectionState()
                 }
             })
             .disposed(by: disposeBag)
         
-        let isDisableCheckAnswer = currentSelectedAnswer
-            .map { $0 != nil }
+        let isDisableCheckAnswer = currentSelectedAnswers
+            .map { !$0.isEmpty }
         
         
         input.buttonEliminateAnswerTapped
-            .withLatestFrom(currentSelectedAnswer)
+            .withLatestFrom(currentFocusedAnswer)
             .unwrap()
             .subscribe(onNext: { selectIndex in
                 let answers = currentAnswers.value.first?.items ?? []
@@ -386,10 +491,12 @@ struct ExamViewModel: ViewModel {
         let ids = [
             8, // Free Essay Drill Sample
             5, // MBE Level Drills
+            29, // NG MCQ 1-Choice
             15, // CA MCQ Drills
             4, // FL MCQ Drills
             9, // CA Essay Drills & Videos
             7, // MEE Drills & Videos
+            31, // IQS Drafting Sets
             13, // FL Essay Drills
             14, // GA Essay Drills
             10, // CPT Essay Drills

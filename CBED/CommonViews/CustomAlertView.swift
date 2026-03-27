@@ -82,7 +82,7 @@ class CustomAlertView: BaseNibView {
     @IBOutlet weak var usefulLinkStackView: UIStackView!
     @IBOutlet weak var labelUsefulLink: UILabel!
     
-    var type: QuestionAlertType = .correct
+    var type: QuestionAlertType = .correct(points: 0)
     var explainationLink: String?
     
     var publisher: PublishSubject<CustomAlertViewPublisher>?
@@ -129,9 +129,11 @@ class CustomAlertView: BaseNibView {
             labelUsefulLink.text = String(strings.first ?? "")
             
             switch type {
-            case .correct:
+            case .correct(_):
                 labelUsefulLink.textColor = Constants.PrimaryBlue
-            case .wrong:
+            case .partial(_):
+                labelUsefulLink.textColor = type.color
+            case .wrong(_):
                 labelUsefulLink.textColor = Constants.ColorE0293F
             }
         }

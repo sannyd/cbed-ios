@@ -99,7 +99,7 @@ final class ResultViewController: UIViewController {
                         let buttonTitle = "OK"
                         alertVC.setupAlertView(title: title,
                                                description: "You’ve just scored under 30%. You will need to do the previous subject over again. This is to make sure you’re going through each subject with thought and care. Please think of this as a “speed bump” to slow you down.",
-                                               type: .wrong,
+                                               type: .wrong(points: 0),
                                                leftButtonTitle: buttonTitle,
                                                rightButtonTitle: nil,
                                                explainationLink: nil)

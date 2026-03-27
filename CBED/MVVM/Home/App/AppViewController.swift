@@ -19,6 +19,7 @@ final class AppViewController: UIViewController {
     var disposeBag = DisposeBag()
     
     private let staticToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoyMjYwMzY4NjY5LCJqdGkiOiJqa2ZoYjc4NGc5NzI4dWJyaXUyM3k0OTI4dWsiLCJ1c2VyX2lkIjoxN30.2rhFITU6xMC4qJXIip6DaFMNMkdhZ5qOilbLN-fyHz0"
+    private let preferredRemoteConfigName = "default config"
     
     // MARK: - Life Cycle
     
@@ -59,7 +60,9 @@ final class AppViewController: UIViewController {
     }
 
     private func defaultRemoteConfig(from remoteConfigs: [[String: Any]]?) -> [String: Any]? {
-        remoteConfigs?.first(where: { parseRemoteBool($0["is_default"]) == true })
+        remoteConfigs?.first(where: {
+            (($0["name"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == preferredRemoteConfigName)
+        }) ?? remoteConfigs?.first(where: { parseRemoteBool($0["is_default"]) == true })
     }
 
     private func loadMembershipIfNeeded(using appDelegate: AppDelegate) {

@@ -10,24 +10,41 @@ import RxSwift
 import SwiftEntryKit
 
 enum QuestionAlertType {
-    case correct
-    case wrong
+    case correct(points: Int)
+    case partial(points: Int)
+    case wrong(points: Int)
     
     var color: UIColor {
         switch self {
-        case .correct:
+        case .correct(_):
             return #colorLiteral(red: 0.1607843137, green: 0.3568627451, blue: 0.8784313725, alpha: 1)
-        case .wrong:
+        case .partial(_):
+            return #colorLiteral(red: 0.9450980392, green: 0.5882352941, blue: 0.1960784314, alpha: 1)
+        case .wrong(_):
             return #colorLiteral(red: 0.8784313725, green: 0.1607843137, blue: 0.2470588235, alpha: 1)
         }
     }
+
+    var pointsAwarded: Int {
+        switch self {
+        case .correct(let points),
+             .partial(let points),
+             .wrong(let points):
+            return points
+        }
+    }
+}
+
+struct QuestionEvaluationResult {
+    let type: QuestionAlertType
+    let description: String?
 }
 
 protocol ExamNavigatorType {
     var publisher: PublishSubject<CustomAlertViewPublisher> { get }
     var resultViewPublisher: PublishSubject<ResultViewModelPublisher> { get }
     
-    func presentAnswerResult(answer: AnswerM, level: LevelM, explainationLink: String?)
+    func presentAnswerResult(result: QuestionEvaluationResult, level: LevelM, explainationLink: String?)
     func pushToResultVC(result: SaveResultResponseM)
     func pushToPreviewWebView(usefulLinkURL: String)
     func popViewController()
@@ -39,17 +56,27 @@ struct ExamNavigator: ExamNavigatorType {
     let publisher = PublishSubject<CustomAlertViewPublisher>()
     let resultViewPublisher = PublishSubject<ResultViewModelPublisher>()
     
-    func presentAnswerResult(answer: AnswerM, level: LevelM, explainationLink: String?) {
+    func presentAnswerResult(result: QuestionEvaluationResult, level: LevelM, explainationLink: String?) {
         let alertVC = CustomAlertView()
         alertVC.publisher = publisher
-        let isCorrect = answer.isCorrect
-        let title = isCorrect ? "Correct" : "Wrong"
-        let labelFail = level.id == 5 ? "Try Again" : "Continue"
-        let buttonTitle = isCorrect ? "OK" : labelFail
-        let type: QuestionAlertType = isCorrect ? .correct : .wrong
+        let title: String
+        let buttonTitle: String
+        
+        switch result.type {
+        case .correct(_):
+            title = "Correct"
+            buttonTitle = level.id == 30 ? "Continue" : "OK"
+        case .partial(_):
+            title = "Partially Correct"
+            buttonTitle = "Continue"
+        case .wrong(_):
+            title = "Wrong"
+            buttonTitle = level.id == 5 ? "Try Again" : "Continue"
+        }
+        
         alertVC.setupAlertView(title: title,
-                               description: answer.discussion,
-                               type: type,
+                               description: result.description,
+                               type: result.type,
                                leftButtonTitle: buttonTitle,
                                rightButtonTitle: nil,
                                explainationLink: explainationLink)

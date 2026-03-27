@@ -17,6 +17,7 @@ enum ExamLocation: String, CaseIterable {
     case florida = "Florida"
     case california = "California"
     case georgia = "Georgia"
+    case nextGen = "NextGen"
     
     var searchLevelID: Int {
         switch self {
@@ -30,6 +31,8 @@ enum ExamLocation: String, CaseIterable {
             return 9
         case .georgia:
             return 14
+        case .nextGen:
+            return 8
         }
     }
     
@@ -45,6 +48,8 @@ enum ExamLocation: String, CaseIterable {
             return [5, 9, 10, 15, 8]
         case .georgia:
             return [5, 14, 11, 8]
+        case .nextGen:
+            return [5, 8, 29, 30, 31]
         }
     }
 }
