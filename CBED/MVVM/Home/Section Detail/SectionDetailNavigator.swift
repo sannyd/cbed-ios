@@ -10,7 +10,8 @@ import UIKit
 protocol SectionDetailNavigatorType {
     func pushToPreviewWebView(usefulLinkURL: String)
     func pushToExamVC(sectionDetail: SectionDetailM,
-                      level: LevelM)
+                      level: LevelM,
+                      customTimeLimitMinutes: Int?)
     func pushToOutline(sectionDetail: SectionDetailM,
                        level: LevelM)
 }
@@ -27,12 +28,14 @@ struct SectionDetailNavigator: SectionDetailNavigatorType {
     }
     
     func pushToExamVC(sectionDetail: SectionDetailM,
-                      level: LevelM) {
+                      level: LevelM,
+                      customTimeLimitMinutes: Int?) {
         let examVC: ExamViewController = StoryboardManager.getVCFromHomeSB()
         examVC.viewModel = .init(useCase: ExamUseCase(),
                                  navigator: ExamNavigator(navigationController: navigationController),
                                  sectionDetail: sectionDetail,
-                                 level: level)
+                                 level: level,
+                                 customTimeLimitMinutes: customTimeLimitMinutes)
         navigationController.pushViewController(examVC, animated: true)
     }
     
@@ -62,13 +65,25 @@ struct SectionDetailNavigator: SectionDetailNavigatorType {
         if level.id == 31 { // IQS Drafting Sets
             outlineVC.navTitle = "Drafting Outline"
         }
+
+        if level.id == 33 { // IQS Counseling Sets
+            outlineVC.navTitle = "Counseling Outline"
+        }
         
-        if level.id == 10 { // PT
-            outlineVC.navTitle = "PT Outline"
+        if level.id == 10 { // M/PT
+            outlineVC.navTitle = "M/PT Outline"
         }
         
         if level.id == 11 { // MPT
             outlineVC.navTitle = "MPT Outline"
+        }
+
+        if level.id == 34 { // SPT
+            outlineVC.navTitle = "SPT Outline"
+        }
+
+        if level.id == 35 { // LRPT
+            outlineVC.navTitle = "LRPT Outline"
         }
         
         

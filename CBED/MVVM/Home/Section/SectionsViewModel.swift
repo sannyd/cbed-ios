@@ -185,12 +185,16 @@ struct SectionsViewModel: LoadMoreViewModel {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { searchResult, sectionDetail in
                 if IsEnableLogin {
-                    if [29, 30].contains(level.id), !(searchResult.isAvailable ?? true) {
+                    if [29, 30, 33, 35, 40].contains(level.id), !isSectionAvailable(levelID: level.id,
+                                                                                    sectionID: searchResult.id,
+                                                                                    isAvailable: searchResult.isAvailable) {
                         navigator.showBlockSectionAlert(sectionID: level.id)
                         return
                     }
                     
-                    guard sectionDetail.isAvailable ?? true else {
+                    guard isSectionAvailable(levelID: level.id,
+                                             sectionID: sectionDetail.id,
+                                             isAvailable: sectionDetail.isAvailable) else {
                         navigator.showBlockSectionAlert(sectionID: level.id)
                         return
                     }
@@ -244,7 +248,7 @@ struct SectionsViewModel: LoadMoreViewModel {
     }
     
     private func mapSectionsForDisplay(response: SectionSearchResponseM) -> Observable<[SearchResultM]> {
-        guard [29, 30].contains(level.id) else {
+        guard [29, 30, 33, 35, 40].contains(level.id) else {
             return .just(response.results)
         }
         
@@ -259,6 +263,27 @@ struct SectionsViewModel: LoadMoreViewModel {
             return leftOrder < rightOrder
         }
 
-        return .just(sortedResults)
+        return .just(sortedResults.map(sectionWithLevelAvailability))
+    }
+
+    private func isSectionAvailable(levelID: Int,
+                                    sectionID: Int,
+                                    isAvailable: Bool?) -> Bool {
+        if levelID == 40 {
+            let currentMixedMbeSection = Storage.profileInfo?.currentMixedMbeSection ?? 55001
+            return sectionID <= currentMixedMbeSection
+        }
+        
+        return isAvailable ?? true
+    }
+
+    private func sectionWithLevelAvailability(_ section: SearchResultM) -> SearchResultM {
+        guard level.id == 40 else {
+            return section
+        }
+        
+        return section.withAvailability(isSectionAvailable(levelID: level.id,
+                                                           sectionID: section.id,
+                                                           isAvailable: section.isAvailable))
     }
 }

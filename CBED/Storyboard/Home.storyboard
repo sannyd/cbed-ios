@@ -125,7 +125,7 @@
                                             <constraint firstAttribute="height" constant="25" id="Iro-8U-Nhx"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search Essays" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lam-Fz-6Dg">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search NextGen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lam-Fz-6Dg">
                                         <rect key="frame" x="20" y="15.5" width="97.5" height="19.5"/>
                                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                         <nil key="textColor"/>
@@ -162,6 +162,7 @@
                         <outlet property="containerView" destination="GrS-Fu-RWU" id="ySQ-mq-MzK"/>
                         <outlet property="gradientView" destination="FXe-7R-7Jd" id="0ES-wa-hbj"/>
                         <outlet property="gradientViewHeight" destination="rIe-Cf-F8A" id="55e-6E-dS0"/>
+                        <outlet property="searchTitleLabel" destination="lam-Fz-6Dg" id="I15-pi-pMt"/>
                         <outlet property="searchView" destination="PZK-vt-x6n" id="b77-1z-rdp"/>
                         <outlet property="unlockView" destination="RMd-rP-g9a" id="N50-Gq-bAt"/>
                     </connections>
@@ -799,38 +800,81 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="i3m-gC-V1g">
-                                <rect key="frame" x="162" y="116" width="90" height="90"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="Ifq-1P-gmM"/>
-                                    <constraint firstAttribute="height" constant="90" id="hTK-ol-KPE"/>
-                                </constraints>
-                            </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="sGO-u7-bu2">
-                                <rect key="frame" x="193" y="218" width="28.5" height="70"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="fP0-gw-aML">
+                                <rect key="frame" x="20" y="108" width="374" height="180"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rfp-5i-FUE">
-                                        <rect key="frame" x="0.0" y="0.0" width="28.5" height="30"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="kVc-VV-iBv">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="98"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="i3m-gC-V1g">
+                                                <rect key="frame" x="0.0" y="4" width="90" height="90"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="90" id="Ifq-1P-gmM"/>
+                                                    <constraint firstAttribute="height" constant="90" id="hTK-ol-KPE"/>
+                                                </constraints>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rki-Sk-Bjz">
+                                                <rect key="frame" x="106" y="0.0" width="268" height="98"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="6nY-OM-ENM">
+                                                        <rect key="frame" x="16" y="16" width="236" height="66"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="February Exam" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pE-jo-EEz">
+                                                                <rect key="frame" x="0.0" y="0.0" width="236" height="19.5"/>
+                                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
+                                                                <color key="textColor" name="Primary Text"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="00d 00h 00m 00s" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgF-nF-Tod">
+                                                                <rect key="frame" x="0.0" y="23.5" width="236" height="24"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="24" id="VXc-6T-UKz"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="20"/>
+                                                                <color key="textColor" name="Primary Blue"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Until the last Tuesday in February" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIU-eX-5La">
+                                                                <rect key="frame" x="0.0" y="51.5" width="236" height="14.5"/>
+                                                                <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="12"/>
+                                                                <color key="textColor" name="Primary Text"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" name="Secondary Surface"/>
+                                                <constraints>
+                                                    <constraint firstItem="6nY-OM-ENM" firstAttribute="leading" secondItem="Rki-Sk-Bjz" secondAttribute="leading" constant="16" id="2xI-C8-sMA"/>
+                                                    <constraint firstAttribute="trailing" secondItem="6nY-OM-ENM" secondAttribute="trailing" constant="16" id="77t-pm-zt0"/>
+                                                    <constraint firstItem="6nY-OM-ENM" firstAttribute="top" secondItem="Rki-Sk-Bjz" secondAttribute="top" constant="16" id="BVQ-SM-rgt"/>
+                                                    <constraint firstAttribute="bottom" secondItem="6nY-OM-ENM" secondAttribute="bottom" constant="16" id="R2C-g9-1j2"/>
+                                                    <constraint firstAttribute="height" constant="98" id="mja-Jc-Ayh"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="9bX-aM-jhM"/>
+                                            <constraint firstAttribute="height" constant="98" id="8uM-xz-cK6"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
-                                        <color key="textColor" name="Primary Text"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKb-eS-BTv">
-                                        <rect key="frame" x="0.0" y="30" width="28.5" height="40"/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="sGO-u7-bu2">
+                                        <rect key="frame" x="0.0" y="110" width="374" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKb-eS-BTv">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="6mr-st-h0P"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                                                <color key="textColor" name="Primary Text"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="6mr-st-h0P"/>
+                                            <constraint firstAttribute="height" constant="40" id="5G0-Lh-MUa"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
-                                        <color key="textColor" name="Primary Text"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="5G0-Lh-MUa"/>
-                                </constraints>
                             </stackView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F3a-LA-82L">
                                 <rect key="frame" x="0.0" y="378" width="414" height="450"/>
@@ -1086,14 +1130,13 @@
                         <viewLayoutGuide key="safeArea" id="Zt6-be-EeI"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
-                            <constraint firstItem="9Ua-6l-fbL" firstAttribute="top" secondItem="sGO-u7-bu2" secondAttribute="bottom" constant="14" id="Ihx-2u-2W6"/>
-                            <constraint firstItem="sGO-u7-bu2" firstAttribute="centerX" secondItem="jK1-sf-iTO" secondAttribute="centerX" id="LLM-Yf-vMk"/>
+                            <constraint firstItem="9Ua-6l-fbL" firstAttribute="top" secondItem="fP0-gw-aML" secondAttribute="bottom" constant="14" id="Ihx-2u-2W6"/>
                             <constraint firstItem="9Ua-6l-fbL" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" constant="20" id="SzF-jc-wmN"/>
                             <constraint firstItem="F3a-LA-82L" firstAttribute="top" secondItem="9Ua-6l-fbL" secondAttribute="bottom" constant="16" id="VfQ-zF-pC8"/>
                             <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="9Ua-6l-fbL" secondAttribute="trailing" constant="20" id="Wji-8K-lCC"/>
-                            <constraint firstItem="i3m-gC-V1g" firstAttribute="top" secondItem="Zt6-be-EeI" secondAttribute="top" constant="20" id="YuV-rH-hT9"/>
-                            <constraint firstItem="i3m-gC-V1g" firstAttribute="centerX" secondItem="jK1-sf-iTO" secondAttribute="centerX" id="fzE-ne-4RS"/>
-                            <constraint firstItem="sGO-u7-bu2" firstAttribute="top" secondItem="i3m-gC-V1g" secondAttribute="bottom" constant="12" id="iNf-2k-IhE"/>
+                            <constraint firstItem="fP0-gw-aML" firstAttribute="top" secondItem="Zt6-be-EeI" secondAttribute="top" constant="20" id="YuV-rH-hT9"/>
+                            <constraint firstItem="fP0-gw-aML" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" constant="20" id="gSk-OC-tkO"/>
+                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="fP0-gw-aML" secondAttribute="trailing" constant="20" id="haL-Tz-NTL"/>
                             <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="F3a-LA-82L" secondAttribute="trailing" id="lyu-fi-2Dh"/>
                             <constraint firstItem="Zt6-be-EeI" firstAttribute="bottom" secondItem="F3a-LA-82L" secondAttribute="bottom" id="m2f-Vc-xpb"/>
                             <constraint firstItem="F3a-LA-82L" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" id="mza-ej-cOS"/>
@@ -1103,18 +1146,21 @@
                         <outlet property="babyBarContainerView" destination="yN1-EY-nc4" id="wuo-pm-lnx"/>
                         <outlet property="babyBarHighlightView" destination="oG6-04-l7L" id="8QD-wg-lf5"/>
                         <outlet property="babyBarHighlightViewLeading" destination="n2e-IH-e1A" id="igi-jk-3tn"/>
+                        <outlet property="countdownContainerView" destination="Rki-Sk-Bjz" id="3iy-mU-fM3"/>
                         <outlet property="collectionContainerView" destination="F3a-LA-82L" id="sMv-SM-Cq7"/>
                         <outlet property="highlightView" destination="fcw-1p-dgH" id="xdh-Af-OoI"/>
                         <outlet property="highlightViewLeading" destination="aev-dq-4n5" id="E8d-Eg-7yO"/>
                         <outlet property="labelBabyBarJun" destination="2mb-nn-RSG" id="kGF-KI-8pL"/>
                         <outlet property="labelBabyBarOct" destination="E3S-fQ-H9m" id="ADi-mI-QHd"/>
                         <outlet property="labelBabyBarSection" destination="qkt-R7-jWV" id="dhV-9z-b3X"/>
+                        <outlet property="labelCountdownSubtitle" destination="eIU-eX-5La" id="mzB-d8-WzB"/>
+                        <outlet property="labelCountdownTitle" destination="6pE-jo-EEz" id="YqB-jE-8lF"/>
+                        <outlet property="labelCountdownValue" destination="hgF-nF-Tod" id="o3A-q0-xrK"/>
                         <outlet property="labelEssays" destination="bxU-vT-bhU" id="G1y-6H-Cl8"/>
                         <outlet property="labelMBE" destination="eUM-f9-0KC" id="1Ah-Pw-44Q"/>
                         <outlet property="labelMPT" destination="NZ4-9G-jw2" id="sY1-VL-qGA"/>
                         <outlet property="labelProBarFeb" destination="8Pt-rb-I6w" id="JeW-Si-CxG"/>
                         <outlet property="labelProBarJuly" destination="C0o-MV-QoT" id="5j9-if-gT0"/>
-                        <outlet property="labelUserName" destination="rfp-5i-FUE" id="TAd-yM-Dmw"/>
                         <outlet property="labelUserPosition" destination="hKb-eS-BTv" id="TRg-ub-PHk"/>
                         <outlet property="labelZoomEmailSection" destination="Rb5-n0-wI5" id="R8S-gK-ISi"/>
                         <outlet property="profileImageView" destination="i3m-gC-V1g" id="pEh-eD-JRM"/>

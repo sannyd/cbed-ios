@@ -86,3 +86,74 @@ private extension UIWindowScene {
         windows.first(where: \.isKeyWindow)
     }
 }
+
+final class AppUpdateChecker {
+    static let shared = AppUpdateChecker()
+
+    private var isChecking = false
+    private var hasPromptedThisLaunch = false
+    private let lookupBaseURL = "https://itunes.apple.com/lookup"
+
+    func checkForUpdateIfNeeded(presenter: UIViewController) {
+        guard !isChecking, !hasPromptedThisLaunch else {
+            return
+        }
+
+        guard let bundleID = Bundle.main.bundleIdentifier,
+              let encodedBundleID = bundleID.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: "\(lookupBaseURL)?bundleId=\(encodedBundleID)") else {
+            return
+        }
+
+        isChecking = true
+        URLSession.shared.dataTask(with: url) { [weak self, weak presenter] data, _, _ in
+            guard let self else { return }
+            defer { self.isChecking = false }
+
+            guard let data,
+                  let response = try? JSONDecoder().decode(AppStoreLookupResponse.self, from: data),
+                  let appStoreApp = response.results.first,
+                  self.isVersion(appStoreApp.version, newerThan: self.currentAppVersion) else {
+                return
+            }
+
+            DispatchQueue.main.async {
+                guard let presenter,
+                      presenter.presentedViewController == nil,
+                      self.hasPromptedThisLaunch == false else {
+                    return
+                }
+
+                self.hasPromptedThisLaunch = true
+                let alert = UIAlertController(title: "Update Available",
+                                              message: "A newer version of Bar Exam Drills is available. Please update to get the latest fixes and content.",
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Later", style: .cancel))
+                alert.addAction(UIAlertAction(title: "Update", style: .default) { _ in
+                    guard let url = URL(string: appStoreApp.trackViewUrl) else {
+                        return
+                    }
+                    UIApplication.shared.open(url)
+                })
+                presenter.present(alert, animated: true)
+            }
+        }.resume()
+    }
+
+    private var currentAppVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
+    }
+
+    private func isVersion(_ candidate: String, newerThan current: String) -> Bool {
+        candidate.compare(current, options: .numeric) == .orderedDescending
+    }
+}
+
+private struct AppStoreLookupResponse: Decodable {
+    let results: [AppStoreLookupResult]
+}
+
+private struct AppStoreLookupResult: Decodable {
+    let version: String
+    let trackViewUrl: String
+}

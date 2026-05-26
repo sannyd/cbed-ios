@@ -44,6 +44,7 @@ struct ProfileInfoM: Codable {
     let essayCount: Int
     let mptCount: Int
     let isTutor: Bool
+    let currentMixedMbeSection: Int?
     
     enum CodingKeys: String, CodingKey {
         case email = "email"
@@ -59,5 +60,6 @@ struct ProfileInfoM: Codable {
         case essayCount = "essay_count"
         case mptCount = "mpt_count"
         case isTutor = "is_tutor"
+        case currentMixedMbeSection = "current_mixed_mbe_section_id"
     }
 }

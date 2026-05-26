@@ -38,10 +38,12 @@ class ScoreCell: UICollectionViewCell, CellType {
         
         if data.isEssay {
             labelUserPosition.text = "\(data.essaysCount)"
+            labelUserPosition.textColor = Constants.PrimaryTextColor
         } else if data.isMpt {
             labelUserPosition.text = "\(data.mptCount)"
+            labelUserPosition.textColor = Constants.PrimaryTextColor
         } else {
-            labelUserPosition.text = "\(data.lastSectionName ?? "N/A")"
+            labelUserPosition.applyScoreboardLevelColor(for: data.lastSectionName ?? "N/A")
         }
         
     }

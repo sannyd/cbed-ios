@@ -45,11 +45,12 @@ enum InAppPurchaseType: String, Codable {
     var descriptions: [String] {
         switch self {
         case .ProBarFeb, .ProBarJuly:
-            return ["56 MBE levels",
+            return ["56 MBE levels of 8 discrete MBE subjects.",
                     "Essay Drills + Videos",
-                    "PT Drills + Videos"]
+                    "M/PT Drills + Videos",
+                    "14 mixed 50 question sets."]
         case .BabyBarOct, .BabyBarJune:
-            return ["21 MBE levels",
+            return ["21 MBE levels of Torts, Contracts and Criminal Law.",
                     "Essay Drills + Videos"]
         }
     }

@@ -200,12 +200,16 @@ extension Storage {
             guard let data = Storage.get(key: StorageKey.examLocation.rawValue, storageType: .userDefault),
                   let valueString = String(data: data, encoding: .utf8),
                   let location = ExamLocation(rawValue: valueString) else {
-                return .mpre
+                return ExamLocation.defaultLocation
+            }
+            guard location.isSelectable else {
+                return ExamLocation.defaultLocation
             }
             return location
         }
         set {
-            guard let data = newValue.rawValue.data(using: .utf8, allowLossyConversion: false) else {
+            let selectableLocation = newValue.isSelectable ? newValue : ExamLocation.defaultLocation
+            guard let data = selectableLocation.rawValue.data(using: .utf8, allowLossyConversion: false) else {
                 return
             }
             Storage.set(value: data, forKey: StorageKey.examLocation.rawValue, storageType: .userDefault)

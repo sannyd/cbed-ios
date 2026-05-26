@@ -17,6 +17,7 @@ final class LevelViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var gradientViewHeight: NSLayoutConstraint!
     @IBOutlet weak var searchView: UIView!
+    @IBOutlet weak var searchTitleLabel: UILabel!
     @IBOutlet weak var unlockView: UIView!
     
     // MARK: - Properties
@@ -25,6 +26,7 @@ final class LevelViewController: UIViewController {
     var disposeBag = DisposeBag()
     
     private var collectionView: CommonCollectionView<CommonCollectionViewSection<LevelM>, LevelCell>!
+    private var hasShownMPRESubscriberWarning = false
     
     // MARK: - Life Cycle
     
@@ -37,6 +39,7 @@ final class LevelViewController: UIViewController {
         bindViewModel()
         
         searchView.setCornerRadius(radius: 20)
+        updateSearchTitle()
     }
     
     override func viewDidLayoutSubviews() {
@@ -48,6 +51,7 @@ final class LevelViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         
         searchView.isHidden = !IsEnableLogin
+        updateSearchTitle()
         
         if !IsEnableLogin {
             if CurrentMembershipType == nil {
@@ -64,6 +68,11 @@ final class LevelViewController: UIViewController {
                 }
             }
         }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        presentMPRESubscriberWarningIfNeeded()
     }
     
     deinit {
@@ -125,6 +134,7 @@ final class LevelViewController: UIViewController {
                 default:
                     self?.unlockView.isHidden = true
                 }
+                self?.presentMPRESubscriberWarningIfNeeded()
             })]
             .forEach { $0.disposed(by: disposeBag) }
     }
@@ -144,6 +154,37 @@ final class LevelViewController: UIViewController {
         
         gradientView.roundCorners([.layerMinXMaxYCorner,
                                    .layerMaxXMaxYCorner], radius: 50)
+    }
+
+    private func updateSearchTitle() {
+        searchTitleLabel.text = Storage.examLocation.homeSearchTitle
+    }
+
+    private func presentMPRESubscriberWarningIfNeeded() {
+        guard Storage.examLocation == .mpre,
+              isCurrentUserSubscriber,
+              !hasShownMPRESubscriberWarning,
+              presentedViewController == nil else {
+            return
+        }
+
+        hasShownMPRESubscriberWarning = true
+        let alert = UIAlertController(title: "MPRE Materials",
+                                      message: "If you are a subscriber and are only seeing MPRE materials, please go to Settings to update your jurisdiction to your correct exam location.",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+
+    private var isCurrentUserSubscriber: Bool {
+        if IsEnableLogin {
+            guard let memberPlan = Storage.profileInfo?.memberPlan else {
+                return false
+            }
+            return memberPlan != .free
+        }
+
+        return CurrentMembershipType != nil
     }
 }
 

@@ -44,7 +44,10 @@ protocol ExamNavigatorType {
     var publisher: PublishSubject<CustomAlertViewPublisher> { get }
     var resultViewPublisher: PublishSubject<ResultViewModelPublisher> { get }
     
-    func presentAnswerResult(result: QuestionEvaluationResult, level: LevelM, explainationLink: String?)
+    func presentAnswerResult(result: QuestionEvaluationResult,
+                             level: LevelM,
+                             explainationLink: String?,
+                             shouldUseContinueButtonTitle: Bool)
     func pushToResultVC(result: SaveResultResponseM)
     func pushToPreviewWebView(usefulLinkURL: String)
     func popViewController()
@@ -56,22 +59,26 @@ struct ExamNavigator: ExamNavigatorType {
     let publisher = PublishSubject<CustomAlertViewPublisher>()
     let resultViewPublisher = PublishSubject<ResultViewModelPublisher>()
     
-    func presentAnswerResult(result: QuestionEvaluationResult, level: LevelM, explainationLink: String?) {
+    func presentAnswerResult(result: QuestionEvaluationResult,
+                             level: LevelM,
+                             explainationLink: String?,
+                             shouldUseContinueButtonTitle: Bool) {
         let alertVC = CustomAlertView()
         alertVC.publisher = publisher
         let title: String
         let buttonTitle: String
+        let usesRetryProgression = [30, 33, 35].contains(level.id)
         
         switch result.type {
         case .correct(_):
             title = "Correct"
-            buttonTitle = level.id == 30 ? "Continue" : "OK"
+            buttonTitle = shouldUseContinueButtonTitle ? "Continue" : "OK"
         case .partial(_):
             title = "Partially Correct"
-            buttonTitle = "Continue"
+            buttonTitle = usesRetryProgression ? "Try Again" : "Continue"
         case .wrong(_):
             title = "Wrong"
-            buttonTitle = level.id == 5 ? "Try Again" : "Continue"
+            buttonTitle = [5, 40].contains(level.id) || usesRetryProgression ? "Try Again" : "Continue"
         }
         
         alertVC.setupAlertView(title: title,

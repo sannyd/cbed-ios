@@ -65,7 +65,7 @@ struct LevelViewModel: ViewModel {
         let filterLevel = input
             .viewWillAppear
             .withLatestFrom(levels)
-            .map { $0.filter { Storage.examLocation.allowLevelIDs.contains($0.id) } }
+            .map { filteredHomeLevels(from: $0) }
 
         input
             .levelTapped
@@ -92,7 +92,7 @@ struct LevelViewModel: ViewModel {
             .drive(onNext: navigator.pushToInAppPurchaseVC)
             .disposed(by: disposeBag)
         
-        let levelsOutput = Driver.merge(levels.map { $0.filter { Storage.examLocation.allowLevelIDs.contains($0.id) } }.asDriver(onErrorJustReturn: []),
+        let levelsOutput = Driver.merge(levels.map { filteredHomeLevels(from: $0) }.asDriver(onErrorJustReturn: []),
                                         filterLevel.asDriver(onErrorJustReturn: []))
             .map { [CommonCollectionViewSection(items: $0)] }
         return Output(levels: levelsOutput,
@@ -115,6 +115,40 @@ struct LevelViewModel: ViewModel {
     private func filterNestedLevels(_ levels: [LevelM]) -> [LevelM] {
         let ids = [21, 22, 23, 24, 25, 26, 27, 28] // Agency Partnerships Corps Conflicts Fam-Law Trusts Wills Sec-Trans
         return levels.filter { ids.contains($0.id) }
+    }
+
+    private func filteredHomeLevels(from levels: [LevelM]) -> [LevelM] {
+        let allowedIDs = Storage.examLocation.allowLevelIDs
+        var filteredLevels = levels.filter { allowedIDs.contains($0.id) }
+        
+        if !canShowMixedMBESets {
+            filteredLevels.removeAll { $0.id == 40 }
+        }
+        
+        if allowedIDs.contains(40), canShowMixedMBESets, !filteredLevels.contains(where: { $0.id == 40 }) {
+            filteredLevels.insert(LevelM(id: 40, name: "Mixed MBE Sets"),
+                                  at: filteredLevels.firstIndex(where: { $0.id == 5 }).map { $0 + 1 } ?? filteredLevels.count)
+        }
+        
+        return filteredLevels
+    }
+
+    private var canShowMixedMBESets: Bool {
+        if IsEnableLogin {
+            switch Storage.profileInfo?.memberPlan {
+            case .proBarFeb, .proBarJul:
+                return true
+            default:
+                return false
+            }
+        }
+
+        switch CurrentMembershipType {
+        case .ProBarFeb, .ProBarJul:
+            return true
+        default:
+            return false
+        }
     }
 
     private func fetchSectionDetailByID(id: Int) -> Observable<SectionDetailM> {

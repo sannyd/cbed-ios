@@ -43,13 +43,18 @@ final class SearchViewController: UIViewController {
     // MARK: - Methods
     
     func bindViewModel() {
-        let searchText = searchTextfield
+        let rawSearchText = searchTextfield
             .rx
             .text
             .orEmpty
-            .filter { !$0.isEmpty }
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
+            .distinctUntilChanged { lhs, rhs in
+                lhs.caseInsensitiveCompare(rhs) == .orderedSame
+            }
+        let searchText = viewModel.level.id == 8
+            ? rawSearchText
+            : rawSearchText.filter { !$0.isEmpty }
         let input = SearchViewModel.Input(searchText: searchText,
                                           firstLoadTrigger: rxViewWillAppear,
                                           loadMoreTrigger: collectionView.rx_reachedBottom,

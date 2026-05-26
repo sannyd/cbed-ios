@@ -23,7 +23,7 @@ extension SectionDetailViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
         let usefulLinkTapped: Observable<UsefulLink>
-        let buttonStartTrigger: Observable<Void>
+        let buttonStartTrigger: Observable<Int?>
         let buttonOutlineTrigger: Observable<Void>
     }
     
@@ -90,9 +90,13 @@ struct SectionDetailViewModel: ViewModel {
         
         input
             .buttonStartTrigger
-            .map { _ in (sectionDetail, level) }
+            .map { timerMinutes in (sectionDetail, level, timerMinutes) }
             .asDriverOnErrorJustComplete()
-            .drive(onNext: navigator.pushToExamVC(sectionDetail:level:))
+            .drive(onNext: { payload in
+                navigator.pushToExamVC(sectionDetail: payload.0,
+                                       level: payload.1,
+                                       customTimeLimitMinutes: payload.2)
+            })
             .disposed(by: disposeBag)
         
         input

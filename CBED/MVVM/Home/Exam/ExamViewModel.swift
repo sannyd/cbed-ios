@@ -38,13 +38,15 @@ struct ExamViewModel: ViewModel {
     let navigator: ExamNavigatorType
     let sectionDetail: SectionDetailM
     let level: LevelM
+    let customTimeLimitMinutes: Int?
     
     let errorTracker = ErrorTracker()
     let activityIndicator = ActivityIndicator()
     
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
-        let isTwoChoiceQuestion = level.id == 30
-        let pointsPerQuestion = isTwoChoiceQuestion ? 2 : 1
+        let isLegacyTwoChoiceLevel = level.id == 30
+        let usesFirstAttemptRetryScoring = [30, 33, 35].contains(level.id)
+        let requires90PercentProgression = isLevelNeedToHaveMoreThan90(level.id)
         let sectionKey = "section_\(sectionDetail.id)"
         let sectionStartTime = "section_start_time_\(sectionDetail.id)"
         let sectionEndTime = "section_end_time_\(sectionDetail.id)"
@@ -60,7 +62,9 @@ struct ExamViewModel: ViewModel {
         }
         
         let questions = sectionDetail.questions ?? []
-        let maximumScore = questions.count * pointsPerQuestion
+        let maximumScore = questions.reduce(0) { partialResult, question in
+            partialResult + questionConfiguration(for: question).pointsAvailable
+        }
         var previousQuestionIndex = UserDefaults.standard.value(forKey: sectionKey) as? Int ?? 0
         let currentQuestionIndex = BehaviorRelay<Int>(value: previousQuestionIndex)
         let currentSelectedAnswers = BehaviorRelay<[IndexPath]>(value: [])
@@ -117,8 +121,10 @@ struct ExamViewModel: ViewModel {
             }
         }
         
-        func explanationText(for answers: [SelectableAnswer], selectedAnswers: [SelectableAnswer], isTwoChoiceQuestion: Bool) -> String? {
-            let prioritizedAnswers = isTwoChoiceQuestion ? answers.filter { $0.answer.isCorrect } : selectedAnswers
+        func explanationText(for answers: [SelectableAnswer],
+                             selectedAnswers: [SelectableAnswer],
+                             questionConfiguration: QuestionConfiguration) -> String? {
+            let prioritizedAnswers = questionConfiguration.isMultiSelect ? answers.filter { $0.answer.isCorrect } : selectedAnswers
             let discussions = prioritizedAnswers
                 .compactMap { $0.answer.discussion?.trimmingCharacters(in: .whitespacesAndNewlines) }
                 .filter { !$0.isEmpty }
@@ -144,21 +150,21 @@ struct ExamViewModel: ViewModel {
                 return nil
             }
             
+            let questionConfiguration = questionConfiguration(for: answers)
             let awardedPoints: Int
             let type: QuestionAlertType
             
-            if isTwoChoiceQuestion {
+            if questionConfiguration.isMultiSelect {
                 let correctSelections = selectedAnswers.filter { $0.answer.isCorrect }.count
-                awardedPoints = min(correctSelections, 2)
+                awardedPoints = min(correctSelections, questionConfiguration.pointsAvailable)
                 
-                switch awardedPoints {
-                case 2:
+                if awardedPoints == questionConfiguration.pointsAvailable {
                     type = .correct(points: awardedPoints)
                     AudioFeedbackManager.shared.playIfEnabled(.correct)
-                case 1:
+                } else if awardedPoints > 0 {
                     type = .partial(points: awardedPoints)
                     AudioFeedbackManager.shared.playIfEnabled(.correct)
-                default:
+                } else {
                     type = .wrong(points: 0)
                     AudioFeedbackManager.shared.playIfEnabled(.incorrect)
                 }
@@ -172,7 +178,7 @@ struct ExamViewModel: ViewModel {
             return QuestionEvaluationResult(type: type,
                                             description: explanationText(for: answers,
                                                                          selectedAnswers: selectedAnswers,
-                                                                         isTwoChoiceQuestion: isTwoChoiceQuestion))
+                                                                         questionConfiguration: questionConfiguration))
         }
         
         UserDefaults.standard.setValue(Date(), forKey: sectionStartTime)
@@ -197,11 +203,17 @@ struct ExamViewModel: ViewModel {
                     timerTrigger.onNext("\(dayString) \(hourString) \(minuteString) \(secondString)")
                 } else {
                     let startTime = Date()
-                    let questionCount = questions.count == 0 ? 100 : questions.count
-                    let potentialMultiplier = ceil(Double(Double(questionCount) / 100))
-                    let multiplier = potentialMultiplier == 0 ? 1 : potentialMultiplier
                     let calendar = Calendar.current
-                    let endTime = calendar.date(byAdding: .hour, value: Int(multiplier) * 24, to: startTime)
+                    let endTime: Date?
+                    if level.id == 40, let customTimeLimitMinutes {
+                        let validatedMinutes = min(max(customTimeLimitMinutes, 1), 500)
+                        endTime = calendar.date(byAdding: .minute, value: validatedMinutes, to: startTime)
+                    } else {
+                        let questionCount = questions.count == 0 ? 100 : questions.count
+                        let potentialMultiplier = ceil(Double(Double(questionCount) / 100))
+                        let multiplier = potentialMultiplier == 0 ? 1 : potentialMultiplier
+                        endTime = calendar.date(byAdding: .hour, value: Int(multiplier) * 24, to: startTime)
+                    }
                     UserDefaults.standard.setValue(startTime, forKey: sectionStartTime)
                     UserDefaults.standard.setValue(endTime, forKey: sectionEndTime)
                 }
@@ -264,7 +276,9 @@ struct ExamViewModel: ViewModel {
                 switch questionAlertType {
                 case .correct(let points),
                      .partial(let points):
-                    if isTwoChoiceQuestion {
+                    let questionConfiguration = questionConfiguration(for: questions[currentQuestionIndex.value])
+                    
+                    if usesFirstAttemptRetryScoring {
                         if firstAttemptScores.indices.contains(currentQuestionIndex.value),
                            firstAttemptScores[currentQuestionIndex.value] == -1 {
                             firstAttemptScores[currentQuestionIndex.value] = points
@@ -276,7 +290,7 @@ struct ExamViewModel: ViewModel {
                         if case .correct(_) = questionAlertType {
                             advanceToNextQuestionOrSaveResult()
                         }
-                    } else if isLevelNeedToHaveMoreThan90(level.id) {
+                    } else if requires90PercentProgression {
                         if previousIncorrectAnswerIndex != currentQuestionIndex.value {
                             correctAnswers += points
                         }
@@ -284,17 +298,19 @@ struct ExamViewModel: ViewModel {
                         correctAnswers += points
                     }
                     
-                    if !isTwoChoiceQuestion {
-                        advanceToNextQuestionOrSaveResult()
+                    if !questionConfiguration.isMultiSelect {
+                        if !usesFirstAttemptRetryScoring {
+                            advanceToNextQuestionOrSaveResult()
+                        }
                     }
                 case .wrong:
-                    if isTwoChoiceQuestion {
+                    if usesFirstAttemptRetryScoring {
                         if firstAttemptScores.indices.contains(currentQuestionIndex.value),
                            firstAttemptScores[currentQuestionIndex.value] == -1 {
                             firstAttemptScores[currentQuestionIndex.value] = 0
                             UserDefaults.standard.set(firstAttemptScores, forKey: sectionFirstAttemptScoresKey)
                         }
-                    } else if isLevelNeedToHaveMoreThan90(level.id) {
+                    } else if requires90PercentProgression {
                         previousIncorrectAnswerIndex = currentQuestionIndex.value
                     } else {
                         advanceToNextQuestionOrSaveResult()
@@ -368,14 +384,16 @@ struct ExamViewModel: ViewModel {
                     return nil
                 }
                 
-                if isTwoChoiceQuestion {
+                let questionConfiguration = questionConfiguration(for: answers)
+                
+                if questionConfiguration.isMultiSelect {
                     var choosenAnswer = answers[indexPath.item]
                     let selectedCount = answers.filter(\.isSelected).count
                     
                     if choosenAnswer.isSelected {
                         choosenAnswer.isSelected = false
                     } else {
-                        guard selectedCount < 2 else {
+                        guard selectedCount < questionConfiguration.requiredSelectionCount else {
                             return answers
                         }
                         choosenAnswer.isSelected = true
@@ -420,11 +438,24 @@ struct ExamViewModel: ViewModel {
             .checkAnswerTapped
             .withLatestFrom(currentAnswers)
             .compactMap { $0.first?.items }
-            .compactMap(evaluationResult(for:))
-            .map { ($0, level, questions[currentQuestionIndex.value].youtubeURL) }
+            .compactMap { answers -> (QuestionEvaluationResult, Bool, String?)? in
+                guard let result = evaluationResult(for: answers) else {
+                    return nil
+                }
+                
+                let questionConfiguration = questionConfiguration(for: answers)
+                let shouldUseContinueButtonTitle = questionConfiguration.isMultiSelect || isLegacyTwoChoiceLevel
+                let explainationLink = questions[currentQuestionIndex.value].youtubeURL
+                return (result, shouldUseContinueButtonTitle, explainationLink)
+            }
             .asDriverOnErrorJustComplete()
             .delay(.milliseconds(100))
-            .drive(onNext: navigator.presentAnswerResult(result:level:explainationLink:))
+            .drive(onNext: { result, shouldUseContinueButtonTitle, explainationLink in
+                navigator.presentAnswerResult(result: result,
+                                              level: level,
+                                              explainationLink: explainationLink,
+                                              shouldUseContinueButtonTitle: shouldUseContinueButtonTitle)
+            })
             .disposed(by: disposeBag)
         
         navigator.resultViewPublisher
@@ -486,11 +517,26 @@ struct ExamViewModel: ViewModel {
                       isLoading: activityIndicator.asObservable(),
                       error: errorTracker.asObservable())
     }
+
+    private func questionConfiguration(for question: QuestionM) -> QuestionConfiguration {
+        questionConfiguration(for: question.answers ?? [])
+    }
+    
+    private func questionConfiguration(for answers: [SelectableAnswer]) -> QuestionConfiguration {
+        questionConfiguration(for: answers.map(\.answer))
+    }
+    
+    private func questionConfiguration(for answers: [AnswerM]) -> QuestionConfiguration {
+        let correctAnswerCount = answers.filter(\.isCorrect).count
+        let requiredSelectionCount = max(correctAnswerCount, 1)
+        return QuestionConfiguration(requiredSelectionCount: requiredSelectionCount)
+    }
     
     private func isLevelNeedToHaveMoreThan90(_ level: Int) -> Bool {
         let ids = [
             8, // Free Essay Drill Sample
             5, // MBE Level Drills
+            40, // Mixed MBE Sets
             29, // NG MCQ 1-Choice
             15, // CA MCQ Drills
             4, // FL MCQ Drills
@@ -501,6 +547,8 @@ struct ExamViewModel: ViewModel {
             14, // GA Essay Drills
             10, // CPT Essay Drills
             11, // MPT Essay Drills
+            34, // NextGen MPT Essay Drills
+            35, // NextGen LPT Drills
             17, // MPRE Drills
             21, // Agency
             22, // Partnerships
@@ -537,5 +585,17 @@ struct ExamViewModel: ViewModel {
             .catch { _ in
                 return .never()
             }
+    }
+}
+
+private struct QuestionConfiguration {
+    let requiredSelectionCount: Int
+    
+    var isMultiSelect: Bool {
+        requiredSelectionCount > 1
+    }
+    
+    var pointsAvailable: Int {
+        requiredSelectionCount
     }
 }

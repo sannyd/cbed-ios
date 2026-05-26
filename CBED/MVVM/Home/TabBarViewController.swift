@@ -86,7 +86,7 @@ class TabBarViewController: UITabBarController {
         
         let tabBarHomeItem = UITabBarItem(title: "Home", image: #imageLiteral(resourceName: "img_deselected_home").withRenderingMode(.alwaysOriginal), selectedImage: #imageLiteral(resourceName: "img_selected_home"))
         let tabBarScoreboardItem = UITabBarItem(title: "Scoreboard", image: #imageLiteral(resourceName: "img_deselected_scoreboard").withRenderingMode(.alwaysOriginal), selectedImage:#imageLiteral(resourceName: "img_selected_scoreboard"))
-        let tabBarSettingItem = UITabBarItem(title: "Setting", image: #imageLiteral(resourceName: "img_deselected_setting").withRenderingMode(.alwaysOriginal), selectedImage: #imageLiteral(resourceName: "img_selected_setting"))
+        let tabBarSettingItem = UITabBarItem(title: "Settings", image: #imageLiteral(resourceName: "img_deselected_setting").withRenderingMode(.alwaysOriginal), selectedImage: #imageLiteral(resourceName: "img_selected_setting"))
         
         levelNav.tabBarItem = tabBarHomeItem
         scoreboardNav.tabBarItem = tabBarScoreboardItem
@@ -132,6 +132,11 @@ class TabBarViewController: UITabBarController {
                                                       right: 0)
             settingNav.tabBarItem.titlePositionAdjustment = .init(horizontal: 0, vertical: topBottom)
         }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        AppUpdateChecker.shared.checkForUpdateIfNeeded(presenter: self)
     }
     
     @available(iOS 18.0, *)

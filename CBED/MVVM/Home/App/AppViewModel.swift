@@ -75,7 +75,7 @@ struct AppViewModel: ViewModel {
     private func fetchProfileInfo() -> Observable<ProfileInfoM> {
         return self.useCase
             .getProfileInfo()
-            .asDriver(onErrorJustReturn: ProfileInfoM.init(email: "", avatar: "", name: "", state: "", memberPlan: .babybarJun, memberPlanSimple: 0, membership: "", lastSectionName: "", points: 0, phone: "", essayCount: 0, mptCount: 0, isTutor: false))
+            .asDriver(onErrorJustReturn: ProfileInfoM.init(email: "", avatar: "", name: "", state: "", memberPlan: .babybarJun, memberPlanSimple: 0, membership: "", lastSectionName: "", points: 0, phone: "", essayCount: 0, mptCount: 0, isTutor: false, currentMixedMbeSection: nil))
             .asObservable()
     }
 }

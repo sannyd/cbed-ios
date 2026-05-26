@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SnapKit
 
 final class SectionDetailViewController: UIViewController {
     
@@ -26,6 +27,10 @@ final class SectionDetailViewController: UIViewController {
     var disposeBag = DisposeBag()
     
     private var collectionView: AnswerCollectionView<CommonCollectionViewSection<UsefulLink>, UsefulLinkCell>!
+    private let timerPickerView = UIPickerView()
+    private let timerOptions = Array(1...500)
+    private var selectedCustomTimerMinutes = 90
+    private var customTimerTextField: UITextField?
     
     // MARK: - Life Cycle
     
@@ -33,12 +38,13 @@ final class SectionDetailViewController: UIViewController {
         super.viewDidLoad()
         setupFonts()
         setupCollectionView()
+        setupCustomTimerControlIfNeeded()
         bindViewModel()
-        if viewModel.level.id != 5 {
+        if ![5, 40].contains(viewModel.level.id) {
             labelDisclaimer.isHidden = true
         }
         
-        if viewModel.level.id == 9 || viewModel.level.id == 7 || viewModel.level.id == 8 || viewModel.level.id == 10 || viewModel.level.id == 11 || viewModel.level.id == 13 || viewModel.level.id == 14 || viewModel.level.id == 31 { // PT or Essay or Free or MEE or MPT or FL Essay Drills
+        if viewModel.level.id == 9 || viewModel.level.id == 7 || viewModel.level.id == 8 || viewModel.level.id == 10 || viewModel.level.id == 11 || viewModel.level.id == 13 || viewModel.level.id == 14 || viewModel.level.id == 31 || viewModel.level.id == 33 || viewModel.level.id == 34 || viewModel.level.id == 35 { // M/PT or Essay or Free or MEE or MPT or FL Essay Drills
             buttonOutline.isHidden = false
         }
         
@@ -65,13 +71,25 @@ final class SectionDetailViewController: UIViewController {
         if viewModel.level.id == 31 { // IQS Drafting Sets
             buttonOutline.setTitle("Drafting Outline", for: .normal)
         }
-        
-        if viewModel.level.id == 10 { // PT
-            buttonOutline.setTitle("PT Outline", for: .normal)
+
+        if viewModel.level.id == 33 { // IQS Counseling Sets
+            buttonOutline.setTitle("Counseling Outline", for: .normal)
         }
         
-        if viewModel.level.id == 11 { // PT
+        if viewModel.level.id == 10 { // M/PT
+            buttonOutline.setTitle("M/PT Outline", for: .normal)
+        }
+        
+        if viewModel.level.id == 11 { // MPT
             buttonOutline.setTitle("MPT Outline", for: .normal)
+        }
+
+        if viewModel.level.id == 34 { // SPT
+            buttonOutline.setTitle("SPT Outline", for: .normal)
+        }
+
+        if viewModel.level.id == 35 { // LRPT
+            buttonOutline.setTitle("LRPT Outline", for: .normal)
         }
     }
     
@@ -88,9 +106,19 @@ final class SectionDetailViewController: UIViewController {
     // MARK: - Methods
     
     func bindViewModel() {
+        let startTrigger: Observable<Int?> = buttonStart
+            .rxButtonTapped
+            .map { [weak self] () -> Int? in
+                guard let self = self, self.viewModel.level.id == 40 else {
+                    return nil
+                }
+                
+                return self.selectedCustomTimerMinutes
+            }
+        
         let input = SectionDetailViewModel.Input(firstLoadTrigger: rxViewWillAppear,
                                                  usefulLinkTapped: collectionView.rxModelSelected(),
-                                                 buttonStartTrigger: buttonStart.rxButtonTapped,
+                                                 buttonStartTrigger: startTrigger,
                                                  buttonOutlineTrigger: buttonOutline.rxButtonTapped)
         let output = viewModel.transform(input, disposeBag: disposeBag)
         
@@ -99,10 +127,10 @@ final class SectionDetailViewController: UIViewController {
             .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
          output
             .sectionDetail
-            .drive(onNext: { [weak self] imageURL, sectionDetail in
+            .drive(onNext: { [weak self] payload in
                
-                self?.labelSectionName.text = sectionDetail.name
-                self?.sectionImageView.loadImage(with: imageURL, placeholder: #imageLiteral(resourceName: "img_drill"))
+                self?.labelSectionName.text = payload.1.name
+                self?.sectionImageView.loadImage(with: payload.0, placeholder: #imageLiteral(resourceName: "img_drill"))
             }),
          output
             .isLoading
@@ -133,5 +161,103 @@ final class SectionDetailViewController: UIViewController {
     private func setupFonts() {
         labelSectionName.applyAppFontScaling()
         labelDisclaimer.applyAppFontScaling()
+        customTimerTextField?.applyAppFontScaling()
+    }
+
+    private func setupCustomTimerControlIfNeeded() {
+        guard viewModel.level.id == 40,
+              let buttonStackView = buttonStart.superview as? UIStackView else {
+            return
+        }
+        
+        timerPickerView.delegate = self
+        timerPickerView.dataSource = self
+        if let defaultRow = timerOptions.firstIndex(of: selectedCustomTimerMinutes) {
+            timerPickerView.selectRow(defaultRow, inComponent: 0, animated: false)
+        }
+        
+        let container = CustomBorderView()
+        container.backgroundColor = Constants.SecondarySurfaceColor
+        container.borderRadius = 10
+        container.topLeft = true
+        container.topRight = true
+        container.bottomLeft = true
+        container.bottomRight = true
+        
+        let titleLabel = UILabel()
+        titleLabel.text = "Timer"
+        titleLabel.font = UIFont.appFont(name: Constants.Font.LatoBold, size: 14)
+        titleLabel.textColor = Constants.PrimaryTextColor
+        titleLabel.applyAppFontScaling()
+        
+        let textField = UITextField()
+        textField.text = timerText(minutes: selectedCustomTimerMinutes)
+        textField.textAlignment = .right
+        textField.font = UIFont.appFont(name: Constants.Font.LatoBold, size: 16)
+        textField.textColor = Constants.PrimaryBlue
+        textField.tintColor = .clear
+        textField.inputView = timerPickerView
+        textField.inputAccessoryView = makeTimerPickerToolbar()
+        textField.applyAppFontScaling()
+        customTimerTextField = textField
+        
+        container.addSubview(titleLabel)
+        container.addSubview(textField)
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.centerY.equalToSuperview()
+        }
+        textField.snp.makeConstraints { make in
+            make.leading.greaterThanOrEqualTo(titleLabel.snp.trailing).offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.top.bottom.equalToSuperview()
+        }
+        container.snp.makeConstraints { make in
+            make.height.equalTo(54)
+        }
+        
+        buttonStackView.insertArrangedSubview(container,
+                                             at: buttonStackView.arrangedSubviews.firstIndex(of: buttonStart) ?? buttonStackView.arrangedSubviews.count)
+    }
+    
+    private func makeTimerPickerToolbar() -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        toolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneSelectingTimer))
+        ]
+        return toolbar
+    }
+    
+    @objc private func doneSelectingTimer() {
+        customTimerTextField?.resignFirstResponder()
+    }
+    
+    private func timerText(minutes: Int) -> String {
+        "\(minutes) \(minutes == 1 ? "minute" : "minutes")"
+    }
+}
+
+extension SectionDetailViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        timerOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
+        timerText(minutes: timerOptions[row])
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,
+                    didSelectRow row: Int,
+                    inComponent component: Int) {
+        selectedCustomTimerMinutes = timerOptions[row]
+        customTimerTextField?.text = timerText(minutes: selectedCustomTimerMinutes)
     }
 }

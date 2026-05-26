@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0F0996392E0ADE3800D04485 /* SubscriptionPlanM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0996382E0ADE3100D04485 /* SubscriptionPlanM.swift */; };
-		1C2A0D992FEEA10000A1B2C3 /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2A0D982FEEA10000A1B2C3 /* ReviewManager.swift */; };
 		180C44CD2695F5E700416335 /* InAppPurchaseNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C44C92695F5E700416335 /* InAppPurchaseNavigator.swift */; };
 		180C44CE2695F5E700416335 /* InAppPurchaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C44CA2695F5E700416335 /* InAppPurchaseUseCase.swift */; };
 		180C44CF2695F5E700416335 /* InAppPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C44CB2695F5E700416335 /* InAppPurchaseViewController.swift */; };
@@ -168,6 +167,7 @@
 		1BDC16022AD267DA00F46FF4 /* CBED_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC16012AD267DA00F46FF4 /* CBED_Widget.swift */; };
 		1BDC16042AD267DC00F46FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC16032AD267DC00F46FF4 /* Assets.xcassets */; };
 		1BDC16082AD267DC00F46FF4 /* CBED WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1BDC15F92AD267DA00F46FF4 /* CBED WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1C2A0D992FEEA10000A1B2C3 /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2A0D982FEEA10000A1B2C3 /* ReviewManager.swift */; };
 		2D38B6882FBDC2B800D91A10 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D38B6872FBDC2B800D91A10 /* NotificationScheduler.swift */; };
 		4B0D5B162FBDF8E800026F55 /* AppIconInactive1-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B102FBDF8E800026F55 /* AppIconInactive1-120.png */; };
 		4B0D5B172FBDF8E800026F55 /* AppIconInactive1-180.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B112FBDF8E800026F55 /* AppIconInactive1-180.png */; };
@@ -257,7 +257,6 @@
 
 /* Begin PBXFileReference section */
 		0F0996382E0ADE3100D04485 /* SubscriptionPlanM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanM.swift; sourceTree = "<group>"; };
-		1C2A0D982FEEA10000A1B2C3 /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		180C44C92695F5E700416335 /* InAppPurchaseNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseNavigator.swift; sourceTree = "<group>"; };
 		180C44CA2695F5E700416335 /* InAppPurchaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseUseCase.swift; sourceTree = "<group>"; };
 		180C44CB2695F5E700416335 /* InAppPurchaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseViewController.swift; sourceTree = "<group>"; };
@@ -423,6 +422,7 @@
 		1BDC16052AD267DC00F46FF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BDC160D2AD2718400F46FF4 /* CBED.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CBED.entitlements; sourceTree = "<group>"; };
 		1BDC160E2AD271B500F46FF4 /* CBED WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CBED WidgetExtension.entitlements"; sourceTree = "<group>"; };
+		1C2A0D982FEEA10000A1B2C3 /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		2D38B6872FBDC2B800D91A10 /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
 		395242465D349A1907B93886 /* Pods-CBED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.release.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.release.xcconfig"; sourceTree = "<group>"; };
 		4B0D5B102FBDF8E800026F55 /* AppIconInactive1-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconInactive1-120.png"; sourceTree = "<group>"; };
@@ -1707,7 +1707,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 11.0;
+				MARKETING_VERSION = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1731,7 +1731,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 11.0;
+				MARKETING_VERSION = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -43,4 +43,14 @@ struct SearchResultM: Codable {
         case levelName = "level_name"
         case isAvailable = "is_available"
     }
+
+    func withAvailability(_ isAvailable: Bool) -> SearchResultM {
+        SearchResultM(id: id,
+                      name: name,
+                      subtitle: subtitle,
+                      image: image,
+                      order: order,
+                      levelName: levelName,
+                      isAvailable: isAvailable)
+    }
 }

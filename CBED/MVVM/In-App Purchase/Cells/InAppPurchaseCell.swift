@@ -53,6 +53,11 @@ class InAppPurchaseCell: UICollectionViewCell, CellType {
         labelPromotionPrice.attributedText = attributeString
         labelRealPrice.text = "$\(data.price.digit(maximumFractionDigits: 2)!)"
         
+        labelDescription.numberOfLines = 0
+        labelDescription.lineBreakMode = .byWordWrapping
+        labelDescription.adjustsFontSizeToFitWidth = true
+        labelDescription.minimumScaleFactor = 0.75
+        labelDescription.preferredMaxLayoutWidth = max(130, Self.cellWidth * 0.45)
         labelDescription.text = data.name.descriptions.joined(separator: "\n")
     }
 }

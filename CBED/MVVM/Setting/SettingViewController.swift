@@ -18,6 +18,19 @@ enum ExamLocation: String, CaseIterable {
     case california = "California"
     case georgia = "Georgia"
     case nextGen = "NextGen"
+
+    // TODO: Change to true for Version 11.0 release to reveal NextGen.
+    static let isNextGenEnabled = false
+
+    static let defaultLocation: ExamLocation = .mpre
+
+    static var selectableLocations: [ExamLocation] {
+        allCases.filter { isNextGenEnabled || $0 != .nextGen }
+    }
+
+    var isSelectable: Bool {
+        Self.selectableLocations.contains(self)
+    }
     
     var searchLevelID: Int {
         switch self {
@@ -35,21 +48,34 @@ enum ExamLocation: String, CaseIterable {
             return 8
         }
     }
+
+    var homeSearchTitle: String {
+        switch self {
+        case .mpre:
+            return "Search MPRE Qs"
+        case .nextGen:
+            return "Search NextGen"
+        case .georgia:
+            return "Search Georgia Essays"
+        default:
+            return "Search Essays"
+        }
+    }
     
     var allowLevelIDs: [Int] {
         switch self {
         case .ube:
-            return [5, 7, 11, 19, 8]
+            return [5, 40, 7, 11, 19, 8]
         case .mpre:
             return [8, 17]
         case .florida:
-            return [5, 4, 13, 8]
+            return [5, 40, 4, 13, 8]
         case .california:
-            return [5, 9, 10, 15, 8]
+            return [5, 40, 9, 10, 15, 8]
         case .georgia:
-            return [5, 14, 11, 8]
+            return [5, 40, 14, 11, 8]
         case .nextGen:
-            return [5, 8, 29, 30, 31]
+            return [5, 40, 8, 29, 30, 31, 33, 34, 35]
         }
     }
 }
@@ -92,7 +118,7 @@ final class SettingViewController: UIViewController {
     var viewModel: SettingViewModel!
     var disposeBag = DisposeBag()
     private var codeMenuAttributes = SwiftyMenuAttributes()
-    private let dropDownOptionsDataSource = ExamLocation.allCases
+    private let dropDownOptionsDataSource = ExamLocation.selectableLocations
     
     private let essayPickerView = UIPickerView()
     private let mptPickerView = UIPickerView()
@@ -103,6 +129,7 @@ final class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureScrollableLayout()
         configurePickerTextField(essayTextfield, inputView: essayPickerView)
         configurePickerTextField(mptTextfield, inputView: mptPickerView)
         configurePickerTextField(fontSizeTextfield, inputView: fontSizePickerView)
@@ -130,6 +157,11 @@ final class SettingViewController: UIViewController {
         }
         
         checkFaceID()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        profileImageView.setRoundShape()
     }
     
     private func setupSwiftDrawer() {
@@ -201,6 +233,38 @@ final class SettingViewController: UIViewController {
     }
     
     // MARK: - Methods
+
+    private func configureScrollableLayout() {
+        let storyboardView = view!
+        let designHeight = max(storyboardView.bounds.height, 896)
+
+        let rootView = UIView(frame: storyboardView.frame)
+        rootView.backgroundColor = storyboardView.backgroundColor
+
+        let scrollView = UIScrollView()
+        scrollView.alwaysBounceVertical = true
+        scrollView.keyboardDismissMode = .interactive
+        scrollView.backgroundColor = storyboardView.backgroundColor
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+
+        storyboardView.translatesAutoresizingMaskIntoConstraints = false
+        self.view = rootView
+        rootView.addSubview(scrollView)
+        scrollView.addSubview(storyboardView)
+
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: rootView.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: rootView.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: rootView.bottomAnchor),
+            storyboardView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            storyboardView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            storyboardView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            storyboardView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            storyboardView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            storyboardView.heightAnchor.constraint(greaterThanOrEqualToConstant: designHeight)
+        ])
+    }
     
     func bindViewModel() {
         let essayStart = BehaviorSubject<Int>(value: 0)

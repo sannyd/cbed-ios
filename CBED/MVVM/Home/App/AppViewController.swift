@@ -60,9 +60,9 @@ final class AppViewController: UIViewController {
     }
 
     private func defaultRemoteConfig(from remoteConfigs: [[String: Any]]?) -> [String: Any]? {
-        remoteConfigs?.first(where: {
+        remoteConfigs?.first(where: { parseRemoteBool($0["is_default"]) == true }) ?? remoteConfigs?.first(where: {
             (($0["name"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == preferredRemoteConfigName)
-        }) ?? remoteConfigs?.first(where: { parseRemoteBool($0["is_default"]) == true })
+        })
     }
 
     private func loadMembershipIfNeeded(using appDelegate: AppDelegate) {

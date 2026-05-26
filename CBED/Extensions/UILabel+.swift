@@ -47,6 +47,41 @@ extension UILabel {
         font = appScaledFont(from: originalFont)
         self.adjustsFontForContentSizeCategory = adjustsForContentSizeCategory
     }
+
+    func applyScoreboardLevelColor(for levelText: String?,
+                                   defaultColor: UIColor = Constants.PrimaryTextColor) {
+        text = levelText
+
+        guard let levelText else {
+            textColor = defaultColor
+            return
+        }
+
+        let lowercasedText = levelText.lowercased()
+        guard let levelRange = lowercasedText.range(of: "level ") else {
+            textColor = defaultColor
+            return
+        }
+
+        let levelSuffix = lowercasedText[levelRange.upperBound...]
+        let levelDigits = levelSuffix.prefix { $0.isNumber }
+
+        guard let levelNumber = Int(levelDigits) else {
+            textColor = defaultColor
+            return
+        }
+
+        switch levelNumber {
+        case 7:
+            textColor = UIColor(hex: "#D4AF37") ?? defaultColor
+        case 6:
+            textColor = UIColor(hex: "#C0C0C0") ?? defaultColor
+        case 5:
+            textColor = UIColor(hex: "#CD7F32") ?? defaultColor
+        default:
+            textColor = defaultColor
+        }
+    }
 }
 
 extension UITextView {

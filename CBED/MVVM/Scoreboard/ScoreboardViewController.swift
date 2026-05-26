@@ -6,8 +6,11 @@ final class ScoreboardViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var labelUserName: UILabel!
     @IBOutlet weak var labelUserPosition: UILabel!
+    @IBOutlet weak var countdownContainerView: UIView!
+    @IBOutlet weak var labelCountdownTitle: UILabel!
+    @IBOutlet weak var labelCountdownValue: UILabel!
+    @IBOutlet weak var labelCountdownSubtitle: UILabel!
     @IBOutlet weak var labelProBarFeb: UILabel!
     @IBOutlet weak var labelProBarJuly: UILabel!
     
@@ -37,11 +40,14 @@ final class ScoreboardViewController: UIViewController {
     var disposeBag = DisposeBag()
     
     private var collectionView: CommonCollectionView<CommonCollectionViewSection<ScoreM>, ScoreCell>!
+    private var countdownTimer: Timer?
+    private let countdownCalendar = Calendar(identifier: .gregorian)
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureCountdownView()
         setupCollectionView()
         bindViewModel()
     }
@@ -51,13 +57,14 @@ final class ScoreboardViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         
         if !IsEnableLogin {
-            labelUserName.text = "Newcomer"
             labelUserPosition.isHidden = true
             profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
+            countdownContainerView.isHidden = true
         }
     }
     
     deinit {
+        countdownTimer?.invalidate()
         logDeinit()
     }
     
@@ -195,13 +202,15 @@ final class ScoreboardViewController: UIViewController {
             .unwrap()
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] profile in
-                self?.labelUserName.text = IsEnableLogin ? profile.email : "Newcomer"
-                self?.labelUserPosition.text = IsEnableLogin ? (profile.lastSectionName ?? "N/A") : ""
+                self?.labelUserPosition.isHidden = !IsEnableLogin
+                self?.labelUserPosition.applyScoreboardLevelColor(for: IsEnableLogin ? (profile.lastSectionName ?? "N/A") : "")
                 if IsEnableLogin {
                     self?.profileImageView.loadImage(with: profile.avatar,
                                                      placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
+                    self?.updateCountdown(for: profile.memberPlan)
                 } else {
                     self?.profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
+                    self?.countdownContainerView.isHidden = true
                 }
             }),
          output
@@ -230,5 +239,119 @@ final class ScoreboardViewController: UIViewController {
         collectionContainerView.backgroundColor = Constants.BackgroundColor
         collectionContainerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(collectionContainerView.snp.edges) }
+    }
+
+    private func configureCountdownView() {
+        countdownContainerView.backgroundColor = Constants.SecondarySurfaceColor
+        countdownContainerView.setCornerRadius(radius: 16)
+        countdownContainerView.setShadow(color: Constants.CardShadowColor,
+                                         opacity: 0.2,
+                                         offSet: .init(width: 0, height: 8),
+                                         radius: 24)
+        labelCountdownValue.font = .monospacedDigitSystemFont(ofSize: 20, weight: .bold)
+        labelCountdownValue.adjustsFontSizeToFitWidth = true
+        labelCountdownValue.minimumScaleFactor = 0.7
+    }
+
+    private func updateCountdown(for memberPlan: MemberPlan) {
+        guard let config = countdownConfiguration(for: memberPlan) else {
+            countdownTimer?.invalidate()
+            countdownTimer = nil
+            countdownContainerView.isHidden = true
+            return
+        }
+
+        countdownContainerView.isHidden = false
+        labelCountdownTitle.text = config.title
+        labelCountdownSubtitle.text = config.subtitle
+        refreshCountdown(forMonth: config.month)
+        startCountdownTimer(forMonth: config.month)
+    }
+
+    private func startCountdownTimer(forMonth month: Int) {
+        countdownTimer?.invalidate()
+        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1,
+                                              repeats: true,
+                                              block: { [weak self] _ in
+            self?.refreshCountdown(forMonth: month)
+        })
+        if let countdownTimer {
+            RunLoop.main.add(countdownTimer, forMode: .common)
+        }
+    }
+
+    private func refreshCountdown(forMonth month: Int) {
+        guard let targetDate = nextAssignedBarExamDate(forMonth: month) else {
+            labelCountdownValue.text = "TBD"
+            return
+        }
+
+        labelCountdownValue.text = formattedCountdown(until: targetDate)
+    }
+
+    private func countdownConfiguration(for memberPlan: MemberPlan) -> (month: Int, title: String, subtitle: String)? {
+        switch memberPlan {
+        case .proBarFeb:
+            return (month: 2,
+                    title: "February Exam",
+                    subtitle: "Until the last Tuesday in February")
+        case .proBarJul:
+            return (month: 7,
+                    title: "July Exam",
+                    subtitle: "Until the last Tuesday in July")
+        default:
+            return nil
+        }
+    }
+
+    private func formattedCountdown(until targetDate: Date, now: Date = Date()) -> String {
+        let totalSeconds = max(Int(targetDate.timeIntervalSince(now)), 0)
+        let days = totalSeconds / 86_400
+        let hours = (totalSeconds % 86_400) / 3_600
+        let minutes = (totalSeconds % 3_600) / 60
+        let seconds = totalSeconds % 60
+
+        return String(format: "%02dd %02dh %02dm %02ds", days, hours, minutes, seconds)
+    }
+
+    private func nextAssignedBarExamDate(forMonth month: Int, referenceDate: Date = Date()) -> Date? {
+        let currentYear = countdownCalendar.component(.year, from: referenceDate)
+
+        for year in [currentYear, currentYear + 1] {
+            guard let examDate = lastTuesday(ofMonth: month, year: year) else {
+                continue
+            }
+
+            if examDate >= referenceDate {
+                return examDate
+            }
+        }
+
+        return nil
+    }
+
+    private func lastTuesday(ofMonth month: Int, year: Int) -> Date? {
+        var components = DateComponents()
+        components.year = year
+        components.month = month + 1
+        components.day = 0
+
+        guard let lastDayOfMonth = countdownCalendar.date(from: components) else {
+            return nil
+        }
+
+        var date = lastDayOfMonth
+        while countdownCalendar.component(.weekday, from: date) != 3 {
+            guard let previousDay = countdownCalendar.date(byAdding: .day, value: -1, to: date) else {
+                return nil
+            }
+            date = previousDay
+        }
+
+        var examComponents = countdownCalendar.dateComponents([.year, .month, .day], from: date)
+        examComponents.hour = 0
+        examComponents.minute = 0
+        examComponents.second = 0
+        return countdownCalendar.date(from: examComponents)
     }
 }
