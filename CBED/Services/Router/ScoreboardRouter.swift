@@ -21,10 +21,13 @@ extension ScoreboardRouter: URLRequestConvertible {
         return url
     }
     
+    /// URL path. Must match the `path(...)` entry in `config/api_router.py`.
+    /// - iOS 11.0 ship target = `/scoreboard` → ScoreBoardV110View
+    /// - iOS 11.1 ship target = `/scoreboard-111` → ScoreBoardV111View
     var path: String {
         switch self {
         case .getScoreboard:
-            return "/scoreboard-v11"
+            return "/scoreboard-111"
         }
     }
     
