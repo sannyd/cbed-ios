@@ -33,19 +33,32 @@ class ScoreCell: UICollectionViewCell, CellType {
         } else {
             profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
         }
-        
+
         labelUserID.text = "ID - \(data.id)"
-        
+
         if data.isEssay {
+            // Essays chip selected — show the user's essay count prominently.
             labelUserPosition.text = "\(data.essaysCount)"
             labelUserPosition.textColor = Constants.PrimaryTextColor
         } else if data.isMpt {
+            // M/PTs chip selected — show the user's M/PT count prominently.
             labelUserPosition.text = "\(data.mptCount)"
             labelUserPosition.textColor = Constants.PrimaryTextColor
+        } else if let displayText = data.displayText, !displayText.isEmpty {
+            // A non-default section chip is selected; the view model has
+            // populated `displayText` with the per-section text to render
+            // (e.g. "MBE: Level 7 - Property", "NG 1-Choice: Level 3").
+            labelUserPosition.text = displayText
+            labelUserPosition.textColor = Constants.PrimaryTextColor
         } else {
-            labelUserPosition.applyScoreboardLevelColor(for: data.lastSectionName ?? "N/A")
+            // Default ('All') — show the user's MBE level chip with the
+            // existing color helper. The optional is unwrapped here with
+            // `?? "N/A"` so Swift's `Optional(...)` debug description
+            // never leaks into the UI.
+            let fallback = data.lastSectionName ?? "N/A"
+            labelUserPosition.applyScoreboardLevelColor(for: fallback)
         }
-        
+
     }
     
     override func layoutSubviews() {

@@ -3,13 +3,15 @@
 //  CBED
 //
 //  Bottom sheet (UISheetPresentationController .medium / .large) showing all
-//  users with `is_tutor = TRUE`. Each tutor is rendered with their avatar,
-//  name, and last-known subject (lastSectionName). Bottom CTA opens a
-//  pre-filled mailto to support@barexamdrills.com.
+//  users with `is_tutor_for_bed = TRUE`. Each tutor card displays the
+//  tutor's avatar, name, and their current MBE level (from
+//  `lastSectionName`). Read-only informational list.
 //
 //  Data source: `ScoreboardResponseM.tutor` → [ScoreM]. The backend populates
-//  this list from `users_user.is_tutor = TRUE`. Tutors are excluded from the
-//  student ranking in the parent screen (see ScoreboardViewModel).
+//  this list from `users_user.is_tutor_for_bed = TRUE` (per the
+//  2026-09-15 tutor-flag unification: `/api/scoreboard-111`). Tutors are
+//  excluded from the student ranking in the parent screen (see
+//  ScoreboardViewModel).
 //
 
 import UIKit
@@ -48,29 +50,8 @@ final class TutorsSheetViewController: UIViewController {
         s.alignment = .fill
         s.distribution = .fill
         s.isLayoutMarginsRelativeArrangement = true
-        s.layoutMargins = .init(top: 8, left: 20, bottom: 8, right: 20)
+        s.layoutMargins = .init(top: 16, left: 20, bottom: 16, right: 20)
         return s
-    }()
-
-    private let subtitleLabel: UILabel = {
-        let l = UILabel()
-        l.text = "Bar Exam Drills tutors with the full tutoring package. Tap below to request a session."
-        l.font = .systemFont(ofSize: 13)
-        l.textColor = Constants.ColorA2A2A2
-        l.numberOfLines = 0
-        return l
-    }()
-
-    private let ctaButton: UIButton = {
-        let b = UIButton(type: .system)
-        var cfg = UIButton.Configuration.filled()
-        cfg.title = "Request a tutoring session"
-        cfg.baseBackgroundColor = Constants.PrimaryBlue
-        cfg.baseForegroundColor = .white
-        cfg.cornerStyle = .large
-        cfg.contentInsets = .init(top: 12, leading: 18, bottom: 12, trailing: 18)
-        b.configuration = cfg
-        return b
     }()
 
     // MARK: - Lifecycle
@@ -106,13 +87,9 @@ final class TutorsSheetViewController: UIViewController {
             contentStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
-
-        ctaButton.addTarget(self, action: #selector(requestTapped), for: .touchUpInside)
     }
 
     private func renderTutors() {
-        contentStack.addArrangedSubview(subtitleLabel)
-
         if tutors.isEmpty {
             let empty = UILabel()
             empty.text = "No tutors available right now."
@@ -121,15 +98,12 @@ final class TutorsSheetViewController: UIViewController {
             empty.textAlignment = .center
             empty.numberOfLines = 0
             contentStack.addArrangedSubview(empty)
-        } else {
-            for tutor in tutors {
-                contentStack.addArrangedSubview(makeTutorCard(tutor))
-            }
+            return
         }
 
-        // CTA pinned at bottom of scroll content
-        contentStack.setCustomSpacing(20, after: contentStack.arrangedSubviews.last ?? subtitleLabel)
-        contentStack.addArrangedSubview(ctaButton)
+        for tutor in tutors {
+            contentStack.addArrangedSubview(makeTutorCard(tutor))
+        }
     }
 
     private func makeTutorCard(_ tutor: ScoreM) -> UIView {
@@ -165,29 +139,22 @@ final class TutorsSheetViewController: UIViewController {
         nameLabel.textColor = Constants.PrimaryTextColor
         nameLabel.numberOfLines = 1
 
-        let badge = UILabel()
-        badge.text = " Tutor "
-        badge.font = .boldSystemFont(ofSize: 10)
-        badge.textColor = .white
-        badge.backgroundColor = Constants.PrimaryBlue
-        badge.layer.cornerRadius = 4
-        badge.clipsToBounds = true
-        badge.setContentHuggingPriority(.required, for: .horizontal)
-        badge.setContentCompressionResistancePriority(.required, for: .horizontal)
+        // Subtitle is the tutor's current MBE level. Unwrap the optional
+        // explicitly with `if let` so Swift's debug `Optional(...)`
+        // description can never leak into the UI. Empty -> "Level 1" so
+        // a brand-new tutor without section history still shows
+        // something readable (matches user request).
+        let levelLabel = UILabel()
+        if let sectionName = tutor.lastSectionName, !sectionName.isEmpty {
+            levelLabel.text = sectionName
+        } else {
+            levelLabel.text = "Level 1"
+        }
+        levelLabel.font = .systemFont(ofSize: 12)
+        levelLabel.textColor = Constants.ColorA2A2A2
+        levelLabel.numberOfLines = 2
 
-        let titleRow = UIStackView(arrangedSubviews: [nameLabel, badge])
-        titleRow.axis = .horizontal
-        titleRow.spacing = 6
-        titleRow.alignment = .center
-
-        let specialtyLabel = UILabel()
-        let specialtyText = (tutor.lastSectionName?.isEmpty == false) ? tutor.lastSectionName : "Full bar prep"
-        specialtyLabel.text = "Subject: \(specialtyText)"
-        specialtyLabel.font = .systemFont(ofSize: 12)
-        specialtyLabel.textColor = Constants.ColorA2A2A2
-        specialtyLabel.numberOfLines = 2
-
-        let textStack = UIStackView(arrangedSubviews: [titleRow, specialtyLabel])
+        let textStack = UIStackView(arrangedSubviews: [nameLabel, levelLabel])
         textStack.axis = .vertical
         textStack.spacing = 2
         textStack.alignment = .leading
@@ -211,15 +178,6 @@ final class TutorsSheetViewController: UIViewController {
     // MARK: - Actions
     @objc private func closeTapped() {
         dismiss(animated: true)
-    }
-
-    @objc private func requestTapped() {
-        let subject = "Request a tutoring session"
-        let body = "Hi Bar Exam Drills team,\n\nI'd like to request a tutoring session.\n\nThanks!"
-        let urlString = "mailto:support@barexamdrills.com?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&body=\(body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
-        if let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
-        }
     }
 }
 

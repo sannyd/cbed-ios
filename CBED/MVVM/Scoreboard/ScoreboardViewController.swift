@@ -185,6 +185,17 @@ final class ScoreboardViewController: UIViewController {
     /// Wire each chip button (outlet from storyboard) to a SectionFilter enum case.
     /// The buttons live in sectionFilterStack from the storyboard; we reach them
     /// by tag (set in storyboard at design time, or via title match).
+    ///
+    /// Each chip is styled as a rounded pill at startup with:
+    /// - cornerRadius 16 (half the chip height of 32) so it renders as a pill
+    /// - 14pt horizontal contentInsets for padding around the label
+    /// - transparent background + Constants.ColorA2A2A2 text in the inactive state
+    /// - Constants.PrimaryBlue background + white text in the active state
+    ///
+    /// The currently-selected chip's style is driven reactively by
+    /// `selectedSectionRelay` — see `bindViewModel()`. Every chip tap
+    /// publishes a new `SectionFilter` to that relay, which flips the
+    /// visual state on every other chip and updates the data stream.
     private func wireChipButtons(to relay: PublishRelay<SectionFilter>) {
         // Each chip in the storyboard has a tag equal to its SectionFilter raw value.
         // Tags are 0...n set in the XIB / storyboard; fall back to title-based match.
@@ -201,14 +212,85 @@ final class ScoreboardViewController: UIViewController {
             ("LRPT", .lrpt),
         ]
 
+        var chipsByFilter: [SectionFilter: CustomBorderButton] = [:]
+
         for subview in sectionFilterStack.arrangedSubviews {
-            guard let button = subview as? UIButton else { continue }
+            guard let button = subview as? CustomBorderButton else { continue }
             guard let title = button.title(for: .normal) else { continue }
             guard let match = mapping.first(where: { $0.0 == title }) else { continue }
+
+            // Apply the pill styling once at startup. The active/inactive
+            // styling is swapped reactively by selectedSectionRelay.
+            styleChipAsPill(button)
+            chipsByFilter[match.1] = button
+
             button.rx.tap
                 .map { _ in match.1 }
                 .bind(to: relay)
                 .disposed(by: disposeBag)
+        }
+
+        // Drive the chip's visual state from the relay. Every chip subscribes
+        // here so they all update consistently when the user picks one.
+        // Exclude `.all` because initially `.all` should be selected and
+        // selecting `.all` twice (e.g. user re-taps) is a no-op visually.
+        relay
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] selected in
+                self?.refreshChipSelection(selected)
+            })
+            .disposed(by: disposeBag)
+
+        // Ensure "All" starts selected at first render so the chip row has
+        // a visible active state even before the user taps anything.
+        refreshChipSelection(.all)
+        // Keep a reference so future refreshes can iterate every chip.
+        sectionChipButtons = chipsByFilter
+    }
+
+    /// All section-filter chips keyed by their SectionFilter enum case.
+    /// Populated by `wireChipButtons`; nil-safe in `refreshChipSelection`.
+    private var sectionChipButtons: [SectionFilter: CustomBorderButton] = [:]
+
+    /// Apply the rounded-pill styling each chip needs to look like a pill.
+    private func styleChipAsPill(_ button: CustomBorderButton) {
+        // borderRadius drives layer.cornerRadius via CustomBorderButton.updateView();
+        // setting both is redundant. 16 = half the chip's 32pt height → full pill.
+        button.borderRadius = 16
+        // inactive default; refreshChipSelection overwrites once the user picks one
+        button.enabledBackgroundColor = .clear
+        button.disabledBackgroundColor = .clear
+        button.borderColor = Constants.ColorA2A2A2
+        button.borderWidth = 1
+        // Inset the title so the pill reads as wider than the label alone.
+        button.contentEdgeInsets = .init(top: 6, left: 14, bottom: 6, right: 14)
+        button.setTitleColor(Constants.PrimaryTextColor, for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 13)
+    }
+
+    /// Apply active/inactive styling to every chip based on `selected`.
+    /// The selected chip switches to PrimaryBlue background + white title;
+    /// every other chip resets to a transparent background with primary-text.
+    ///
+    /// Note: we deliberately set `enabledBackgroundColor` directly instead
+    /// of toggling `isSelected` / `isEnabled`, because CustomBorderButton
+    /// swaps bg between enabled/disabled colors based on `isEnabled`. We
+    /// keep every chip enabled and overwrite the `enabledBackgroundColor`
+    /// to whatever role (active/inactive) this chip should play.
+    private func refreshChipSelection(_ selected: SectionFilter) {
+        guard !sectionChipButtons.isEmpty else { return }
+        for (filter, button) in sectionChipButtons {
+            let isActive = (filter == selected)
+            if isActive {
+                button.setTitleColor(.white, for: .normal)
+                button.enabledBackgroundColor = Constants.PrimaryBlue
+                button.borderColor = Constants.PrimaryBlue
+            } else {
+                button.setTitleColor(Constants.PrimaryTextColor, for: .normal)
+                button.enabledBackgroundColor = .clear
+                button.borderColor = Constants.ColorA2A2A2
+            }
+            button.updateView()   // CustomBorderButton refresh — reapplies bg + border
         }
     }
 

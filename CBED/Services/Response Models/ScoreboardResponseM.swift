@@ -26,6 +26,12 @@ struct ScoreM: Codable {
     let mptCount: Int
     var isEssay: Bool = false
     var isMpt: Bool = false
+    /// The text the leaderboard row's right-side label should show for this
+    /// entry under the active section filter. Populated by the scoreboard
+    /// view model in `applySectionFilter(_:to:)` based on the active chip.
+    /// Optional: cells fall back to `lastSectionName` when this is nil.
+    /// Decoded from the wire as nil; set in code only.
+    var displayText: String? = nil
 
     enum CodingKeys: String, CodingKey {
         case id = "id"

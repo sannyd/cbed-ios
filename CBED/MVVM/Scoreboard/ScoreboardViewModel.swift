@@ -21,6 +21,24 @@ enum SectionFilter {
     case iqsDrafting
     case spt
     case lrpt
+
+    /// Human-readable label, used both as the row prefix shown after a
+    /// chip selection and as a debugging tag. Matches the title set in
+    /// the storyboard's chip button so the labels don't drift.
+    var label: String {
+        switch self {
+        case .all:           return "All"
+        case .mbe:           return "MBE"
+        case .essays:        return "Essays"
+        case .mpt:           return "M/PTs"
+        case .ng1Choice:     return "NG 1-Choice"
+        case .ng2Choice:     return "NG 2-Choice"
+        case .iqsCounseling: return "IQS Counseling"
+        case .iqsDrafting:   return "IQS Drafting"
+        case .spt:           return "SPT"
+        case .lrpt:          return "LRPT"
+        }
+    }
 }
 
 // MARK: - Input + Output
@@ -136,17 +154,45 @@ struct ScoreboardViewModel: ViewModel {
     /// `lastSectionName` per user (e.g. "Level 7 - Property"), so a strict
     /// section-tag filter is approximate — we use it as a hint to scope
     /// the leaderboard view. With `.all`, the full cohort is returned.
+    ///
+    /// Each non-`.all` filter now also populates `ScoreM.displayText` so
+    /// the cell can render the right-side label with a context prefix
+    /// (e.g. "MBE: Level 7 - Property"). For `.all`, `displayText` stays
+    /// nil and the cell falls back to `lastSectionName` with the level
+    /// color helper — the original ship behavior.
     private func applySectionFilter(_ filter: SectionFilter, to cohort: [ScoreM]) -> [ScoreM] {
         switch filter {
         case .all:
-            return cohort
+            // Make sure no stale `displayText` from a prior filter shows
+            // up when the user reverts to `.all`. Reset & return.
+            return cohort.map { score -> ScoreM in
+                var copy = score
+                copy.isEssay = false
+                copy.isMpt = false
+                copy.displayText = nil
+                return copy
+            }
         case .mbe:
+            // MBE section: the scoring API returns `lastSectionName` like
+            // "Level 7 - Property", which is exactly the user's MBE level.
+            // Annotate as "MBE: Level 7 - Property" so it's clear which
+            // filter is in effect.
             return cohort.filter { ($0.lastSectionName ?? "").contains("Level") }
+                .map { score -> ScoreM in
+                    var copy = score
+                    copy.isEssay = false
+                    copy.isMpt = false
+                    let level = score.lastSectionName ?? "N/A"
+                    copy.displayText = "MBE: \(level)"
+                    return copy
+                }
         case .essays:
             return cohort
                 .map { score -> ScoreM in
                     var copy = score
                     copy.isEssay = true
+                    copy.isMpt = false
+                    copy.displayText = nil
                     return copy
                 }
                 .sorted { $0.essaysCount > $1.essaysCount }
@@ -154,7 +200,9 @@ struct ScoreboardViewModel: ViewModel {
             return cohort
                 .map { score -> ScoreM in
                     var copy = score
+                    copy.isEssay = false
                     copy.isMpt = true
+                    copy.displayText = nil
                     return copy
                 }
                 .sorted { $0.mptCount > $1.mptCount }
@@ -164,12 +212,22 @@ struct ScoreboardViewModel: ViewModel {
              .iqsDrafting,
              .spt,
              .lrpt:
-            // The current API response doesn't expose per-section drill counts
-            // for NextGen modules. Until the API gains these fields, treat
-            // NextGen filters as "show the cohort" — they remain selectable
-            // so the UI is correct, and they'll start narrowing once the
-            // backend exposes the right payload.
+            // The current API response doesn't expose per-section drill
+            // counts for NextGen modules per-user. To still give the user
+            // useful visual feedback when a NextGen chip is selected, we
+            // annotate each row with the active filter name and the
+            // user's last-section-name (the only data we have). Once the
+            // backend exposes per-section drill counts, swap this for a
+            // proper field-by-field lookup.
             return cohort
+                .map { score -> ScoreM in
+                    var copy = score
+                    copy.isEssay = false
+                    copy.isMpt = false
+                    let level = score.lastSectionName ?? "Not started"
+                    copy.displayText = "\(filter.label): \(level)"
+                    return copy
+                }
         }
     }
 }
