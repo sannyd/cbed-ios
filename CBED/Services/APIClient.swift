@@ -40,10 +40,10 @@ class NetworkLogger: EventMonitor {
 }
 
 
-final class APIClient: SessionDelegate {
+final class APIClient: SessionDelegate, @unchecked Sendable {
     static let shared = APIClient()
-    let sessionManager: Session?
-    let nonBearer: Session?
+    var sessionManager: Session?
+    var nonBearer: Session?
     
     init() {
         let monitor = NetworkLogger()

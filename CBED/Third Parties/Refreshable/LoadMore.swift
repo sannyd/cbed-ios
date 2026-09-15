@@ -104,10 +104,13 @@ extension LoadMoreView {
     private func startAnimating() {
         animator.loadMoreAnimationDidStart(view: self)
 
-        let frameHeight = frame.height
-        let contentSizeHeight = scrollView.contentSize.height
-        let scrollViewHeight = scrollView.bounds.height
-        let contentInsetBottom = scrollView.contentInset.bottom
+        // frameHeight, contentSizeHeight, etc. only used in commented-out
+        // code below. Keep as _ = to silence "initialized but never used"
+        // warnings without removing them — author may want to restore.
+        _ = frame.height
+        _ = scrollView.contentSize.height
+        _ = scrollView.bounds.height
+        _ = scrollView.contentInset.bottom
 
         UIView.animate(withDuration: 0.3, animations: {
 //            self.scrollView.contentOffset.y = frameHeight + contentSizeHeight - scrollViewHeight + contentInsetBottom
