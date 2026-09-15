@@ -234,12 +234,34 @@ final class SettingViewController: UIViewController {
     
     // MARK: - Methods
 
+    /// Wrap the storyboard's root view in a UIScrollView so the Settings
+    /// screen can scroll vertically when the content (font-size rows, exam
+    /// location picker, face-id row, etc.) exceeds the screen height.
+    ///
+    /// Pre-flight check: the storyboard's root view is referenced via
+    /// `view!` here. We capture its CURRENT frame (already set by UIKit
+    /// to the device's actual screen dimensions — not the storyboard's
+    /// 414×896 design rect) and use those to size the new `rootView` we
+    /// swap in.
+    ///
+    /// Original bug: this method used `UIView(frame: storyboardView.frame)`
+    /// which at design-time is 414×896. The storyboard's root view's frame
+    /// at runtime IS 414×896 too (UIKit reads `<rect>` from the storyboard
+    /// XML verbatim), so on any device whose width was less than 414 the
+    /// contents were vertically and horizontally anchored to a 414-pixel
+    /// container sitting inside a 390-pixel window — left-bleeding off
+    /// the screen with the avatar's centerX anchored to the wrong center.
+    ///
+    /// Fix: use `CGRect.zero` for the rootView frame and pin rootView to
+    /// its parent's edges via Auto Layout. This way the layout tracks the
+    /// actual screen size on every device.
     private func configureScrollableLayout() {
         let storyboardView = view!
         let designHeight = max(storyboardView.bounds.height, 896)
 
-        let rootView = UIView(frame: storyboardView.frame)
+        let rootView = UIView(frame: .zero)
         rootView.backgroundColor = storyboardView.backgroundColor
+        rootView.translatesAutoresizingMaskIntoConstraints = false
 
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
@@ -252,11 +274,27 @@ final class SettingViewController: UIViewController {
         rootView.addSubview(scrollView)
         scrollView.addSubview(storyboardView)
 
+        // After `self.view = rootView`, UIKit inserts rootView into the
+        // view-controller hierarchy. Once it's actually in a parent, we
+        // can capture the parent anchors and pin rootView to the real
+        // screen size (not the design-time 414-wide container).
+        guard let parent = rootView.superview else {
+            assertionFailure("rootView.superview missing after assignment")
+            return
+        }
+        parent.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
+            rootView.topAnchor.constraint(equalTo: parent.topAnchor),
+            rootView.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
+            rootView.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
+            rootView.bottomAnchor.constraint(equalTo: parent.bottomAnchor),
+
             scrollView.topAnchor.constraint(equalTo: rootView.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: rootView.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: rootView.bottomAnchor),
+
             storyboardView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
             storyboardView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             storyboardView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
