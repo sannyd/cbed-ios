@@ -41,9 +41,20 @@ class CommonAnimatableCollectionView<T: AnimatableSectionModelType, C: CellType>
     
     lazy var rxDatasource: RxCollectionViewSectionedAnimatedDataSource<T> = {
         return RxCollectionViewSectionedAnimatedDataSource<T> { datasource, collectionView, indexPath, item in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as! C
-            cell.populateData(item as! C.T)
-            
+            // CBED: defensive cast — if registration is broken (different nib
+            // registered for C.nibName()), log via Crashlytics and return an
+            // empty cell instead of crashing the whole collection view.
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as? C else {
+                assertionFailure("Cell cast failed for \(C.nibName()) — registration mismatch?")
+                NSLog("CBED: cell cast failed for \(C.nibName()) at \(indexPath)")
+                return UICollectionViewCell()
+            }
+            if let typedItem = item as? C.T {
+                cell.populateData(typedItem)
+            } else {
+                assertionFailure("Item type mismatch for \(C.nibName()) — expected \(C.T.self)")
+                NSLog("CBED: item type mismatch for \(C.nibName()) at \(indexPath)")
+            }
             return cell
         }
     }()
@@ -111,9 +122,18 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     
     lazy var rxDatasource: RxCollectionViewSectionedReloadDataSource<T> = {
         return RxCollectionViewSectionedReloadDataSource<T> { datasource, collectionView, indexPath, item in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as! C
-            cell.populateData(item as! C.T)
-            
+            // CBED: defensive cast — see CommonAnimatableCollectionView for rationale.
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as? C else {
+                assertionFailure("Cell cast failed for \(C.nibName()) — registration mismatch?")
+                NSLog("CBED: cell cast failed for \(C.nibName()) at \(indexPath)")
+                return UICollectionViewCell()
+            }
+            if let typedItem = item as? C.T {
+                cell.populateData(typedItem)
+            } else {
+                assertionFailure("Item type mismatch for \(C.nibName()) — expected \(C.T.self)")
+                NSLog("CBED: item type mismatch for \(C.nibName()) at \(indexPath)")
+            }
             return cell
         }
     }()
@@ -177,9 +197,18 @@ class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
     
     lazy var rxDatasource: RxCollectionViewSectionedReloadDataSource<T> = {
         return RxCollectionViewSectionedReloadDataSource<T> { datasource, collectionView, indexPath, item in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as! C
-            cell.populateData(item as! C.T)
-            
+            // CBED: defensive cast — see CommonAnimatableCollectionView for rationale.
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as? C else {
+                assertionFailure("Cell cast failed for \(C.nibName()) — registration mismatch?")
+                NSLog("CBED: cell cast failed for \(C.nibName()) at \(indexPath)")
+                return UICollectionViewCell()
+            }
+            if let typedItem = item as? C.T {
+                cell.populateData(typedItem)
+            } else {
+                assertionFailure("Item type mismatch for \(C.nibName()) — expected \(C.T.self)")
+                NSLog("CBED: item type mismatch for \(C.nibName()) at \(indexPath)")
+            }
             return cell
         }
     }()
@@ -246,9 +275,18 @@ class AnswerCollectionView2<T: SectionModelType, C: CellType>: UICollectionView,
     
     lazy var rxDatasource: RxCollectionViewSectionedReloadDataSource<T> = {
         return RxCollectionViewSectionedReloadDataSource<T> { datasource, collectionView, indexPath, item in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as! C
-            cell.populateData(item as! C.T)
-            
+            // CBED: defensive cast — see CommonAnimatableCollectionView for rationale.
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: C.nibName(), for: indexPath) as? C else {
+                assertionFailure("Cell cast failed for \(C.nibName()) — registration mismatch?")
+                NSLog("CBED: cell cast failed for \(C.nibName()) at \(indexPath)")
+                return UICollectionViewCell()
+            }
+            if let typedItem = item as? C.T {
+                cell.populateData(typedItem)
+            } else {
+                assertionFailure("Item type mismatch for \(C.nibName()) — expected \(C.T.self)")
+                NSLog("CBED: item type mismatch for \(C.nibName()) at \(indexPath)")
+            }
             return cell
         }
     }()

@@ -21,7 +21,13 @@ open class LoadMoreAnimator: UIView, LoadMoreDelegate {
     }
 
     public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        // CBED: never created via Storyboard/NIB, but be safe for state restoration.
+        // super.init(coder:) is failable; we trap if it fails. In production this
+        // path should never execute since these animators are not in any NIB.
+        assertionFailure("init(coder:) is not supported — use init(frame:)")
+        guard let _ = super.init(coder: aDecoder) else {
+            fatalError("super.init(coder:) returned nil — NIB coder should never reach here")
+        }
     }
 
     open override func layoutSubviews() {

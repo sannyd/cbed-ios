@@ -68,7 +68,10 @@ public class LoadMoreView: UIView {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        // CBED: never created via Storyboard/NIB, but be safe for state restoration.
+        assertionFailure("init(coder:) is not supported — use init(frame:animator:)")
+        super.init(coder: aDecoder)
+        return nil
     }
 
     public override func willMove(toSuperview newSuperview: UIView?) {
