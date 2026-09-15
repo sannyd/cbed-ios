@@ -70,6 +70,11 @@ public class LoadMoreView: UIView {
     public required init?(coder aDecoder: NSCoder) {
         // CBED: never created via Storyboard/NIB, but be safe for state restoration.
         assertionFailure("init(coder:) is not supported — use init(frame:animator:)")
+        // Super would be failable, but we must satisfy Swift's "all stored
+        // properties initialized before super.init" rule. Use zero defaults
+        // since this codepath should never run in practice.
+        self.height = 0
+        self.animator = LoadMoreAnimator(frame: .zero)
         super.init(coder: aDecoder)
         return nil
     }

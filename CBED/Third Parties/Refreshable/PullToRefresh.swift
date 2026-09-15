@@ -75,6 +75,9 @@ public class PullToRefreshView: UIView {
     public required init?(coder aDecoder: NSCoder) {
         // CBED: never created via Storyboard/NIB, but be safe for state restoration.
         assertionFailure("init(coder:) is not supported — use init(frame:animator:)")
+        // Swift requires all stored properties initialized before super.init
+        // in a failable designated initializer. This codepath should never run.
+        self.animator = PullToRefreshAnimator(frame: .zero)
         super.init(coder: aDecoder)
         return nil
     }
