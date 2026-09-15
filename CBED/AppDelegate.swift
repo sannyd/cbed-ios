@@ -11,6 +11,7 @@ import GoogleSignIn
 //import FBSDKLoginKit
 import IQKeyboardManagerSwift
 import Firebase
+import FirebaseCrashlytics
 import SwiftyStoreKit
 import LocalAuthentication
 
@@ -67,7 +68,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
  
         FirebaseApp.configure()
-        
+        // Wire up Crashlytics: route every uncaught NSException to it so we get
+        // real stack traces (instead of just GA4 app_exception counts).
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
+        NSSetUncaughtExceptionHandler { exception in
+            let nsError = NSError(
+                domain: exception.name.rawValue,
+                code: 0,
+                userInfo: [NSLocalizedDescriptionKey: exception.reason ?? "n/a",
+                           "stackTrace": exception.callStackSymbols.joined(separator: "\n")]
+            )
+            Crashlytics.crashlytics().record(error: nsError)
+        }
+
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 120
         
@@ -124,8 +137,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func getCurrentViewController() -> UIViewController {
-        return window!.visibleViewController!
+    func getCurrentViewController() -> UIViewController? {
+        guard let window = window else { return nil }
+        var vc = window.rootViewController
+        while let presented = vc?.presentedViewController {
+            vc = presented
+        }
+        return vc
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -140,9 +158,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let window = window else {
             return
         }
-        
+
         Storage.removeAll()
-        
+        // Clear Firebase Analytics user ID so post-logout sessions are anonymous
+        Analytics.setUserID(nil)
+
         let loginVC = StoryboardManager.instanceLoginVC()
         let nav = UINavigationController(rootViewController: loginVC)
         loginVC.viewModel = .init(useCase: LoginUseCase(),
