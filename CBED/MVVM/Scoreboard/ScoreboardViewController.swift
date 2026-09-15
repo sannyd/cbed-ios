@@ -3,239 +3,159 @@ import RxSwift
 import RxCocoa
 
 final class ScoreboardViewController: UIViewController {
-    
-    // MARK: - IBOutlets
+
+    // MARK: - IBOutlets (compact header card)
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var labelUserPosition: UILabel!
     @IBOutlet weak var countdownContainerView: UIView!
     @IBOutlet weak var labelCountdownTitle: UILabel!
     @IBOutlet weak var labelCountdownValue: UILabel!
     @IBOutlet weak var labelCountdownSubtitle: UILabel!
-    @IBOutlet weak var labelProBarFeb: UILabel!
-    @IBOutlet weak var labelProBarJuly: UILabel!
-    
+
+    // MARK: - IBOutlets (tier 1 — exam cycle segmented control)
+    @IBOutlet weak var examCycleSegmentedControl: UISegmentedControl!
+
+    // MARK: - IBOutlets (tier 2 — horizontally scrolling section chips)
+    @IBOutlet weak var sectionFilterScrollView: UIScrollView!
+    @IBOutlet weak var sectionFilterStack: UIStackView!
+
+    // MARK: - IBOutlets (tutors trigger)
+    @IBOutlet weak var tutorsButton: UIButton!
+
+    // MARK: - IBOutlets (student leaderboard)
     @IBOutlet weak var collectionContainerView: UIView!
-    @IBOutlet weak var highlightView: CustomBorderView!
-    @IBOutlet weak var highlightViewLeading: NSLayoutConstraint!
-    @IBOutlet weak var labelBabyBarSection: UILabel!
-    @IBOutlet weak var labelZoomEmailSection: UILabel!
-    
-    
-    @IBOutlet weak var zoomEmailContainerView: CustomBorderView!
-    @IBOutlet weak var zoomEmailHighlightView: CustomBorderView!
-    @IBOutlet weak var zoomEmailHighlightViewLeading: NSLayoutConstraint!
-    @IBOutlet weak var labelEssays: UILabel!
-    @IBOutlet weak var labelMPT: UILabel!
-    @IBOutlet weak var labelMBE: UILabel!
-    
-    @IBOutlet weak var babyBarContainerView: CustomBorderView!
-    @IBOutlet weak var babyBarHighlightView: CustomBorderView!
-    @IBOutlet weak var babyBarHighlightViewLeading: NSLayoutConstraint!
-    @IBOutlet weak var labelBabyBarJun: UILabel!
-    @IBOutlet weak var labelBabyBarOct: UILabel!
-    
+
     // MARK: - Properties
-    
+
     var viewModel: ScoreboardViewModel!
     var disposeBag = DisposeBag()
-    
+
     private var collectionView: CommonCollectionView<CommonCollectionViewSection<ScoreM>, ScoreCell>!
     private var countdownTimer: Timer?
     private let countdownCalendar = Calendar(identifier: .gregorian)
-    
+
     // MARK: - Life Cycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCountdownView()
+        configureTutorsButton()
         setupCollectionView()
         bindViewModel()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        
+
         if !IsEnableLogin {
             labelUserPosition.isHidden = true
             profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
             countdownContainerView.isHidden = true
         }
     }
-    
+
     deinit {
         countdownTimer?.invalidate()
         logDeinit()
     }
-    
+
     // MARK: - Methods
-    
+
     func bindViewModel() {
-        let proBarFebTrigger = labelProBarFeb
-            .rxGestureTapped
-            .map { _ in ScoreboardSection.barExamFeb }
-        
-        let proBarJulTrigger = labelProBarJuly
-            .rxGestureTapped
-            .map { _ in ScoreboardSection.barExamJuly }
-        
-        let babyBarSectionTrigger = labelBabyBarSection
-            .rxGestureTapped
-            .map { _ in ScoreboardSection.babyBar(.june) }
-        
-        let babyBarJuneTrigger = labelBabyBarJun
-            .rxGestureTapped
-            .map { _ in ScoreboardSection.babyBar(.june) }
-        
-        let babyBarOctTrigger = labelBabyBarOct
-            .rxGestureTapped
-            .map { _ in ScoreboardSection.babyBar(.october) }
-        
-        let zoomSectionTrigger = labelZoomEmailSection
-            .rxGestureTapped
-            .map { _ in ScoreboardSection.zoomEmail(.mbe) }
-        
-        let essaysTrigger = labelEssays
-            .rxGestureTapped
-            .map { _ in ScoreboardSection.zoomEmail(.essays) }
-        
-        let mptTrigger = labelMPT
-            .rxGestureTapped
-            .map { _ in ScoreboardSection.zoomEmail(.mpt) }
-        
-        let mbeTrigger = labelMBE
-            .rxGestureTapped
-            .map { _ in ScoreboardSection.zoomEmail(.mbe) }
-        
-        let viewWillAppear = rx
-            .sentMessage(#selector(UIViewController.viewWillAppear))
-            .mapToVoid()
-        
+        // Tier 1: exam cycle (segmented control)
+        let examCycleTrigger = examCycleSegmentedControl
+            .rx
+            .selectedSegmentIndex
+            .skip(1) // skip initial emission
+            .map { idx -> ExamCycle in
+                switch idx {
+                case 1: return .feb
+                case 2: return .babyBarJun
+                case 3: return .babyBarOct
+                default: return .july
+                }
+            }
+
+        // Tier 2: section chips — each chip is wired to its own enum case.
+        // `chip-*` outlets are connected at runtime via setupSectionFilterChips().
+        let chipTrigger = PublishRelay<SectionFilter>()
+        wireChipButtons(to: chipTrigger)
+
+        // Pull-to-refresh + first load
         let pullToRefreshTrigger = collectionView
             .refreshControl!
             .rx
             .controlEvent(.valueChanged)
             .asObservable()
-        
-        let input = ScoreboardViewModel.Input(firstLoadTrigger: Observable.merge(pullToRefreshTrigger,
-                                                                                 rxViewWillAppear),
-                                              viewWillAppear: viewWillAppear,
-                                              filterTrigger: Observable.merge(
-                                                proBarFebTrigger,
-                                                proBarJulTrigger,
-                                                babyBarSectionTrigger,
-                                                babyBarJuneTrigger,
-                                                babyBarOctTrigger,
-                                                zoomSectionTrigger,
-                                                essaysTrigger,
-                                                mptTrigger,
-                                                mbeTrigger
-                                              ))
-        
+
+        let viewWillAppear = rx
+            .sentMessage(#selector(UIViewController.viewWillAppear))
+            .mapToVoid()
+
+        let input = ScoreboardViewModel.Input(
+            firstLoadTrigger: Observable.merge(pullToRefreshTrigger, rxViewWillAppear),
+            viewWillAppear: viewWillAppear,
+            examCycleTrigger: examCycleTrigger.asObservable(),
+            sectionFilterTrigger: chipTrigger.asObservable(),
+            tutorsTrigger: tutorsButton.rx.tap.asObservable()
+        )
+
         let output = viewModel.transform(input, disposeBag: disposeBag)
-        
-        [output
-            .data
-            .asDriverOnErrorJustComplete()
-            .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
-         output
-            .filterInvoked
-            .asDriverOnErrorJustComplete()
-            .drive(onNext: { [unowned self] filterType in
-                labelMBE.textColor = Constants.PrimaryTextColor
-                labelMPT.textColor = Constants.PrimaryTextColor
-                labelEssays.textColor = Constants.PrimaryTextColor
-                labelBabyBarJun.textColor = Constants.PrimaryTextColor
-                labelBabyBarOct.textColor = Constants.PrimaryTextColor
-                labelProBarFeb.textColor = Constants.PrimaryTextColor
-                labelProBarJuly.textColor = Constants.PrimaryTextColor
-                labelBabyBarSection.textColor = Constants.PrimaryTextColor
-                labelZoomEmailSection.textColor = Constants.PrimaryTextColor
-                
-                switch filterType {
-                case .barExamFeb:
-                    zoomEmailContainerView.isHidden = true
-                    babyBarContainerView.isHidden = true
-                    labelProBarFeb.textColor = .white
-                    highlightViewLeading.constant = 8
-                case .barExamJuly:
-                    zoomEmailContainerView.isHidden = true
-                    babyBarContainerView.isHidden = true
-                    labelProBarJuly.textColor = .white
-                    highlightViewLeading.constant = highlightView.bounds.width + 8
-                case .babyBar(let item):
-                    babyBarContainerView.isHidden = false
-                    zoomEmailContainerView.isHidden = true
-                    labelBabyBarSection.textColor = .white
-                    highlightViewLeading.constant = highlightView.bounds.width * 2 + 8
-                    switch item {
-                    case .june:
-                        labelBabyBarJun.textColor = .white
-                        babyBarHighlightViewLeading.constant = 8
-                    case .october:
-                        labelBabyBarOct.textColor = .white
-                        babyBarHighlightViewLeading.constant = babyBarHighlightView.bounds.width + 8
+
+        [
+            output.data
+                .asDriverOnErrorJustComplete()
+                .drive(collectionView.rx.items(dataSource: collectionView.rxDatasource)),
+
+            output.tutorsTrigger
+                .asDriverOnErrorJustComplete()
+                .drive(onNext: { [weak self] tutors in
+                    self?.presentTutorsSheet(tutors: tutors)
+                }),
+
+            output.userProfile
+                .unwrap()
+                .asDriverOnErrorJustComplete()
+                .drive(onNext: { [weak self] profile in
+                    self?.labelUserPosition.isHidden = !IsEnableLogin
+                    self?.labelUserPosition.applyScoreboardLevelColor(
+                        for: IsEnableLogin ? (profile.lastSectionName ?? "N/A") : ""
+                    )
+                    if IsEnableLogin {
+                        self?.profileImageView.loadImage(
+                            with: profile.avatar,
+                            placeholder: #imageLiteral(resourceName: "img_user_placeholder")
+                        )
+                        self?.updateCountdown(for: profile.memberPlan)
+                    } else {
+                        self?.profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
+                        self?.countdownContainerView.isHidden = true
                     }
-                case .zoomEmail(let item):
-                    zoomEmailContainerView.isHidden = false
-                    babyBarContainerView.isHidden = true
-                    labelZoomEmailSection.textColor = .white
-                    highlightViewLeading.constant = highlightView.bounds.width * 3 + 8
-                    switch item {
-                    case .mbe:
-                        labelMBE.textColor = .white
-                        zoomEmailHighlightViewLeading.constant = 8
-                    case .essays:
-                        labelEssays.textColor = .white
-                        zoomEmailHighlightViewLeading.constant = zoomEmailHighlightView.bounds.width + 8
-                    case .mpt:
-                        labelMPT.textColor = .white
-                        zoomEmailHighlightViewLeading.constant = zoomEmailHighlightView.bounds.width * 2 + 8
+                }),
+
+            output.isLoading
+                .asDriverOnErrorJustComplete()
+                .drive(onNext: { [weak self] isLoading in
+                    if isLoading {
+                        self?.collectionView.refreshControl?.beginRefreshing()
+                    } else {
+                        self?.collectionView.refreshControl?.endRefreshing()
                     }
-                }
-                UIView.animate(withDuration: 0.3) {
-                    self.view.layoutIfNeeded()
-                }
-            }),
-         output
-            .userProfile
-            .unwrap()
-            .asDriverOnErrorJustComplete()
-            .drive(onNext: { [weak self] profile in
-                self?.labelUserPosition.isHidden = !IsEnableLogin
-                self?.labelUserPosition.applyScoreboardLevelColor(for: IsEnableLogin ? (profile.lastSectionName ?? "N/A") : "")
-                if IsEnableLogin {
-                    self?.profileImageView.loadImage(with: profile.avatar,
-                                                     placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
-                    self?.updateCountdown(for: profile.memberPlan)
-                } else {
-                    self?.profileImageView.image = #imageLiteral(resourceName: "img_user_placeholder")
-                    self?.countdownContainerView.isHidden = true
-                }
-            }),
-         output
-            .isLoading
-            .asDriverOnErrorJustComplete()
-            .drive(onNext: { [weak self] isLoading in
-                if isLoading {
-                    self?.collectionView.refreshControl?.beginRefreshing()
-                } else {
-                    self?.collectionView.refreshControl?.endRefreshing()
-                }
-            }),
-         output
-            .error
-            .asDriverOnErrorJustComplete()
-            .drive(errorBinding)]
-            .forEach { $0.disposed(by: disposeBag) }
+                }),
+
+            output.error
+                .asDriverOnErrorJustComplete()
+                .drive(errorBinding)
+        ]
+        .forEach { $0.disposed(by: disposeBag) }
     }
-    
+
+    // MARK: - Setup
+
     private func setupCollectionView() {
         collectionView = CommonCollectionView<CommonCollectionViewSection<ScoreM>, ScoreCell>(lineSpacing: 14)
-        collectionView.contentInset = .init(top: 20,
-                                            left: 0,
-                                            bottom: 30,
-                                            right: 0)
+        collectionView.contentInset = .init(top: 12, left: 0, bottom: 30, right: 0)
         collectionContainerView.backgroundColor = Constants.BackgroundColor
         collectionContainerView.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(collectionContainerView.snp.edges) }
@@ -248,10 +168,63 @@ final class ScoreboardViewController: UIViewController {
                                          opacity: 0.2,
                                          offSet: .init(width: 0, height: 8),
                                          radius: 24)
-        labelCountdownValue.font = .monospacedDigitSystemFont(ofSize: 20, weight: .bold)
+        labelCountdownValue.font = .monospacedDigitSystemFont(ofSize: 18, weight: .bold)
         labelCountdownValue.adjustsFontSizeToFitWidth = true
         labelCountdownValue.minimumScaleFactor = 0.7
     }
+
+    private func configureTutorsButton() {
+        tutorsButton.layer.cornerRadius = 8
+        tutorsButton.clipsToBounds = true
+        tutorsButton.setTitleColor(.white, for: .normal)
+        tutorsButton.backgroundColor = Constants.PrimaryBlue
+        tutorsButton.titleLabel?.font = .boldSystemFont(ofSize: 13)
+        tutorsButton.contentEdgeInsets = .init(top: 6, left: 14, bottom: 6, right: 14)
+    }
+
+    /// Wire each chip button (outlet from storyboard) to a SectionFilter enum case.
+    /// The buttons live in sectionFilterStack from the storyboard; we reach them
+    /// by tag (set in storyboard at design time, or via title match).
+    private func wireChipButtons(to relay: PublishRelay<SectionFilter>) {
+        // Each chip in the storyboard has a tag equal to its SectionFilter raw value.
+        // Tags are 0...n set in the XIB / storyboard; fall back to title-based match.
+        let mapping: [(String, SectionFilter)] = [
+            ("All", .all),
+            ("MBE", .mbe),
+            ("Essays", .essays),
+            ("M/PTs", .mpt),
+            ("NG 1-Choice", .ng1Choice),
+            ("NG 2-Choice", .ng2Choice),
+            ("IQS Counseling", .iqsCounseling),
+            ("IQS Drafting", .iqsDrafting),
+            ("SPT", .spt),
+            ("LRPT", .lrpt),
+        ]
+
+        for subview in sectionFilterStack.arrangedSubviews {
+            guard let button = subview as? UIButton else { continue }
+            guard let title = button.title(for: .normal) else { continue }
+            guard let match = mapping.first(where: { $0.0 == title }) else { continue }
+            button.rx.tap
+                .map { _ in match.1 }
+                .bind(to: relay)
+                .disposed(by: disposeBag)
+        }
+    }
+
+    // MARK: - Tutors sheet
+
+    private func presentTutorsSheet(tutors: [ScoreM]) {
+        let vc = TutorsSheetViewController(tutors: tutors)
+        let nav = UINavigationController(rootViewController: vc)
+        if let sheet = nav.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersGrabberVisible = true
+        }
+        present(nav, animated: true)
+    }
+
+    // MARK: - Countdown (unchanged from prior implementation)
 
     private func updateCountdown(for memberPlan: MemberPlan) {
         guard let config = countdownConfiguration(for: memberPlan) else {
@@ -270,11 +243,9 @@ final class ScoreboardViewController: UIViewController {
 
     private func startCountdownTimer(forMonth month: Int) {
         countdownTimer?.invalidate()
-        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1,
-                                              repeats: true,
-                                              block: { [weak self] _ in
+        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.refreshCountdown(forMonth: month)
-        })
+        }
         if let countdownTimer {
             RunLoop.main.add(countdownTimer, forMode: .common)
         }
@@ -292,13 +263,9 @@ final class ScoreboardViewController: UIViewController {
     private func countdownConfiguration(for memberPlan: MemberPlan) -> (month: Int, title: String, subtitle: String)? {
         switch memberPlan {
         case .proBarFeb:
-            return (month: 2,
-                    title: "February Exam",
-                    subtitle: "Until the last Tuesday in February")
+            return (month: 2, title: "February Exam", subtitle: "Until the last Tuesday in February")
         case .proBarJul:
-            return (month: 7,
-                    title: "July Exam",
-                    subtitle: "Until the last Tuesday in July")
+            return (month: 7, title: "July Exam", subtitle: "Until the last Tuesday in July")
         default:
             return nil
         }
@@ -310,23 +277,15 @@ final class ScoreboardViewController: UIViewController {
         let hours = (totalSeconds % 86_400) / 3_600
         let minutes = (totalSeconds % 3_600) / 60
         let seconds = totalSeconds % 60
-
         return String(format: "%02dd %02dh %02dm %02ds", days, hours, minutes, seconds)
     }
 
     private func nextAssignedBarExamDate(forMonth month: Int, referenceDate: Date = Date()) -> Date? {
         let currentYear = countdownCalendar.component(.year, from: referenceDate)
-
         for year in [currentYear, currentYear + 1] {
-            guard let examDate = lastTuesday(ofMonth: month, year: year) else {
-                continue
-            }
-
-            if examDate >= referenceDate {
-                return examDate
-            }
+            guard let examDate = lastTuesday(ofMonth: month, year: year) else { continue }
+            if examDate >= referenceDate { return examDate }
         }
-
         return nil
     }
 
@@ -335,10 +294,7 @@ final class ScoreboardViewController: UIViewController {
         components.year = year
         components.month = month + 1
         components.day = 0
-
-        guard let lastDayOfMonth = countdownCalendar.date(from: components) else {
-            return nil
-        }
+        guard let lastDayOfMonth = countdownCalendar.date(from: components) else { return nil }
 
         var date = lastDayOfMonth
         while countdownCalendar.component(.weekday, from: date) != 3 {

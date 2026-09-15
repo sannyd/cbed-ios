@@ -40,7 +40,14 @@ final class SectionDetailViewController: UIViewController {
         setupCollectionView()
         setupCustomTimerControlIfNeeded()
         bindViewModel()
-        if ![5, 40].contains(viewModel.level.id) {
+        if [5, 40].contains(viewModel.level.id) {
+            // Use the storyboard's MBE disclaimer text (set in Home.storyboard)
+            labelDisclaimer.isHidden = false
+        } else if [29, 30, 31, 33, 34, 35].contains(viewModel.level.id) {
+            // Override with NextGen disclaimer text
+            labelDisclaimer.text = "The NextGen Bar Exam questions, integrated question sets, performance tasks, and answer explanations (“Content”) provided in this application are copyrighted by the National Conference of Bar Examiners (“NCBE”). You are permitted to view the Content for your personal and non-commercial study use only. You are not permitted to copy, modify, reproduce, post, disclose, scrape, or distribute any of the Content in whole or in part, nor submit the Content into any artificial intelligence system. Any unauthorized use of the Content is a violation of NCBE’s rights and could subject you and others who are involved to criminal and civil penalties."
+            labelDisclaimer.isHidden = false
+        } else {
             labelDisclaimer.isHidden = true
         }
         

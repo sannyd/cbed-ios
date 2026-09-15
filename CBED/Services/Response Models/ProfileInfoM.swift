@@ -31,6 +31,7 @@ enum MemberPlan: String, Codable {
 }
 
 struct ProfileInfoM: Codable {
+    let id: Int?
     let email: String
     let avatar: String?
     let name: String
@@ -45,8 +46,15 @@ struct ProfileInfoM: Codable {
     let mptCount: Int
     let isTutor: Bool
     let currentMixedMbeSection: Int?
-    
+    let currentDraftingSectionId: Int?
+    let currentCounselingSectionId: Int?
+    let currentNgSptSectionId: Int?
+    let currentNgLrptSectionId: Int?
+    let currentNgMcq1ChoiceSectionId: Int?
+    let currentNgMcq2ChoiceSectionId: Int?
+
     enum CodingKeys: String, CodingKey {
+        case id = "id"
         case email = "email"
         case avatar = "avatar"
         case name = "name"
@@ -60,6 +68,12 @@ struct ProfileInfoM: Codable {
         case essayCount = "essay_count"
         case mptCount = "mpt_count"
         case isTutor = "is_tutor"
-        case currentMixedMbeSection = "current_mixed_mbe_section_id"
+        case currentMixedMbeSection = "current_mixed_mbe_section"
+        case currentDraftingSectionId = "current_drafting_section"
+        case currentCounselingSectionId = "current_counseling_section"
+        case currentNgSptSectionId = "current_ng_spt_section"
+        case currentNgLrptSectionId = "current_ng_lrpt_section"
+        case currentNgMcq1ChoiceSectionId = "current_ng_mcq_1_choice_section"
+        case currentNgMcq2ChoiceSectionId = "current_ng_mcq_2_choice_section"
     }
 }

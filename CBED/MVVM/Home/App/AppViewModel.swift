@@ -8,6 +8,7 @@
 import RxSwift
 import RxCocoa
 import WidgetKit
+import Firebase
 
 // MARK: Input + Output
 extension AppViewModel {
@@ -41,6 +42,11 @@ struct AppViewModel: ViewModel {
                     Storage.profileInfo = profile
                     Storage.currentLevel = profile.lastSectionName
                     WidgetCenter.shared.reloadAllTimelines()
+                    // Lock Firebase Analytics session to this logged-in user
+                    // so per-user app usage is attributable in GA4.
+                    if let uid = profile.id {
+                        Analytics.setUserID(String(uid))
+                    }
                     isProfileLoaded = true
                 }
             })
@@ -75,7 +81,7 @@ struct AppViewModel: ViewModel {
     private func fetchProfileInfo() -> Observable<ProfileInfoM> {
         return self.useCase
             .getProfileInfo()
-            .asDriver(onErrorJustReturn: ProfileInfoM.init(email: "", avatar: "", name: "", state: "", memberPlan: .babybarJun, memberPlanSimple: 0, membership: "", lastSectionName: "", points: 0, phone: "", essayCount: 0, mptCount: 0, isTutor: false, currentMixedMbeSection: nil))
+            .asDriver(onErrorJustReturn: ProfileInfoM.init(id: nil, email: "", avatar: "", name: "", state: "", memberPlan: .babybarJun, memberPlanSimple: 0, membership: "", lastSectionName: "", points: 0, phone: "", essayCount: 0, mptCount: 0, isTutor: false, currentMixedMbeSection: nil, currentDraftingSectionId: nil, currentCounselingSectionId: nil, currentNgSptSectionId: nil, currentNgLrptSectionId: nil, currentNgMcq1ChoiceSectionId: nil, currentNgMcq2ChoiceSectionId: nil))
             .asObservable()
     }
 }

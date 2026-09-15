@@ -1,182 +1,189 @@
 import RxSwift
 import RxCocoa
 
-enum ScoreboardSection {
-    case barExamFeb
-    case barExamJuly
-    case babyBar(BabyBarSection)
-    case zoomEmail(ZoomEmailSection)
+// MARK: - Filter enums
+
+enum ExamCycle {
+    case july
+    case feb
+    case babyBarJun
+    case babyBarOct
 }
 
-enum BabyBarSection {
-    case june
-    case october
-}
-
-enum ZoomEmailSection {
+enum SectionFilter {
+    case all
+    case mbe
     case essays
     case mpt
-    case mbe
+    case ng1Choice
+    case ng2Choice
+    case iqsCounseling
+    case iqsDrafting
+    case spt
+    case lrpt
 }
 
+// MARK: - Input + Output
 
-
-// MARK: Input + Output
 extension ScoreboardViewModel {
     struct Input {
         let firstLoadTrigger: Observable<Void>
         let viewWillAppear: Observable<Void>
-        let filterTrigger: Observable<ScoreboardSection>
+        let examCycleTrigger: Observable<ExamCycle>
+        let sectionFilterTrigger: Observable<SectionFilter>
+        let tutorsTrigger: Observable<Void>
     }
-    
+
     struct Output {
         let data: Observable<[CommonCollectionViewSection<ScoreM>]>
-        let filterInvoked: Observable<ScoreboardSection>
         let userProfile: Observable<ProfileInfoM?>
         let isLoading: Observable<Bool>
         let error: Observable<Error>
+        let tutorsTrigger: Observable<[ScoreM]>
     }
 }
 
 struct ScoreboardViewModel: ViewModel {
     let useCase: ScoreboardUseCaseType
     let navigator: ScoreboardNavigatorType
-    
+
     private let errorTracker = ErrorTracker()
     private let activityIndicator = ActivityIndicator()
-    
+
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
-        var proBarFebData: [ScoreM] = []
-        var proBarJulData: [ScoreM] = []
-        var babyBarJunData: [ScoreM] = []
-        var babyBarOctData: [ScoreM] = []
-        var essaysData: [ScoreM] = []
-        var mptData: [ScoreM] = []
-        var mbeData: [ScoreM] = []
-        let data = BehaviorRelay<[ScoreM]>(value: [])
-        let filterTrigger = BehaviorRelay<ScoreboardSection>(value: .barExamFeb)
-        
-        let sharedFilterTrigger = input.filterTrigger.share(replay: 1)
-        sharedFilterTrigger
-            .bind(to: filterTrigger)
+        // The API returns five cohorts. Tutors are exposed via Output.tutorsTrigger
+        // (independent of any filter selection) so the Tutors sheet can show them
+        // regardless of which exam cycle / section the user is currently viewing.
+        //
+        // The "data" output is driven by (examCycle × sectionFilter):
+        //   - examCycle picks which cohort (proBarJul / proBarFeb / babyBarJun / babyBarOct)
+        //   - sectionFilter picks the within-cohort slice (mbé / essays / mpt / all / NextGen)
+
+        let proBarJulData = BehaviorRelay<[ScoreM]>(value: [])
+        let proBarFebData = BehaviorRelay<[ScoreM]>(value: [])
+        let babyBarJunData = BehaviorRelay<[ScoreM]>(value: [])
+        let babyBarOctData = BehaviorRelay<[ScoreM]>(value: [])
+
+        let examCycle = BehaviorRelay<ExamCycle>(value: .july)
+        let sectionFilter = BehaviorRelay<SectionFilter>(value: .all)
+
+        input.examCycleTrigger
+            .bind(to: examCycle)
             .disposed(by: disposeBag)
-        
+
+        input.sectionFilterTrigger
+            .bind(to: sectionFilter)
+            .disposed(by: disposeBag)
+
         let userProfile = input
             .viewWillAppear
             .map { _ in Storage.profileInfo }
-        
-        input
-            .firstLoadTrigger
-            .flatMapLatest(fetchScoreboard)
-            .subscribe(onNext: { response in
-                proBarFebData = response.proBarFeb.sorted(by: { score1, score2 in
-                    score1.lastSectionName != nil && score2.lastSectionName == nil
-                })
-                proBarJulData = response.proBarJuly
-                    .sorted(by: { score1, score2 in
-                        score1.lastSectionName != nil && score2.lastSectionName == nil
-                    })
-                babyBarJunData = response.babyBarJune
-                    .sorted(by: { score1, score2 in
-                        score1.lastSectionName != nil && score2.lastSectionName == nil
-                    })
-                babyBarOctData = response.babyBarOct
-                    .sorted(by: { score1, score2 in
-                        score1.lastSectionName != nil && score2.lastSectionName == nil
-                    })
-                mbeData = response.tutor
-                    .sorted(by: { score1, score2 in
-                        score1.lastSectionName != nil && score2.lastSectionName == nil
-                    })
-                essaysData = response.tutor
-                    .map { item in
-                        var temp = item
-                        temp.isEssay = true
-                        
-                        return temp
-                    }
-                    .sorted(by: { score1, score2 in
-                        score1.essaysCount > score2.essaysCount
-                    })
-                mptData = response.tutor
-                    .map { item in
-                        var temp = item
-                        temp.isMpt = true
-                        
-                        return temp
-                    }
-                    .sorted(by: { score1, score2 in
-                        score1.mptCount > score2.mptCount
-                    })
 
-                switch filterTrigger.value {
-                case .barExamFeb:
-                    data.accept(proBarFebData)
-                case .barExamJuly:
-                    data.accept(proBarJulData)
-                case .babyBar(let babyBarSection):
-                    switch babyBarSection {
-                    case .june:
-                        data.accept(babyBarJunData)
-                    case .october:
-                        data.accept(babyBarOctData)
-                    }
-                case .zoomEmail(let zoomEmailSection):
-                    switch zoomEmailSection {
-                    case .essays:
-                        data.accept(essaysData)
-                    case .mpt:
-                        data.accept(mptData)
-                    case .mbe:
-                        data.accept(mbeData)
-                    }
-                }
-                
+        let tutorsRelay = BehaviorRelay<[ScoreM]>(value: [])
+
+        input.firstLoadTrigger
+            .flatMapLatest { [useCase] _ in
+                useCase.getScoreboard()
+                    .trackError(errorTracker)
+                    .trackActivity(activityIndicator)
+                    .catchAndReturn(ScoreboardResponseM.empty)
+            }
+            .subscribe(onNext: { response in
+                proBarJulData.accept(response.proBarJuly.sorted(by: sectionSort))
+                proBarFebData.accept(response.proBarFeb.sorted(by: sectionSort))
+                babyBarJunData.accept(response.babyBarJune.sorted(by: sectionSort))
+                babyBarOctData.accept(response.babyBarOct.sorted(by: sectionSort))
+                tutorsRelay.accept(response.tutor)
             })
             .disposed(by: disposeBag)
 
-        sharedFilterTrigger
-            .map { section in
-                switch section {
-                case .barExamFeb:
-                    return proBarFebData
-                case .barExamJuly:
-                    return proBarJulData
-                case .babyBar(let babyBarSection):
-                    switch babyBarSection {
-                    case .june:
-                        return babyBarJunData
-                    case .october:
-                        return babyBarOctData
-                    }
-                case .zoomEmail(let zoomEmailSection):
-                    switch zoomEmailSection {
-                    case .essays:
-                        return essaysData
-                    case .mpt:
-                        return mptData
-                    case .mbe:
-                        return mbeData
-                    }
+        // Combine cohort × section filter into the displayed list.
+        let data = Observable
+            .combineLatest(examCycle, sectionFilter)
+            .map { cycle, filter -> [ScoreM] in
+                let cohort: [ScoreM]
+                switch cycle {
+                case .july:        cohort = proBarJulData.value
+                case .feb:         cohort = proBarFebData.value
+                case .babyBarJun:  cohort = babyBarJunData.value
+                case .babyBarOct:  cohort = babyBarOctData.value
                 }
+                return applySectionFilter(filter, to: cohort)
             }
-            .bind(to: data)
-            .disposed(by: disposeBag)
-        
-        return Output(data: data.map { [CommonCollectionViewSection(items: $0)] }.asObservable(),
-                      filterInvoked: sharedFilterTrigger.asObservable(),
-                      userProfile: userProfile.asObservable(),
-                      isLoading: activityIndicator.asObservable(),
-                      error: errorTracker.asObservable())
+            .map { [CommonCollectionViewSection(items: $0)] }
+
+        // Fire tutorsTrigger each time the user taps the Tutors button.
+        let tutorsTriggerStream = input.tutorsTrigger
+            .withLatestFrom(tutorsRelay)
+
+        return Output(
+            data: data,
+            userProfile: userProfile.asObservable(),
+            isLoading: activityIndicator.asObservable(),
+            error: errorTracker.asObservable(),
+            tutorsTrigger: tutorsTriggerStream
+        )
     }
-    
-    private func fetchScoreboard() -> Observable<ScoreboardResponseM> {
-        return useCase
-            .getScoreboard()
-            .trackError(errorTracker)
-            .trackActivity(activityIndicator)
-            .catch { _ in
-                return .never()
-            }
+
+    // MARK: - Helpers
+
+    /// Place users with `lastSectionName` set at the top of the leaderboard.
+    private let sectionSort: (ScoreM, ScoreM) -> Bool = { a, b in
+        (a.lastSectionName != nil && b.lastSectionName == nil)
+    }
+
+    /// Apply a within-cohort SectionFilter. The API response only carries
+    /// `lastSectionName` per user (e.g. "Level 7 - Property"), so a strict
+    /// section-tag filter is approximate — we use it as a hint to scope
+    /// the leaderboard view. With `.all`, the full cohort is returned.
+    private func applySectionFilter(_ filter: SectionFilter, to cohort: [ScoreM]) -> [ScoreM] {
+        switch filter {
+        case .all:
+            return cohort
+        case .mbe:
+            return cohort.filter { ($0.lastSectionName ?? "").contains("Level") }
+        case .essays:
+            return cohort
+                .map { score -> ScoreM in
+                    var copy = score
+                    copy.isEssay = true
+                    return copy
+                }
+                .sorted { $0.essaysCount > $1.essaysCount }
+        case .mpt:
+            return cohort
+                .map { score -> ScoreM in
+                    var copy = score
+                    copy.isMpt = true
+                    return copy
+                }
+                .sorted { $0.mptCount > $1.mptCount }
+        case .ng1Choice,
+             .ng2Choice,
+             .iqsCounseling,
+             .iqsDrafting,
+             .spt,
+             .lrpt:
+            // The current API response doesn't expose per-section drill counts
+            // for NextGen modules. Until the API gains these fields, treat
+            // NextGen filters as "show the cohort" — they remain selectable
+            // so the UI is correct, and they'll start narrowing once the
+            // backend exposes the right payload.
+            return cohort
+        }
+    }
+}
+
+// MARK: - Empty placeholder
+
+extension ScoreboardResponseM {
+    static var empty: ScoreboardResponseM {
+        ScoreboardResponseM(
+            babyBarJune: [],
+            babyBarOct: [],
+            proBarFeb: [],
+            proBarJuly: [],
+            tutor: []
+        )
     }
 }

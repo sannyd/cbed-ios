@@ -449,7 +449,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzJ-sH-MBd">
                                                 <rect key="frame" x="16" y="500" width="382" height="98"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="250" id="TJH-4d-r0a"/>
+                                                    <constraint firstAttribute="height" constant="320" id="TJH-4d-r0a"/>
                                                 </constraints>
                                                 <string key="text">The MBE questions and answers (“Content”) provided in this website or digitally or electronically are copyrighted by the National Conference of Bar Examiners (“NCBE”). You are permitted to view the Content for your personal and non-commercial use only. You are not permitted to copy, modify, reproduce, post, disclose, or distribute any of the Content in whole or in part. Any unauthorized use of the Content is a violation of NCBE’s rights and could subject you and others who are involved to criminal and civil penalties.</string>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
@@ -800,373 +800,242 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="fP0-gw-aML">
-                                <rect key="frame" x="20" y="108" width="374" height="180"/>
+                            <!-- Compact header: profile + countdown + user level, in one card -->
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hd1-2h-001" userLabel="HeaderCard" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                                <rect key="frame" x="20" y="60" width="374" height="98"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="kVc-VV-iBv">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="98"/>
-                                        <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="i3m-gC-V1g">
-                                                <rect key="frame" x="0.0" y="4" width="90" height="90"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="90" id="Ifq-1P-gmM"/>
-                                                    <constraint firstAttribute="height" constant="90" id="hTK-ol-KPE"/>
-                                                </constraints>
-                                            </imageView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rki-Sk-Bjz">
-                                                <rect key="frame" x="106" y="0.0" width="268" height="98"/>
-                                                <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="6nY-OM-ENM">
-                                                        <rect key="frame" x="16" y="16" width="236" height="66"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="February Exam" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pE-jo-EEz">
-                                                                <rect key="frame" x="0.0" y="0.0" width="236" height="19.5"/>
-                                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="16"/>
-                                                                <color key="textColor" name="Primary Text"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="00d 00h 00m 00s" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgF-nF-Tod">
-                                                                <rect key="frame" x="0.0" y="23.5" width="236" height="24"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="24" id="VXc-6T-UKz"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="20"/>
-                                                                <color key="textColor" name="Primary Blue"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Until the last Tuesday in February" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIU-eX-5La">
-                                                                <rect key="frame" x="0.0" y="51.5" width="236" height="14.5"/>
-                                                                <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="12"/>
-                                                                <color key="textColor" name="Primary Text"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                    </stackView>
-                                                </subviews>
-                                                <color key="backgroundColor" name="Secondary Surface"/>
-                                                <constraints>
-                                                    <constraint firstItem="6nY-OM-ENM" firstAttribute="leading" secondItem="Rki-Sk-Bjz" secondAttribute="leading" constant="16" id="2xI-C8-sMA"/>
-                                                    <constraint firstAttribute="trailing" secondItem="6nY-OM-ENM" secondAttribute="trailing" constant="16" id="77t-pm-zt0"/>
-                                                    <constraint firstItem="6nY-OM-ENM" firstAttribute="top" secondItem="Rki-Sk-Bjz" secondAttribute="top" constant="16" id="BVQ-SM-rgt"/>
-                                                    <constraint firstAttribute="bottom" secondItem="6nY-OM-ENM" secondAttribute="bottom" constant="16" id="R2C-g9-1j2"/>
-                                                    <constraint firstAttribute="height" constant="98" id="mja-Jc-Ayh"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="i3m-gC-V1g">
+                                        <rect key="frame" x="8" y="8" width="82" height="82"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="98" id="8uM-xz-cK6"/>
+                                            <constraint firstAttribute="width" constant="82" id="Ifq-1P-gmM"/>
+                                            <constraint firstAttribute="height" constant="82" id="hTK-ol-KPE"/>
                                         </constraints>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="sGO-u7-bu2">
-                                        <rect key="frame" x="0.0" y="110" width="374" height="40"/>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="hd1-st-002">
+                                        <rect key="frame" x="98" y="8" width="268" height="82"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKb-eS-BTv">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="February Exam" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pE-jo-EEz">
+                                                <rect key="frame" x="0.0" y="0.0" width="268" height="18"/>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                                                <color key="textColor" name="Primary Text"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="00d 00h 00m 00s" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgF-nF-Tod">
+                                                <rect key="frame" x="0.0" y="20" width="268" height="22"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="6mr-st-h0P"/>
+                                                    <constraint firstAttribute="height" constant="22" id="VXc-6T-UKz"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
+                                                <color key="textColor" name="Primary Blue"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Until the last Tuesday in February" lineBreakMode="wordWrap" numberOfLines="1" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIU-eX-5La">
+                                                <rect key="frame" x="0.0" y="44" width="268" height="14"/>
+                                                <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="11"/>
+                                                <color key="textColor" name="Primary Text"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="N/A" lineBreakMode="tailTruncation" numberOfLines="1" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKb-eS-BTv">
+                                                <rect key="frame" x="0.0" y="60" width="268" height="18"/>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                                                 <color key="textColor" name="Primary Text"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="5G0-Lh-MUa"/>
-                                        </constraints>
                                     </stackView>
                                 </subviews>
-                            </stackView>
+                                <color key="backgroundColor" name="Secondary Surface"/>
+                                <constraints>
+                                    <constraint firstItem="i3m-gC-V1g" firstAttribute="leading" secondItem="hd1-2h-001" secondAttribute="leading" constant="8" id="hd1-c1"/>
+                                    <constraint firstItem="i3m-gC-V1g" firstAttribute="top" secondItem="hd1-2h-001" secondAttribute="top" constant="8" id="hd1-c2"/>
+                                    <constraint firstItem="i3m-gC-V1g" firstAttribute="bottom" secondItem="hd1-2h-001" secondAttribute="bottom" constant="-8" id="hd1-c3"/>
+                                    <constraint firstItem="hd1-st-002" firstAttribute="leading" secondItem="i3m-gC-V1g" secondAttribute="trailing" constant="8" id="hd1-c4"/>
+                                    <constraint firstItem="hd1-st-002" firstAttribute="top" secondItem="hd1-2h-001" secondAttribute="top" constant="8" id="hd1-c5"/>
+                                    <constraint firstItem="hd1-st-002" firstAttribute="bottom" secondItem="hd1-2h-001" secondAttribute="bottom" constant="-8" id="hd1-c6"/>
+                                    <constraint firstAttribute="trailing" secondItem="hd1-st-002" secondAttribute="trailing" constant="8" id="hd1-c7"/>
+                                    <constraint firstAttribute="height" constant="98" id="hd1-c8"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                        <real key="value" value="12"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.080000000000000002"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="16"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="4.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" name="Primary Text"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <!-- Tier 1: exam cycle segmented control -->
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" apportionsSegmentWidthsByContent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t1-seg-001">
+                                <rect key="frame" x="20" y="170" width="374" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="t1-c1"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="July"/>
+                                    <segment title="Feb"/>
+                                    <segment title="Baby Bar Jun"/>
+                                    <segment title="Baby Bar Oct"/>
+                                </segments>
+                            </segmentedControl>
+                            <!-- Tier 2: horizontally scrollable section chip filter -->
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t2-scr-001">
+                                <rect key="frame" x="0.0" y="210" width="414" height="40"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="t2-stk-001">
+                                        <rect key="frame" x="20" y="4" width="800" height="32"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-all-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="chip-all-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="All"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-mbe-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="68" y="0.0" width="60" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="chip-mbe-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="MBE"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-essays-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="136" y="0.0" width="68" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="chip-essays-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="Essays"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-mpt-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="212" y="0.0" width="68" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="chip-mpt-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="M/PTs"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-ng1-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="288" y="0.0" width="92" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="chip-ng1-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="NG 1-Choice"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-ng2-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="388" y="0.0" width="92" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="chip-ng2-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="NG 2-Choice"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-iqul-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="488" y="0.0" width="120" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="chip-iqul-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="IQS Counseling"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-iqud-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="616" y="0.0" width="120" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="chip-iqud-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="IQS Drafting"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-spt-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="744" y="0.0" width="60" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="chip-spt-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="SPT"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-lrpt-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="812" y="0.0" width="60" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="chip-lrpt-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="LRPT"/>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="t2-stk-001" firstAttribute="top" secondItem="t2-scr-001" secondAttribute="top" constant="4" id="t2-c1"/>
+                                    <constraint firstAttribute="bottom" secondItem="t2-stk-001" secondAttribute="bottom" constant="4" id="t2-c2"/>
+                                    <constraint firstItem="t2-stk-001" firstAttribute="leading" secondItem="t2-scr-001" secondAttribute="leading" constant="20" id="t2-c3"/>
+                                    <constraint firstAttribute="trailing" secondItem="t2-stk-001" secondAttribute="trailing" relation="greaterThanOrEqual" constant="20" id="t2-c4"/>
+                                    <constraint firstAttribute="height" constant="40" id="t2-c5"/>
+                                </constraints>
+                            </scrollView>
+                            <!-- Tutors button (right-aligned, replaces Email & Zoom pill) -->
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tut-btn-001">
+                                <rect key="frame" x="320" y="258" width="74" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="tut-c1"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="74" id="tut-c2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                <state key="normal" title="Tutors"/>
+                            </button>
+                            <!-- Collection container (student leaderboard) -->
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F3a-LA-82L">
-                                <rect key="frame" x="0.0" y="378" width="414" height="450"/>
+                                <rect key="frame" x="0.0" y="302" width="414" height="594"/>
                                 <color key="backgroundColor" name="Background"/>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="9Ua-6l-fbL">
-                                <rect key="frame" x="20" y="302" width="374" height="60"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xBE-vE-oZV" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="48"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fcw-1p-dgH" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="2.5" width="89.5" height="43"/>
-                                                <color key="backgroundColor" name="Primary Blue"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                                        <real key="value" value="10"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
-                                                </userDefinedRuntimeAttributes>
-                                            </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Is5-9O-Kih">
-                                                <rect key="frame" x="8" y="0.0" width="358" height="48"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Pt-rb-I6w">
-                                                        <rect key="frame" x="0.0" y="0.0" width="89.5" height="48"/>
-                                                        <string key="text">Bar Exam
-(Feb) </string>
-                                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C0o-MV-QoT">
-                                                        <rect key="frame" x="89.5" y="0.0" width="89.5" height="48"/>
-                                                        <string key="text">Bar Exam
-(July)</string>
-                                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
-                                                        <color key="textColor" name="Primary Text"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Baby Bar" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkt-R7-jWV">
-                                                        <rect key="frame" x="179" y="0.0" width="89.5" height="48"/>
-                                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
-                                                        <color key="textColor" name="Primary Text"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email &amp; Zoom" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rb5-n0-wI5" userLabel="EmailZoom">
-                                                        <rect key="frame" x="268.5" y="0.0" width="89.5" height="48"/>
-                                                        <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
-                                                        <color key="textColor" name="Primary Text"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                        <color key="backgroundColor" name="Background"/>
-                                        <constraints>
-                                            <constraint firstItem="fcw-1p-dgH" firstAttribute="centerY" secondItem="xBE-vE-oZV" secondAttribute="centerY" id="KaJ-jq-dHj"/>
-                                            <constraint firstAttribute="trailing" secondItem="Is5-9O-Kih" secondAttribute="trailing" constant="8" id="LGd-Eo-xG4"/>
-                                            <constraint firstAttribute="bottom" secondItem="Is5-9O-Kih" secondAttribute="bottom" id="Q65-h0-Nop"/>
-                                            <constraint firstAttribute="height" constant="48" id="Uje-Tw-BAJ"/>
-                                            <constraint firstItem="Is5-9O-Kih" firstAttribute="leading" secondItem="xBE-vE-oZV" secondAttribute="leading" constant="8" id="WtF-S2-ged"/>
-                                            <constraint firstItem="fcw-1p-dgH" firstAttribute="leading" secondItem="xBE-vE-oZV" secondAttribute="leading" constant="8" id="aev-dq-4n5"/>
-                                            <constraint firstItem="Is5-9O-Kih" firstAttribute="top" secondItem="xBE-vE-oZV" secondAttribute="top" id="dJy-sg-9Bb"/>
-                                            <constraint firstItem="fcw-1p-dgH" firstAttribute="width" secondItem="8Pt-rb-I6w" secondAttribute="width" id="fVY-Lf-NN9"/>
-                                            <constraint firstItem="fcw-1p-dgH" firstAttribute="height" secondItem="8Pt-rb-I6w" secondAttribute="height" multiplier="0.9" id="ouI-yj-ovv"/>
-                                        </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                                <real key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                                <real key="value" value="0.080000000000000002"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                <real key="value" value="20"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                                <size key="value" width="0.0" height="0.0"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                <color key="value" name="Primary Text"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4Jd-ed-BEJ">
-                                        <rect key="frame" x="0.0" y="60" width="374" height="0.0"/>
-                                        <subviews>
-                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xjK-v4-j9T" userLabel="ZoomEmailContainer" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="196" height="48"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dtg-8z-XE3" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="2.5" width="60" height="43"/>
-                                                        <color key="backgroundColor" name="Primary Blue"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                                                <real key="value" value="10"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </view>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="J7e-m7-ABR">
-                                                        <rect key="frame" x="8" y="0.0" width="180" height="48"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MBE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eUM-f9-0KC">
-                                                                <rect key="frame" x="0.0" y="0.0" width="60" height="48"/>
-                                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
-                                                                <color key="textColor" name="Primary Text"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Essays" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bxU-vT-bhU">
-                                                                <rect key="frame" x="60" y="0.0" width="60" height="48"/>
-                                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
-                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="M/PTs " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZ4-9G-jw2">
-                                                                <rect key="frame" x="120" y="0.0" width="60" height="48"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="60" id="jhu-oS-71s"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
-                                                                <color key="textColor" name="Primary Text"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                    </stackView>
-                                                </subviews>
-                                                <color key="backgroundColor" name="Background"/>
-                                                <constraints>
-                                                    <constraint firstItem="dtg-8z-XE3" firstAttribute="height" secondItem="bxU-vT-bhU" secondAttribute="height" multiplier="0.9" id="7YQ-G2-LnW"/>
-                                                    <constraint firstItem="dtg-8z-XE3" firstAttribute="leading" secondItem="xjK-v4-j9T" secondAttribute="leading" constant="8" id="Smy-bj-vZg"/>
-                                                    <constraint firstItem="J7e-m7-ABR" firstAttribute="leading" secondItem="xjK-v4-j9T" secondAttribute="leading" constant="8" id="Vng-lb-QOA"/>
-                                                    <constraint firstItem="dtg-8z-XE3" firstAttribute="centerY" secondItem="xjK-v4-j9T" secondAttribute="centerY" id="ZGe-T9-dIi"/>
-                                                    <constraint firstAttribute="trailing" secondItem="J7e-m7-ABR" secondAttribute="trailing" constant="8" id="dWu-zc-OCT"/>
-                                                    <constraint firstItem="dtg-8z-XE3" firstAttribute="width" secondItem="bxU-vT-bhU" secondAttribute="width" id="htv-v1-Kfm"/>
-                                                    <constraint firstAttribute="height" constant="48" id="kT9-g3-0bJ"/>
-                                                    <constraint firstItem="J7e-m7-ABR" firstAttribute="top" secondItem="xjK-v4-j9T" secondAttribute="top" id="pcB-wx-7cf"/>
-                                                    <constraint firstAttribute="bottom" secondItem="J7e-m7-ABR" secondAttribute="bottom" id="zgw-ct-RbH"/>
-                                                </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                                        <real key="value" value="10"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                                        <real key="value" value="0.080000000000000002"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                        <real key="value" value="20"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                                        <size key="value" width="0.0" height="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </view>
-                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yN1-EY-nc4" userLabel="BabyBarContainer" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="176" height="48"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oG6-04-l7L" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="2.5" width="80" height="43"/>
-                                                        <color key="backgroundColor" name="Primary Blue"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                                                <real key="value" value="10"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </view>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Eca-ba-Iuv">
-                                                        <rect key="frame" x="8" y="0.0" width="160" height="48"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mb-nn-RSG">
-                                                                <rect key="frame" x="0.0" y="0.0" width="80" height="48"/>
-                                                                <string key="text">Baby Bar
-(June)</string>
-                                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
-                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3S-fQ-H9m">
-                                                                <rect key="frame" x="80" y="0.0" width="80" height="48"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="80" id="wts-XX-O41"/>
-                                                                </constraints>
-                                                                <string key="text">Baby Bar
-(Oct)</string>
-                                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
-                                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                    </stackView>
-                                                </subviews>
-                                                <color key="backgroundColor" name="Background"/>
-                                                <constraints>
-                                                    <constraint firstItem="oG6-04-l7L" firstAttribute="height" secondItem="2mb-nn-RSG" secondAttribute="height" multiplier="0.9" id="H4N-oe-dtj"/>
-                                                    <constraint firstAttribute="height" constant="48" id="Hhw-Kf-h0P"/>
-                                                    <constraint firstAttribute="trailing" secondItem="Eca-ba-Iuv" secondAttribute="trailing" constant="8" id="NNC-rN-EK4"/>
-                                                    <constraint firstItem="oG6-04-l7L" firstAttribute="centerY" secondItem="yN1-EY-nc4" secondAttribute="centerY" id="e1z-yW-eRA"/>
-                                                    <constraint firstItem="oG6-04-l7L" firstAttribute="leading" secondItem="yN1-EY-nc4" secondAttribute="leading" constant="8" id="n2e-IH-e1A"/>
-                                                    <constraint firstItem="Eca-ba-Iuv" firstAttribute="leading" secondItem="yN1-EY-nc4" secondAttribute="leading" constant="8" id="qxD-Lm-AkV"/>
-                                                    <constraint firstItem="oG6-04-l7L" firstAttribute="width" secondItem="2mb-nn-RSG" secondAttribute="width" id="rba-bg-ECN"/>
-                                                    <constraint firstItem="Eca-ba-Iuv" firstAttribute="top" secondItem="yN1-EY-nc4" secondAttribute="top" id="tEp-wk-1Oo"/>
-                                                    <constraint firstAttribute="bottom" secondItem="Eca-ba-Iuv" secondAttribute="bottom" id="zvv-5r-uzP"/>
-                                                </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                                        <real key="value" value="10"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                                        <real key="value" value="0.080000000000000002"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                        <real key="value" value="20"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                                        <size key="value" width="0.0" height="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </view>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Zt6-be-EeI"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
-                            <constraint firstItem="9Ua-6l-fbL" firstAttribute="top" secondItem="fP0-gw-aML" secondAttribute="bottom" constant="14" id="Ihx-2u-2W6"/>
-                            <constraint firstItem="9Ua-6l-fbL" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" constant="20" id="SzF-jc-wmN"/>
-                            <constraint firstItem="F3a-LA-82L" firstAttribute="top" secondItem="9Ua-6l-fbL" secondAttribute="bottom" constant="16" id="VfQ-zF-pC8"/>
-                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="9Ua-6l-fbL" secondAttribute="trailing" constant="20" id="Wji-8K-lCC"/>
-                            <constraint firstItem="fP0-gw-aML" firstAttribute="top" secondItem="Zt6-be-EeI" secondAttribute="top" constant="20" id="YuV-rH-hT9"/>
-                            <constraint firstItem="fP0-gw-aML" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" constant="20" id="gSk-OC-tkO"/>
-                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="fP0-gw-aML" secondAttribute="trailing" constant="20" id="haL-Tz-NTL"/>
-                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="F3a-LA-82L" secondAttribute="trailing" id="lyu-fi-2Dh"/>
-                            <constraint firstItem="Zt6-be-EeI" firstAttribute="bottom" secondItem="F3a-LA-82L" secondAttribute="bottom" id="m2f-Vc-xpb"/>
-                            <constraint firstItem="F3a-LA-82L" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" id="mza-ej-cOS"/>
+                            <constraint firstItem="hd1-2h-001" firstAttribute="top" secondItem="Zt6-be-EeI" secondAttribute="top" constant="8" id="hd1-pc1"/>
+                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="hd1-2h-001" secondAttribute="trailing" constant="20" id="hd1-pc2"/>
+                            <constraint firstItem="Zt6-be-EeI" firstAttribute="leading" secondItem="hd1-2h-001" secondAttribute="leading" constant="20" id="hd1-pc3"/>
+                            <constraint firstItem="t1-seg-001" firstAttribute="top" secondItem="hd1-2h-001" secondAttribute="bottom" constant="12" id="t1-pc1"/>
+                            <constraint firstItem="t1-seg-001" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" constant="20" id="t1-pc2"/>
+                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="t1-seg-001" secondAttribute="trailing" constant="20" id="t1-pc3"/>
+                            <constraint firstItem="t2-scr-001" firstAttribute="top" secondItem="t1-seg-001" secondAttribute="bottom" constant="8" id="t2-pc1"/>
+                            <constraint firstItem="Zt6-be-EeI" firstAttribute="leading" secondItem="t2-scr-001" secondAttribute="leading" id="t2-pc2"/>
+                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="t2-scr-001" secondAttribute="trailing" id="t2-pc3"/>
+                            <constraint firstItem="tut-btn-001" firstAttribute="top" secondItem="t2-scr-001" secondAttribute="bottom" constant="8" id="tut-pc1"/>
+                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="tut-btn-001" secondAttribute="trailing" constant="20" id="tut-pc2"/>
+                            <constraint firstItem="F3a-LA-82L" firstAttribute="top" secondItem="tut-btn-001" secondAttribute="bottom" constant="12" id="col-pc1"/>
+                            <constraint firstItem="Zt6-be-EeI" firstAttribute="bottom" secondItem="F3a-LA-82L" secondAttribute="bottom" id="col-pc2"/>
+                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="F3a-LA-82L" secondAttribute="trailing" id="col-pc3"/>
+                            <constraint firstItem="F3a-LA-82L" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" id="col-pc4"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="babyBarContainerView" destination="yN1-EY-nc4" id="wuo-pm-lnx"/>
-                        <outlet property="babyBarHighlightView" destination="oG6-04-l7L" id="8QD-wg-lf5"/>
-                        <outlet property="babyBarHighlightViewLeading" destination="n2e-IH-e1A" id="igi-jk-3tn"/>
-                        <outlet property="countdownContainerView" destination="Rki-Sk-Bjz" id="3iy-mU-fM3"/>
                         <outlet property="collectionContainerView" destination="F3a-LA-82L" id="sMv-SM-Cq7"/>
-                        <outlet property="highlightView" destination="fcw-1p-dgH" id="xdh-Af-OoI"/>
-                        <outlet property="highlightViewLeading" destination="aev-dq-4n5" id="E8d-Eg-7yO"/>
-                        <outlet property="labelBabyBarJun" destination="2mb-nn-RSG" id="kGF-KI-8pL"/>
-                        <outlet property="labelBabyBarOct" destination="E3S-fQ-H9m" id="ADi-mI-QHd"/>
-                        <outlet property="labelBabyBarSection" destination="qkt-R7-jWV" id="dhV-9z-b3X"/>
+                        <outlet property="countdownContainerView" destination="hd1-2h-001" id="3iy-mU-fM3"/>
+                        <outlet property="examCycleSegmentedControl" destination="t1-seg-001" id="ecs-c1"/>
                         <outlet property="labelCountdownSubtitle" destination="eIU-eX-5La" id="mzB-d8-WzB"/>
                         <outlet property="labelCountdownTitle" destination="6pE-jo-EEz" id="YqB-jE-8lF"/>
                         <outlet property="labelCountdownValue" destination="hgF-nF-Tod" id="o3A-q0-xrK"/>
-                        <outlet property="labelEssays" destination="bxU-vT-bhU" id="G1y-6H-Cl8"/>
-                        <outlet property="labelMBE" destination="eUM-f9-0KC" id="1Ah-Pw-44Q"/>
-                        <outlet property="labelMPT" destination="NZ4-9G-jw2" id="sY1-VL-qGA"/>
-                        <outlet property="labelProBarFeb" destination="8Pt-rb-I6w" id="JeW-Si-CxG"/>
-                        <outlet property="labelProBarJuly" destination="C0o-MV-QoT" id="5j9-if-gT0"/>
                         <outlet property="labelUserPosition" destination="hKb-eS-BTv" id="TRg-ub-PHk"/>
-                        <outlet property="labelZoomEmailSection" destination="Rb5-n0-wI5" id="R8S-gK-ISi"/>
                         <outlet property="profileImageView" destination="i3m-gC-V1g" id="pEh-eD-JRM"/>
-                        <outlet property="zoomEmailContainerView" destination="xjK-v4-j9T" id="8hA-IJ-Q1I"/>
-                        <outlet property="zoomEmailHighlightView" destination="dtg-8z-XE3" id="yDB-eQ-47E"/>
-                        <outlet property="zoomEmailHighlightViewLeading" destination="Smy-bj-vZg" id="PxE-ok-d3Q"/>
+                        <outlet property="sectionFilterScrollView" destination="t2-scr-001" id="sfs-c1"/>
+                        <outlet property="sectionFilterStack" destination="t2-stk-001" id="sfs-c2"/>
+                        <outlet property="tutorsButton" destination="tut-btn-001" id="tb-c1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="axu-7l-dDa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

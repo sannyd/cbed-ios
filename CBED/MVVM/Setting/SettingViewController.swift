@@ -20,7 +20,7 @@ enum ExamLocation: String, CaseIterable {
     case nextGen = "NextGen"
 
     // TODO: Change to true for Version 11.0 release to reveal NextGen.
-    static let isNextGenEnabled = false
+    static let isNextGenEnabled = true
 
     static let defaultLocation: ExamLocation = .mpre
 

@@ -24,7 +24,7 @@ extension ScoreboardRouter: URLRequestConvertible {
     var path: String {
         switch self {
         case .getScoreboard:
-            return "/scoreboard"
+            return "/scoreboard-v11"
         }
     }
     

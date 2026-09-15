@@ -185,7 +185,7 @@ struct SectionsViewModel: LoadMoreViewModel {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { searchResult, sectionDetail in
                 if IsEnableLogin {
-                    if [29, 30, 33, 35, 40].contains(level.id), !isSectionAvailable(levelID: level.id,
+                    if [29, 30, 31, 33, 34, 35, 40].contains(level.id), !isSectionAvailable(levelID: level.id,
                                                                                     sectionID: searchResult.id,
                                                                                     isAvailable: searchResult.isAvailable) {
                         navigator.showBlockSectionAlert(sectionID: level.id)
@@ -248,7 +248,7 @@ struct SectionsViewModel: LoadMoreViewModel {
     }
     
     private func mapSectionsForDisplay(response: SectionSearchResponseM) -> Observable<[SearchResultM]> {
-        guard [29, 30, 33, 35, 40].contains(level.id) else {
+        guard [29, 30, 31, 33, 34, 35, 40].contains(level.id) else {
             return .just(response.results)
         }
         
@@ -269,19 +269,38 @@ struct SectionsViewModel: LoadMoreViewModel {
     private func isSectionAvailable(levelID: Int,
                                     sectionID: Int,
                                     isAvailable: Bool?) -> Bool {
-        if levelID == 40 {
+        switch levelID {
+        case 40:
             let currentMixedMbeSection = Storage.profileInfo?.currentMixedMbeSection ?? 55001
             return sectionID <= currentMixedMbeSection
+        case 29:
+            let current = Storage.profileInfo?.currentNgMcq1ChoiceSectionId ?? 49808
+            return sectionID <= current
+        case 30:
+            let current = Storage.profileInfo?.currentNgMcq2ChoiceSectionId ?? 49815
+            return sectionID <= current
+        case 31:
+            let current = Storage.profileInfo?.currentDraftingSectionId ?? 50001
+            return sectionID <= current
+        case 33:
+            let current = Storage.profileInfo?.currentCounselingSectionId ?? 51001
+            return sectionID <= current
+        case 34:
+            let current = Storage.profileInfo?.currentNgSptSectionId ?? 53001
+            return sectionID <= current
+        case 35:
+            let current = Storage.profileInfo?.currentNgLrptSectionId ?? 54001
+            return sectionID <= current
+        default:
+            return isAvailable ?? true
         }
-        
-        return isAvailable ?? true
     }
 
     private func sectionWithLevelAvailability(_ section: SearchResultM) -> SearchResultM {
-        guard level.id == 40 else {
+        guard [29, 30, 31, 33, 34, 35, 40].contains(level.id) else {
             return section
         }
-        
+
         return section.withAvailability(isSectionAvailable(levelID: level.id,
                                                            sectionID: section.id,
                                                            isAvailable: section.isAvailable))
