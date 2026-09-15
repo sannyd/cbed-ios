@@ -136,7 +136,7 @@ final class TutorsSheetViewController: UIViewController {
         let card = CustomBorderView()
         card.backgroundColor = Constants.CellColor
         card.setCornerRadius(radius: 14)
-        card.setShadow(color: Constants.CardShadowColor, opacity: 0.18, radius: 6, offset: .init(width: 0, height: 2))
+        card.setShadow(color: Constants.CardShadowColor, opacity: 0.18, offSet: .init(width: 0, height: 2), radius: 6)
 
         let avatar = UIImageView()
         avatar.contentMode = .scaleAspectFill
