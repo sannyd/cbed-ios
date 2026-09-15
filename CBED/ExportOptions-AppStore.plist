@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>method</key>
+	<string>app-store-connect</string>
+	<key>destination</key>
+	<string>export</string>
+	<key>teamID</key>
+	<string>5KQUA2VRMH</string>
+	<key>uploadSymbols</key>
+	<true/>
+	<key>uploadBitcode</key>
+	<false/>
+	<key>compileBitcode</key>
+	<false/>
+	<key>signingStyle</key>
+	<string>automatic</string>
+	<key>stripSwiftSymbols</key>
+	<true/>
+	<key>manifest</key>
+	<dict>
+		<key>appURL</key>
+		<string>https://apps.apple.com/app/idYOUR_APP_ID</string>
+		<key>displayImageURL</key>
+		<string>https://is1-ssl.mzstatic.com/image/thumb/PurpleSourceXXX.png</string>
+		<key>version</key>
+		<string>10.10</string>
+	</dict>
+</dict>
+</plist>
