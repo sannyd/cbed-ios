@@ -85,7 +85,12 @@ class CustomBorderView: UIView {
     }
     
     func drawCorner() {
-        self.clipsToBounds = false
+        // Only clip when we are actively rounding corners — otherwise child
+        // subviews bleed past the card boundary (avatar overflow on the
+        // scoreboard header, etc). Without rounding, leave clipping off so
+        // the drop-shadow is still visible outside the bounds.
+        let hasRoundedCorners = topLeft || topRight || bottomLeft || bottomRight
+        self.clipsToBounds = hasRoundedCorners
         var corners: CACornerMask = .init()
         if self.topLeft {
             corners.insert(.layerMinXMinYCorner)
@@ -100,14 +105,14 @@ class CustomBorderView: UIView {
             corners.insert(.layerMaxXMaxYCorner)
         }
 
-       
+
         self.layer.shadowOpacity = self.shadowOpacity
         self.layer.shadowRadius = self.shadowRadius
         self.layer.shadowOffset = self.shadowOffset
         self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
         self.layer.shouldRasterize = true
         self.layer.rasterizationScale = UIScreen.main.scale
-        
+
         self.layer.shadowColor = self.shadowColor.cgColor
         self.roundCorners(corners, radius: self.borderRadius)
         self.layer.borderColor = self.borderColor.cgColor

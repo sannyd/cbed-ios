@@ -19,6 +19,34 @@ struct ScoreboardResponseM: Codable {
         case emailZoom = "email_zoom"
         case tutor = "tutor"
     }
+
+    /// Defensive decoder: every bucket uses `decodeIfPresent` with a
+    /// `[]` default so older backends (without `email_zoom` or `tutor`)
+    /// never crash the scoreboard view controller on load.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        babyBarJune = (try c.decodeIfPresent([ScoreM].self, forKey: .babyBarJune)) ?? []
+        babyBarOct  = (try c.decodeIfPresent([ScoreM].self, forKey: .babyBarOct))  ?? []
+        proBarFeb   = (try c.decodeIfPresent([ScoreM].self, forKey: .proBarFeb))   ?? []
+        proBarJuly  = (try c.decodeIfPresent([ScoreM].self, forKey: .proBarJuly))  ?? []
+        emailZoom   = (try c.decodeIfPresent([ScoreM].self, forKey: .emailZoom))   ?? []
+        tutor       = (try c.decodeIfPresent([ScoreM].self, forKey: .tutor))       ?? []
+    }
+
+    /// Memberwise convenience initializer (also used by `.empty`).
+    init(babyBarJune: [ScoreM] = [],
+         babyBarOct: [ScoreM] = [],
+         proBarFeb: [ScoreM] = [],
+         proBarJuly: [ScoreM] = [],
+         emailZoom: [ScoreM] = [],
+         tutor: [ScoreM] = []) {
+        self.babyBarJune = babyBarJune
+        self.babyBarOct = babyBarOct
+        self.proBarFeb = proBarFeb
+        self.proBarJuly = proBarJuly
+        self.emailZoom = emailZoom
+        self.tutor = tutor
+    }
 }
 
 struct ScoreM: Codable {
@@ -92,10 +120,13 @@ struct ScoreM: Codable {
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
-        id = try c.decode(Int.self, forKey: .id)
+        // `id` and `points` are required for a leaderboard row, but fall
+        // back to safe defaults so a malformed payload still renders
+        // (with empty placeholders) instead of crashing the whole list.
+        id = (try c.decodeIfPresent(Int.self, forKey: .id)) ?? 0
         name = try c.decodeIfPresent(String.self, forKey: .name)
         avatar = try c.decodeIfPresent(String.self, forKey: .avatar)
-        points = try c.decode(Int.self, forKey: .points)
+        points = (try c.decodeIfPresent(Int.self, forKey: .points)) ?? 0
         lastSectionName = try c.decodeIfPresent(String.self, forKey: .lastSectionName)
         essaysCount = (try? c.decode(Int.self, forKey: .essaysCount)) ?? 0
         mptCount = (try? c.decode(Int.self, forKey: .mptCount)) ?? 0

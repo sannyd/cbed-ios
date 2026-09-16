@@ -846,13 +846,15 @@
                                 </subviews>
                                 <color key="backgroundColor" name="Secondary Surface"/>
                                 <constraints>
-                                    <constraint firstItem="i3m-gC-V1g" firstAttribute="leading" secondItem="hd1-2h-001" secondAttribute="leading" constant="8" id="hd1-c1"/>
+                                    <!-- 16pt horizontal padding inside the header card so the avatar is clearly inset, not flush. -->
+                                    <!-- Avatar keeps 8pt vertical padding to match its hardcoded 82x82 size in the 98pt card. -->
+                                    <constraint firstItem="i3m-gC-V1g" firstAttribute="leading" secondItem="hd1-2h-001" secondAttribute="leading" constant="16" id="hd1-c1"/>
                                     <constraint firstItem="i3m-gC-V1g" firstAttribute="top" secondItem="hd1-2h-001" secondAttribute="top" constant="8" id="hd1-c2"/>
                                     <constraint firstItem="i3m-gC-V1g" firstAttribute="bottom" secondItem="hd1-2h-001" secondAttribute="bottom" constant="-8" id="hd1-c3"/>
-                                    <constraint firstItem="hd1-st-002" firstAttribute="leading" secondItem="i3m-gC-V1g" secondAttribute="trailing" constant="8" id="hd1-c4"/>
+                                    <constraint firstItem="hd1-st-002" firstAttribute="leading" secondItem="i3m-gC-V1g" secondAttribute="trailing" constant="12" id="hd1-c4"/>
                                     <constraint firstItem="hd1-st-002" firstAttribute="top" secondItem="hd1-2h-001" secondAttribute="top" constant="8" id="hd1-c5"/>
                                     <constraint firstItem="hd1-st-002" firstAttribute="bottom" secondItem="hd1-2h-001" secondAttribute="bottom" constant="-8" id="hd1-c6"/>
-                                    <constraint firstAttribute="trailing" secondItem="hd1-st-002" secondAttribute="trailing" constant="8" id="hd1-c7"/>
+                                    <constraint firstAttribute="trailing" secondItem="hd1-st-002" secondAttribute="trailing" constant="16" id="hd1-c7"/>
                                     <constraint firstAttribute="height" constant="98" id="hd1-c8"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -1050,9 +1052,11 @@
                         <viewLayoutGuide key="safeArea" id="Zt6-be-EeI"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
+                            <!-- HeaderCard: 16pt horizontal margin to safe area both sides. -->
+                            <!-- NOTE: previously firstItem/secondItem was reversed, placing the card 20pt to the LEFT of safeArea and bleeding the avatar past the screen edge. -->
                             <constraint firstItem="hd1-2h-001" firstAttribute="top" secondItem="Zt6-be-EeI" secondAttribute="top" constant="8" id="hd1-pc1"/>
-                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="hd1-2h-001" secondAttribute="trailing" constant="20" id="hd1-pc2"/>
-                            <constraint firstItem="Zt6-be-EeI" firstAttribute="leading" secondItem="hd1-2h-001" secondAttribute="leading" constant="20" id="hd1-pc3"/>
+                            <constraint firstItem="hd1-2h-001" firstAttribute="trailing" secondItem="Zt6-be-EeI" secondAttribute="trailing" constant="16" id="hd1-pc2"/>
+                            <constraint firstItem="hd1-2h-001" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" constant="16" id="hd1-pc3"/>
                             <constraint firstItem="t1-scr-001" firstAttribute="top" secondItem="hd1-2h-001" secondAttribute="bottom" constant="12" id="t1-pc1"/>
                                                         <constraint firstItem="Zt6-be-EeI" firstAttribute="leading" secondItem="t1-scr-001" secondAttribute="leading" id="t1-pc2"/>
                                                         <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="t1-scr-001" secondAttribute="trailing" id="t1-pc3"/>

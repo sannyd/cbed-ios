@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum MemberPlan: String, Codable {    
+enum MemberPlan: String, Codable {
     case free = "free"
     case proBarFeb = "com.barexamdrills.app.probarfeb"
     case proBarJul = "com.barexamdrills.app.probarjuly"
     case babybarJun = "com.barexamdrills.app.babybarjune"
     case babybarOct = "com.barexamdrills.app.babybaroct"
-    
+
     var stringValue: String {
         switch self {
         case .free:
@@ -96,5 +96,108 @@ struct ProfileInfoM: Codable {
         case currentNgLrptSectionName = "current_ng_lrpt_section_name"
         case currentNgMcq1ChoiceSectionName = "current_ng_mcq_1_choice_section_name"
         case currentNgMcq2ChoiceSectionName = "current_ng_mcq_2_choice_section_name"
+    }
+
+    /// Defensive decoder: every field uses `decodeIfPresent` so a missing
+    /// or null field never crashes the JSON pipeline. This matters in
+    /// practice because:
+    /// - the Settings tab triggers a re-fetch of this struct
+    /// - older or alternate endpoints may omit some fields
+    /// - 3 fields (`isEmailZoom`, `essayCount`, `mptCount`) were added to
+    ///   the wire and previously threw `DecodingError.keyNotFound` when
+    ///   absent — that's the source of the Settings-tab fatal crash.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+
+        id          = try c.decodeIfPresent(Int.self,    forKey: .id)
+        email       = (try c.decodeIfPresent(String.self, forKey: .email))    ?? ""
+        avatar      = try c.decodeIfPresent(String.self, forKey: .avatar)
+        name        = (try c.decodeIfPresent(String.self, forKey: .name))     ?? ""
+        state       = (try c.decodeIfPresent(String.self, forKey: .state))    ?? ""
+        // MemberPlan decoding: fall back to `.free` if the backend returns
+        // a value we don't know (forward-compat for new membership SKUs).
+        memberPlan  = (try c.decodeIfPresent(MemberPlan.self, forKey: .memberPlan)) ?? .free
+        memberPlanSimple = (try c.decodeIfPresent(Int.self,    forKey: .memberPlanSimple)) ?? 0
+        membership  = (try c.decodeIfPresent(String.self, forKey: .membership)) ?? ""
+        lastSectionName = try c.decodeIfPresent(String.self, forKey: .lastSectionName)
+        points      = (try c.decodeIfPresent(Int.self,     forKey: .points))  ?? 0
+        phone       = try c.decodeIfPresent(String.self, forKey: .phone)
+        essayCount  = (try c.decodeIfPresent(Int.self,     forKey: .essayCount))  ?? 0
+        mptCount    = (try c.decodeIfPresent(Int.self,     forKey: .mptCount))    ?? 0
+        isTutor     = (try c.decodeIfPresent(Bool.self,    forKey: .isTutor))     ?? false
+        isEmailZoom = (try c.decodeIfPresent(Bool.self,    forKey: .isEmailZoom)) ?? false
+        currentMixedMbeSection       = try c.decodeIfPresent(Int.self, forKey: .currentMixedMbeSection)
+        currentDraftingSectionId     = try c.decodeIfPresent(Int.self, forKey: .currentDraftingSectionId)
+        currentCounselingSectionId   = try c.decodeIfPresent(Int.self, forKey: .currentCounselingSectionId)
+        currentNgSptSectionId        = try c.decodeIfPresent(Int.self, forKey: .currentNgSptSectionId)
+        currentNgLrptSectionId       = try c.decodeIfPresent(Int.self, forKey: .currentNgLrptSectionId)
+        currentNgMcq1ChoiceSectionId = try c.decodeIfPresent(Int.self, forKey: .currentNgMcq1ChoiceSectionId)
+        currentNgMcq2ChoiceSectionId = try c.decodeIfPresent(Int.self, forKey: .currentNgMcq2ChoiceSectionId)
+        currentDraftingSectionName       = try c.decodeIfPresent(String.self, forKey: .currentDraftingSectionName)
+        currentCounselingSectionName     = try c.decodeIfPresent(String.self, forKey: .currentCounselingSectionName)
+        currentNgSptSectionName          = try c.decodeIfPresent(String.self, forKey: .currentNgSptSectionName)
+        currentNgLrptSectionName         = try c.decodeIfPresent(String.self, forKey: .currentNgLrptSectionName)
+        currentNgMcq1ChoiceSectionName   = try c.decodeIfPresent(String.self, forKey: .currentNgMcq1ChoiceSectionName)
+        currentNgMcq2ChoiceSectionName   = try c.decodeIfPresent(String.self, forKey: .currentNgMcq2ChoiceSectionName)
+    }
+
+    /// Convenience initializer for in-memory placeholders (used by
+    /// `AppViewModel`'s fallback when profile info isn't loaded yet).
+    init(id: Int? = nil,
+         email: String = "",
+         avatar: String? = nil,
+         name: String = "",
+         state: String = "",
+         memberPlan: MemberPlan = .free,
+         memberPlanSimple: Int = 0,
+         membership: String = "",
+         lastSectionName: String? = nil,
+         points: Int = 0,
+         phone: String? = nil,
+         essayCount: Int = 0,
+         mptCount: Int = 0,
+         isTutor: Bool = false,
+         isEmailZoom: Bool = false,
+         currentMixedMbeSection: Int? = nil,
+         currentDraftingSectionId: Int? = nil,
+         currentCounselingSectionId: Int? = nil,
+         currentNgSptSectionId: Int? = nil,
+         currentNgLrptSectionId: Int? = nil,
+         currentNgMcq1ChoiceSectionId: Int? = nil,
+         currentNgMcq2ChoiceSectionId: Int? = nil,
+         currentDraftingSectionName: String? = nil,
+         currentCounselingSectionName: String? = nil,
+         currentNgSptSectionName: String? = nil,
+         currentNgLrptSectionName: String? = nil,
+         currentNgMcq1ChoiceSectionName: String? = nil,
+         currentNgMcq2ChoiceSectionName: String? = nil) {
+        self.id = id
+        self.email = email
+        self.avatar = avatar
+        self.name = name
+        self.state = state
+        self.memberPlan = memberPlan
+        self.memberPlanSimple = memberPlanSimple
+        self.membership = membership
+        self.lastSectionName = lastSectionName
+        self.points = points
+        self.phone = phone
+        self.essayCount = essayCount
+        self.mptCount = mptCount
+        self.isTutor = isTutor
+        self.isEmailZoom = isEmailZoom
+        self.currentMixedMbeSection = currentMixedMbeSection
+        self.currentDraftingSectionId = currentDraftingSectionId
+        self.currentCounselingSectionId = currentCounselingSectionId
+        self.currentNgSptSectionId = currentNgSptSectionId
+        self.currentNgLrptSectionId = currentNgLrptSectionId
+        self.currentNgMcq1ChoiceSectionId = currentNgMcq1ChoiceSectionId
+        self.currentNgMcq2ChoiceSectionId = currentNgMcq2ChoiceSectionId
+        self.currentDraftingSectionName = currentDraftingSectionName
+        self.currentCounselingSectionName = currentCounselingSectionName
+        self.currentNgSptSectionName = currentNgSptSectionName
+        self.currentNgLrptSectionName = currentNgLrptSectionName
+        self.currentNgMcq1ChoiceSectionName = currentNgMcq1ChoiceSectionName
+        self.currentNgMcq2ChoiceSectionName = currentNgMcq2ChoiceSectionName
     }
 }
