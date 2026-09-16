@@ -160,6 +160,14 @@ final class ScoreboardViewController: UIViewController {
     private func configureCountdownView() {
         countdownContainerView.backgroundColor = Constants.SecondarySurfaceColor
         countdownContainerView.setCornerRadius(radius: 16)
+        // V11.1 (defensive): force clipping at the runtime level so the
+        // card can never let its avatar bleed past the rounded corner,
+        // even if some future storyboard edit drops clipsSubviews="YES".
+        // Symmetric horizontal pinning (leading+trailing = safeArea ± 16)
+        // is already set in the storyboard; no width constraint is set on
+        // the card, so the symmetric edges govern the width.
+        countdownContainerView.clipsToBounds = true
+        countdownContainerView.layer.masksToBounds = true
         countdownContainerView.setShadow(color: Constants.CardShadowColor,
                                          opacity: 0.2,
                                          offSet: .init(width: 0, height: 8),
