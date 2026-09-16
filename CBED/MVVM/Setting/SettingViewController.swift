@@ -119,6 +119,10 @@ final class SettingViewController: UIViewController {
     var disposeBag = DisposeBag()
     private var codeMenuAttributes = SwiftyMenuAttributes()
     private let dropDownOptionsDataSource = ExamLocation.selectableLocations
+    /// rootView → parent.safeAreaLayoutGuide pinning, installed lazily
+    /// inside `viewWillLayoutSubviews` once `view.superview` is non-nil.
+    /// Tracked so we install exactly once per Settings-instance lifetime.
+    private var rootViewConstraints: [NSLayoutConstraint] = []
     
     private let essayPickerView = UIPickerView()
     private let mptPickerView = UIPickerView()
@@ -274,22 +278,25 @@ final class SettingViewController: UIViewController {
         rootView.addSubview(scrollView)
         scrollView.addSubview(storyboardView)
 
-        // After `self.view = rootView`, UIKit inserts rootView into the
-        // view-controller hierarchy. Once it's actually in a parent, we
-        // can capture the parent anchors and pin rootView to the real
-        // screen size (not the design-time 414-wide container).
-        guard let parent = rootView.superview else {
-            assertionFailure("rootView.superview missing after assignment")
-            return
-        }
-        parent.translatesAutoresizingMaskIntoConstraints = false
+        // NB: do NOT install rootView-to-parent constraints here.
+        //
+        // After `self.view = rootView`, UIKit may not have inserted
+        // rootView into its superview synchronously — calling
+        // `rootView.superview` immediately often returns nil. Pinning
+        // rootView to `parent.topAnchor` here also breaks the parent's
+        // own auto-layout (the previous code path set
+        // `parent.translatesAutoresizingMaskIntoConstraints = false`,
+        // which is unsafe to do from a child view controller).
+        //
+        // Instead, install the rootView-to-superview pinning in
+        // `installRootViewConstraintsIfNeeded()` (called from
+        // `viewWillLayoutSubviews`), where superview is guaranteed to be
+        // set AND we never touch the parent's translatesAutoresizingMaskIntoConstraints.
+        rootViewConstraints = []
 
+        // These constraints don't depend on `rootView.superview`, so they
+        // can still be installed eagerly.
         NSLayoutConstraint.activate([
-            rootView.topAnchor.constraint(equalTo: parent.topAnchor),
-            rootView.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
-            rootView.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
-            rootView.bottomAnchor.constraint(equalTo: parent.bottomAnchor),
-
             scrollView.topAnchor.constraint(equalTo: rootView.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: rootView.trailingAnchor),
@@ -302,6 +309,34 @@ final class SettingViewController: UIViewController {
             storyboardView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
             storyboardView.heightAnchor.constraint(greaterThanOrEqualToConstant: designHeight)
         ])
+    }
+
+    /// Install rootView → superview constraints once superview is
+    /// guaranteed to be non-nil. Uses the parent's `safeAreaLayoutGuide`
+    /// so the scrollable content respects the tab bar / status bar /
+    /// home-indicator insets — pinning to the raw edges previously made
+    /// the last rows sit underneath the tab bar.
+    private func installRootViewConstraintsIfNeeded() {
+        guard rootViewConstraints.isEmpty,
+              let parent = view?.superview else {
+            return
+        }
+        // Install rootView pinned to parent's safe area so content
+        // never bleeds behind the tab bar / home indicator.
+        let guide = parent.safeAreaLayoutGuide
+        let cs = [
+            view!.topAnchor.constraint(equalTo: guide.topAnchor),
+            view!.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            view!.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            view!.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+        ]
+        NSLayoutConstraint.activate(cs)
+        rootViewConstraints = cs
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        installRootViewConstraintsIfNeeded()
     }
     
     func bindViewModel() {
