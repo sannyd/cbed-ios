@@ -57,6 +57,15 @@
                             <constraint firstItem="Nq2-lf-hpE" firstAttribute="centerY" secondItem="RJm-N2-MQc" secondAttribute="centerY" id="clB-cI-p9l"/>
                             <constraint firstAttribute="trailing" secondItem="LOb-ku-zmi" secondAttribute="trailing" constant="14" id="dkl-Hc-jcs"/>
                             <constraint firstItem="e8t-af-AnB" firstAttribute="leading" secondItem="RJm-N2-MQc" secondAttribute="leading" constant="15" id="esj-mb-JEd"/>
+                            <!-- V11.1: prevent the right-side level label from overlapping
+                                 the ID label. The level text grows with longer module
+                                 titles (e.g. "NG 1-Choice: Level 1 - 1 Choice MCQ"); this
+                                 constraint sets a 12pt gap so the two never collide. -->
+                            <constraint firstItem="LOb-ku-zmi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Nq2-lf-hpE" secondAttribute="trailing" constant="12" id="id-vs-level-gap"/>
+                            <!-- Allow the level label to compress (truncate) instead of pushing
+                                 the ID off-screen. The level label's hugging is reduced so it
+                                 wins the width race against the ID label. -->
+                            <constraint firstItem="LOb-ku-zmi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RJm-N2-MQc" secondAttribute="leading" constant="180" id="level-min-leading"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">

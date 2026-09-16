@@ -12,8 +12,11 @@ final class ScoreboardViewController: UIViewController {
     @IBOutlet weak var labelCountdownValue: UILabel!
     @IBOutlet weak var labelCountdownSubtitle: UILabel!
 
-    // MARK: - IBOutlets (tier 1 — exam cycle segmented control)
-    @IBOutlet weak var examCycleSegmentedControl: UISegmentedControl!
+    // MARK: - IBOutlets (tier 1 — exam cycle chips, horizontal scroll row)
+    // Replaces the prior UISegmentedControl whose compressed titles
+    // truncated "Baby Bar Jun" and "Email & Zoom" on small screens.
+    @IBOutlet weak var examCycleScrollView: UIScrollView!
+    @IBOutlet weak var examCycleStack: UIStackView!
 
     // MARK: - IBOutlets (tier 2 — horizontally scrolling section chips)
     @IBOutlet weak var sectionFilterScrollView: UIScrollView!
@@ -63,23 +66,12 @@ final class ScoreboardViewController: UIViewController {
     // MARK: - Methods
 
     func bindViewModel() {
-        // Tier 1: exam cycle (segmented control)
-        // Segment indices map 1:1 to ExamCycle cases. The default `.july`
-        // (index 0) is preserved.
-        let examCycleTrigger = examCycleSegmentedControl
-            .rx
-            .selectedSegmentIndex
-            .skip(1) // skip initial emission
-            .map { idx -> ExamCycle in
-                switch idx {
-                case 0: return .july
-                case 1: return .feb
-                case 2: return .babyBarJun
-                case 3: return .babyBarOct
-                case 4: return .emailZoom
-                default: return .july
-                }
-            }
+        // Tier 1: exam cycle chips — each chip in the storyboard
+        // scroll row is wired to its own ExamCycle enum case, mirroring
+        // the section-chip pattern below. The default selection is
+        // `.july` (the leftmost chip), styled as selected at first render.
+        let examCycleTrigger = PublishRelay<ExamCycle>()
+        wireExamCycleChips(to: examCycleTrigger)
 
         // Tier 2: section chips — each chip is wired to its own enum case.
         // `chip-*` outlets are connected at runtime via setupSectionFilterChips().
@@ -256,6 +248,76 @@ final class ScoreboardViewController: UIViewController {
     /// All section-filter chips keyed by their SectionFilter enum case.
     /// Populated by `wireChipButtons`; nil-safe in `refreshChipSelection`.
     private var sectionChipButtons: [SectionFilter: CustomBorderButton] = [:]
+
+    // MARK: - Exam cycle chips (tier 1)
+
+    /// All exam-cycle chips keyed by their ExamCycle enum case.
+    /// Populated by `wireExamCycleChips`; nil-safe in `refreshExamChipSelection`.
+    private var examCycleChips: [ExamCycle: CustomBorderButton] = [:]
+
+    /// Wire each exam-cycle chip in the storyboard scroll row to its
+    /// ExamCycle enum case. Mirrors `wireChipButtons` for the section
+    /// filter row directly below — same pill styling, same selection
+    /// pattern. Defaults the selection to `.july` (leftmost) at first
+    /// render. Title strings must match the buttons' `state.normal.title`
+    /// in the storyboard.
+    private func wireExamCycleChips(to relay: PublishRelay<ExamCycle>) {
+        let mapping: [(String, ExamCycle)] = [
+            ("July", .july),
+            ("Feb", .feb),
+            ("Baby Bar Jun", .babyBarJun),
+            ("Baby Bar Oct", .babyBarOct),
+            ("Email & Zoom", .emailZoom),
+        ]
+
+        var chipsByCycle: [ExamCycle: CustomBorderButton] = [:]
+
+        for subview in examCycleStack.arrangedSubviews {
+            guard let button = subview as? CustomBorderButton else { continue }
+            guard let title = button.title(for: .normal) else { continue }
+            guard let match = mapping.first(where: { $0.0 == title }) else { continue }
+
+            // Reuse the same pill styling as the section chip row.
+            styleChipAsPill(button)
+            chipsByCycle[match.1] = button
+
+            button.rx.tap
+                .map { _ in match.1 }
+                .bind(to: relay)
+                .disposed(by: disposeBag)
+        }
+
+        relay
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] selected in
+                self?.refreshExamChipSelection(selected)
+            })
+            .disposed(by: disposeBag)
+
+        // Ensure July starts selected at first render.
+        refreshExamChipSelection(.july)
+        examCycleChips = chipsByCycle
+    }
+
+    /// Apply active/inactive styling to each exam-cycle chip based on
+    /// the current selection. Same logic as `refreshChipSelection` for
+    /// section chips, but with a different dictionary key.
+    private func refreshExamChipSelection(_ selected: ExamCycle) {
+        guard !examCycleChips.isEmpty else { return }
+        for (cycle, button) in examCycleChips {
+            let isActive = (cycle == selected)
+            if isActive {
+                button.setTitleColor(.white, for: .normal)
+                button.enabledBackgroundColor = Constants.PrimaryBlue
+                button.borderColor = Constants.PrimaryBlue
+            } else {
+                button.setTitleColor(Constants.PrimaryTextColor, for: .normal)
+                button.enabledBackgroundColor = .clear
+                button.borderColor = Constants.ColorA2A2A2
+            }
+            button.updateView()
+        }
+    }
 
     /// Apply the rounded-pill styling each chip needs to look like a pill.
     private func styleChipAsPill(_ button: CustomBorderButton) {

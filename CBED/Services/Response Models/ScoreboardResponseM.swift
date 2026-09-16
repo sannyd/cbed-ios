@@ -49,6 +49,18 @@ struct ScoreM: Codable {
     let currentNgMcq1ChoiceSectionId: Int?
     let currentNgMcq2ChoiceSectionId: Int?
 
+    // Resolved section names (e.g. "Drafting Set 04", "Level 1 - 1 Choice MCQ").
+    // Returned by the backend as `current_<section>_name`; the backend
+    // resolves the FK on the server side so the iOS view model can render
+    // the exact curriculum title under each NextGen chip instead of
+    // falling back to the user's MBE level title.
+    let currentDraftingSectionName: String?
+    let currentCounselingSectionName: String?
+    let currentNgSptSectionName: String?
+    let currentNgLrptSectionName: String?
+    let currentNgMcq1ChoiceSectionName: String?
+    let currentNgMcq2ChoiceSectionName: String?
+
     /// True when this user is in the Email & Zoom cohort (Vanessa only,
     /// currently). Mirrors the backend's `is_email_zoom` serializer alias
     /// (`source="is_tutor"` on the user model). Used by Settings to decide
@@ -69,6 +81,12 @@ struct ScoreM: Codable {
         case currentNgLrptSectionId = "current_ng_lrpt_section"
         case currentNgMcq1ChoiceSectionId = "current_ng_mcq_1_choice_section"
         case currentNgMcq2ChoiceSectionId = "current_ng_mcq_2_choice_section"
+        case currentDraftingSectionName = "current_drafting_section_name"
+        case currentCounselingSectionName = "current_counseling_section_name"
+        case currentNgSptSectionName = "current_ng_spt_section_name"
+        case currentNgLrptSectionName = "current_ng_lrpt_section_name"
+        case currentNgMcq1ChoiceSectionName = "current_ng_mcq_1_choice_section_name"
+        case currentNgMcq2ChoiceSectionName = "current_ng_mcq_2_choice_section_name"
         case isEmailZoom = "is_email_zoom"
     }
 
@@ -87,6 +105,12 @@ struct ScoreM: Codable {
         currentNgLrptSectionId = try c.decodeIfPresent(Int.self, forKey: .currentNgLrptSectionId)
         currentNgMcq1ChoiceSectionId = try c.decodeIfPresent(Int.self, forKey: .currentNgMcq1ChoiceSectionId)
         currentNgMcq2ChoiceSectionId = try c.decodeIfPresent(Int.self, forKey: .currentNgMcq2ChoiceSectionId)
+        currentDraftingSectionName = try c.decodeIfPresent(String.self, forKey: .currentDraftingSectionName)
+        currentCounselingSectionName = try c.decodeIfPresent(String.self, forKey: .currentCounselingSectionName)
+        currentNgSptSectionName = try c.decodeIfPresent(String.self, forKey: .currentNgSptSectionName)
+        currentNgLrptSectionName = try c.decodeIfPresent(String.self, forKey: .currentNgLrptSectionName)
+        currentNgMcq1ChoiceSectionName = try c.decodeIfPresent(String.self, forKey: .currentNgMcq1ChoiceSectionName)
+        currentNgMcq2ChoiceSectionName = try c.decodeIfPresent(String.self, forKey: .currentNgMcq2ChoiceSectionName)
         isEmailZoom = (try? c.decode(Bool.self, forKey: .isEmailZoom)) ?? false
     }
 
@@ -105,6 +129,12 @@ struct ScoreM: Codable {
         try c.encodeIfPresent(currentNgLrptSectionId, forKey: .currentNgLrptSectionId)
         try c.encodeIfPresent(currentNgMcq1ChoiceSectionId, forKey: .currentNgMcq1ChoiceSectionId)
         try c.encodeIfPresent(currentNgMcq2ChoiceSectionId, forKey: .currentNgMcq2ChoiceSectionId)
+        try c.encodeIfPresent(currentDraftingSectionName, forKey: .currentDraftingSectionName)
+        try c.encodeIfPresent(currentCounselingSectionName, forKey: .currentCounselingSectionName)
+        try c.encodeIfPresent(currentNgSptSectionName, forKey: .currentNgSptSectionName)
+        try c.encodeIfPresent(currentNgLrptSectionName, forKey: .currentNgLrptSectionName)
+        try c.encodeIfPresent(currentNgMcq1ChoiceSectionName, forKey: .currentNgMcq1ChoiceSectionName)
+        try c.encodeIfPresent(currentNgMcq2ChoiceSectionName, forKey: .currentNgMcq2ChoiceSectionName)
         try c.encode(isEmailZoom, forKey: .isEmailZoom)
     }
 }

@@ -81,7 +81,7 @@ struct AppViewModel: ViewModel {
     private func fetchProfileInfo() -> Observable<ProfileInfoM> {
         return self.useCase
             .getProfileInfo()
-            .asDriver(onErrorJustReturn: ProfileInfoM.init(id: nil, email: "", avatar: "", name: "", state: "", memberPlan: .babybarJun, memberPlanSimple: 0, membership: "", lastSectionName: "", points: 0, phone: "", essayCount: 0, mptCount: 0, isTutor: false, isEmailZoom: false, currentMixedMbeSection: nil, currentDraftingSectionId: nil, currentCounselingSectionId: nil, currentNgSptSectionId: nil, currentNgLrptSectionId: nil, currentNgMcq1ChoiceSectionId: nil, currentNgMcq2ChoiceSectionId: nil))
+            .asDriver(onErrorJustReturn: ProfileInfoM.init(id: nil, email: "", avatar: "", name: "", state: "", memberPlan: .babybarJun, memberPlanSimple: 0, membership: "", lastSectionName: "", points: 0, phone: "", essayCount: 0, mptCount: 0, isTutor: false, isEmailZoom: false, currentMixedMbeSection: nil, currentDraftingSectionId: nil, currentCounselingSectionId: nil, currentNgSptSectionId: nil, currentNgLrptSectionId: nil, currentNgMcq1ChoiceSectionId: nil, currentNgMcq2ChoiceSectionId: nil, currentDraftingSectionName: nil, currentCounselingSectionName: nil, currentNgSptSectionName: nil, currentNgLrptSectionName: nil, currentNgMcq1ChoiceSectionName: nil, currentNgMcq2ChoiceSectionName: nil))
             .asObservable()
     }
 }

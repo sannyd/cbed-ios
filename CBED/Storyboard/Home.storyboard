@@ -801,7 +801,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <!-- Compact header: profile + countdown + user level, in one card -->
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hd1-2h-001" userLabel="HeaderCard" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hd1-2h-001" userLabel="HeaderCard" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
                                 <rect key="frame" x="20" y="60" width="374" height="98"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="i3m-gC-V1g">
@@ -877,20 +877,69 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <!-- Tier 1: exam cycle segmented control -->
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" apportionsSegmentWidthsByContent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t1-seg-001">
-                                <rect key="frame" x="20" y="170" width="374" height="32"/>
+                            <!-- Tier 1: exam cycle chips in a horizontally scrollable row. Replaces
+                                 the prior static UISegmentedControl whose compressed titles
+                                 ("Baby Bar Jun", "Email & Zoom") truncated on small screens.
+                                 The chip row mirrors the section chip filter below (t2-scr-001)
+                                 and shares styling + selection pattern with it. -->
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t1-scr-001">
+                                <rect key="frame" x="0.0" y="170" width="414" height="40"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="t1-stk-001">
+                                        <rect key="frame" x="20" y="4" width="800" height="32"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="exam-jul-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="exam-jul-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="July"/>
+                                                <state key="selected" title="July"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="exam-feb-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="68" y="0.0" width="60" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="exam-feb-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="Feb"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="exam-bbj-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="136" y="0.0" width="100" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="exam-bbj-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="Baby Bar Jun"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="exam-bbo-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="244" y="0.0" width="100" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="exam-bbo-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="Baby Bar Oct"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="exam-ez-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
+                                                <rect key="frame" x="352" y="0.0" width="120" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="exam-ez-c1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
+                                                <state key="normal" title="Email &amp; Zoom"/>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="t1-c1"/>
+                                    <constraint firstItem="t1-stk-001" firstAttribute="top" secondItem="t1-scr-001" secondAttribute="top" constant="4" id="t1-c1"/>
+                                    <constraint firstAttribute="bottom" secondItem="t1-stk-001" secondAttribute="bottom" constant="4" id="t1-c2"/>
+                                    <constraint firstItem="t1-stk-001" firstAttribute="leading" secondItem="t1-scr-001" secondAttribute="leading" constant="20" id="t1-c3"/>
+                                    <constraint firstAttribute="trailing" secondItem="t1-stk-001" secondAttribute="trailing" relation="greaterThanOrEqual" constant="20" id="t1-c4"/>
+                                    <constraint firstAttribute="height" constant="40" id="t1-c5"/>
                                 </constraints>
-                                <segments>
-                                    <segment title="July"/>
-                                    <segment title="Feb"/>
-                                    <segment title="Baby Bar Jun"/>
-                                    <segment title="Baby Bar Oct"/>
-                                    <segment title="Email &amp; Zoom"/>
-                                </segments>
-                            </segmentedControl>
+                            </scrollView>
                             <!-- Tier 2: horizontally scrollable section chip filter -->
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t2-scr-001">
                                 <rect key="frame" x="0.0" y="210" width="414" height="40"/>
@@ -1004,10 +1053,10 @@
                             <constraint firstItem="hd1-2h-001" firstAttribute="top" secondItem="Zt6-be-EeI" secondAttribute="top" constant="8" id="hd1-pc1"/>
                             <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="hd1-2h-001" secondAttribute="trailing" constant="20" id="hd1-pc2"/>
                             <constraint firstItem="Zt6-be-EeI" firstAttribute="leading" secondItem="hd1-2h-001" secondAttribute="leading" constant="20" id="hd1-pc3"/>
-                            <constraint firstItem="t1-seg-001" firstAttribute="top" secondItem="hd1-2h-001" secondAttribute="bottom" constant="12" id="t1-pc1"/>
-                            <constraint firstItem="t1-seg-001" firstAttribute="leading" secondItem="Zt6-be-EeI" secondAttribute="leading" constant="20" id="t1-pc2"/>
-                            <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="t1-seg-001" secondAttribute="trailing" constant="20" id="t1-pc3"/>
-                            <constraint firstItem="t2-scr-001" firstAttribute="top" secondItem="t1-seg-001" secondAttribute="bottom" constant="8" id="t2-pc1"/>
+                            <constraint firstItem="t1-scr-001" firstAttribute="top" secondItem="hd1-2h-001" secondAttribute="bottom" constant="12" id="t1-pc1"/>
+                                                        <constraint firstItem="Zt6-be-EeI" firstAttribute="leading" secondItem="t1-scr-001" secondAttribute="leading" id="t1-pc2"/>
+                                                        <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="t1-scr-001" secondAttribute="trailing" id="t1-pc3"/>
+                            <constraint firstItem="t2-scr-001" firstAttribute="top" secondItem="t1-scr-001" secondAttribute="bottom" constant="8" id="t2-pc1"/>
                             <constraint firstItem="Zt6-be-EeI" firstAttribute="leading" secondItem="t2-scr-001" secondAttribute="leading" id="t2-pc2"/>
                             <constraint firstItem="Zt6-be-EeI" firstAttribute="trailing" secondItem="t2-scr-001" secondAttribute="trailing" id="t2-pc3"/>
                             <constraint firstItem="tut-btn-001" firstAttribute="top" secondItem="t2-scr-001" secondAttribute="bottom" constant="8" id="tut-pc1"/>
@@ -1021,7 +1070,8 @@
                     <connections>
                         <outlet property="collectionContainerView" destination="F3a-LA-82L" id="sMv-SM-Cq7"/>
                         <outlet property="countdownContainerView" destination="hd1-2h-001" id="3iy-mU-fM3"/>
-                        <outlet property="examCycleSegmentedControl" destination="t1-seg-001" id="ecs-c1"/>
+                        <outlet property="examCycleScrollView" destination="t1-scr-001" id="ecs-c1"/>
+                        <outlet property="examCycleStack" destination="t1-stk-001" id="ecs-c2"/>
                         <outlet property="labelCountdownSubtitle" destination="eIU-eX-5La" id="mzB-d8-WzB"/>
                         <outlet property="labelCountdownTitle" destination="6pE-jo-EEz" id="YqB-jE-8lF"/>
                         <outlet property="labelCountdownValue" destination="hgF-nF-Tod" id="o3A-q0-xrK"/>

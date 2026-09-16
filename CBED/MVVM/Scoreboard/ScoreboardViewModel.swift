@@ -184,15 +184,15 @@ struct ScoreboardViewModel: ViewModel {
         case .mbe:
             // MBE section: the scoring API returns `lastSectionName` like
             // "Level 7 - Property", which is exactly the user's MBE level.
-            // Annotate as "MBE: Level 7 - Property" so it's clear which
-            // filter is in effect.
             return cohort
                 .map { score -> ScoreM in
                     var copy = score
                     copy.isEssay = false
                     copy.isMpt = false
-                    let level = score.lastSectionName ?? "Not started"
-                    copy.displayText = "MBE: \(level)"
+                    // V11.1: prefix stripped — the chip itself already names
+                    // the filter, so showing "MBE: Level 7 - Property" was
+                    // redundant. Display only the level text.
+                    copy.displayText = score.lastSectionName ?? "Not started"
                     return copy
                 }
         case .essays:
@@ -216,14 +216,17 @@ struct ScoreboardViewModel: ViewModel {
                 }
                 .sorted { $0.mptCount > $1.mptCount }
         case .ng1Choice:
+            // V11.1: backend now exposes the resolved Section.name via
+            // `current_ng_mcq_1_choice_section_name` (e.g. "Level 1 - 1 Choice MCQ").
+            // Prefer that so each row shows the actual NextGen curriculum
+            // title instead of falling back to the user's MBE level.
             return cohort.map { score -> ScoreM in
                 var copy = score
                 copy.isEssay = false
                 copy.isMpt = false
-                let ng1 = score.lastSectionName
-                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentNgMcq1ChoiceSectionId, prefix: "NG 1-Choice")
+                copy.displayText = score.currentNgMcq1ChoiceSectionName
+                    ?? score.lastSectionName
                     ?? "Not started"
-                copy.displayText = "NG 1-Choice: \(ng1)"
                 return copy
             }
         case .ng2Choice:
@@ -231,10 +234,9 @@ struct ScoreboardViewModel: ViewModel {
                 var copy = score
                 copy.isEssay = false
                 copy.isMpt = false
-                let ng2 = score.lastSectionName
-                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentNgMcq2ChoiceSectionId, prefix: "NG 2-Choice")
+                copy.displayText = score.currentNgMcq2ChoiceSectionName
+                    ?? score.lastSectionName
                     ?? "Not started"
-                copy.displayText = "NG 2-Choice: \(ng2)"
                 return copy
             }
         case .iqsCounseling:
@@ -242,10 +244,9 @@ struct ScoreboardViewModel: ViewModel {
                 var copy = score
                 copy.isEssay = false
                 copy.isMpt = false
-                let couns = score.lastSectionName
-                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentCounselingSectionId, prefix: "Counseling Set")
+                copy.displayText = score.currentCounselingSectionName
+                    ?? score.lastSectionName
                     ?? "Not started"
-                copy.displayText = "IQS Counseling: \(couns)"
                 return copy
             }
         case .iqsDrafting:
@@ -253,10 +254,9 @@ struct ScoreboardViewModel: ViewModel {
                 var copy = score
                 copy.isEssay = false
                 copy.isMpt = false
-                let draft = score.lastSectionName
-                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentDraftingSectionId, prefix: "Drafting Set")
+                copy.displayText = score.currentDraftingSectionName
+                    ?? score.lastSectionName
                     ?? "Not started"
-                copy.displayText = "IQS Drafting: \(draft)"
                 return copy
             }
         case .spt:
@@ -264,10 +264,9 @@ struct ScoreboardViewModel: ViewModel {
                 var copy = score
                 copy.isEssay = false
                 copy.isMpt = false
-                let spt = score.lastSectionName
-                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentNgSptSectionId, prefix: "NG SPT")
+                copy.displayText = score.currentNgSptSectionName
+                    ?? score.lastSectionName
                     ?? "Not started"
-                copy.displayText = "SPT: \(spt)"
                 return copy
             }
         case .lrpt:
@@ -275,20 +274,19 @@ struct ScoreboardViewModel: ViewModel {
                 var copy = score
                 copy.isEssay = false
                 copy.isMpt = false
-                let lrpt = score.lastSectionName
-                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentNgLrptSectionId, prefix: "NG LRPT")
+                copy.displayText = score.currentNgLrptSectionName
+                    ?? score.lastSectionName
                     ?? "Not started"
-                copy.displayText = "LRPT: \(lrpt)"
                 return copy
             }
         }
     }
 
-    /// Translate a user's per-section FK id (e.g. 50004) to a readable
-    /// hint like "Drafting Set 04". Returns nil when the id isn't in any
-    /// known NextGen range. The view model falls back to `lastSectionName`
-    /// before this hint, so this only kicks in for users who literally have
-    /// no section activity yet.
+    // V11.1: legacy local hint generator. The backend now resolves
+    // section names directly (`current_<section>_name`), so this is
+    // kept only as a defensive fallback for users whose FK row points
+    // at a section the iOS app cannot otherwise name (shouldn't happen
+    // in practice — Section.title and Section.name are populated).
     private static func nextGenSectionHint(for id: Int?, prefix: String) -> String? {
         guard let id = id else { return nil }
         let suffix = id % 100

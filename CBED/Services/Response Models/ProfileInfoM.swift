@@ -56,6 +56,16 @@ struct ProfileInfoM: Codable {
     let currentNgLrptSectionId: Int?
     let currentNgMcq1ChoiceSectionId: Int?
     let currentNgMcq2ChoiceSectionId: Int?
+    // Resolved section names (mirror of the per-section FK ids above).
+    // Returned by `/api/users/me` via the backend `UserInfoSerializer`,
+    // resolved server-side from the related Section row. Currently used
+    // by Settings to display the user's current IQS / NG module title.
+    let currentDraftingSectionName: String?
+    let currentCounselingSectionName: String?
+    let currentNgSptSectionName: String?
+    let currentNgLrptSectionName: String?
+    let currentNgMcq1ChoiceSectionName: String?
+    let currentNgMcq2ChoiceSectionName: String?
 
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -80,5 +90,11 @@ struct ProfileInfoM: Codable {
         case currentNgLrptSectionId = "current_ng_lrpt_section"
         case currentNgMcq1ChoiceSectionId = "current_ng_mcq_1_choice_section"
         case currentNgMcq2ChoiceSectionId = "current_ng_mcq_2_choice_section"
+        case currentDraftingSectionName = "current_drafting_section_name"
+        case currentCounselingSectionName = "current_counseling_section_name"
+        case currentNgSptSectionName = "current_ng_spt_section_name"
+        case currentNgLrptSectionName = "current_ng_lrpt_section_name"
+        case currentNgMcq1ChoiceSectionName = "current_ng_mcq_1_choice_section_name"
+        case currentNgMcq2ChoiceSectionName = "current_ng_mcq_2_choice_section_name"
     }
 }
