@@ -45,6 +45,10 @@ struct ProfileInfoM: Codable {
     let essayCount: Int
     let mptCount: Int
     let isTutor: Bool
+    /// Email & Zoom cohort flag. Mirrors `is_tutor` on the user model
+    /// (Vanessa is currently the only user with `is_tutor=True`). Used
+    /// by Settings to decide whether to show the count editor.
+    let isEmailZoom: Bool
     let currentMixedMbeSection: Int?
     let currentDraftingSectionId: Int?
     let currentCounselingSectionId: Int?
@@ -68,6 +72,7 @@ struct ProfileInfoM: Codable {
         case essayCount = "essay_count"
         case mptCount = "mpt_count"
         case isTutor = "is_tutor"
+        case isEmailZoom = "is_email_zoom"
         case currentMixedMbeSection = "current_mixed_mbe_section"
         case currentDraftingSectionId = "current_drafting_section"
         case currentCounselingSectionId = "current_counseling_section"

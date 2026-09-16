@@ -351,7 +351,7 @@ final class SettingViewController: UIViewController {
                 self?.profileImageView.loadImage(with: profileInfo.avatar, placeholder: #imageLiteral(resourceName: "img_user_placeholder"))
                 essayStart.onNext(profileInfo.essayCount)
                 mptStart.onNext(profileInfo.mptCount)
-                self?.countContainerView.isHidden = !profileInfo.isTutor
+                self?.countContainerView.isHidden = !(IsEnableLogin ? profileInfo.isEmailZoom : false)
             }),
          output
             .restorePurchaseSuccess

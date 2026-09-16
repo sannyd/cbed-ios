@@ -3,15 +3,26 @@ import RxCocoa
 
 // MARK: - Filter enums
 
+/// Exam cycle / member-plan tab at the top of the scoreboard. The five
+/// segments in the storyboard map 1:1 with the cases here:
+///   .july        - segment index 0
+///   .feb         - segment index 1
+///   .babyBarJun  - segment index 2
+///   .babyBarOct  - segment index 3
+///   .emailZoom   - segment index 4 (Email & Zoom, new in V11.1)
 enum ExamCycle {
     case july
     case feb
     case babyBarJun
     case babyBarOct
+    case emailZoom
 }
 
+/// Within-cohort subject filter. The chips scroll horizontally below the
+/// exam-cycle segmented control. The previously-shipped `.all` case has
+/// been removed; `.mbe` is now the default (left-most chip after the
+/// legacy "All" was deleted).
 enum SectionFilter {
-    case all
     case mbe
     case essays
     case mpt
@@ -27,7 +38,6 @@ enum SectionFilter {
     /// the storyboard's chip button so the labels don't drift.
     var label: String {
         switch self {
-        case .all:           return "All"
         case .mbe:           return "MBE"
         case .essays:        return "Essays"
         case .mpt:           return "M/PTs"
@@ -81,9 +91,16 @@ struct ScoreboardViewModel: ViewModel {
         let proBarFebData = BehaviorRelay<[ScoreM]>(value: [])
         let babyBarJunData = BehaviorRelay<[ScoreM]>(value: [])
         let babyBarOctData = BehaviorRelay<[ScoreM]>(value: [])
+        // New in V11.1: Email & Zoom cohort. Excluded from member-plan
+        // buckets server-side, so no risk of duplication. The Tutors modal
+        // pulls its data from `tutorsRelay` below, which is a separate
+        // cohort entirely (`is_tutor_for_bed=True`).
+        let emailZoomData = BehaviorRelay<[ScoreM]>(value: [])
 
         let examCycle = BehaviorRelay<ExamCycle>(value: .july)
-        let sectionFilter = BehaviorRelay<SectionFilter>(value: .all)
+        // Default to MBE now that `.all` is gone — the user explicitly asked
+        // for "the first selected chip must default to MBE".
+        let sectionFilter = BehaviorRelay<SectionFilter>(value: .mbe)
 
         input.examCycleTrigger
             .bind(to: examCycle)
@@ -111,6 +128,7 @@ struct ScoreboardViewModel: ViewModel {
                 proBarFebData.accept(response.proBarFeb.sorted(by: sectionSort))
                 babyBarJunData.accept(response.babyBarJune.sorted(by: sectionSort))
                 babyBarOctData.accept(response.babyBarOct.sorted(by: sectionSort))
+                emailZoomData.accept(response.emailZoom)
                 tutorsRelay.accept(response.tutor)
             })
             .disposed(by: disposeBag)
@@ -125,6 +143,7 @@ struct ScoreboardViewModel: ViewModel {
                 case .feb:         cohort = proBarFebData.value
                 case .babyBarJun:  cohort = babyBarJunData.value
                 case .babyBarOct:  cohort = babyBarOctData.value
+                case .emailZoom:   cohort = emailZoomData.value
                 }
                 return applySectionFilter(filter, to: cohort)
             }
@@ -162,27 +181,17 @@ struct ScoreboardViewModel: ViewModel {
     /// color helper — the original ship behavior.
     private func applySectionFilter(_ filter: SectionFilter, to cohort: [ScoreM]) -> [ScoreM] {
         switch filter {
-        case .all:
-            // Make sure no stale `displayText` from a prior filter shows
-            // up when the user reverts to `.all`. Reset & return.
-            return cohort.map { score -> ScoreM in
-                var copy = score
-                copy.isEssay = false
-                copy.isMpt = false
-                copy.displayText = nil
-                return copy
-            }
         case .mbe:
             // MBE section: the scoring API returns `lastSectionName` like
             // "Level 7 - Property", which is exactly the user's MBE level.
             // Annotate as "MBE: Level 7 - Property" so it's clear which
             // filter is in effect.
-            return cohort.filter { ($0.lastSectionName ?? "").contains("Level") }
+            return cohort
                 .map { score -> ScoreM in
                     var copy = score
                     copy.isEssay = false
                     copy.isMpt = false
-                    let level = score.lastSectionName ?? "N/A"
+                    let level = score.lastSectionName ?? "Not started"
                     copy.displayText = "MBE: \(level)"
                     return copy
                 }
@@ -206,29 +215,86 @@ struct ScoreboardViewModel: ViewModel {
                     return copy
                 }
                 .sorted { $0.mptCount > $1.mptCount }
-        case .ng1Choice,
-             .ng2Choice,
-             .iqsCounseling,
-             .iqsDrafting,
-             .spt,
-             .lrpt:
-            // The current API response doesn't expose per-section drill
-            // counts for NextGen modules per-user. To still give the user
-            // useful visual feedback when a NextGen chip is selected, we
-            // annotate each row with the active filter name and the
-            // user's last-section-name (the only data we have). Once the
-            // backend exposes per-section drill counts, swap this for a
-            // proper field-by-field lookup.
-            return cohort
-                .map { score -> ScoreM in
-                    var copy = score
-                    copy.isEssay = false
-                    copy.isMpt = false
-                    let level = score.lastSectionName ?? "Not started"
-                    copy.displayText = "\(filter.label): \(level)"
-                    return copy
-                }
+        case .ng1Choice:
+            return cohort.map { score -> ScoreM in
+                var copy = score
+                copy.isEssay = false
+                copy.isMpt = false
+                let ng1 = score.lastSectionName
+                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentNgMcq1ChoiceSectionId, prefix: "NG 1-Choice")
+                    ?? "Not started"
+                copy.displayText = "NG 1-Choice: \(ng1)"
+                return copy
+            }
+        case .ng2Choice:
+            return cohort.map { score -> ScoreM in
+                var copy = score
+                copy.isEssay = false
+                copy.isMpt = false
+                let ng2 = score.lastSectionName
+                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentNgMcq2ChoiceSectionId, prefix: "NG 2-Choice")
+                    ?? "Not started"
+                copy.displayText = "NG 2-Choice: \(ng2)"
+                return copy
+            }
+        case .iqsCounseling:
+            return cohort.map { score -> ScoreM in
+                var copy = score
+                copy.isEssay = false
+                copy.isMpt = false
+                let couns = score.lastSectionName
+                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentCounselingSectionId, prefix: "Counseling Set")
+                    ?? "Not started"
+                copy.displayText = "IQS Counseling: \(couns)"
+                return copy
+            }
+        case .iqsDrafting:
+            return cohort.map { score -> ScoreM in
+                var copy = score
+                copy.isEssay = false
+                copy.isMpt = false
+                let draft = score.lastSectionName
+                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentDraftingSectionId, prefix: "Drafting Set")
+                    ?? "Not started"
+                copy.displayText = "IQS Drafting: \(draft)"
+                return copy
+            }
+        case .spt:
+            return cohort.map { score -> ScoreM in
+                var copy = score
+                copy.isEssay = false
+                copy.isMpt = false
+                let spt = score.lastSectionName
+                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentNgSptSectionId, prefix: "NG SPT")
+                    ?? "Not started"
+                copy.displayText = "SPT: \(spt)"
+                return copy
+            }
+        case .lrpt:
+            return cohort.map { score -> ScoreM in
+                var copy = score
+                copy.isEssay = false
+                copy.isMpt = false
+                let lrpt = score.lastSectionName
+                    ?? ScoreboardViewModel.nextGenSectionHint(for: score.currentNgLrptSectionId, prefix: "NG LRPT")
+                    ?? "Not started"
+                copy.displayText = "LRPT: \(lrpt)"
+                return copy
+            }
         }
+    }
+
+    /// Translate a user's per-section FK id (e.g. 50004) to a readable
+    /// hint like "Drafting Set 04". Returns nil when the id isn't in any
+    /// known NextGen range. The view model falls back to `lastSectionName`
+    /// before this hint, so this only kicks in for users who literally have
+    /// no section activity yet.
+    private static func nextGenSectionHint(for id: Int?, prefix: String) -> String? {
+        guard let id = id else { return nil }
+        let suffix = id % 100
+        guard suffix >= 1 else { return nil }
+        let padded = suffix < 10 ? "0\(suffix)" : "\(suffix)"
+        return "\(prefix) \(padded)"
     }
 }
 
@@ -241,6 +307,7 @@ extension ScoreboardResponseM {
             babyBarOct: [],
             proBarFeb: [],
             proBarJuly: [],
+            emailZoom: [],
             tutor: []
         )
     }

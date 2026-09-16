@@ -64,15 +64,19 @@ final class ScoreboardViewController: UIViewController {
 
     func bindViewModel() {
         // Tier 1: exam cycle (segmented control)
+        // Segment indices map 1:1 to ExamCycle cases. The default `.july`
+        // (index 0) is preserved.
         let examCycleTrigger = examCycleSegmentedControl
             .rx
             .selectedSegmentIndex
             .skip(1) // skip initial emission
             .map { idx -> ExamCycle in
                 switch idx {
+                case 0: return .july
                 case 1: return .feb
                 case 2: return .babyBarJun
                 case 3: return .babyBarOct
+                case 4: return .emailZoom
                 default: return .july
                 }
             }
@@ -199,8 +203,9 @@ final class ScoreboardViewController: UIViewController {
     private func wireChipButtons(to relay: PublishRelay<SectionFilter>) {
         // Each chip in the storyboard has a tag equal to its SectionFilter raw value.
         // Tags are 0...n set in the XIB / storyboard; fall back to title-based match.
+        // Note: the legacy "All" chip was removed in V11.1 — MBE is now the leftmost
+        // and the default selection.
         let mapping: [(String, SectionFilter)] = [
-            ("All", .all),
             ("MBE", .mbe),
             ("Essays", .essays),
             ("M/PTs", .mpt),
@@ -241,9 +246,9 @@ final class ScoreboardViewController: UIViewController {
             })
             .disposed(by: disposeBag)
 
-        // Ensure "All" starts selected at first render so the chip row has
-        // a visible active state even before the user taps anything.
-        refreshChipSelection(.all)
+        // Ensure MBE starts selected at first render so the chip row has a
+        // visible active state even before the user taps anything.
+        refreshChipSelection(.mbe)
         // Keep a reference so future refreshes can iterate every chip.
         sectionChipButtons = chipsByFilter
     }

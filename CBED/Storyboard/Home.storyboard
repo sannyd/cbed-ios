@@ -888,6 +888,7 @@
                                     <segment title="Feb"/>
                                     <segment title="Baby Bar Jun"/>
                                     <segment title="Baby Bar Oct"/>
+                                    <segment title="Email &amp; Zoom"/>
                                 </segments>
                             </segmentedControl>
                             <!-- Tier 2: horizontally scrollable section chip filter -->
@@ -897,21 +898,14 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="t2-stk-001">
                                         <rect key="frame" x="20" y="4" width="800" height="32"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-all-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="60" height="32"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="32" id="chip-all-c1"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
-                                                <state key="normal" title="All"/>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-mbe-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
-                                                <rect key="frame" x="68" y="0.0" width="60" height="32"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="32"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="32" id="chip-mbe-c1"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="13"/>
                                                 <state key="normal" title="MBE"/>
+                                                <state key="selected" title="MBE"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chip-essays-001" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
                                                 <rect key="frame" x="136" y="0.0" width="68" height="32"/>
