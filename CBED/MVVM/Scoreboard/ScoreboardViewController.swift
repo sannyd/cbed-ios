@@ -94,7 +94,8 @@ final class ScoreboardViewController: UIViewController {
             viewWillAppear: viewWillAppear,
             examCycleTrigger: examCycleTrigger.asObservable(),
             sectionFilterTrigger: chipTrigger.asObservable(),
-            tutorsTrigger: tutorsButton.rx.tap.asObservable()
+            tutorsTrigger: tutorsButton.rx.tap.asObservable(),
+            tutorsSheetVisibility: tutorsVisibilityRelay.asObservable()
         )
 
         let output = viewModel.transform(input, disposeBag: disposeBag)
@@ -142,7 +143,13 @@ final class ScoreboardViewController: UIViewController {
 
             output.error
                 .asDriverOnErrorJustComplete()
-                .drive(errorBinding)
+                .drive(errorBinding),
+
+            output.availableSections
+                .asDriverOnErrorJustComplete()
+                .drive(onNext: { [weak self] available in
+                    self?.applyAvailableSections(available)
+                })
         ]
         .forEach { $0.disposed(by: disposeBag) }
     }
@@ -257,6 +264,10 @@ final class ScoreboardViewController: UIViewController {
     /// Populated by `wireChipButtons`; nil-safe in `refreshChipSelection`.
     private var sectionChipButtons: [SectionFilter: CustomBorderButton] = [:]
 
+    /// V11.1: drives the view-model's `tutorsSheetVisibility` input so
+    /// it knows when to surface the grading-only chips (Essays, M/PTs).
+    private let tutorsVisibilityRelay = BehaviorRelay<Bool>(value: false)
+
     // MARK: - Exam cycle chips (tier 1)
 
     /// All exam-cycle chips keyed by their ExamCycle enum case.
@@ -369,6 +380,39 @@ final class ScoreboardViewController: UIViewController {
         }
     }
 
+    /// V11.1: hide/show each section chip according to the active
+    /// (exam cycle, Tutors sheet visibility) tuple supplied by the view
+    /// model. The view model has already auto-reset the active filter
+    /// back to MBE if it became ineligible, so we only need to update
+    /// each chip button's `isHidden` and re-flow the stack.
+    ///
+    /// UIStackView treats hidden arrangedSubviews as if they're not in
+    /// the layout — calling `isHidden = true` on a chip collapses the
+    /// empty space so the remaining chips sit flush against each other.
+    /// We then scroll the stack to the start so the user sees the new
+    /// chip set from the left edge.
+    private func applyAvailableSections(_ available: [SectionFilter]) {
+        guard !sectionChipButtons.isEmpty else { return }
+        let availableSet = Set(available)
+        for (filter, button) in sectionChipButtons {
+            // Always-visible MBE must never be hidden; otherwise gate on
+            // membership in the available set.
+            let shouldShow = (filter == .mbe) || availableSet.contains(filter)
+            if button.isHidden == shouldShow { continue }
+            button.isHidden = !shouldShow
+        }
+        // Force the stack to re-layout immediately so the chip widths
+        // settle before we re-snap the scroll position.
+        sectionFilterStack.setNeedsLayout()
+        sectionFilterStack.layoutIfNeeded()
+        // Reset horizontal scroll to the leftmost chip so the user
+        // sees the full updated row from the beginning.
+        sectionFilterScrollView.setContentOffset(
+            .init(x: 0, y: sectionFilterScrollView.contentOffset.y),
+            animated: true
+        )
+    }
+
     // MARK: - Tutors sheet
 
     private func presentTutorsSheet(tutors: [ScoreM]) {
@@ -377,6 +421,17 @@ final class ScoreboardViewController: UIViewController {
         if let sheet = nav.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
             sheet.prefersGrabberVisible = true
+        }
+        // V11.1: emit visibility events so the view model can decide
+        // whether to surface the grading-only chips. Present happens
+        // synchronously enough that we emit `true` BEFORE present() and
+        // then subscribe to the nav's dismissal to emit `false`.
+        tutorsVisibilityRelay.accept(true)
+        // Ensure we reset to `false` even if the dismissal happens
+        // through a non-standard path (drag-to-dismiss, swipe, etc.).
+        nav.presentationController?.delegate = TutorsSheetObserver.shared
+        TutorsSheetObserver.shared.onDismiss = { [weak self] in
+            self?.tutorsVisibilityRelay.accept(false)
         }
         present(nav, animated: true)
     }

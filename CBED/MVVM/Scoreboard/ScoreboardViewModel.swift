@@ -49,6 +49,19 @@ enum SectionFilter {
         case .lrpt:          return "LRPT"
         }
     }
+
+    /// V11.1: chips that only make sense for students enrolled in the
+    /// grading services (Email & Zoom package or Tutors-managed cohort).
+    /// These chips are HIDDEN from the section chip row when the active
+    /// exam cycle is a standard one (July / Feb / Baby Bar Jun / Oct)
+    /// because general students don't have essays/MPTs graded and the
+    /// leaderboard rows would all show count = 0.
+    var isGradingOnly: Bool {
+        switch self {
+        case .essays, .mpt: return true
+        default:            return false
+        }
+    }
 }
 
 // MARK: - Input + Output
@@ -60,6 +73,10 @@ extension ScoreboardViewModel {
         let examCycleTrigger: Observable<ExamCycle>
         let sectionFilterTrigger: Observable<SectionFilter>
         let tutorsTrigger: Observable<Void>
+        /// V11.1: emitted `true` when the Tutors sheet is presented and
+        /// `false` when it is dismissed. Drives whether the Essays and
+        /// M/PTs grading-only chips are visible in the section chip row.
+        let tutorsSheetVisibility: Observable<Bool>
     }
 
     struct Output {
@@ -68,6 +85,12 @@ extension ScoreboardViewModel {
         let isLoading: Observable<Bool>
         let error: Observable<Error>
         let tutorsTrigger: Observable<[ScoreM]>
+        /// V11.1: ordered list of SectionFilter cases that should be
+        /// visible in the section chip row for the current
+        /// (examCycle, tutorsVisibility) tuple. The ViewController
+        /// iterates this list to show/hide chips and to scroll the
+        /// active chip into view.
+        let availableSections: Observable<[SectionFilter]>
     }
 }
 
@@ -101,6 +124,9 @@ struct ScoreboardViewModel: ViewModel {
         // Default to MBE now that `.all` is gone — the user explicitly asked
         // for "the first selected chip must default to MBE".
         let sectionFilter = BehaviorRelay<SectionFilter>(value: .mbe)
+        // V11.1: whether the Tutors sheet is currently presented. Drives
+        // whether grading-only chips (Essays, M/PTs) are visible.
+        let isTutorsSheetVisible = BehaviorRelay<Bool>(value: false)
 
         input.examCycleTrigger
             .bind(to: examCycle)
@@ -108,6 +134,10 @@ struct ScoreboardViewModel: ViewModel {
 
         input.sectionFilterTrigger
             .bind(to: sectionFilter)
+            .disposed(by: disposeBag)
+
+        input.tutorsSheetVisibility
+            .bind(to: isTutorsSheetVisible)
             .disposed(by: disposeBag)
 
         let userProfile = input
@@ -149,6 +179,36 @@ struct ScoreboardViewModel: ViewModel {
             }
             .map { [CommonCollectionViewSection(items: $0)] }
 
+        // V11.1: derive the ordered list of section chips that should be
+        // visible given the active exam cycle + Tutors sheet visibility.
+        // The Tutors sheet is treated as "eligible for grading" — when
+        // it's up, the Essays / M/PTs chips become visible so a Tutors
+        // user can pivot to grading filters while reviewing a student.
+        let availableSections = Observable
+            .combineLatest(examCycle, isTutorsSheetVisible)
+            .map { cycle, tutorsVisible -> [SectionFilter] in
+                if cycle == .emailZoom || tutorsVisible {
+                    return [.mbe, .essays, .mpt, .ng1Choice, .ng2Choice,
+                            .iqsDrafting, .iqsCounseling, .spt, .lrpt]
+                }
+                return [.mbe, .ng1Choice, .ng2Choice,
+                        .iqsDrafting, .iqsCounseling, .spt, .lrpt]
+            }
+            .distinctUntilChanged { $0.map { $0.label } == $1.map { $0.label } }
+
+        // V11.1: if the user is on a grading-only chip (Essays / M/PTs)
+        // and then switches to a standard exam cycle, auto-reset back
+        // to MBE so the data stream doesn't filter by an invisible chip.
+        Observable
+            .combineLatest(examCycle, isTutorsSheetVisible, sectionFilter)
+            .subscribe(onNext: { cycle, tutorsVisible, filter in
+                let eligible = (cycle == .emailZoom) || tutorsVisible
+                if !eligible && filter.isGradingOnly {
+                    sectionFilter.accept(.mbe)
+                }
+            })
+            .disposed(by: disposeBag)
+
         // Fire tutorsTrigger each time the user taps the Tutors button.
         let tutorsTriggerStream = input.tutorsTrigger
             .withLatestFrom(tutorsRelay)
@@ -158,7 +218,8 @@ struct ScoreboardViewModel: ViewModel {
             userProfile: userProfile.asObservable(),
             isLoading: activityIndicator.asObservable(),
             error: errorTracker.asObservable(),
-            tutorsTrigger: tutorsTriggerStream
+            tutorsTrigger: tutorsTriggerStream,
+            availableSections: availableSections
         )
     }
 

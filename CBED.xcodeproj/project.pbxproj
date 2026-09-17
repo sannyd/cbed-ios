@@ -79,6 +79,7 @@
 		185B061826762F5E00A17664 /* ScoreboardUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061426762F5E00A17664 /* ScoreboardUseCase.swift */; };
 		185B061926762F5E00A17664 /* ScoreboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061526762F5E00A17664 /* ScoreboardViewController.swift */; };
 		BB1100A02EF0000100000001 /* TutorsSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1100A02EF0000100000002 /* TutorsSheetViewController.swift */; };
+		BB1100A12EF0000100000001 /* TutorsSheetObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1100A12EF0000100000002 /* TutorsSheetObserver.swift */; };
 		185B061A26762F5E00A17664 /* ScoreboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061626762F5E00A17664 /* ScoreboardViewModel.swift */; };
 		185B062026762F7C00A17664 /* SettingNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061C26762F7C00A17664 /* SettingNavigator.swift */; };
 		185B062126762F7C00A17664 /* SettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061D26762F7C00A17664 /* SettingUseCase.swift */; };
@@ -329,6 +330,7 @@
 		185B061426762F5E00A17664 /* ScoreboardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardUseCase.swift; sourceTree = "<group>"; };
 		185B061526762F5E00A17664 /* ScoreboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewController.swift; sourceTree = "<group>"; };
 		BB1100A02EF0000100000002 /* TutorsSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorsSheetViewController.swift; sourceTree = "<group>"; };
+		BB1100A12EF0000100000002 /* TutorsSheetObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorsSheetObserver.swift; sourceTree = "<group>"; };
 		185B061626762F5E00A17664 /* ScoreboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewModel.swift; sourceTree = "<group>"; };
 		185B061C26762F7C00A17664 /* SettingNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNavigator.swift; sourceTree = "<group>"; };
 		185B061D26762F7C00A17664 /* SettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUseCase.swift; sourceTree = "<group>"; };
@@ -659,6 +661,7 @@
 				185B061526762F5E00A17664 /* ScoreboardViewController.swift */,
 				185B061626762F5E00A17664 /* ScoreboardViewModel.swift */,
 				BB1100A02EF0000100000002 /* TutorsSheetViewController.swift */,
+				BB1100A12EF0000100000002 /* TutorsSheetObserver.swift */,
 			);
 			path = Scoreboard;
 			sourceTree = "<group>";
@@ -1437,6 +1440,7 @@
 				185F87A0267454D900A63898 /* SignInResponseM.swift in Sources */,
 				185B061A26762F5E00A17664 /* ScoreboardViewModel.swift in Sources */,
 				BB1100A02EF0000100000001 /* TutorsSheetViewController.swift in Sources */,
+				BB1100A12EF0000100000001 /* TutorsSheetObserver.swift in Sources */,
 				FF21141726DBDE350044E0AC /* UpdateProfileNavigator.swift in Sources */,
 				183E32D5269AE5AD006B4507 /* RegisterRequestM.swift in Sources */,
 				185B0660267DE58600A17664 /* BaseNibView.swift in Sources */,
