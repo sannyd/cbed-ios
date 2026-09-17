@@ -149,6 +149,17 @@ final class ScoreboardViewController: UIViewController {
                 .asDriverOnErrorJustComplete()
                 .drive(onNext: { [weak self] available in
                     self?.applyAvailableSections(available)
+                }),
+
+            output.selectedSection
+                .asDriverOnErrorJustComplete()
+                .distinctUntilChanged()
+                .drive(onNext: { [weak self] selected in
+                    // Sync the chip row's active styling to the view-model's
+                    // sectionFilter — including the auto-reset path where
+                    // a grading-only filter snaps back to MBE during a
+                    // cycle change.
+                    self?.refreshChipSelection(selected)
                 })
         ]
         .forEach { $0.disposed(by: disposeBag) }
@@ -236,6 +247,15 @@ final class ScoreboardViewController: UIViewController {
             styleChipAsPill(button)
             chipsByFilter[match.1] = button
 
+            // V11.1: capture direct references to the two grading-only
+            // chips so we can hide them synchronously without Rx. Done
+            // here while we already have the title match in hand.
+            switch match.1 {
+            case .essays: essaysChipButton = button
+            case .mpt:    mptsChipButton = button
+            default:      break
+            }
+
             button.rx.tap
                 .map { _ in match.1 }
                 .bind(to: relay)
@@ -263,6 +283,21 @@ final class ScoreboardViewController: UIViewController {
     /// All section-filter chips keyed by their SectionFilter enum case.
     /// Populated by `wireChipButtons`; nil-safe in `refreshChipSelection`.
     private var sectionChipButtons: [SectionFilter: CustomBorderButton] = [:]
+
+    /// V11.1: direct references to the two grading-only chips (Essays,
+    /// M/PTs). Captured during `wireChipButtons` so we can hide them
+    /// synchronously at viewDidLoad time WITHOUT depending on the view
+    /// model's Rx pipeline. This is the spec's required "hard" hide —
+    /// it runs before any driver can emit, so the chips are gone from
+    /// frame 1 on standard exam cycles.
+    private weak var essaysChipButton: CustomBorderButton?
+    private weak var mptsChipButton: CustomBorderButton?
+
+    /// V11.1: the exam cycle the UI is currently displaying. Mirrors
+    /// the view-model's `examCycle` relay but lives in the view layer
+    /// so the grading-chip visibility toggle has no Rx dependency and
+    /// runs synchronously at viewDidLoad + on each chip tap.
+    private var currentExamCycle: ExamCycle = .july
 
     /// V11.1: drives the view-model's `tutorsSheetVisibility` input so
     /// it knows when to surface the grading-only chips (Essays, M/PTs).
@@ -309,13 +344,24 @@ final class ScoreboardViewController: UIViewController {
         relay
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] selected in
-                self?.refreshExamChipSelection(selected)
+                guard let self = self else { return }
+                self.refreshExamChipSelection(selected)
+                // V11.1: also update view-layer exam-cycle state and
+                // hard-hide / show the grading-only chips synchronously.
+                // This is independent of the view-model's Rx pipeline so
+                // it always fires — even if `output.availableSections`
+                // never emits for any reason.
+                self.currentExamCycle = selected
+                self.refreshGradingChipsVisibility()
             })
             .disposed(by: disposeBag)
 
         // Ensure July starts selected at first render.
         refreshExamChipSelection(.july)
         examCycleChips = chipsByCycle
+        // V11.1: apply the initial hard-hide so the grading chips are
+        // gone from frame 1, before the user perceives them.
+        refreshGradingChipsVisibility()
     }
 
     /// Apply active/inactive styling to each exam-cycle chip based on
@@ -413,6 +459,34 @@ final class ScoreboardViewController: UIViewController {
         )
     }
 
+    /// V11.1: hard-hide / show the two grading-only chips (Essays,
+    /// M/PTs) directly via the `essaysChipButton` + `mptsChipButton`
+    /// outlets. No Rx pipeline — this is the synchronous, view-layer
+    /// defensive path that the spec calls out: regardless of whether
+    /// the view model's `availableSections` Driver fires, these chips
+    /// are guaranteed to be hidden on every standard cycle from frame 1.
+    ///
+    /// Called from `viewDidLoad` (initial `.july` cycle) and from the
+    /// exam-cycle chip tap so we react the moment the user picks a new
+    /// top tab. UIStackView's "hidden arrangedSubviews collapse" rule
+    /// closes the gap automatically; no whitespace left behind.
+    private func refreshGradingChipsVisibility() {
+        let showGrading = (currentExamCycle == .emailZoom)
+        essaysChipButton?.isHidden = !showGrading
+        mptsChipButton?.isHidden   = !showGrading
+        // Force the stack to reflow immediately so the chips collapse
+        // their layout footprint before the user perceives them.
+        sectionFilterStack.setNeedsLayout()
+        sectionFilterStack.layoutIfNeeded()
+        // Snap horizontal scroll back to the start so the user sees
+        // the updated row from the leftmost chip with no orphaned
+        // scroll position from a previously-hidden chip.
+        sectionFilterScrollView.setContentOffset(
+            .init(x: 0, y: sectionFilterScrollView.contentOffset.y),
+            animated: false
+        )
+    }
+
     // MARK: - Tutors sheet
 
     private func presentTutorsSheet(tutors: [ScoreM]) {
@@ -433,6 +507,15 @@ final class ScoreboardViewController: UIViewController {
         TutorsSheetObserver.shared.onDismiss = { [weak self] in
             self?.tutorsVisibilityRelay.accept(false)
         }
+        // V11.1: synchronous defensive show of the grading chips while
+        // the Tutors sheet is on screen. The view-model will also push
+        // this through `output.availableSections`, but we make it
+        // immediate so the user sees the chips the instant the sheet
+        // appears.
+        essaysChipButton?.isHidden = false
+        mptsChipButton?.isHidden   = false
+        sectionFilterStack.setNeedsLayout()
+        sectionFilterStack.layoutIfNeeded()
         present(nav, animated: true)
     }
 

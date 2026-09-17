@@ -91,6 +91,12 @@ extension ScoreboardViewModel {
         /// iterates this list to show/hide chips and to scroll the
         /// active chip into view.
         let availableSections: Observable<[SectionFilter]>
+        /// V11.1: the currently-active section filter. Reflects the
+        /// sectionFilter BehaviorRelay, which is auto-reset to MBE
+        /// when the active filter becomes grading-only during a cycle
+        /// change. The ViewController subscribes to keep the chip row
+        /// styling in sync even when the reset happens internally.
+        let selectedSection: Observable<SectionFilter>
     }
 }
 
@@ -219,7 +225,8 @@ struct ScoreboardViewModel: ViewModel {
             isLoading: activityIndicator.asObservable(),
             error: errorTracker.asObservable(),
             tutorsTrigger: tutorsTriggerStream,
-            availableSections: availableSections
+            availableSections: availableSections,
+            selectedSection: sectionFilter.asObservable()
         )
     }
 
