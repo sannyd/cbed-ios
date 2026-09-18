@@ -507,12 +507,38 @@ final class ScoreboardViewController: UIViewController {
     ///
     /// Called from `viewDidLoad` (initial `.july` cycle) and from the
     /// exam-cycle chip tap so we react the moment the user picks a new
-    /// top tab. UIStackView's "hidden arrangedSubviews collapse" rule
-    /// closes the gap automatically; no whitespace left behind.
+    /// Hide / show the secondary chips based on the active exam cycle.
+    /// V11.1.1: Baby Bar candidates only get MBE drills — NextGen chips
+    /// (NG 1-Choice, NG 2-Choice, IQS Counseling, IQS Drafting, SPT, LRPT),
+    /// grading-only chips (Essays, M/PTs), AND the Tutors trigger button
+    /// must ALL be hidden for the Baby Bar Jun / Baby Bar Oct cycles.
+    /// UIStackView's "hidden arrangedSubviews collapse" rule closes the
+    /// gap automatically; no whitespace left behind.
+    ///
+    /// Called from `viewDidLoad` (initial `.emailZoom` cycle — currentExamCycle
+    /// is set by `refreshExamChipSelection(.emailZoom)` earlier in viewDidLoad)
+    /// and from the exam-cycle chip tap so we react the moment the user picks
+    /// a new top tab.
     private func refreshGradingChipsVisibility() {
-        let showGrading = (currentExamCycle == .emailZoom)
-        essaysChipButton?.isHidden = !showGrading
-        mptsChipButton?.isHidden   = !showGrading
+        let isBabyBar = (currentExamCycle == .babyBarJun
+                         || currentExamCycle == .babyBarOct)
+        let isEmailZoom = (currentExamCycle == .emailZoom)
+
+        // Grading-only chips: Essays + M/PTs. Visible on Email & Zoom only.
+        essaysChipButton?.isHidden = !isEmailZoom
+        mptsChipButton?.isHidden   = !isEmailZoom
+
+        // NextGen chips + MBE: hidden for Baby Bar EXCEPT the MBE chip,
+        // which must always be visible. Visible everywhere else,
+        // including standard July / Feb + Email & Zoom.
+        for (filter, button) in sectionChipButtons {
+            if button === essaysChipButton || button === mptsChipButton {
+                continue  // already handled above
+            }
+            button.isHidden = isBabyBar ? (filter != .mbe) : false
+        }
+        tutorsButton?.isHidden = isBabyBar
+
         // Force the stack to reflow immediately so the chips collapse
         // their layout footprint before the user perceives them.
         sectionFilterStack.setNeedsLayout()
