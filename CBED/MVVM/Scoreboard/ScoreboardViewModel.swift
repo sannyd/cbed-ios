@@ -176,16 +176,35 @@ struct ScoreboardViewModel: ViewModel {
             .disposed(by: disposeBag)
 
         // Combine cohort × section filter into the displayed list.
+        //
+        // V11.1 critical fix: the cohort relays (proBarJulData,
+        // proBarFebData, babyBarJunData, babyBarOctData, emailZoomData)
+        // MUST be included as combineLatest sources — otherwise the
+        // data stream never re-emits when the API response populates
+        // them on first launch. The closure that maps `cycle` →
+        // `cohort.value` only runs when `combineLatest` fires; if the
+        // cohort relays aren't observed, an updated cohort is read
+        // inside the closure but `combineLatest` never re-runs the
+        // closure, so the collection view stays empty until the user
+        // triggers a cycle / section chip change.
         let data = Observable
-            .combineLatest(examCycle, sectionFilter)
-            .map { cycle, filter -> [ScoreM] in
+            .combineLatest(
+                examCycle,
+                sectionFilter,
+                proBarJulData,
+                proBarFebData,
+                babyBarJunData,
+                babyBarOctData,
+                emailZoomData
+            )
+            .map { cycle, filter, jul, feb, bbj, bbo, ez -> [ScoreM] in
                 let cohort: [ScoreM]
                 switch cycle {
-                case .july:        cohort = proBarJulData.value
-                case .feb:         cohort = proBarFebData.value
-                case .babyBarJun:  cohort = babyBarJunData.value
-                case .babyBarOct:  cohort = babyBarOctData.value
-                case .emailZoom:   cohort = emailZoomData.value
+                case .july:        cohort = jul
+                case .feb:         cohort = feb
+                case .babyBarJun:  cohort = bbj
+                case .babyBarOct:  cohort = bbo
+                case .emailZoom:   cohort = ez
                 }
                 return applySectionFilter(filter, to: cohort)
             }
