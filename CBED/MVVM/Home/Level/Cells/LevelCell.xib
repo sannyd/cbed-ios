@@ -22,34 +22,34 @@
         <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="LevelCell" customModule="CBED" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="343" height="190"/>
             <autoresizingMask key="autoresizingMask"/>
-            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+            <view key="contentView" opaque="NO" clipsSubviews="NO" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="343" height="200"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6LX-BZ-ZWa" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="40" width="343" height="150"/>
+                        <rect key="frame" x="0.0" y="24" width="343" height="96"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DC7-ok-Vwr" customClass="CustomBorderView" customModule="CBED" customModuleProvider="target">
-                                <rect key="frame" x="131.5" y="-40" width="80" height="80"/>
+                                <rect key="frame" x="147.5" y="-24" width="48" height="48"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_level_enable" translatesAutoresizingMaskIntoConstraints="NO" id="BoH-FE-GRI">
-                                        <rect key="frame" x="22" y="19" width="36" height="42"/>
+                                        <rect key="frame" x="8" y="6" width="32" height="36"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="42" id="D9J-6U-jsF"/>
-                                            <constraint firstAttribute="width" constant="36" id="kP9-DE-L0I"/>
+                                            <constraint firstAttribute="height" constant="36" id="D9J-6U-jsF"/>
+                                            <constraint firstAttribute="width" constant="32" id="kP9-DE-L0I"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" name="Card Elevated"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="HU3-XL-V5h"/>
+                                    <constraint firstAttribute="height" constant="48" id="HU3-XL-V5h"/>
                                     <constraint firstAttribute="width" secondItem="DC7-ok-Vwr" secondAttribute="height" multiplier="1:1" id="IqQ-KE-WHn"/>
                                     <constraint firstItem="BoH-FE-GRI" firstAttribute="centerY" secondItem="DC7-ok-Vwr" secondAttribute="centerY" id="MHP-f2-miq"/>
                                     <constraint firstItem="BoH-FE-GRI" firstAttribute="centerX" secondItem="DC7-ok-Vwr" secondAttribute="centerX" id="ldm-IQ-t41"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                        <real key="value" value="40"/>
+                                        <real key="value" value="24"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
@@ -89,12 +89,12 @@
                         </subviews>
                         <color key="backgroundColor" name="Cell Color"/>
                         <constraints>
-                            <!-- V11.1.5: circle straddles the card's top edge (top = card.top - 40, half-above / half-on) to restore the 11.0 elevated-badge look. CustomBorderView.drawCorner() sets clipsToBounds=true on the card; LevelCell.layoutSubviews re-forces clipsToBounds=false on the card so the upper half of the circle isn't clipped. -->
+                            <!-- V11.1.6: tight 96pt card. Badge centerY = card.top (half above, half on). Title top = card.top + 32. Both card.clipsToBounds and contentView.clipsSubviews disabled in LevelCell.swift / XIB so the upper half of the badge isn't clipped. -->
                             <constraint firstItem="DC7-ok-Vwr" firstAttribute="centerX" secondItem="6LX-BZ-ZWa" secondAttribute="centerX" id="vnt-pN-FjF"/>
-                            <constraint firstItem="DC7-ok-Vwr" firstAttribute="top" secondItem="6LX-BZ-ZWa" secondAttribute="top" constant="-40" id="wra-QT-bbw"/>
-                            <constraint firstItem="xbI-4j-MVi" firstAttribute="top" secondItem="DC7-ok-Vwr" secondAttribute="bottom" constant="14" id="yaH-78-SSm"/>
+                            <constraint firstItem="DC7-ok-Vwr" firstAttribute="centerY" secondItem="6LX-BZ-ZWa" secondAttribute="top" id="circle-centerY-card-top"/>
+                            <constraint firstItem="xbI-4j-MVi" firstAttribute="top" secondItem="6LX-BZ-ZWa" secondAttribute="top" constant="32" id="yaH-78-SSm"/>
                             <constraint firstItem="xbI-4j-MVi" firstAttribute="leading" secondItem="6LX-BZ-ZWa" secondAttribute="leading" constant="8" id="E3u-RG-JW3"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="xbI-4j-MVi" secondAttribute="bottom" constant="8" id="dNm-Hk-zZg"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="xbI-4j-MVi" secondAttribute="bottom" constant="14" id="dNm-Hk-zZg"/>
                             <constraint firstAttribute="trailing" secondItem="xbI-4j-MVi" secondAttribute="trailing" constant="8" id="wh0-gU-jEq"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -125,10 +125,10 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="6LX-BZ-ZWa" secondAttribute="trailing" id="A1Z-r3-k2F"/>
                 <constraint firstItem="6LX-BZ-ZWa" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Awn-Yd-E3E"/>
-                <constraint firstAttribute="bottom" secondItem="6LX-BZ-ZWa" secondAttribute="bottom" id="NuR-wc-KzH"/>
-                <constraint firstItem="6LX-BZ-ZWa" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="40" id="h9c-D5-wWS"/>
+                <constraint firstAttribute="bottom" secondItem="6LX-BZ-ZWa" secondAttribute="bottom" constant="4" id="NuR-wc-KzH"/>
+                <constraint firstItem="6LX-BZ-ZWa" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="24" id="h9c-D5-wWS"/>
             </constraints>
-            <size key="customSize" width="343" height="200"/>
+            <size key="customSize" width="343" height="124"/>
             <connections>
                 <outlet property="cardView" destination="6LX-BZ-ZWa" id="card-outlet-001"/>
                 <outlet property="circleView" destination="DC7-ok-Vwr" id="circ-outlet-001"/>
