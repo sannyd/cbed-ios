@@ -43,7 +43,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var context = LAContext()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
- 
+
+        // V11.1: register app-level UserDefaults so any first-launch
+        // reader that uses UserDefaults directly (rather than
+        // `Storage.examLocation`) still sees MPRE as the default
+        // exam jurisdiction. Mirrors `ExamLocation.defaultLocation = .mpre`.
+        UserDefaults.standard.register(defaults: [
+            "exam_location": ExamLocation.defaultLocation.rawValue,
+        ])
+
         context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
         UIButton.installTapFeedbackSwizzle()
         AudioFeedbackManager.shared.prepare()
