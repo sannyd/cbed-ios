@@ -65,17 +65,20 @@ enum ExamLocation: String, CaseIterable {
     var allowLevelIDs: [Int] {
         switch self {
         case .ube:
-            return [5, 40, 7, 11, 19, 8]
+            // V11.1: MPRE Drills (17) is always-free and is now included
+            // alongside the existing always-free Free Essay Drill Samples (8).
+            return [5, 40, 7, 11, 19, 8, 17]
         case .mpre:
+            // MPRE-focused exam location: Free Essay + MPRE Drills.
             return [8, 17]
         case .florida:
-            return [5, 40, 4, 13, 8]
+            return [5, 40, 4, 13, 8, 17]
         case .california:
-            return [5, 40, 9, 10, 15, 8]
+            return [5, 40, 9, 10, 15, 8, 17]
         case .georgia:
-            return [5, 40, 14, 11, 8]
+            return [5, 40, 14, 11, 8, 17]
         case .nextGen:
-            return [5, 40, 8, 29, 30, 31, 33, 34, 35]
+            return [5, 40, 8, 29, 30, 31, 33, 34, 35, 17]
         }
     }
 }
