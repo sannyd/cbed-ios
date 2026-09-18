@@ -43,10 +43,21 @@ class LevelCell: UICollectionViewCell, CellType {
         circleView.layer.shadowOffset = CGSize(width: 0, height: 4)
         circleView.layer.shadowRadius = 6
         circleView.layer.masksToBounds = false
-        // V11.1.10: also disable clipping on the contentView itself so
-        // the upper half of the badge (which sits in the 28pt gap
-        // above the card) is not clipped by the cell boundary.
+        // V11.1.11: keep the upper half of the floating badge visible
+        // on cold launch. The badge straddles the card's top edge
+        // (centerY = card.top) with ~28pt of its upper half sitting in
+        // the cell's gap above the card. UICollectionViewCell clips
+        // through contentView by default and the card's rounded
+        // CustomBorderView runs drawCorner() on every layout pass,
+        // both of which can clip the floating badge before the very
+        // first pull-to-refresh layout pass settles. Disable clipping
+        // on every layer that touches the badge path:
+        //   - self (the cell itself)
+        //   - contentView (collection-view cell container)
+        //   - cardView (rounded card hosting the badge center)
+        clipsToBounds = false
         contentView.clipsToBounds = false
+        cardView.clipsToBounds = false
     }
 
     override func layoutSubviews() {
@@ -59,8 +70,19 @@ class LevelCell: UICollectionViewCell, CellType {
         // gets clipped by the card's rectangular bounds. Force
         // clipsToBounds=false after super has run so the badge
         // renders fully.
-        cardView.clipsToBounds = false
+        // V11.1.11: same defense applied to self + contentView so the
+        // badge is never clipped on cold launch (before any pull-to-
+        // refresh layout pass settles the frames).
+        clipsToBounds = false
         contentView.clipsToBounds = false
+        cardView.clipsToBounds = false
+
+        // V11.1.11: dynamic corner radius for the floating badge.
+        // Computed from the actual layout-time bounds rather than the
+        // XIB hard-coded 29pt, so any future size change can't leave
+        // the badge out-of-round on cold launch.
+        circleView.layer.cornerRadius = circleView.bounds.height / 2
+        circleView.layer.masksToBounds = false
     }
 
     func populateData(_ data: LevelM) {

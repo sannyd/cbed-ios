@@ -49,10 +49,20 @@ final class LevelViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        
+
         searchView.isHidden = !IsEnableLogin
         updateSearchTitle()
-        
+
+        // V11.1.11: force the level collection view to lay out its
+        // (already-rendered) cells before appearing. Without this, the
+        // very first cold-launch of Home screen shows the upper half of
+        // each floating circular badge clipped until the user pulls-to-
+        // refresh — by which point the next layout pass has settled
+        // the frames. Doing it here guarantees frames are computed
+        // before the cells appear on screen, so the badge renders in
+        // full on the very first paint.
+        collectionView.layoutIfNeeded()
+
         if !IsEnableLogin {
             if CurrentMembershipType == nil {
                 unlockView.isHidden = false
