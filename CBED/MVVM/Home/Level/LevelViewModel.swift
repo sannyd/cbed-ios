@@ -51,7 +51,12 @@ struct LevelViewModel: ViewModel {
                             return items.filter { $0.id != 10 }
                         }
                     } else {
-                        return items.filter { $0.id == 8 }
+                        // V11.1: show BOTH always-free levels (Free Essay 8
+                        // + MPRE Drills 17) for unauthed users with no
+                        // current IAP. Previously hard-coded to just id 8,
+                        // which silently hid MPRE Drills on free-tier
+                        // installs.
+                        return items.filter { $0.id == 8 || $0.id == 17 }
                     }
                 } else {
                     return items
