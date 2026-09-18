@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>method</key>
+	<string>app-store</string>
+	<key>destination</key>
+	<string>upload</string>
+	<key>signingStyle</key>
+	<string>manual</string>
+	<key>uploadSymbols</key>
+	<true/>
+	<key>uploadBitcode</key>
+	<false/>
+	<key>teamID</key>
+	<string>5KQUA2VRMH</string>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>com.barexamdrills.app</key>
+		<string>iOS Team Store Provisioning Profile: com.barexamdrills.app</string>
+		<key>com.barexamdrills.app.CBED-Widget</key>
+		<string>iOS Team Store Provisioning Profile: com.barexamdrills.app.CBED-Widget</string>
+	</dict>
+</dict>
+</plist>

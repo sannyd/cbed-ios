@@ -1,0 +1,172 @@
+name: Deploy CBED to App Store
+
+on:
+  workflow_dispatch:
+    inputs:
+      upload_only:
+        description: "If true, skip archive and only run xcrun altool upload (for re-uploading an existing IPA)"
+        required: false
+        default: "false"
+      ipa_path:
+        description: "Path to an existing IPA in the workspace (only used when upload_only=true)"
+        required: false
+        default: "build/CBED.ipa"
+
+jobs:
+  build-and-upload:
+    name: Build + Upload to App Store Connect
+    runs-on: macos-latest
+
+    env:
+      KEYCHAIN_NAME: build.keychain-db
+      KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+      APP_BUNDLE_ID: com.barexamdrills.app
+      WIDGET_BUNDLE_ID: com.barexamdrills.app.CBED-Widget
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Select Xcode 16
+        run: sudo xcode-select -s /Applications/Xcode_16.0.app
+
+      - name: Show toolchain versions
+        run: |
+          xcodebuild -version
+          ruby --version
+          pod --version || echo "(no cocoapods)"
+
+      - name: Install signing assets
+        env:
+          API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
+          CERT_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          MAIN_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          WIDGET_PROFILE_BASE64: ${{ secrets.BUILD_WIDGET_PROVISION_PROFILE_BASE64 }}
+        run: |
+          set -euo pipefail
+          mkdir -p signing
+          echo "$API_KEY_BASE64"     | base64 --decode > signing/AuthKey.p8
+          echo "$CERT_BASE64"        | base64 --decode > signing/Certificates.p12
+          echo "$MAIN_PROFILE_BASE64"  | base64 --decode > signing/CBED.mobileprovision
+          echo "$WIDGET_PROFILE_BASE64" | base64 --decode > signing/CBED-Widget.mobileprovision
+          ls -la signing/
+
+      - name: Create temporary keychain and import certificate
+        env:
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+        run: |
+          set -euo pipefail
+          KEYCHAIN_PATH="$RUNNER_TEMP/$KEYCHAIN_NAME"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security list-keychains -d user -s "$KEYCHAIN_PATH" $(security list-keychains -d user | tr -d '"')
+          security import signing/Certificates.p12 \
+            -k "$KEYCHAIN_PATH" \
+            -P "$P12_PASSWORD" \
+            -T /usr/bin/codesign \
+            -T /usr/bin/security
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security find-identity -v -p codesigning "$KEYCHAIN_PATH"
+
+      - name: Install provisioning profiles
+        run: |
+          set -euo pipefail
+          PROFILES_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
+          mkdir -p "$PROFILES_DIR"
+          # The certificate Common Name embeds the team name "Apple Distribution: San Do (5KQUA2VRMH)"
+          # and matches the profile's embedded cert via SHA-1 fingerprint. Both profiles share
+          # the same cert, so import it once and let Xcode match by UUID during archive.
+          cp signing/CBED.mobileprovision         "$PROFILES_DIR/351191fc-c4fe-4ca0-9019-66c3d6940d57.mobileprovision"
+          cp signing/CBED-Widget.mobileprovision   "$PROFILES_DIR/46b42d20-36b6-469a-a025-2b38c87d666e.mobileprovision"
+          ls "$PROFILES_DIR"
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install CocoaPods dependencies
+        run: |
+          set -euo pipefail
+          if [ -f Podfile ]; then
+            pod install --repo-update
+          fi
+
+      - name: Archive (xcodebuild)
+        env:
+          KEYCHAIN_PATH: ${{ env.KEYCHAIN_NAME }}
+        run: |
+          set -euo pipefail
+          if [ "${{ inputs.upload_only }}" = "true" ]; then
+            echo "upload_only=true — skipping archive"
+            exit 0
+          fi
+          KEYCHAIN_PATH="$RUNNER_TEMP/$KEYCHAIN_PATH"
+          mkdir -p build
+          xcodebuild \
+            -workspace CBED.xcworkspace \
+            -scheme CBED \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/CBED.xcarchive \
+            -allowProvisioningUpdates \
+            OTHER_CODE_SIGN_FLAGS="--keychain $KEYCHAIN_PATH" \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
+            CODE_SIGN_STYLE=Manual \
+            DEVELOPMENT_TEAM=5KQUA2VRMH \
+            PROVISIONING_PROFILE_SPECIFIER="iOS Team Store Provisioning Profile: com.barexamdrills.app" \
+            clean archive
+          ls -la build/
+
+      - name: Export IPA (xcodebuild -exportArchive)
+        env:
+          KEYCHAIN_PATH: ${{ env.KEYCHAIN_NAME }}
+        run: |
+          set -euo pipefail
+          if [ "${{ inputs.upload_only }}" = "true" ]; then
+            echo "upload_only=true — skipping export"
+            exit 0
+          fi
+          KEYCHAIN_PATH="$RUNNER_TEMP/$KEYCHAIN_PATH"
+          xcodebuild \
+            -exportArchive \
+            -archivePath build/CBED.xcarchive \
+            -exportPath build/ \
+            -exportOptionsPlist ExportOptions.plist \
+            -allowProvisioningUpdates \
+            OTHER_CODE_SIGN_FLAGS="--keychain $KEYCHAIN_PATH"
+          ls -la build/
+          test -f build/CBED.ipa && echo "IPA built: build/CBED.ipa"
+
+      - name: Upload to App Store Connect (xcrun altool)
+        env:
+          API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY_ID }}
+          API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+        run: |
+          set -euo pipefail
+          IPA="${{ inputs.upload_only == 'true' && inputs.ipa_path || 'build/CBED.ipa' }}"
+          if [ ! -f "$IPA" ]; then
+            echo "::error::IPA not found at $IPA"
+            exit 1
+          fi
+          xcrun altool --upload-app \
+            --type ios \
+            --file "$IPA" \
+            --apiKey "$API_KEY_ID" \
+            --apiIssuer "$API_KEY_ISSUER_ID"
+
+      - name: Clean up keychain
+        if: always()
+        run: |
+          KEYCHAIN_PATH="$RUNNER_TEMP/$KEYCHAIN_NAME"
+          if [ -f "$KEYCHAIN_PATH" ]; then
+            security delete-keychain "$KEYCHAIN_PATH" || true
+          fi
+          security list-keychains -d user -s $(security list-keychains -d user | grep -v "$KEYCHAIN_NAME" | tr -d '"') || true
