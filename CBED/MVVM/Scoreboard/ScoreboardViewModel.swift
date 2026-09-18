@@ -4,12 +4,14 @@ import RxCocoa
 // MARK: - Filter enums
 
 /// Exam cycle / member-plan tab at the top of the scoreboard. The five
-/// segments in the storyboard map 1:1 with the cases here:
-///   .july        - segment index 0
-///   .feb         - segment index 1
-///   .babyBarJun  - segment index 2
-///   .babyBarOct  - segment index 3
-///   .emailZoom   - segment index 4 (Email & Zoom, new in V11.1)
+/// segments in the storyboard map to the cases here. As of V11.1 the
+/// leftmost (and default-selected) chip is Email & Zoom; the visual
+/// order in the storyboard is now:
+///   .emailZoom   - leftmost (segment index 0, default-selected)
+///   .july        - segment index 1
+///   .feb         - segment index 2
+///   .babyBarJun  - segment index 3
+///   .babyBarOct  - segment index 4
 enum ExamCycle {
     case july
     case feb
@@ -126,7 +128,11 @@ struct ScoreboardViewModel: ViewModel {
         // cohort entirely (`is_tutor_for_bed=True`).
         let emailZoomData = BehaviorRelay<[ScoreM]>(value: [])
 
-        let examCycle = BehaviorRelay<ExamCycle>(value: .july)
+        // Default to `.emailZoom` — the spec asks for Email & Zoom to
+        // be the first chip and the default-selected cycle on launch.
+        // Both relays start at the same default so neither view nor
+        // view-model has to special-case the initial render.
+        let examCycle = BehaviorRelay<ExamCycle>(value: .emailZoom)
         // Default to MBE now that `.all` is gone — the user explicitly asked
         // for "the first selected chip must default to MBE".
         let sectionFilter = BehaviorRelay<SectionFilter>(value: .mbe)

@@ -69,9 +69,16 @@ final class ScoreboardViewController: UIViewController {
         // Tier 1: exam cycle chips — each chip in the storyboard
         // scroll row is wired to its own ExamCycle enum case, mirroring
         // the section-chip pattern below. The default selection is
-        // `.july` (the leftmost chip), styled as selected at first render.
+        // `.emailZoom` (the leftmost chip), styled as selected at
+        // first render and used to drive the initial data cohort.
         let examCycleTrigger = PublishRelay<ExamCycle>()
         wireExamCycleChips(to: examCycleTrigger)
+        // Fire the trigger immediately so the view-model sees the
+        // initial selection (even though its BehaviorRelay also starts
+        // at `.emailZoom`, this guarantees both layers agree on the
+        // very first emission and exercises any side-effects that
+        // listen to `examCycleTrigger`).
+        examCycleTrigger.accept(.emailZoom)
 
         // Tier 2: section chips — each chip is wired to its own enum case.
         // `chip-*` outlets are connected at runtime via setupSectionFilterChips().
@@ -297,7 +304,9 @@ final class ScoreboardViewController: UIViewController {
     /// the view-model's `examCycle` relay but lives in the view layer
     /// so the grading-chip visibility toggle has no Rx dependency and
     /// runs synchronously at viewDidLoad + on each chip tap.
-    private var currentExamCycle: ExamCycle = .july
+    /// Default is `.emailZoom` — the spec asks for Email & Zoom to be
+    /// the first chip and the default-selected cycle on launch.
+    private var currentExamCycle: ExamCycle = .emailZoom
 
     /// V11.1: drives the view-model's `tutorsSheetVisibility` input so
     /// it knows when to surface the grading-only chips (Essays, M/PTs).
@@ -312,8 +321,10 @@ final class ScoreboardViewController: UIViewController {
     /// Wire each exam-cycle chip in the storyboard scroll row to its
     /// ExamCycle enum case. Mirrors `wireChipButtons` for the section
     /// filter row directly below — same pill styling, same selection
-    /// pattern. Defaults the selection to `.july` (leftmost) at first
-    /// render. Title strings must match the buttons' `state.normal.title`
+    /// pattern. Defaults the selection to `.emailZoom` (leftmost) at
+    /// first render; the visual order in the storyboard is
+    /// Email & Zoom / July / Feb / Baby Bar Jun / Baby Bar Oct.
+    /// Title strings must match the buttons' `state.normal.title`
     /// in the storyboard.
     private func wireExamCycleChips(to relay: PublishRelay<ExamCycle>) {
         let mapping: [(String, ExamCycle)] = [
@@ -356,11 +367,16 @@ final class ScoreboardViewController: UIViewController {
             })
             .disposed(by: disposeBag)
 
-        // Ensure July starts selected at first render.
-        refreshExamChipSelection(.july)
+        // Ensure Email & Zoom starts selected at first render — it's
+        // the leftmost chip in the storyboard and the spec-mandated
+        // default cycle on launch. This drives both the view-layer
+        // (chip styling + grading-chips visibility) and the
+        // view-model (data filter = email_zoom cohort) at boot.
+        refreshExamChipSelection(.emailZoom)
         examCycleChips = chipsByCycle
-        // V11.1: apply the initial hard-hide so the grading chips are
-        // gone from frame 1, before the user perceives them.
+        // V11.1: apply the initial hard-hide/show so the grading chips
+        // reflect the .emailZoom default (i.e., they're VISIBLE on
+        // first render — the user must see Essays and M/PTs by default).
         refreshGradingChipsVisibility()
     }
 
