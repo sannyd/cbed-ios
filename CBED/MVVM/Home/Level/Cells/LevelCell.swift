@@ -31,13 +31,13 @@ class LevelCell: UICollectionViewCell, CellType {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // V11.1.7: apply the "elevated" circular badge styling so the
+        // V11.1.8: apply the "elevated" circular badge styling so the
         // 56x56 badge sits visibly above the card with soft elevation.
         // SecondarySurfaceColor is the slightly-lighter purple in dark
         // mode and the light off-white in light mode — matches the
         // 11.0 visual hierarchy.
         circleView.backgroundColor = Constants.SecondarySurfaceColor
-        // V11.1.7: also disable clipping on the contentView itself so
+        // V11.1.8: also disable clipping on the contentView itself so
         // the upper half of the badge (which sits in the 28pt gap
         // above the card) is not clipped by the cell boundary.
         contentView.clipsToBounds = false
@@ -45,7 +45,7 @@ class LevelCell: UICollectionViewCell, CellType {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        // V11.1.7: CustomBorderView.drawCorner() (called from
+        // V11.1.8: CustomBorderView.drawCorner() (called from
         // layoutSubviews) sets clipsToBounds = true on any view with
         // rounded corners. The card here is rounded AND it hosts the
         // 56x56 circular badge whose center sits on the card's top

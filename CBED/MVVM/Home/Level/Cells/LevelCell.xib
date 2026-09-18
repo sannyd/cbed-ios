@@ -69,7 +69,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="xbI-4j-MVi">
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="xbI-4j-MVi">
                                 <rect key="frame" x="8" y="54" width="327" height="88"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7lR-TR-Qcp">
@@ -89,13 +89,12 @@
                         </subviews>
                         <color key="backgroundColor" name="Cell Color"/>
                         <constraints>
-                            <!-- V11.1.7: 112pt card. Badge (56x56) centerY = card.top, half above / half on. Title top = card.top + 36 (8pt below badge bottom). Bottom padding 16. Both card.clipsToBounds and contentView.clipsSubviews disabled in LevelCell.swift / XIB so the upper half of the badge isn't clipped. -->
+                            <!-- V11.1.8: title stack (title + subtitle) centered vertically inside the card with +12pt downward bias so the visual weight of the elevated badge above reads as balanced. 16pt horizontal padding. The badge bottom is at card.top+28; with centerY bias=12 the stackView sits roughly mid-card, giving equal-feeling gaps above and below the title. -->
                             <constraint firstItem="DC7-ok-Vwr" firstAttribute="centerX" secondItem="6LX-BZ-ZWa" secondAttribute="centerX" id="vnt-pN-FjF"/>
                             <constraint firstItem="DC7-ok-Vwr" firstAttribute="centerY" secondItem="6LX-BZ-ZWa" secondAttribute="top" id="circle-centerY-card-top"/>
-                            <constraint firstItem="xbI-4j-MVi" firstAttribute="top" secondItem="6LX-BZ-ZWa" secondAttribute="top" constant="36" id="yaH-78-SSm"/>
-                            <constraint firstItem="xbI-4j-MVi" firstAttribute="leading" secondItem="6LX-BZ-ZWa" secondAttribute="leading" constant="8" id="E3u-RG-JW3"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="xbI-4j-MVi" secondAttribute="bottom" constant="16" id="dNm-Hk-zZg"/>
-                            <constraint firstAttribute="trailing" secondItem="xbI-4j-MVi" secondAttribute="trailing" constant="8" id="wh0-gU-jEq"/>
+                            <constraint firstItem="xbI-4j-MVi" firstAttribute="centerY" secondItem="6LX-BZ-ZWa" secondAttribute="centerY" constant="12" id="stack-centerY-card-centerY"/>
+                            <constraint firstItem="xbI-4j-MVi" firstAttribute="leading" secondItem="6LX-BZ-ZWa" secondAttribute="leading" constant="16" id="E3u-RG-JW3"/>
+                            <constraint firstAttribute="trailing" secondItem="xbI-4j-MVi" secondAttribute="trailing" constant="16" id="wh0-gU-jEq"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
