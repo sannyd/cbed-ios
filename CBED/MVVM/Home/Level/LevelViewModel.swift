@@ -51,12 +51,14 @@ struct LevelViewModel: ViewModel {
                             return items.filter { $0.id != 10 }
                         }
                     } else {
-                        // V11.1: show BOTH always-free levels (Free Essay 8
-                        // + MPRE Drills 17) for unauthed users with no
-                        // current IAP. Previously hard-coded to just id 8,
-                        // which silently hid MPRE Drills on free-tier
-                        // installs.
-                        return items.filter { $0.id == 8 || $0.id == 17 }
+                        // V11.1: MPRE Drills (17) is restricted to the
+                        // .mpre exam location. Show Free Essay (8)
+                        // always; show MPRE Drills only when the user
+                        // has explicitly selected the MPRE jurisdiction.
+                        let freeIDs: [Int] = Storage.examLocation == .mpre
+                            ? [8, 17]
+                            : [8]
+                        return items.filter { freeIDs.contains($0.id) }
                     }
                 } else {
                     return items
