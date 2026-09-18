@@ -17,12 +17,10 @@ class LevelCell: UICollectionViewCell, CellType {
     typealias T = LevelM
 
     static var cellHeight: CGFloat {
-        // V11.1.7: 144pt = 28pt above card (where the upper half of
-        // the 56pt elevated badge sits) + 112pt card + 4pt bottom
-        // padding. Badge is now 56x56 with centerY anchored to the
-        // card's top edge, so 28pt of clearance is needed above
-        // the card for the upper half to fit.
-        return 144
+        // V11.1.10: 145pt = 29pt above card (where the upper half of
+        // the 58pt elevated badge sits) + 112pt card + 4pt bottom
+        // padding.
+        return 145
     }
 
     static var cellWidth: CGFloat {
@@ -31,13 +29,21 @@ class LevelCell: UICollectionViewCell, CellType {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // V11.1.8: apply the "elevated" circular badge styling so the
-        // 56x56 badge sits visibly above the card with soft elevation.
+        // V11.1.10: apply the "elevated" circular badge styling so the
+        // 58x58 badge sits visibly above the card with soft elevation.
         // SecondarySurfaceColor is the slightly-lighter purple in dark
         // mode and the light off-white in light mode — matches the
         // 11.0 visual hierarchy.
         circleView.backgroundColor = Constants.SecondarySurfaceColor
-        // V11.1.8: also disable clipping on the contentView itself so
+        // V11.1.10: drop-shadow under the badge for floating layered
+        // depth (matches v11.0 reference). Set programmatically to
+        // ensure exact spec values regardless of XIB runtime attrs.
+        circleView.layer.shadowColor = UIColor.black.cgColor
+        circleView.layer.shadowOpacity = 0.28
+        circleView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        circleView.layer.shadowRadius = 6
+        circleView.layer.masksToBounds = false
+        // V11.1.10: also disable clipping on the contentView itself so
         // the upper half of the badge (which sits in the 28pt gap
         // above the card) is not clipped by the cell boundary.
         contentView.clipsToBounds = false
