@@ -170,6 +170,17 @@ final class ScoreboardViewController: UIViewController {
                 })
         ]
         .forEach { $0.disposed(by: disposeBag) }
+
+        // V11.1: belt-and-braces guarantee that the section chip row's
+        // MBE chip is styled as active on first launch, regardless of
+        // whether the `output.selectedSection` driver actually delivers
+        // its initial `.mbe` value before the first layout pass. This
+        // also pushes the explicit `.mbe` value through `chipTrigger`
+        // so the view-model's `sectionFilter` relay receives the tap
+        // (the relay already starts at `.mbe`, but the trigger fires
+        // any other side-effects that listen on `sectionFilterTrigger`).
+        refreshChipSelection(.mbe)
+        chipTrigger.accept(.mbe)
     }
 
     // MARK: - Setup
@@ -282,9 +293,15 @@ final class ScoreboardViewController: UIViewController {
 
         // Ensure MBE starts selected at first render so the chip row has a
         // visible active state even before the user taps anything.
-        refreshChipSelection(.mbe)
-        // Keep a reference so future refreshes can iterate every chip.
+        //
+        // IMPORTANT: assign `sectionChipButtons` BEFORE calling
+        // `refreshChipSelection` — the helper has an early-return
+        // guard on `!sectionChipButtons.isEmpty`, so calling it first
+        // would be a no-op and leave the section chips unstyled on
+        // launch (this was a real bug — the section row rendered with
+        // no active chip until the user tapped one).
         sectionChipButtons = chipsByFilter
+        refreshChipSelection(.mbe)
     }
 
     /// All section-filter chips keyed by their SectionFilter enum case.
@@ -372,8 +389,14 @@ final class ScoreboardViewController: UIViewController {
         // default cycle on launch. This drives both the view-layer
         // (chip styling + grading-chips visibility) and the
         // view-model (data filter = email_zoom cohort) at boot.
-        refreshExamChipSelection(.emailZoom)
+        //
+        // IMPORTANT: assign `examCycleChips` BEFORE calling
+        // `refreshExamChipSelection` — the helper has an early-return
+        // guard on `!examCycleChips.isEmpty`, so calling it first
+        // would be a no-op and leave the cycle chips unstyled on
+        // launch.
         examCycleChips = chipsByCycle
+        refreshExamChipSelection(.emailZoom)
         // V11.1: apply the initial hard-hide/show so the grading chips
         // reflect the .emailZoom default (i.e., they're VISIBLE on
         // first render — the user must see Essays and M/PTs by default).
