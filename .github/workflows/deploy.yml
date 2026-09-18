@@ -1,4 +1,4 @@
-name: Deploy CBED to App Store
+name: Deploy CBED to App Store (latest SDK)
 
 on:
   workflow_dispatch:
@@ -29,8 +29,29 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Select Xcode 16
-        run: sudo xcode-select -s /Applications/Xcode_16.0.app
+      - name: Discover + select default Xcode
+        # IMPORTANT: do NOT pin Xcode 16. The whole reason we run CI is
+        # to compile against the latest Xcode / iOS SDK that the App
+        # Store Connect validator accepts (the local Mac is stuck on
+        # Xcode 16 / iOS 18 SDK which gets rejected). Use whatever the
+        # runner ships with, fall back to the highest version found.
+        run: |
+          set -euo pipefail
+          echo "=== Installed Xcode apps in /Applications ==="
+          ls -d /Applications/Xcode*.app 2>/dev/null || echo "(none found)"
+          echo
+          echo "=== Currently selected developer dir ==="
+          xcode-select -p
+          if [ ! -x /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild ]; then
+            echo "No default /Applications/Xcode.app — picking newest from /Applications/Xcode*.app"
+            HIGHEST="$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
+            echo "Selecting: $HIGHEST"
+            sudo xcode-select -s "$HIGHEST/Contents/Developer"
+          fi
+          echo
+          echo "=== Active toolchain ==="
+          xcodebuild -version
+          xcodebuild -showsdks 2>&1 | grep -E "iOS|iphoneos" | head -5
 
       - name: Show toolchain versions
         run: |
