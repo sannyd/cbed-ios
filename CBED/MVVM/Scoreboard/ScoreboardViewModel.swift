@@ -215,9 +215,17 @@ struct ScoreboardViewModel: ViewModel {
         // The Tutors sheet is treated as "eligible for grading" — when
         // it's up, the Essays / M/PTs chips become visible so a Tutors
         // user can pivot to grading filters while reviewing a student.
+        //
+        // V11.1.1: Baby Bar candidates (Jun / Oct) only get access to
+        // MBE drills — they don't take the NextGen curriculum and don't
+        // get Essays / M/PTs graded by tutors. So when the active cycle
+        // is either Baby Bar bucket, only the MBE chip is exposed.
         let availableSections = Observable
             .combineLatest(examCycle, isTutorsSheetVisible)
             .map { cycle, tutorsVisible -> [SectionFilter] in
+                if cycle == .babyBarJun || cycle == .babyBarOct {
+                    return [.mbe]
+                }
                 if cycle == .emailZoom || tutorsVisible {
                     return [.mbe, .essays, .mpt, .ng1Choice, .ng2Choice,
                             .iqsDrafting, .iqsCounseling, .spt, .lrpt]
@@ -230,9 +238,21 @@ struct ScoreboardViewModel: ViewModel {
         // V11.1: if the user is on a grading-only chip (Essays / M/PTs)
         // and then switches to a standard exam cycle, auto-reset back
         // to MBE so the data stream doesn't filter by an invisible chip.
+        //
+        // V11.1.1: also auto-reset to MBE when the user lands on either
+        // Baby Bar cycle, since those only expose MBE. Without this guard,
+        // tapping "Baby Bar Jun" while sitting on, say, ".ng1Choice" would
+        // briefly leave the row empty (data stream filters by a hidden
+        // chip and the UI shows no active chip). With the reset, the
+        // row immediately renders MBE-active.
         Observable
             .combineLatest(examCycle, isTutorsSheetVisible, sectionFilter)
             .subscribe(onNext: { cycle, tutorsVisible, filter in
+                let isBabyBar = (cycle == .babyBarJun || cycle == .babyBarOct)
+                if isBabyBar && filter != .mbe {
+                    sectionFilter.accept(.mbe)
+                    return
+                }
                 let eligible = (cycle == .emailZoom) || tutorsVisible
                 if !eligible && filter.isGradingOnly {
                     sectionFilter.accept(.mbe)

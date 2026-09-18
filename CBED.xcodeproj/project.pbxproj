@@ -78,8 +78,6 @@
 		185B061726762F5E00A17664 /* ScoreboardNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061326762F5E00A17664 /* ScoreboardNavigator.swift */; };
 		185B061826762F5E00A17664 /* ScoreboardUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061426762F5E00A17664 /* ScoreboardUseCase.swift */; };
 		185B061926762F5E00A17664 /* ScoreboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061526762F5E00A17664 /* ScoreboardViewController.swift */; };
-		BB1100A02EF0000100000001 /* TutorsSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1100A02EF0000100000002 /* TutorsSheetViewController.swift */; };
-		BB1100A12EF0000100000001 /* TutorsSheetObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1100A12EF0000100000002 /* TutorsSheetObserver.swift */; };
 		185B061A26762F5E00A17664 /* ScoreboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061626762F5E00A17664 /* ScoreboardViewModel.swift */; };
 		185B062026762F7C00A17664 /* SettingNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061C26762F7C00A17664 /* SettingNavigator.swift */; };
 		185B062126762F7C00A17664 /* SettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B061D26762F7C00A17664 /* SettingUseCase.swift */; };
@@ -185,6 +183,8 @@
 		4B0D5B262FBE1E8A00026F55 /* AppIconInactive7-167.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B0D5B272FBE1E8A00026F55 /* AppIconInactive7-167.png */; };
 		5E71917D2FBDDE3C00F6A342 /* AppIconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E71917C2FBDDE3C00F6A342 /* AppIconManager.swift */; };
 		7A1C0A9A2FC0011100C0DE01 /* AudioFeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1C0A992FC0011100C0DE01 /* AudioFeedbackManager.swift */; };
+		BB1100A02EF0000100000001 /* TutorsSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1100A02EF0000100000002 /* TutorsSheetViewController.swift */; };
+		BB1100A12EF0000100000001 /* TutorsSheetObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1100A12EF0000100000002 /* TutorsSheetObserver.swift */; };
 		C0040D797DF5CA6FD073D599 /* Pods_CBED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F7B6C86563B475702601A8 /* Pods_CBED.framework */; };
 		FF0A916E26D2353E007DB4A8 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */; };
 		FF0A917026D23ECF007DB4A8 /* ReceiptM.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */; };
@@ -329,8 +329,6 @@
 		185B061326762F5E00A17664 /* ScoreboardNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardNavigator.swift; sourceTree = "<group>"; };
 		185B061426762F5E00A17664 /* ScoreboardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardUseCase.swift; sourceTree = "<group>"; };
 		185B061526762F5E00A17664 /* ScoreboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewController.swift; sourceTree = "<group>"; };
-		BB1100A02EF0000100000002 /* TutorsSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorsSheetViewController.swift; sourceTree = "<group>"; };
-		BB1100A12EF0000100000002 /* TutorsSheetObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorsSheetObserver.swift; sourceTree = "<group>"; };
 		185B061626762F5E00A17664 /* ScoreboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewModel.swift; sourceTree = "<group>"; };
 		185B061C26762F7C00A17664 /* SettingNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingNavigator.swift; sourceTree = "<group>"; };
 		185B061D26762F7C00A17664 /* SettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUseCase.swift; sourceTree = "<group>"; };
@@ -444,6 +442,8 @@
 		5E71917C2FBDDE3C00F6A342 /* AppIconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconManager.swift; sourceTree = "<group>"; };
 		7A1C0A992FC0011100C0DE01 /* AudioFeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFeedbackManager.swift; sourceTree = "<group>"; };
 		B7F6BF964FEA1D4A12F05A27 /* Pods-CBED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CBED.debug.xcconfig"; path = "Target Support Files/Pods-CBED/Pods-CBED.debug.xcconfig"; sourceTree = "<group>"; };
+		BB1100A02EF0000100000002 /* TutorsSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorsSheetViewController.swift; sourceTree = "<group>"; };
+		BB1100A12EF0000100000002 /* TutorsSheetObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorsSheetObserver.swift; sourceTree = "<group>"; };
 		F6F7B6C86563B475702601A8 /* Pods_CBED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CBED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF0A916D26D2353E007DB4A8 /* StoreKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitService.swift; sourceTree = "<group>"; };
 		FF0A916F26D23ECF007DB4A8 /* ReceiptM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptM.swift; sourceTree = "<group>"; };
@@ -1708,14 +1708,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 11.1;
+				MARKETING_VERSION = 11.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1732,14 +1732,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 11.1;
+				MARKETING_VERSION = 11.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barexamdrills.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1756,7 +1756,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = "CBED WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1790,7 +1790,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = "CBED WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
