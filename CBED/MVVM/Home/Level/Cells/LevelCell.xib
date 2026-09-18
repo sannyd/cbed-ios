@@ -89,10 +89,10 @@
                         </subviews>
                         <color key="backgroundColor" name="Cell Color"/>
                         <constraints>
-                            <!-- V11.1.8: title stack (title + subtitle) centered vertically inside the card with +12pt downward bias so the visual weight of the elevated badge above reads as balanced. 16pt horizontal padding. The badge bottom is at card.top+28; with centerY bias=12 the stackView sits roughly mid-card, giving equal-feeling gaps above and below the title. -->
+                            <!-- V11.1.9: title stack (title + subtitle) centered vertically inside the card with +6pt downward bias. Was +12 in V11.1.8 — too low (large gap below badge). The badge bottom is at card.top+28 and the stack height is ~44pt, so a +6pt bias gives ~30pt gap above title and ~24pt below subtitle. -->
                             <constraint firstItem="DC7-ok-Vwr" firstAttribute="centerX" secondItem="6LX-BZ-ZWa" secondAttribute="centerX" id="vnt-pN-FjF"/>
                             <constraint firstItem="DC7-ok-Vwr" firstAttribute="centerY" secondItem="6LX-BZ-ZWa" secondAttribute="top" id="circle-centerY-card-top"/>
-                            <constraint firstItem="xbI-4j-MVi" firstAttribute="centerY" secondItem="6LX-BZ-ZWa" secondAttribute="centerY" constant="12" id="stack-centerY-card-centerY"/>
+                            <constraint firstItem="xbI-4j-MVi" firstAttribute="centerY" secondItem="6LX-BZ-ZWa" secondAttribute="centerY" constant="6" id="stack-centerY-card-centerY"/>
                             <constraint firstItem="xbI-4j-MVi" firstAttribute="leading" secondItem="6LX-BZ-ZWa" secondAttribute="leading" constant="16" id="E3u-RG-JW3"/>
                             <constraint firstAttribute="trailing" secondItem="xbI-4j-MVi" secondAttribute="trailing" constant="16" id="wh0-gU-jEq"/>
                         </constraints>
