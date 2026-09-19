@@ -19,7 +19,14 @@ final class AppViewController: UIViewController {
     var disposeBag = DisposeBag()
     
     private let staticToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoyMjYwMzY4NjY5LCJqdGkiOiJqa2ZoYjc4NGc5NzI4dWJyaXUyM3k0OTI4dWsiLCJ1c2VyX2lkIjoxN30.2rhFITU6xMC4qJXIip6DaFMNMkdhZ5qOilbLN-fyHz0"
-    private let preferredRemoteConfigName = "alternative config"
+
+    // V11.1.13: dropped the hardcoded "alternative config" name
+    // preference. Selection now follows the backend's is_default flag
+    // exclusively (with a first-entry fallback for safety). This makes
+    // the active config dynamic — flipping is_default on a row in the
+    // Django admin is now sufficient to switch what the iOS app picks,
+    // with no rebuild required.
+    private let preferredRemoteConfigName: String? = nil
     
     // MARK: - Life Cycle
     
@@ -60,9 +67,24 @@ final class AppViewController: UIViewController {
     }
 
     private func selectedRemoteConfig(from remoteConfigs: [[String: Any]]?) -> [String: Any]? {
-        remoteConfigs?.first(where: {
-            (($0["name"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == preferredRemoteConfigName)
-        }) ?? remoteConfigs?.first(where: { parseRemoteBool($0["is_default"]) == true })
+        // V11.1.13: respect the optional name preference only if it
+        // is set. When nil (the new default), fall through to the
+        // backend's is_default flag. The first-entry fallback at the
+        // end covers the edge case where no row has is_default=true
+        // (shouldn't happen in production but keeps the app from
+        // bailing out silently).
+        if let preferred = preferredRemoteConfigName,
+           !preferred.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+           let named = remoteConfigs?.first(where: {
+               (($0["name"] as? String)?
+                   .trimmingCharacters(in: .whitespacesAndNewlines)
+                   .lowercased()
+                   == preferred)
+           }) {
+            return named
+        }
+        return remoteConfigs?.first(where: { parseRemoteBool($0["is_default"]) == true })
+            ?? remoteConfigs?.first
     }
 
     private func loadMembershipIfNeeded(using appDelegate: AppDelegate) {
