@@ -113,6 +113,7 @@
 		185B0665267DF15100A17664 /* AnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185B0663267DF15100A17664 /* AnswerCell.xib */; };
 		185B0667267E0DCD00A17664 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0666267E0DCD00A17664 /* String+.swift */; };
 		185F8760266CC84800A63898 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F875F266CC84800A63898 /* AppDelegate.swift */; };
+		0001000000000000000000A1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0001000000000000000000A2 /* SceneDelegate.swift */; };
 		185F8764266CC84800A63898 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F8763266CC84800A63898 /* LoginViewController.swift */; };
 		185F8769266CC84A00A63898 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 185F8768266CC84A00A63898 /* Assets.xcassets */; };
 		185F876C266CC84A00A63898 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 185F876A266CC84A00A63898 /* LaunchScreen.storyboard */; };
@@ -365,6 +366,7 @@
 		185B0666267E0DCD00A17664 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		185F875C266CC84800A63898 /* CBED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBED.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		185F875F266CC84800A63898 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0001000000000000000000A2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		185F8763266CC84800A63898 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		185F8768266CC84A00A63898 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		185F876B266CC84A00A63898 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -810,6 +812,7 @@
 				185F8776266D29C900A63898 /* Configs */,
 				185F8777266D29CE00A63898 /* Supporting Files */,
 				185F875F266CC84800A63898 /* AppDelegate.swift */,
+				0001000000000000000000A2 /* SceneDelegate.swift */,
 				185F8768266CC84A00A63898 /* Assets.xcassets */,
 				185F876A266CC84A00A63898 /* LaunchScreen.storyboard */,
 				185F876D266CC84A00A63898 /* Info.plist */,
@@ -1532,6 +1535,7 @@
 				185F87982673C29C00A63898 /* Google+Reactive.swift in Sources */,
 				1B74F9E62C931364001149C1 /* NestedLevelNavigator.swift in Sources */,
 				185F8760266CC84800A63898 /* AppDelegate.swift in Sources */,
+				0001000000000000000000A1 /* SceneDelegate.swift in Sources */,
 				18812AC226B1B0BD003A7CEF /* ScoreboardRouter.swift in Sources */,
 				184ABC1B268395CD004048A5 /* AppViewController.swift in Sources */,
 				FF21141E26DBE7D60044E0AC /* UpdateProfileInfoResponseM.swift in Sources */,
@@ -1708,7 +1712,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1732,7 +1736,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1756,7 +1760,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = "CBED WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1790,7 +1794,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = "CBED WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;

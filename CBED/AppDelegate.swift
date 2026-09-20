@@ -38,10 +38,28 @@ var CurrentMembershipType: InAppPurchaseMonth?
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
-    
+    // V11.1.14: weak window — the actual UIWindow now lives on
+    // SceneDelegate. We keep a weak reference here so legacy
+    // helpers (logout, getCurrentViewController) that go through
+    // `AppDelegate.shared?.window` still work in iOS < 13 fallback
+    // and during the brief window between app launch and scene
+    // connection.
+    weak var window: UIWindow?
+
+    /// V11.1.14: shared singleton so the SceneDelegate (and any
+    /// other module that needs push-notification hooks, theme
+    /// access, etc.) can call back into AppDelegate without going
+    /// through `UIApplication.shared.delegate` (which still works
+    /// but is more brittle in scene-based apps).
+    static weak var shared: AppDelegate?
+
     var context = LAContext()
-    
+
+    private override init() {
+        super.init()
+        AppDelegate.shared = self
+    }
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // V11.1: register app-level UserDefaults so any first-launch
@@ -55,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
         UIButton.installTapFeedbackSwizzle()
         AudioFeedbackManager.shared.prepare()
-        
+
         RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) }
 
         SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
@@ -67,14 +85,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         // Deliver content from server, then:
                         SwiftyStoreKit.finishTransaction(purchase.transaction)
                     }
-      
+
                 // Unlock content
                 case .failed, .purchasing, .deferred:
                     break // do nothing
                 }
             }
         }
- 
+
         FirebaseApp.configure()
         // Wire up Crashlytics: route every uncaught NSException to it so we get
         // real stack traces (instead of just GA4 app_exception counts).
@@ -91,19 +109,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 120
-        
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        self.window = window
-        applyAppTheme()
-        
-        let appVC: AppViewController = StoryboardManager.getVCFromHomeSB()
-        appVC.viewModel = .init(useCase: AppUseCase(), navigator: AppNavigator())
-        window.rootViewController = appVC
-        window.makeKeyAndVisible()
-        
+
+        // V11.1.14: window + root view controller setup moved to
+        // SceneDelegate.scene(_:willConnectTo:options:) — required
+        // for iOS 13+ scene lifecycle compliance (Guideline 2.1(a),
+        // iPadOS 27 reviewer crash). The legacy `var window: UIWindow?`
+        // descriptor remains above so legacy helpers that read
+        // `AppDelegate.shared?.window` keep working.
+
         return true
     }
-    
+
+    // MARK: - UISceneSession Lifecycle (V11.1.14)
+
+    func application(_ application: UIApplication,
+                     configurationForConnecting connectingSceneSession: UISceneSession,
+                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        // Match the "Default Configuration" declared in Info.plist's
+        // UIApplicationSceneManifest. Returning by name lets UIKit
+        // instantiate our SceneDelegate without any extra plumbing.
+        return UISceneConfiguration(name: "Default Configuration",
+                                    sessionRole: connectingSceneSession.role)
+    }
+
+    func application(_ application: UIApplication,
+                     didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        // No-op. We don't hold per-scene state worth releasing here,
+        // but the method must exist to satisfy the UISceneDelegate
+        // contract now that the app advertises a scene manifest.
+    }
+
+    // MARK: - Scene-shimmed helpers (V11.1.14)
+
+    /// Window-aware theme applier. Called from SceneDelegate so the
+    /// window it creates picks up the saved theme on first paint.
+    func applyAppThemeToWindow(_ window: UIWindow) {
+        window.overrideUserInterfaceStyle = Storage.appTheme.interfaceStyle
+    }
+
+    /// Re-entry point for the legacy applicationDidBecomeActive
+    /// hook. SceneDelegate.sceneDidBecomeActive routes here so the
+    /// FaceID prompt fires whether or not we ever leave the legacy
+    /// window path.
+    func applicationDidBecomeActiveForScene() {
+        applicationDidBecomeActive(UIApplication.shared)
+    }
+
     func applicationDidBecomeActive(_ app: UIApplication) {
         if Storage.isEnableFaceID {
             if let faceIDExpireDate = Storage.faceIDExpireDate {
@@ -159,7 +210,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applyAppTheme() {
-        window?.overrideUserInterfaceStyle = Storage.appTheme.interfaceStyle
+        // V11.1.14: legacy zero-arg helper kept for any caller that
+        // still goes through it (search the project — there are a
+        // few). Forwards to the window-aware variant when a window
+        // exists; no-ops otherwise (scene-based apps apply the
+        // theme via SceneDelegate.scene(_:willConnectTo:) directly).
+        guard let window = window else { return }
+        applyAppThemeToWindow(window)
     }
     
     func logout() {
