@@ -19,15 +19,17 @@ class LoadingIndicatorView: NSObject {
     private let animator = MaterialActivityIndicatorAnimator()
     
     static func show() {
-        guard let currentMainWindow = UIApplication.shared.keyWindow else {
+        // V11.1.14.1: scene-aware keyWindow. `UIApplication.shared.keyWindow`
+        // returns nil during scene setup on iPadOS 27 / iOS 27.
+        guard let currentMainWindow = UIApplication.sceneKeyWindow else {
             print("No main window.")
             return
         }
         show(currentMainWindow)
     }
-    
+
     static func show(_ loadingText: String) {
-        guard let currentMainWindow = UIApplication.shared.keyWindow else {
+        guard let currentMainWindow = UIApplication.sceneKeyWindow else {
             print("No main window.")
             return
         }

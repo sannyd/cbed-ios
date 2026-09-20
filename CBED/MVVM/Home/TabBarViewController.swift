@@ -110,7 +110,8 @@ class TabBarViewController: UITabBarController {
 
       
         
-        guard let window = UIApplication.shared.keyWindow else {
+        // V11.1.14.1: scene-aware keyWindow accessor.
+        guard let window = UIApplication.sceneKeyWindow else {
             return
         }
         

@@ -38,24 +38,45 @@ var CurrentMembershipType: InAppPurchaseMonth?
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    // V11.1.14: weak window — the actual UIWindow now lives on
-    // SceneDelegate. We keep a weak reference here so legacy
-    // helpers (logout, getCurrentViewController) that go through
-    // `AppDelegate.shared?.window` still work in iOS < 13 fallback
-    // and during the brief window between app launch and scene
-    // connection.
-    weak var window: UIWindow?
+    // V11.1.14.1: strong window reference. Was `weak var window`
+    // previously — that was a regression. UIApplicationDelegate's
+    // declared property is `var window: UIWindow?` (strong) for a
+    // reason: the window needs to outlive any short-lived
+    // AppDelegate capture. With weak, code that does
+    // `appDelegate.window` from a closure would intermittently see
+    // nil after the first scene connection. Restored to strong.
+    //
+    // Note: with the scene lifecycle, the *canonical* window lives
+    // on SceneDelegate. This strong ref is here so legacy
+    // AppDelegate methods (logout, applyAppTheme, getCurrentVC)
+    // that walk through `self.window` keep working on iOS 13+.
+    var window: UIWindow?
 
-    /// V11.1.14: shared singleton so the SceneDelegate (and any
+    /// V11.1.14.1: shared singleton so the SceneDelegate (and any
     /// other module that needs push-notification hooks, theme
     /// access, etc.) can call back into AppDelegate without going
     /// through `UIApplication.shared.delegate` (which still works
     /// but is more brittle in scene-based apps).
-    static weak var shared: AppDelegate?
+    ///
+    /// Was `weak` previously — that was wrong. UIKit owns the
+    /// AppDelegate, but if something captures a weak ref and the
+    /// lifetime of that capture outlives the AppDelegate (rare,
+    /// but possible in scene state restoration), the `weak` ref
+    /// becomes nil and downstream code crashes. Use a strong
+    /// reference and trust UIKit to keep this object alive.
+    static var shared: AppDelegate?
 
     var context = LAContext()
 
-    private override init() {
+    // V11.1.14.1: was `private override init()`. That violates the
+    // Swift rule that overriding a `required` initializer requires
+    // the override itself to be `required`. UIKit on iPadOS 27
+    // (and the @main expansion of UIApplicationMain) rejects this
+    // silently and falls back to a path that skips our setup
+    // entirely, leaving `AppDelegate.shared = nil` for the rest
+    // of the app's lifetime. Marking the override `required`
+    // resolves the inheritance check and keeps the call site.
+    required override init() {
         super.init()
         AppDelegate.shared = self
     }

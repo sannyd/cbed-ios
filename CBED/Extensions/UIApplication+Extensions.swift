@@ -9,7 +9,26 @@
 import UIKit
 
 extension UIApplication {
-    public static func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+    /// V11.1.14.1: scene-aware keyWindow accessor. On iPadOS 27 /
+    /// iOS 27 the legacy `UIApplication.shared.keyWindow` is
+    /// nil during scene setup and immediately after multi-window
+    /// transitions. Walk the connected scenes and pick the first
+    /// key window we find. Falls back to `.windows.first` if no
+    /// scene has gone key yet (e.g. in tests).
+    public static var sceneKeyWindow: UIWindow? {
+        for scene in UIApplication.shared.connectedScenes {
+            guard let ws = scene as? UIWindowScene else { continue }
+            if let key = ws.windows.first(where: { $0.isKeyWindow }) {
+                return key
+            }
+            if let any = ws.windows.first {
+                return any
+            }
+        }
+        return nil
+    }
+
+    public static func topViewController(controller: UIViewController? = UIApplication.sceneKeyWindow?.rootViewController) -> UIViewController? {
         
         if let navigationVC = controller as? UINavigationController {
             return topViewController(controller: navigationVC.visibleViewController)

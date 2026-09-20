@@ -33,6 +33,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
 
+        // V11.1.14.1: in a scene-based lifecycle the canonical
+        // window lives on SceneDelegate. Legacy AppDelegate
+        // methods (logout, applyAppTheme, getCurrentVC) still
+        // reach through `AppDelegate.window`, so mirror the
+        // reference here. Once SceneDelegate owns a window,
+        // AppDelegate.window always returns the same instance.
+        AppDelegate.shared?.window = window
+
         // Apply the saved theme (light / dark / system) BEFORE the
         // root VC is shown so the user never sees a flash of the
         // wrong style. The same call used to live in
@@ -44,6 +52,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         appVC.viewModel = .init(useCase: AppUseCase(), navigator: AppNavigator())
         window.rootViewController = appVC
         window.makeKeyAndVisible()
+    }
+
+    func sceneDidDisconnect(_ scene: UIScene) {
+        // V11.1.14.1: when the scene tears down, drop the
+        // AppDelegate's mirror of the window. SceneDelegate is
+        // about to dealloc the window; if we kept the AppDelegate
+        // ref alive, the legacy logout path could try to swap
+        // rootViewController on a freed window and crash.
+        if AppDelegate.shared?.window === self.window {
+            AppDelegate.shared?.window = nil
+        }
+        self.window = nil
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
