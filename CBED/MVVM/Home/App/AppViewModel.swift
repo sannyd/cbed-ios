@@ -73,7 +73,17 @@ struct AppViewModel: ViewModel {
             .requestAsDict(AuthRouter.config)
             .trackActivity(self.activityIndicator)
             .trackError(self.errorTracker)
+            // V11.1.15 (Build 5 — Guideline 2.1(a) fix):
+            // Hard timeout on the /api/all-config request. Without this,
+            // a hung network (e.g. App Review's network proxy slowing
+            // responses) leaves the loading spinner running indefinitely.
+            // 30s is generous enough for cold-start TLS handshakes on
+            // cellular but short enough that the user sees a result.
+            // On timeout, propagate the error so the existing onError
+            // path routes to login (matching the network-error fallback).
+            .timeout(.seconds(30), scheduler: MainScheduler.instance)
             .catch({ (error) -> Observable<[[String: Any]]> in
+                print("[Remote Config] fetchConfigs failed: \(error.localizedDescription)")
                 return .error(error)
             })
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0001000000000000000000A1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0001000000000000000000A2 /* SceneDelegate.swift */; };
 		0F0996392E0ADE3800D04485 /* SubscriptionPlanM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0996382E0ADE3100D04485 /* SubscriptionPlanM.swift */; };
 		180C44CD2695F5E700416335 /* InAppPurchaseNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C44C92695F5E700416335 /* InAppPurchaseNavigator.swift */; };
 		180C44CE2695F5E700416335 /* InAppPurchaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180C44CA2695F5E700416335 /* InAppPurchaseUseCase.swift */; };
@@ -113,7 +114,6 @@
 		185B0665267DF15100A17664 /* AnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185B0663267DF15100A17664 /* AnswerCell.xib */; };
 		185B0667267E0DCD00A17664 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185B0666267E0DCD00A17664 /* String+.swift */; };
 		185F8760266CC84800A63898 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F875F266CC84800A63898 /* AppDelegate.swift */; };
-		0001000000000000000000A1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0001000000000000000000A2 /* SceneDelegate.swift */; };
 		185F8764266CC84800A63898 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F8763266CC84800A63898 /* LoginViewController.swift */; };
 		185F8769266CC84A00A63898 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 185F8768266CC84A00A63898 /* Assets.xcassets */; };
 		185F876C266CC84A00A63898 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 185F876A266CC84A00A63898 /* LaunchScreen.storyboard */; };
@@ -259,6 +259,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0001000000000000000000A2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0F0996382E0ADE3100D04485 /* SubscriptionPlanM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanM.swift; sourceTree = "<group>"; };
 		180C44C92695F5E700416335 /* InAppPurchaseNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseNavigator.swift; sourceTree = "<group>"; };
 		180C44CA2695F5E700416335 /* InAppPurchaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseUseCase.swift; sourceTree = "<group>"; };
@@ -366,7 +367,6 @@
 		185B0666267E0DCD00A17664 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		185F875C266CC84800A63898 /* CBED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBED.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		185F875F266CC84800A63898 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0001000000000000000000A2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		185F8763266CC84800A63898 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		185F8768266CC84A00A63898 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		185F876B266CC84A00A63898 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -1712,7 +1712,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1736,7 +1736,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CBED/CBED.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				INFOPLIST_FILE = CBED/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1760,7 +1760,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = "CBED WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1794,7 +1794,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = "CBED WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;

@@ -67,24 +67,49 @@ final class AppViewController: UIViewController {
     }
 
     private func selectedRemoteConfig(from remoteConfigs: [[String: Any]]?) -> [String: Any]? {
-        // V11.1.13: respect the optional name preference only if it
-        // is set. When nil (the new default), fall through to the
-        // backend's is_default flag. The first-entry fallback at the
-        // end covers the edge case where no row has is_default=true
-        // (shouldn't happen in production but keeps the app from
-        // bailing out silently).
+        // V11.1.15 (Build 5 — Guideline 2.1(a) fix):
+        // Guaranteed non-nil when *any* configs array is provided.
+        // Three-step fallback chain:
+        //   1. Optional preferred name (preferredRemoteConfigName), if set
+        //   2. First config whose is_default parses to truthy
+        //   3. First config whose name contains "alternative" (case-insensitive)
+        //   4. The very first entry
+        // parseRemoteBool handles Bool, NSNumber, Int, and common string
+        // forms so a type mismatch (Int 1, NSNumber 1, String "true", etc.)
+        // can never cause us to skip every row and return nil.
+        guard let configs = remoteConfigs, !configs.isEmpty else { return nil }
+
+        // 1. Explicit preferred name
         if let preferred = preferredRemoteConfigName,
-           !preferred.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-           let named = remoteConfigs?.first(where: {
-               (($0["name"] as? String)?
-                   .trimmingCharacters(in: .whitespacesAndNewlines)
-                   .lowercased()
-                   == preferred)
-           }) {
-            return named
+           !preferred.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            if let named = configs.first(where: {
+                ($0["name"] as? String)?
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                    .lowercased() == preferred.lowercased()
+            }) {
+                return named
+            }
         }
-        return remoteConfigs?.first(where: { parseRemoteBool($0["is_default"]) == true })
-            ?? remoteConfigs?.first
+
+        // 2. Backend's is_default flag (type-resilient)
+        if let defaultConfig = configs.first(where: {
+            parseRemoteBool($0["is_default"]) == true
+        }) {
+            return defaultConfig
+        }
+
+        // 3. Name-based heuristic: a config whose name contains "alternative"
+        if let altConfig = configs.first(where: {
+            ($0["name"] as? String)?
+                .lowercased()
+                .contains("alternative") == true
+        }) {
+            return altConfig
+        }
+
+        // 4. Absolute fallback: first entry. The presence of any configs
+        // array at all is enough to proceed; this is a defensive net.
+        return configs.first
     }
 
     private func loadMembershipIfNeeded(using appDelegate: AppDelegate) {
@@ -121,9 +146,9 @@ final class AppViewController: UIViewController {
                 print("[Remote Config] \(remoteConfigs)")
                 if isProfileInfoLoaded {
                     print("[Remote Config] Fetched")
-                    
+
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    
+
                     guard let remoteConfigs = self.selectedRemoteConfig(from: remoteConfigs) else {
                         print("[Remote Config] Missing selected config")
                         let tabbarVC = StoryboardManager.instanceTabBarVC()
@@ -131,13 +156,15 @@ final class AppViewController: UIViewController {
                         return
                     }
                     print("[Remote Config] Using config: \(remoteConfigs)")
-                
-                    guard let isEnableLogin = self.parseRemoteBool(remoteConfigs["is_enable_login"]),
-                          let isEnableDeleteAccount = self.parseRemoteBool(remoteConfigs["is_enable_delete_account"]) else {
-                        print("[Remote Config] Invalid flags for selected config, raw is_enable_login=\(String(describing: remoteConfigs["is_enable_login"])), raw is_enable_delete_account=\(String(describing: remoteConfigs["is_enable_delete_account"]))")
-                        return
-                    }
-                    print("[Remote Config] is_enable_login=\(isEnableLogin), is_enable_delete_account=\(isEnableDeleteAccount)")
+
+                    // V11.1.15 (Build 5 — Guideline 2.1(a) fix):
+                    // If either flag is missing or unparseable, fall back to
+                    // SAFE DEFAULTS (isEnableLogin=false, isEnableDeleteAccount=false)
+                    // and proceed. Bailing out here leaves the spinner running
+                    // forever, which is exactly what App Review rejected.
+                    let isEnableLogin = self.parseRemoteBool(remoteConfigs["is_enable_login"]) ?? false
+                    let isEnableDeleteAccount = self.parseRemoteBool(remoteConfigs["is_enable_delete_account"]) ?? false
+                    print("[Remote Config] is_enable_login=\(isEnableLogin), is_enable_delete_account=\(isEnableDeleteAccount) (raw is_enable_login=\(String(describing: remoteConfigs["is_enable_login"])), raw is_enable_delete_account=\(String(describing: remoteConfigs["is_enable_delete_account"])))")
                     IsEnableDeleteAccount = isEnableDeleteAccount
                     
                     if Storage.accessToken == nil {
@@ -164,23 +191,24 @@ final class AppViewController: UIViewController {
                     }
                 } else {
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    
+
                     guard let remoteConfigs = self.selectedRemoteConfig(from: remoteConfigs) else {
-                        print("[Remote Config] Missing selected config")
-                        let tabbarVC = StoryboardManager.instanceTabBarVC()
-                        appDelegate.window?.rootViewController = tabbarVC
+                        print("[Remote Config] Missing selected config (unauthenticated state) — routing to login")
+                        Storage.removeAll()
+                        self.goToLogin()
                         return
                     }
                     print("[Remote Config] Using config: \(remoteConfigs)")
-                
-                    guard let isEnableLogin = self.parseRemoteBool(remoteConfigs["is_enable_login"]),
-                          let isEnableDeleteAccount = self.parseRemoteBool(remoteConfigs["is_enable_delete_account"]) else {
-                              print("[Remote Config] Invalid flags for selected config, raw is_enable_login=\(String(describing: remoteConfigs["is_enable_login"])), raw is_enable_delete_account=\(String(describing: remoteConfigs["is_enable_delete_account"]))")
-                              Storage.removeAll()
-                              self.goToLogin()
-                              return
-                    }
-                    print("[Remote Config] is_enable_login=\(isEnableLogin), is_enable_delete_account=\(isEnableDeleteAccount)")
+
+                    // V11.1.15 (Build 5 — Guideline 2.1(a) fix):
+                    // Same hardening as the authenticated branch — fall back
+                    // to safe defaults rather than bailing out. In the
+                    // unauthenticated state, the safe default is to assume
+                    // login IS required (true), which keeps the user on the
+                    // login screen rather than leaving the spinner running.
+                    let isEnableLogin = self.parseRemoteBool(remoteConfigs["is_enable_login"]) ?? true
+                    let isEnableDeleteAccount = self.parseRemoteBool(remoteConfigs["is_enable_delete_account"]) ?? false
+                    print("[Remote Config] is_enable_login=\(isEnableLogin), is_enable_delete_account=\(isEnableDeleteAccount) (raw is_enable_login=\(String(describing: remoteConfigs["is_enable_login"])), raw is_enable_delete_account=\(String(describing: remoteConfigs["is_enable_delete_account"])))")
                     IsEnableLogin = isEnableLogin
                     IsEnableDeleteAccount = isEnableDeleteAccount
                     if isEnableLogin {
