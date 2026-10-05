@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import FirebaseAnalytics
 
 final class ExamViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     
@@ -38,7 +39,16 @@ final class ExamViewController: UIViewController, UICollectionViewDelegateFlowLa
         setupCollectionView()
         bindViewModel()
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let screenClass = String(describing: type(of: self))
+        Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+            AnalyticsParameterScreenName: screenClass,
+            AnalyticsParameterScreenClass: screenClass
+        ])
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupFont()

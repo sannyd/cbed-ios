@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import FirebaseAnalytics
 
 final class AppViewController: UIViewController {
     
@@ -20,13 +21,12 @@ final class AppViewController: UIViewController {
     
     private let staticToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoyMjYwMzY4NjY5LCJqdGkiOiJqa2ZoYjc4NGc5NzI4dWJyaXUyM3k0OTI4dWsiLCJ1c2VyX2lkIjoxN30.2rhFITU6xMC4qJXIip6DaFMNMkdhZ5qOilbLN-fyHz0"
 
-    // V11.1.13: dropped the hardcoded "alternative config" name
-    // preference. Selection now follows the backend's is_default flag
-    // exclusively (with a first-entry fallback for safety). This makes
-    // the active config dynamic — flipping is_default on a row in the
-    // Django admin is now sufficient to switch what the iOS app picks,
-    // with no rebuild required.
-    private let preferredRemoteConfigName: String? = nil
+    // V11.1.3: prefer the "alternative config" backend row by name, falling
+    // back to the backend's is_default flag if the name is missing or
+    // mismatched. The selection chain (preferred name → is_default → first
+    // "alternative" → first entry) is preserved below so the app keeps
+    // booting even when the preferred name is absent.
+    private let preferredRemoteConfigName: String? = "alternative config"
     
     // MARK: - Life Cycle
     
@@ -34,7 +34,16 @@ final class AppViewController: UIViewController {
         super.viewDidLoad()
         bindViewModel()
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let screenClass = String(describing: type(of: self))
+        Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+            AnalyticsParameterScreenName: screenClass,
+            AnalyticsParameterScreenClass: screenClass
+        ])
+    }
+
     deinit {
         logDeinit()
     }

@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import LocalAuthentication
 import SwiftyMenu
+import FirebaseAnalytics
 
 enum ExamLocation: String, CaseIterable {
     case ube = "UBE JX"
@@ -152,7 +153,16 @@ final class SettingViewController: UIViewController {
         buttonDeactivate.isHidden = !IsEnableDeleteAccount
         setupSwiftDrawer()
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let screenClass = String(describing: type(of: self))
+        Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+            AnalyticsParameterScreenName: screenClass,
+            AnalyticsParameterScreenClass: screenClass
+        ])
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true

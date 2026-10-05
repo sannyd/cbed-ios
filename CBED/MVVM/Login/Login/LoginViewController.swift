@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import GoogleSignIn
+import FirebaseAnalytics
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var textfieldEmail: UITextField!
@@ -26,7 +27,16 @@ class LoginViewController: UIViewController {
         applyScreenStyling()
         bindViewModel()
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let screenClass = String(describing: type(of: self))
+        Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+            AnalyticsParameterScreenName: screenClass,
+            AnalyticsParameterScreenClass: screenClass
+        ])
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true

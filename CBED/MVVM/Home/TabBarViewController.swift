@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 enum Swizzler {
     
@@ -138,6 +139,11 @@ class TabBarViewController: UITabBarController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         AppUpdateChecker.shared.checkForUpdateIfNeeded(presenter: self)
+        let screenClass = String(describing: type(of: self))
+        Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+            AnalyticsParameterScreenName: screenClass,
+            AnalyticsParameterScreenClass: screenClass
+        ])
     }
     
     @available(iOS 18.0, *)
