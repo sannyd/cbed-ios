@@ -54,6 +54,12 @@
                                         <color key="textColor" name="Primary Blue"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 11.3 (1)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vrs-11-3-La">
+                                        <rect key="frame" x="0.0" y="82.5" width="39" height="19.5"/>
+                                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                        <color key="textColor" name="Primary Text"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="6cw-x4-2bm">
@@ -355,6 +361,7 @@
                         <outlet property="fontSizeTextfield" destination="Ixn-2b-jf6" id="t6T-ZD-7dg"/>
                         <outlet property="labelEmail" destination="7or-cV-bYw" id="ssh-R5-epQ"/>
                         <outlet property="labelMembership" destination="P72-nk-1KI" id="ich-gI-SJh"/>
+                        <outlet property="labelVersion" destination="Vrs-11-3-La" id="Vrs-On-Lt-11"/>
                         <outlet property="labelName" destination="cHa-p5-lMn" id="SU8-ei-GkE"/>
                         <outlet property="mptTextfield" destination="IVv-YE-XD8" id="ZJg-g6-M4b"/>
                         <outlet property="profileImageView" destination="l59-TT-hgF" id="PYO-gr-l5e"/>
@@ -511,6 +518,13 @@
                                             </view>
                                         </subviews>
                                     </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User ID: -" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Usr-Id-La">
+                                        <rect key="frame" x="0.0" y="183" width="354" height="19.5"/>
+                                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                        <color key="textColor" name="Primary Text"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MgY-Xs-hmh" customClass="CustomBorderButton" customModule="CBED" customModuleProvider="target">
@@ -581,6 +595,7 @@
                         <outlet property="buttonBack" destination="Ns2-hq-Yyz" id="g55-Qt-brf"/>
                         <outlet property="buttonUpdate" destination="MgY-Xs-hmh" id="iCB-Md-ipK"/>
                         <outlet property="nameTextfield" destination="EZe-C9-z7l" id="dGz-tP-WBx"/>
+                        <outlet property="labelUserId" destination="Usr-Id-La" id="Usr-On-Lt-01"/>
                         <outlet property="phoneTextfield" destination="rsf-4f-4E0" id="cnY-h8-zEX"/>
                         <outlet property="profileImageView" destination="vCu-va-4Fq" id="cUt-fX-gDd"/>
                         <outlet property="stateTextfield" destination="8eE-St-t4B" id="ux2-wg-lyi"/>

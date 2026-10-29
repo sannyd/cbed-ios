@@ -21,6 +21,9 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 
+## Xcode Cloud build metadata (generated, never tracked)
+**/xcshareddata/xcodecloud/
+
 ## Obj-C/Swift specific
 *.hmap
 *.ipa

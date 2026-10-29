@@ -101,6 +101,9 @@ final class SettingViewController: UIViewController {
     @IBOutlet weak var buttonDeactivate: CustomBorderButton!
     @IBOutlet weak var labelEmail: UILabel!
     @IBOutlet weak var labelMembership: UILabel!
+    /// V11.3 — displays "Version <marketing> (<build>)" under the
+    /// Membership row. Bound to `labelVersion` in Setting.storyboard.
+    @IBOutlet weak var labelVersion: UILabel!
     @IBOutlet weak var buttonLogout: UIButton!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var buttonRestorePurchase: CustomBorderButton!
@@ -152,6 +155,21 @@ final class SettingViewController: UIViewController {
         bindViewModel()
         buttonDeactivate.isHidden = !IsEnableDeleteAccount
         setupSwiftDrawer()
+        configureVersionLabel()
+    }
+
+    /// V11.3 — renders the app version + build number into the Settings
+    /// version row, e.g. "Version 11.3 (1)".
+    ///
+    /// Read dynamically from `Bundle.main.infoDictionary` so the displayed
+    /// value can never drift from the shipped binary. The fallback literals
+    /// match the V11.3 release (marketing 11.3, build 1) and are only used
+    /// if the bundle keys are somehow absent.
+    private func configureVersionLabel() {
+        let info = Bundle.main.infoDictionary
+        let appVersion = info?["CFBundleShortVersionString"] as? String ?? "11.3"
+        let buildVersion = info?["CFBundleVersion"] as? String ?? "1"
+        labelVersion.text = "Version \(appVersion) (\(buildVersion))"
     }
 
     override func viewDidAppear(_ animated: Bool) {
