@@ -21,21 +21,27 @@ final class AppViewController: UIViewController {
     
     private let staticToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoyMjYwMzY4NjY5LCJqdGkiOiJqa2ZoYjc4NGc5NzI4dWJyaXUyM3k0OTI4dWsiLCJ1c2VyX2lkIjoxN30.2rhFITU6xMC4qJXIip6DaFMNMkdhZ5qOilbLN-fyHz0"
 
-    // V11.3: use the "default config" backend row.
+    // V261109.1: use the "alternative config" backend row.
     //
     // The backend's `main_config` table has row id=1 "default config" with
     // is_default=true, and id=2 "alternative config" with is_default=false.
-    // V11.1.3 shipped pointing at "alternative config"; V11.3 moves back to
-    // "default config".
+    // V11.3 shipped pointing at "default config"; V261109.1 moves back to
+    // "alternative config" as part of the regular release cycle.
     //
     // Set to nil to follow the backend's `is_default` flag instead of a
     // hardcoded name — the durable selection pattern. Left as an explicit
     // name here so the shipped behaviour is unambiguous.
     //
+    // NOTE: this name is hardcoded in THREE places that must change in
+    // lockstep — this one, `NotificationScheduler.defaultConfigName`, and
+    // the `configName:` default argument in `NotificationScheduler.update`.
+    // After any change, grep for the literal:
+    //   grep -rn '"default config"\|"alternative config"' CBED --include=*.swift
+    //
     // The selection chain (preferred name → is_default → first "alternative"
     // → first entry) is preserved below so the app keeps booting even when
     // the preferred name is absent.
-    private let preferredRemoteConfigName: String? = "default config"
+    private let preferredRemoteConfigName: String? = "alternative config"
     
     // MARK: - Life Cycle
     

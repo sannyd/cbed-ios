@@ -158,16 +158,16 @@ final class SettingViewController: UIViewController {
         configureVersionLabel()
     }
 
-    /// V11.3 — renders the app version + build number into the Settings
-    /// version row, e.g. "Version 11.3 (1)".
+    /// V261109.1 — renders the app version + build number into the Settings
+    /// version row, e.g. "Version 261109.1 (1)".
     ///
     /// Read dynamically from `Bundle.main.infoDictionary` so the displayed
     /// value can never drift from the shipped binary. The fallback literals
-    /// match the V11.3 release (marketing 11.3, build 1) and are only used
-    /// if the bundle keys are somehow absent.
+    /// match the V261109.1 release (marketing 261109.1, build 1) and are
+    /// only used if the bundle keys are somehow absent.
     private func configureVersionLabel() {
         let info = Bundle.main.infoDictionary
-        let appVersion = info?["CFBundleShortVersionString"] as? String ?? "11.3"
+        let appVersion = info?["CFBundleShortVersionString"] as? String ?? "261109.1"
         let buildVersion = info?["CFBundleVersion"] as? String ?? "1"
         labelVersion.text = "Version \(appVersion) (\(buildVersion))"
     }

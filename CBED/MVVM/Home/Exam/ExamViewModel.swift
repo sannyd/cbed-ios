@@ -355,15 +355,38 @@ struct ExamViewModel: ViewModel {
         
         saveResultTrigger
             .map { (correctAnswers, maximumScore) }
-            .flatMapLatest(saveResult(correct:totalQuestion:))
-            .flatMapLatest { saveResultResponse in
+            .flatMapLatest(saveResult(correct:total:))
+            .flatMapLatest { saveResultResponse -> Observable<SaveResultResponseM> in
+                // V261109.1 — the profile refresh is best-effort and must
+                // NEVER gate the result screen.
+                //
+                // Previously this was:
+                //
+                //     self.getProfile()
+                //         .do { profile in ... }
+                //         .map { _ in saveResultResponse }
+                //
+                // and `getProfile()` ended in `.catch { _ in .never() }`.
+                // `never()` emits nothing and never completes, so when the
+                // profile fetch failed the whole chain produced no value:
+                // `navigator.pushToResultVC(result:)` was never called and
+                // the student was stranded on the last question of the
+                // section with no way forward and no error shown.
+                //
+                // Refreshing the profile is a side effect for the
+                // scoreboard and the widget, so it now runs as its own
+                // subscription and the result push proceeds immediately.
                 self.getProfile()
-                    .do { profile in
+                    .observe(on: MainScheduler.instance)
+                    .do(onNext: { profile in
                         Storage.profileInfo = profile
                         Storage.currentLevel = profile.lastSectionName
                         WidgetCenter.shared.reloadAllTimelines()
-                    }
-                    .map { _ in saveResultResponse }
+                    })
+                    .subscribe(onNext: { _ in })
+                    .disposed(by: disposeBag)
+                
+                return .just(saveResultResponse)
             }
             .asDriverOnErrorJustComplete()
             .do(onNext: { _ in
@@ -567,13 +590,24 @@ struct ExamViewModel: ViewModel {
     }
     
     private func saveResult(correct: Int,
-                            totalQuestion: Int) -> Observable<SaveResultResponseM> {
+                            total: Int) -> Observable<SaveResultResponseM> {
         return self.useCase
-            .saveSectionResult(id: sectionDetail.id, correct: correct <= totalQuestion ? correct : totalQuestion, total: totalQuestion)
+            .saveSectionResult(id: sectionDetail.id, correct: correct <= total ? correct : total, total: total)
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
             .catch { _ in
-                return .never()
+                // V261109.1: the previous `.never()` swallowed the error AND
+                // never emitted a value, so the downstream
+                // `.flatMapLatest { self.getProfile() ... }` never ran and
+                // `navigator.pushToResultVC(result:)` was never called. The
+                // student was left staring at the last question of the
+                // section with no way forward and no error shown.
+                //
+                // Emit a placeholder instead of nothing: the section is
+                // over either way, and the student must reach the result
+                // screen. The server-side score may be stale, but the UI
+                // is never stranded.
+                return .just(SaveResultResponseM(correct: correct, total: total))
             }
     }
     
@@ -583,7 +617,23 @@ struct ExamViewModel: ViewModel {
             .trackError(errorTracker)
             .trackActivity(activityIndicator)
             .catch { _ in
-                return .never()
+                // V261109.1: the previous `.never()` swallowed the error AND
+                // never emitted a value. `never()` never completes, so any
+                // chain that depended on this emitting would hang forever
+                // — that is what stranded the student on the last question
+                // of the section with no way forward.
+                //
+                // This chain is now best-effort (see the `saveResultTrigger`
+                // subscription above), so the only thing that matters here
+                // is that it does NOT wedge. Fall back to the cached profile
+                // when we have one; otherwise complete without emitting, so
+                // the subscription finishes instead of hanging. (`.empty()`
+                // completes; `.never()` never completes — that difference is
+                // exactly what wedged the flow.)
+                if let cached = Storage.profileInfo {
+                    return .just(cached)
+                }
+                return .empty()
             }
     }
 }

@@ -295,19 +295,66 @@ class AnswerCollectionView2<T: SectionModelType, C: CellType>: UICollectionView,
         return self.contentSize
     }
     
-    override var contentSize: CGSize {
-        didSet {
-            invalidateIntrinsicContentSize()
-        }
+    /// V261109.1 — break the layout-invalidation cycle.
+    ///
+    /// The previous implementation was:
+    ///
+    ///     override var contentSize: CGSize {
+    ///         didSet { invalidateIntrinsicContentSize() }
+    ///     }
+    ///     override func reloadData() {
+    ///         super.reloadData()
+    ///         invalidateIntrinsicContentSize()
+    ///     }
+    ///
+    /// `UICollectionView` reassigns `contentSize` during its own layout
+    /// pass, and `invalidateIntrinsicContentSize()` marks the view as
+    /// needing layout. So every layout pass scheduled another layout pass,
+    /// and every one of those reassigned `contentSize` again — a
+    /// self-sustaining invalidation loop that pegged the main thread.
+    ///
+    /// Student-visible symptom: during MCQ drills the audio ping plays and
+    /// the radio button turns blue, then the screen freezes — no
+    /// explanation, no advance, force-quit required. The ping and the blue
+    /// repaint are synchronous, so they land. The explanation is deferred
+    /// (`.delay(.milliseconds(100))` in `ExamViewModel`) and needs a
+    /// main-queue turn that a saturated main thread never grants.
+    ///
+    /// The loop lives in shared client code, so it reproduces across
+    /// unrelated subjects (Evidence, Contracts). It is intermittent because
+    /// it only stabilises when the self-sized row height happens to settle
+    /// within UIKit's layout tolerance.
+    ///
+    /// The fix: never invalidate from the `contentSize` setter. Invalidate
+    /// from `layoutSubviews` — a layout callback — and only when the height
+    /// actually changed. The invalidation is then bounded by the data (one
+    /// extra pass after a real height change) rather than by the number of
+    /// layout passes, which is what makes it terminate.
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let height = contentSize.height
+        guard abs(height - lastInvalidatedIntrinsicHeight) > 0.5 else { return }
+        lastInvalidatedIntrinsicHeight = height
+        invalidateIntrinsicContentSize()
     }
     
-    override func reloadData() {
-        super.reloadData()
-        self.invalidateIntrinsicContentSize()
-    }
+    /// The content height we last published as our intrinsic height.
+    /// `-1` means "nothing published yet", so the first layout always
+    /// publishes.
+    private var lastInvalidatedIntrinsicHeight: CGFloat = -1
     
     convenience init(lineSpacing: CGFloat) {
         let layout = UICollectionViewFlowLayout()
+        // V261109.1: `sizeForItemAt` below returns an EXACT size, so the
+        // self-sizing machinery must stay off. A non-zero
+        // `estimatedItemSize` asks UIKit to self-size rows *and* honours a
+        // `sizeForItemAt` delegate — the two disagree, the row height
+        // oscillates between passes, and each oscillation dirties the
+        // layout again. The sibling `CommonCollectionView` and
+        // `CommonAnimatableCollectionView` already use `.zero` for exactly
+        // this reason.
+        layout.estimatedItemSize = .zero
         layout.scrollDirection = .vertical
         self.init(frame: .zero, collectionViewLayout: layout)
         self.lineSpacing = lineSpacing
@@ -336,6 +383,12 @@ class AnswerCollectionView2<T: SectionModelType, C: CellType>: UICollectionView,
             .notification(UIContentSizeCategory.didChangeNotification)
             .mapToVoid()
             .subscribe(onNext: { _ in
+                // V261109.1 — the font scale may have changed, so every
+                // cached measurement is stale. Drop them BEFORE
+                // invalidating the layout, otherwise `sizeForItemAt`
+                // re-measures against the old font and the row heights
+                // disagree with the cells.
+                self.invalidateRowHeightCache()
                 self.collectionViewLayout.invalidateLayout()
             })
             .disposed(by: disposeBag)
@@ -346,18 +399,65 @@ class AnswerCollectionView2<T: SectionModelType, C: CellType>: UICollectionView,
         return lineSpacing
     }
     
+    /// V261109.1 — drop every cached measurement.
+    ///
+    /// Called when the text-size scale changes, which is the only
+    /// non-content input to the measurement.
+    private func invalidateRowHeightCache() {
+        cachedRowHeights.removeAll()
+        cachedRowHeightFontScale = -1
+    }
+    
+    /// V261109.1 — cache the measured row height.
+    ///
+    /// `sizeForItemAt` is called on EVERY layout pass, and the previous
+    /// implementation allocated a fresh `UILabel`, applied the app's font
+    /// scaling to it, and ran `sizeThatFits` each time. Because the
+    /// measuring label is a throwaway, `scaledFont(style:)` re-derives the
+    /// base font through `UIFont.appFont`/associated objects on every call,
+    /// and the measured height could differ from the real cell's height —
+    /// which is what made the row height oscillate and kept the layout
+    /// permanently dirty.
+    ///
+    /// The cache is keyed by the answer's text, so it is invalidated
+    /// naturally when the question's choices change, and by the app's font
+    /// scale, so it is invalidated when the student changes text size.
+    private var cachedRowHeights: [String: CGFloat] = [:]
+    private var cachedRowHeightFontScale: CGFloat = -1
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let data = rxDatasource.sectionModels[indexPath.section].items[indexPath.item] as! SelectableAnswer
-        let labelWidth: CGFloat = UIScreen.main.bounds.width - 30 - 30 - 8 - 35
-        let maxLabelSize = CGSize(width: labelWidth, height: .greatestFiniteMagnitude)
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.scaledFont(style: .body)
-        label.text = data.answer.content
-        let titleLabelSize = label.sizeThatFits(maxLabelSize)
+        // Defensive: a forced cast here traps (a Swift runtime trap is not
+        // an NSException, so it would not reach the Crashlytics handler).
+        // Fall back to a zero size rather than taking the app down.
+        guard let data = rxDatasource.sectionModels[indexPath.section].items[indexPath.item] as? SelectableAnswer else {
+            return .zero
+        }
         
-        return .init(width: UIScreen.main.bounds.width - 30 - 30, height: titleLabelSize.height + 16 + 16)
+        let labelWidth: CGFloat = UIScreen.main.bounds.width - 30 - 30 - 8 - 35
+        let width = UIScreen.main.bounds.width - 30 - 30
+        let text = data.answer.content ?? ""
+        let fontScale = Storage.appFontSize.scale
+        
+        if cachedRowHeightFontScale != fontScale {
+            cachedRowHeights.removeAll()
+            cachedRowHeightFontScale = fontScale
+        }
+        
+        let height: CGFloat
+        if let cached = cachedRowHeights[text] {
+            height = cached
+        } else {
+            let maxLabelSize = CGSize(width: labelWidth, height: .greatestFiniteMagnitude)
+            let label = UILabel()
+            label.numberOfLines = 0
+            label.scaledFont(style: .body)
+            label.text = text
+            height = label.sizeThatFits(maxLabelSize).height + 16 + 16
+            cachedRowHeights[text] = height
+        }
+        
+        return .init(width: width, height: height)
     }
 }

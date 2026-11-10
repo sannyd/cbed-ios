@@ -63,6 +63,25 @@ struct ExamNavigator: ExamNavigatorType {
                              level: LevelM,
                              explainationLink: String?,
                              shouldUseContinueButtonTitle: Bool) {
+        // V261109.1 — defensive re-entry guard.
+        //
+        // The explanation overlay is non-dismissible
+        // (`isDismissable: false` -> `screenInteraction = .absorbTouches`,
+        // `entryInteraction = .absorbTouches`). If an overlay is already up
+        // and a second one is requested, SwiftEntryKit's default precedence
+        // is `.override`, so the new entry replaces the old one — but if the
+        // replacement path ever fails to tear the old entry down, the stale
+        // overlay keeps absorbing EVERY touch. The student sees the blue
+        // radio and hears the ping, and no tap does anything: the screen is
+        // alive but completely unresponsive, with no crash and no telemetry.
+        //
+        // Dismissing any existing entry before displaying a new one makes
+        // the invariant explicit: at most one explanation overlay exists,
+        // and it is the one we just created.
+        if SwiftEntryKit.isCurrentlyDisplaying() {
+            SwiftEntryKit.dismiss(.all)
+        }
+        
         let alertVC = CustomAlertView()
         alertVC.publisher = publisher
         let title: String
