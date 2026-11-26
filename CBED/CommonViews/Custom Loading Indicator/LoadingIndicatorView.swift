@@ -43,9 +43,28 @@ class LoadingIndicatorView: NSObject {
     static func show(_ overlayTarget: UIView,
                      loadingText: String?,
                      color: UIColor = Constants.PrimaryBlue) {
-        // Clear it first in case it was already shown
-        hide()
-        
+        // V261125.1 — never stack a second overlay on top of a live one.
+        //
+        // `show()` used to call `hide()` first, which is correct in the
+        // common case. But the overlay is attached to a WINDOW (or any
+        // shared container), and `currentOverlay` is a process-global
+        // static. If `show()` is called again while an overlay from a
+        // DIFFERENT target is still up, `hide()` removes that one and
+        // installs a new overlay — and because the old overlay was
+        // mid-flight, two overlays could end up stacked, each absorbing
+        // touches, with only the newest tracked by `currentOverlay`.
+        //
+        // The overlay is a plain UIView with a clear background, but it is
+        // still front-most and still hit-tests, so a stacked overlay
+        // silently blocks the entire app.
+        //
+        // The safe rule: if an overlay is already showing, leave it alone.
+        // Callers that need to change the text or the target call `hide()`
+        // first — that is the documented way to reset the state.
+        if currentOverlay != nil {
+            return
+        }
+
         // Create the overlay
         let overlay = UIView()
         overlay.alpha = 1

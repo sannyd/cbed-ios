@@ -317,8 +317,34 @@ struct ExamViewModel: ViewModel {
                     }
                 }
                 
-                resetSelectionState()
+                // V261125.1 — dismiss the overlay BEFORE advancing.
+                //
+                // The old order was:
+                //
+                //     advanceToNextQuestionOrSaveResult()
+                //     resetSelectionState()
+                //     SwiftEntryKit.dismiss()
+                //
+                // On the LAST question, `advanceToNextQuestionOrSaveResult()`
+                // fires `saveResultTrigger`, which starts the network save
+                // and ultimately pushes the result view controller — all
+                // while the non-dismissible explanation overlay is still
+                // installed in its own `EKWindow` above the app.
+                //
+                // That overlay has `screenInteraction = .absorbTouches` and
+                // `entryInteraction = .absorbTouches`, so it swallows EVERY
+                // touch app-wide. The result screen is pushed UNDERNEATH
+                // it, so the student sees a normal-looking screen on which
+                // nothing responds. Because the overlay is bound to the
+                // window rather than to the view controller, it follows the
+                // student into the next screen too — which is exactly the
+                // "MEE froze, then MBE froze the same way" report. Only a
+                // force-quit clears it.
+                //
+                // Dismissing first means the overlay is gone before any
+                // navigation happens.
                 SwiftEntryKit.dismiss()
+                resetSelectionState()
             })
             .map { _ in questions[currentQuestionIndex.value] }
         
@@ -355,7 +381,34 @@ struct ExamViewModel: ViewModel {
         
         saveResultTrigger
             .map { (correctAnswers, maximumScore) }
-            .flatMapLatest(saveResult(correct:total:))
+            // V261125.1 — `flatMapFirst`, not `flatMapLatest`.
+            //
+            // `flatMapLatest` DISPOSES the previous inner observable the
+            // moment a new outer value arrives. If the student taps OK
+            // twice on the last question, the second tap disposed the
+            // in-flight save — the HTTP request was cancelled mid-flight
+            // and the chain NEVER completed.
+            //
+            // That is the app-wide lockout, and it is the one that does
+            // not require a stale overlay:
+            //
+            //   - `saveResult(...)` wraps the request in
+            //     `.trackActivity(activityIndicator)`.
+            //   - Disposing the subscription before the source emits means
+            //     `onNext`/`onError`/`onCompleted` never fire, so the
+            //     activity indicator was never told to stop.
+            //   - The indicator stays `true`, which drives
+            //     `LoadingIndicatorView.rx.isAnimating`, which calls
+            //     `LoadingIndicatorView.show()` — a full-window overlay
+            //     that absorbs EVERY touch.
+            //   - The overlay is attached to the window, so it follows the
+            //     student into the next screen. "MEE froze, then MBE froze
+            //     the same way, only force-quit helped."
+            //
+            // `flatMapFirst` ignores a second trigger while one is already
+            // running, so the in-flight save is never cancelled and the
+            // indicator always gets its completion.
+            .flatMapFirst(saveResult(correct:total:))
             .flatMapLatest { saveResultResponse -> Observable<SaveResultResponseM> in
                 // V261109.1 — the profile refresh is best-effort and must
                 // NEVER gate the result screen.

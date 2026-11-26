@@ -31,7 +31,36 @@ open class ActivityIndicator: SharedSequenceConvertibleType {
                 self.sendStopLoading()
             }, onCompleted: {
                 self.sendStopLoading()
-            }, onSubscribe: subscribed)
+            }, onSubscribe: subscribed,
+               onDispose: {
+                // V261125.1 — a disposed subscription must also stop loading.
+                //
+                // The other three handlers only fire when the source
+                // actually emits, errors, or completes. If the
+                // subscription is disposed BEFORE any of those happen, the
+                // indicator stays `true` forever.
+                //
+                // That is not a theoretical case: `flatMapLatest` disposes
+                // the previous inner observable the moment a new outer
+                // value arrives. `ExamViewModel` drives its save through
+                // exactly that shape
+                // (`saveResultTrigger.flatMapLatest(saveResult(...))`), so
+                // a second trigger disposed the in-flight save without
+                // ever completing it.
+                //
+                // The stranded `true` value drives
+                // `LoadingIndicatorView.rx.isAnimating`, which calls
+                // `LoadingIndicatorView.show()` — a full-window overlay
+                // that absorbs EVERY touch. The student is left with a
+                // live-looking screen that responds to nothing, and the
+                // overlay follows them to the next screen because it is
+                // attached to the window, not the view controller.
+                //
+                // `onDispose` fires for a normal completion as well as for
+                // an early disposal, so `sendStopLoading()` here is safe
+                // and idempotent (it just re-accepts `false`).
+                self.sendStopLoading()
+            })
     }
     
     private func subscribed() {

@@ -191,7 +191,7 @@ class CommonCollectionView<T: SectionModelType, C: CellType>: UICollectionView, 
     }
 }
 
-class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
+class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView, UICollectionViewDelegateFlowLayout {
     private let disposeBag = DisposeBag()
     private var lineSpacing: CGFloat!
     
@@ -217,20 +217,94 @@ class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
         return self.contentSize
     }
     
-    override var contentSize: CGSize {
-        didSet {
-            invalidateIntrinsicContentSize()
-        }
+    /// V261125.1 — break the layout-invalidation cycle.
+    ///
+    /// This class carried the SAME defect that V261109.1 fixed in its
+    /// sibling `AnswerCollectionView2`:
+    ///
+    ///     override var contentSize: CGSize {
+    ///         didSet { invalidateIntrinsicContentSize() }
+    ///     }
+    ///     override func reloadData() {
+    ///         super.reloadData()
+    ///         invalidateIntrinsicContentSize()
+    ///     }
+    ///
+    /// `UICollectionView` reassigns `contentSize` during its own layout
+    /// pass, and `invalidateIntrinsicContentSize()` marks the view as
+    /// needing layout. Every layout pass therefore scheduled another layout
+    /// pass, and every one of those reassigned `contentSize` again — a
+    /// self-sustaining invalidation loop that pegged the main thread and
+    /// froze the screen.
+    ///
+    /// The fix is the same as in `AnswerCollectionView2`: never invalidate
+    /// from the `contentSize` setter. Invalidate from `layoutSubviews` —
+    /// a layout callback — and only when the height actually changed, so
+    /// the number of extra passes is bounded by the data instead of by the
+    /// number of layout passes.
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let height = contentSize.height
+        guard abs(height - lastInvalidatedIntrinsicHeight) > 0.5 else { return }
+        lastInvalidatedIntrinsicHeight = height
+        invalidateIntrinsicContentSize()
     }
     
-    override func reloadData() {
-        super.reloadData()
-        self.invalidateIntrinsicContentSize()
+    /// The content height we last published as our intrinsic height.
+    /// `-1` means "nothing published yet", so the first layout always
+    /// publishes.
+    private var lastInvalidatedIntrinsicHeight: CGFloat = -1
+    
+    /// V261125.1 — cache the measured row height.
+    ///
+    /// `sizeForItemAt` is called on EVERY layout pass. Measuring the cell
+    /// each time is expensive, and — worse — the measurement is not always
+    /// stable, because the cell's own layout depends on the font scale and
+    /// on the text. A measurement that changes slightly between passes makes
+    /// the row height oscillate, which dirties the layout again.
+    ///
+    /// The cache is keyed by index path and invalidated whenever the data
+    /// reloads or the font scale changes.
+    private var cachedRowHeights: [IndexPath: CGFloat] = [:]
+    private var cachedRowHeightFontScale: CGFloat = -1
+    
+    /// V261125.1 — drop every cached measurement.
+    ///
+    /// Called when the text-size scale changes and when the data reloads.
+    /// These are the only two inputs to the measurement.
+    private func invalidateRowHeightCache() {
+        cachedRowHeights.removeAll()
+        cachedRowHeightFontScale = -1
     }
+    
+    /// V261125.1 — a dedicated cell used ONLY for measuring.
+    ///
+    /// It is instantiated from the nib once and kept out of the reuse pool.
+    /// Dequeuing from the pool inside `sizeForItemAt` would be unsafe:
+    /// UIKit dequeues that same index path itself immediately after asking
+    /// for its size, so consuming a cell here would fight with the layout
+    /// engine over the pool.
+    private lazy var measurementCell: C? = {
+        guard let cell = C.nib().instantiate(withOwner: nil, options: nil).first as? C else {
+            NSLog("CBED: could not instantiate \(C.nibName()) for measurement")
+            return nil
+        }
+        return cell
+    }()
     
     convenience init(lineSpacing: CGFloat) {
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        // V261125.1: `sizeForItemAt` below returns an EXACT size, so the
+        // self-sizing machinery must stay off. A non-zero
+        // `estimatedItemSize` asks UIKit to self-size rows *and* honours a
+        // `sizeForItemAt` delegate — the two disagree, the row height
+        // oscillates between passes, and each oscillation dirties the
+        // layout again. The sibling `CommonCollectionView` and
+        // `CommonAnimatableCollectionView` already use `.zero` for exactly
+        // this reason, and `AnswerCollectionView2` was converted to `.zero`
+        // in V261109.1.
+        layout.estimatedItemSize = .zero
         layout.scrollDirection = .vertical
         self.init(frame: .zero, collectionViewLayout: layout)
         self.lineSpacing = lineSpacing
@@ -258,14 +332,85 @@ class AnswerCollectionView<T: SectionModelType, C: CellType>: UICollectionView {
             .rx
             .notification(UIContentSizeCategory.didChangeNotification)
             .mapToVoid()
-            .subscribe(onNext: { _ in
-                self.collectionViewLayout.invalidateLayout()
+            .subscribe(onNext: { [weak self] _ in
+                // V261125.1 — the font scale may have changed, so every
+                // cached measurement is stale. Drop them BEFORE
+                // invalidating the layout, otherwise `sizeForItemAt`
+                // re-measures against the old font and the row heights
+                // disagree with the cells.
+                self?.invalidateRowHeightCache()
+                self?.collectionViewLayout.invalidateLayout()
             })
             .disposed(by: disposeBag)
+        
+        // V261125.1 — install the delegate through RxCocoa's proxy so that
+        // `sizeForItemAt` is honoured AND `rxModelSelected()` keeps
+        // working. Setting `delegate = self` directly would REPLACE the
+        // proxy that `rxModelSelected()` installs, silently breaking
+        // selection on the Useful Links screen. `rx.setDelegate(self)` is
+        // the same call `CommonCollectionView` uses.
+        rx.setDelegate(self).disposed(by: disposeBag)
+    }
+    
+    override func reloadData() {
+        super.reloadData()
+        // V261125.1 — the rows changed, so the cached measurements are
+        // stale.
+        invalidateRowHeightCache()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = C.cellWidth
+        
+        // The font scale is an input to the measurement, so a scale change
+        // invalidates the cache.
+        let fontScale = Storage.appFontSize.scale
+        if cachedRowHeightFontScale != fontScale {
+            cachedRowHeights.removeAll()
+            cachedRowHeightFontScale = fontScale
+        }
+        
+        if let cached = cachedRowHeights[indexPath] {
+            return .init(width: width, height: cached)
+        }
+        
+        // Measure the REAL cell rather than re-deriving its text metrics.
+        //
+        // The cell has to be populated first — `populateData` is what sets
+        // the label text, and the height depends on that text (the title
+        // label wraps to as many lines as it needs).
+        //
+        // The measurement width is the cell's ACTUAL width. The cell's own
+        // `preferredLayoutAttributesFitting` measured against
+        // `screen - 32`, which is WIDER than the cell itself
+        // (`cellWidth` = `screen - 60`), so the old self-sizing measured a
+        // width the cell never had — the text wrapped differently than it
+        // does on screen, and the measured height disagreed with the real
+        // one.
+        var height = C.cellHeight
+        if let cell = measurementCell,
+           let item = rxDatasource.sectionModels[indexPath.section].items[indexPath.item] as? C.T {
+            cell.populateData(item)
+            cell.bounds.size = CGSize(width: width, height: cell.bounds.height)
+            let targetSize = CGSize(width: width, height: 0)
+            let measured = cell.contentView.systemLayoutSizeFitting(targetSize,
+                                                                     withHorizontalFittingPriority: .required,
+                                                                     verticalFittingPriority: .fittingSizeLevel)
+            height = measured.height
+        }
+        
+        cachedRowHeights[indexPath] = height
+        return .init(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return lineSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
 }
 
