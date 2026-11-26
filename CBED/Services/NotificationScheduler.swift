@@ -27,13 +27,18 @@ final class NotificationScheduler {
 
     private let notificationCenter = UNUserNotificationCenter.current()
     private let calendar = Calendar.current
-    // V261109.1: must match `AppViewController.preferredRemoteConfigName`.
+    // V261125.1: must match `AppViewController.preferredRemoteConfigName`.
     // This is the fallback used when the caller's `configName` argument is
     // empty. All three config-name sites (this one, the `configName:`
     // default argument in `update(using:configName:)` below, and
     // `AppViewController.preferredRemoteConfigName`) must change in
-    // lockstep or the client silently falls back to "default config".
-    private let defaultConfigName = "alternative config"
+    // lockstep or the client silently stops finding its config row.
+    //
+    // The backend row is named "default config" (with a space). The lookup
+    // in `update(using:configName:)` is an EXACT string comparison, so a
+    // literal that does not match the row name matches NOTHING and this
+    // method silently returns without scheduling anything.
+    private let defaultConfigName = "default config"
     private let defaultInactivityDays = 3
     private let defaultCountdownDays = [30, 14, 7, 3, 1]
     private let minimumReminderHour = 8
@@ -70,7 +75,7 @@ final class NotificationScheduler {
         scheduleFromCacheIfPossible()
     }
 
-    func update(using remoteConfigs: [[String: Any]]?, configName: String = "alternative config") {
+    func update(using remoteConfigs: [[String: Any]]?, configName: String = "default config") {
         let resolvedName = configName.isEmpty ? defaultConfigName : configName
         guard let config = remoteConfigs?.first(where: { ($0["name"] as? String) == resolvedName }) else {
             return

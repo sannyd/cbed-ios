@@ -21,12 +21,17 @@ final class AppViewController: UIViewController {
     
     private let staticToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoyMjYwMzY4NjY5LCJqdGkiOiJqa2ZoYjc4NGc5NzI4dWJyaXUyM3k0OTI4dWsiLCJ1c2VyX2lkIjoxN30.2rhFITU6xMC4qJXIip6DaFMNMkdhZ5qOilbLN-fyHz0"
 
-    // V261109.1: use the "alternative config" backend row.
+    // V261125.1: use the "default config" backend row.
     //
     // The backend's `main_config` table has row id=1 "default config" with
     // is_default=true, and id=2 "alternative config" with is_default=false.
-    // V11.3 shipped pointing at "default config"; V261109.1 moves back to
-    // "alternative config" as part of the regular release cycle.
+    // V11.3 shipped pointing at "default config"; V261109.1 moved to
+    // "alternative config"; V261125.1 reverts to "default config".
+    //
+    // NOTE the exact literal: the backend row is named "default config"
+    // (with a space), NOT "default". `NotificationScheduler.update` matches
+    // the name with an EXACT string comparison, so a wrong literal there
+    // silently matches nothing and the notification schedule never updates.
     //
     // Set to nil to follow the backend's `is_default` flag instead of a
     // hardcoded name — the durable selection pattern. Left as an explicit
@@ -41,7 +46,7 @@ final class AppViewController: UIViewController {
     // The selection chain (preferred name → is_default → first "alternative"
     // → first entry) is preserved below so the app keeps booting even when
     // the preferred name is absent.
-    private let preferredRemoteConfigName: String? = "alternative config"
+    private let preferredRemoteConfigName: String? = "default config"
     
     // MARK: - Life Cycle
     
